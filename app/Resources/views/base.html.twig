@@ -5,14 +5,12 @@
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
-            <style>
-                #navbar{position: fixed; top: 0; left: 0; right:0; height: 100px; background: yellow;}
-            </style>
+            <link rel="stylesheet" type="text/css" href="{{ asset('stylesheets/base.css') }}" />
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        <div id="navbar">
+        <div id="nav-bar" class="nav-bar">
             {% block navbar %}
                 <div>A</div>
                 <div>B</div>

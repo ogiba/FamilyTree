@@ -1,0 +1,21 @@
+.nav-bar{
+    display: none;
+}
+
+.index {
+    section {
+        height: 100vh;
+
+        &.intro{
+            background: cadetblue;
+        }
+
+        &.about {
+            background: goldenrod;
+        }
+
+        &.info{
+            background: cornflowerblue;
+        }
+    }
+}

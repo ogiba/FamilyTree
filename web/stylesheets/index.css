@@ -1,0 +1,11 @@
+.nav-bar {
+  display: none; }
+
+.index section {
+  height: 100vh; }
+  .index section.intro {
+    background: cadetblue; }
+  .index section.about {
+    background: goldenrod; }
+  .index section.info {
+    background: cornflowerblue; }
