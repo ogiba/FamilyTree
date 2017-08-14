@@ -5,24 +5,24 @@
         <div class="container">
             {% block navbar %}
                 <div class="nav-btn">{{ 'home.page'|trans }}</div>
-                <div class="nav-btn">Drzewo</div>
+                <div class="nav-btn">{{ 'tree.page'|trans }}</div>
             {% endblock %}
         </div>
     </div>
 {% endblock %}
 
 {% block body %}
-    <div class="index">
-        <section class="posts">
+    <section class="posts">
+        <div class="index">
             <aside class="col-2">
-                <div>
-                    <div>
+                <div class="about-me">
+                    <div class="title">
                         O mnie
                     </div>
-                    <div>
+                    <div class="image">
                         Image
                     </div>
-                    <div>
+                    <div class="desc">
                         Desc
                     </div>
                 </div>
@@ -30,8 +30,8 @@
             <div class="col-8">
 
             </div>
-        </section>
-    </div>
+        </div>
+    </section>
 {% endblock %}
 
 {% block stylesheets %}

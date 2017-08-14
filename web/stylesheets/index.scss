@@ -1,21 +1,39 @@
-.nav-bar{
+.nav-bar {
     display: block;
 }
 
-.index {
-    section {
+section {
+    .index {
+        margin: 0 auto;
+        max-width: 80%;
         min-height: 100vh;
 
-        &.intro{
-            background: cadetblue;
-        }
+        .about-me{
+            background: paleturquoise;
 
-        &.posts {
-            background: goldenrod;
-        }
+            .title{
+                text-align: center;
+            }
 
-        &.info{
-            background: cornflowerblue;
+            .image{
+                max-height: 60px;
+            }
+
+            .desc{
+                min-height: 30px;
+            }
         }
+    }
+
+    &.intro {
+        background: cadetblue;
+    }
+
+    &.posts {
+        background: goldenrod;
+    }
+
+    &.info {
+        background: cornflowerblue;
     }
 }
