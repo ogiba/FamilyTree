@@ -1,11 +1,11 @@
 .nav-bar {
-  display: none; }
+  display: block; }
 
 .index section {
-  height: 100vh; }
+  min-height: 100vh; }
   .index section.intro {
     background: cadetblue; }
-  .index section.about {
+  .index section.posts {
     background: goldenrod; }
   .index section.info {
     background: cornflowerblue; }

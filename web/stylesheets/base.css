@@ -1,10 +1,32 @@
 body {
   margin: 0; }
 
+header {
+  height: 100vh;
+  background: cadetblue; }
+
 .nav-bar {
-  position: fixed;
-  top: 0;
+  position: absolute;
+  bottom: 0;
   left: 0;
   right: 0;
-  height: 100px;
-  background: yellow; }
+  background: yellow;
+  text-align: center; }
+  .nav-bar .container {
+    position: relative; }
+    .nav-bar .container .nav-btn {
+      min-width: 50px;
+      display: inline-block;
+      padding: 20px 30px;
+      vertical-align: middle; }
+    .nav-bar .container .nav-btn:hover {
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.5); }
+
+.col-2 {
+  display: inline-block;
+  width: 19%; }
+
+.col-8 {
+  display: inline-block;
+  width: 79%; }

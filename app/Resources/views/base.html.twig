@@ -10,12 +10,9 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        <div id="nav-bar" class="nav-bar">
-            {% block navbar %}
-                <div>A</div>
-                <div>B</div>
-            {% endblock %}
-        </div>
+        <header>
+            {% block header %}{% endblock %}
+        </header>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

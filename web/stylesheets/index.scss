@@ -1,16 +1,16 @@
 .nav-bar{
-    display: none;
+    display: block;
 }
 
 .index {
     section {
-        height: 100vh;
+        min-height: 100vh;
 
         &.intro{
             background: cadetblue;
         }
 
-        &.about {
+        &.posts {
             background: goldenrod;
         }
 

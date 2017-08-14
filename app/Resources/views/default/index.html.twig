@@ -1,23 +1,37 @@
 {% extends 'base.html.twig' %}
 
+{% block header %}
+    <div id="nav-bar" class="nav-bar">
+        <div class="container">
+            {% block navbar %}
+                <div class="nav-btn">{{ 'home.page'|trans }}</div>
+                <div class="nav-btn">Drzewo</div>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
 {% block body %}
-<div class="index">
-    <section class="intro">
-        <div>
-            Test
-        </div>
-    </section>
-    <section class="about">
-        <div>
-            Test
-        </div>
-    </section>
-    <section class="info">
-        <div>
-            Test
-        </div>
-    </section>
-</div>
+    <div class="index">
+        <section class="posts">
+            <aside class="col-2">
+                <div>
+                    <div>
+                        O mnie
+                    </div>
+                    <div>
+                        Image
+                    </div>
+                    <div>
+                        Desc
+                    </div>
+                </div>
+            </aside>
+            <div class="col-8">
+
+            </div>
+        </section>
+    </div>
 {% endblock %}
 
 {% block stylesheets %}
