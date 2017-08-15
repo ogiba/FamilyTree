@@ -13,8 +13,8 @@
 
 {% block body %}
     <section class="posts">
-        <div class="index">
-            <aside class="col-2">
+        <div class="row index">
+            <aside class="col-md-4">
                 <div class="about-me">
                     <div class="title">
                         O mnie
@@ -27,8 +27,33 @@
                     </div>
                 </div>
             </aside>
-            <div class="col-8">
-
+            <div class="col-md-8">
+                <div class="posts">
+                    {% for post in posts %}
+                        <div class="post">
+                            <h3>Lorem ipsum dolor sit amet
+                                <small>07.03.1992</small>
+                            </h3>
+                            <div class="content">
+                                Quisque pharetra, urna mattis sed, posuere sit amet dui turpis dolor, porttitor odio.
+                                Nunc condimentum vitae, dapibus vitae, vestibulum ac, auctor mi. Curabitur eget
+                                imperdiet sagittis, nunc iaculis malesuada fames ac lectus. Ut sodales felis, in
+                                vehicula est. In hac habitasse platea dictumst. Proin orci. Integer egestas, dui dui,
+                                porta tincidunt. Pellentesque fermentum in, vulputate tempor diam. Aenean lacus tellus
+                                non nulla. Aenean et magnis dis parturient montes, nascetur ridiculus mus. Vivamus
+                                consequat mollis ut, gravida sit amet tellus malesuada velit vitae magna non erat
+                                volutpat. Curabitur vel laoreet urna. Sed eu nulla. Sed laoreet urna. Aenean quis lectus
+                                eu libero. Pellentesque bibendum, urna et netus et malesuada arcu luctus scelerisque.
+                                Maecenas feugiat sagittis luctus sagittis. Curabitur sed ante. In nunc volutpat
+                                facilisis, wisi vel laoreet condimentum, pulvinar mollis. Nulla diam vel bibendum sem,
+                                posuere cubilia Curae, In mollis, metus. Maecenas diam mauris, consequat non, lobortis
+                                quis, tincidunt eget, ultricies nulla, accumsan augue justo ipsum cursus a, convallis
+                                ac, tincidunt quis, massa. Vestibulum fermentum. Vivamus ullamcorper.
+                            </div>
+                            <div class="actions"></div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </section>

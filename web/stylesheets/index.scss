@@ -8,19 +8,54 @@ section {
         max-width: 80%;
         min-height: 100vh;
 
-        .about-me{
+        .about-me {
+            min-height: 50%;
             background: paleturquoise;
 
-            .title{
+            .title {
                 text-align: center;
             }
 
-            .image{
+            .image {
                 max-height: 60px;
             }
 
-            .desc{
+            .desc {
                 min-height: 30px;
+            }
+        }
+
+        .posts {
+            min-height: 50%;
+
+            .post {
+                background: darkgreen;
+                margin: 5px;
+                border-radius: 6px;
+                padding: 10px;
+                min-height: 200px;
+
+                .content {
+                    $font-size: 14px;
+                    $line-height: 1.4;
+                    $lines-to-show: 5;
+
+                    display: block; /* Fallback for non-webkit */
+                    display: -webkit-box;
+                    max-width: 100%;
+                    height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
+                    margin: 0 auto;
+                    font-size: $font-size;
+                    line-height: $line-height;
+                    -webkit-line-clamp: $lines-to-show;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .actions {
+
+                }
             }
         }
     }

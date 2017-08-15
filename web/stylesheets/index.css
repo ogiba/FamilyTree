@@ -6,6 +6,7 @@ section .index {
   max-width: 80%;
   min-height: 100vh; }
   section .index .about-me {
+    min-height: 50%;
     background: paleturquoise; }
     section .index .about-me .title {
       text-align: center; }
@@ -13,6 +14,28 @@ section .index {
       max-height: 60px; }
     section .index .about-me .desc {
       min-height: 30px; }
+  section .index .posts {
+    min-height: 50%; }
+    section .index .posts .post {
+      background: darkgreen;
+      margin: 5px;
+      border-radius: 6px;
+      padding: 10px;
+      min-height: 200px; }
+      section .index .posts .post .content {
+        display: block;
+        /* Fallback for non-webkit */
+        display: -webkit-box;
+        max-width: 100%;
+        height: 98px;
+        /* Fallback for non-webkit */
+        margin: 0 auto;
+        font-size: 14px;
+        line-height: 1.4;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis; }
 
 section.intro {
   background: cadetblue; }
