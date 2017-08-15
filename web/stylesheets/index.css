@@ -4,7 +4,8 @@
 section .index {
   margin: 0 auto;
   max-width: 80%;
-  min-height: 100vh; }
+  min-height: 100vh;
+  padding-top: 10%; }
   section .index .about-me {
     min-height: 50%;
     background: paleturquoise; }
@@ -17,11 +18,7 @@ section .index {
   section .index .posts {
     min-height: 50%; }
     section .index .posts .post {
-      background: darkgreen;
-      margin: 5px;
-      border-radius: 6px;
-      padding: 10px;
-      min-height: 200px; }
+      margin-bottom: 10px; }
       section .index .posts .post .content {
         display: block;
         /* Fallback for non-webkit */
@@ -36,6 +33,11 @@ section .index {
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis; }
+    section .index .posts .paging {
+      text-align: right;
+      height: 50px; }
+      section .index .posts .paging nav {
+        display: inline-block; }
 
 section.intro {
   background: cadetblue; }

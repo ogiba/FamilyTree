@@ -19,8 +19,15 @@ class DefaultController extends Controller
 
         $posts = array();
 
-        for ($i = 0; $i < 5; $i++){
-            $posts[$i] = $i;
+        for ($j = 0; $j < 2; $j++) {
+            $item = array();
+            $item["numberOfPage"] = $j;
+            $ps = array();
+            for ($i = 0; $i < 5; $i++) {
+                $ps[$i] = $i;
+            }
+            $item["posts"] = $ps;
+            $posts[$j] = $item;
         }
 
         $request->setLocale("pl");

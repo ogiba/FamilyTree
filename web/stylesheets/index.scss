@@ -7,6 +7,7 @@ section {
         margin: 0 auto;
         max-width: 80%;
         min-height: 100vh;
+        padding-top: 10%;
 
         .about-me {
             min-height: 50%;
@@ -26,14 +27,18 @@ section {
         }
 
         .posts {
+            $paging-size: 50px;
+            $max-container-size: 1050px;
             min-height: 50%;
+            //max-height: $max-container-size+$paging-size;
 
             .post {
-                background: darkgreen;
-                margin: 5px;
-                border-radius: 6px;
-                padding: 10px;
-                min-height: 200px;
+                //background: darkgreen;
+                //margin: 5px;
+                //border-radius: 6px;
+                //padding: 10px;
+                //min-height: 200px;
+                margin-bottom: 10px;
 
                 .content {
                     $font-size: 14px;
@@ -55,6 +60,15 @@ section {
 
                 .actions {
 
+                }
+            }
+
+            .paging{
+                text-align: right;
+                height: $paging-size;
+
+                nav{
+                    display: inline-block;
                 }
             }
         }
