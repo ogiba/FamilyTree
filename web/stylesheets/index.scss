@@ -12,6 +12,8 @@ section {
         .about-me {
             min-height: 50%;
             background: paleturquoise;
+            border-radius: 5px;
+            padding: 5px;
 
             .title {
                 text-align: center;
@@ -22,6 +24,9 @@ section {
             }
 
             .desc {
+                font-size: 14px;
+                text-align: justify;
+                margin: 10px;
                 min-height: 30px;
             }
         }

@@ -8,12 +8,17 @@ section .index {
   padding-top: 10%; }
   section .index .about-me {
     min-height: 50%;
-    background: paleturquoise; }
+    background: paleturquoise;
+    border-radius: 5px;
+    padding: 5px; }
     section .index .about-me .title {
       text-align: center; }
     section .index .about-me .image {
       max-height: 60px; }
     section .index .about-me .desc {
+      font-size: 14px;
+      text-align: justify;
+      margin: 10px;
       min-height: 30px; }
   section .index .posts {
     min-height: 50%; }

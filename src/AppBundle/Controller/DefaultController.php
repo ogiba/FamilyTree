@@ -2,12 +2,11 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Model\About;
+use AppBundle\Model\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Loader\XmlFileLoader;
-use Symfony\Component\Translation\Translator;
-use Symfony\Component\Translation\MessageSelector;
 
 class DefaultController extends Controller
 {
@@ -30,10 +29,18 @@ class DefaultController extends Controller
             $posts[$j] = $item;
         }
 
+        $aboutInfo = new About(" Quisque pharetra, urna mattis sed, posuere sit amet dui turpis dolor, porttitor
+                                    odio.
+                                    Nunc condimentum vitae, dapibus vitae, vestibulum ac, auctor mi. Curabitur eget
+                                    imperdiet sagittis, nunc iaculis malesuada fames ac lectus. Ut sodales felis, in
+                                    vehicula est. In hac habitasse platea dictumst. Proin orci. Integer egestas, dui
+                                    dui,");
+
         $request->setLocale("pl");
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', array(
-            "posts" => $posts
+            "posts" => $posts,
+            "aboutInfo" => $aboutInfo
         ));
     }
 }

@@ -17,58 +17,48 @@
             <aside class="col-md-4">
                 <div class="about-me">
                     <div class="title">
-                        O mnie
+                        {{ 'about.me'| trans }}
                     </div>
                     <div class="image">
-                        Image
+                        {% if aboutInfo.getImage() != null %}
+                            <img src="" alt="Image">
+                        {% endif %}
                     </div>
                     <div class="desc">
-                        Desc
+                        {{ aboutInfo.getDesc() }}
                     </div>
                 </div>
             </aside>
             <div class="col-md-8">
                 <div class="posts">
                     {% for post in posts[0]["posts"] %}
-                        {#<div class="post">#}
-                            {#<h3>Lorem ipsum dolor sit amet#}
-                                {#<small>07.03.1992</small>#}
-                            {#</h3>#}
-                            {#<div class="content">#}
-                                {#Quisque pharetra, urna mattis sed, posuere sit amet dui turpis dolor, porttitor odio.#}
-                                {#Nunc condimentum vitae, dapibus vitae, vestibulum ac, auctor mi. Curabitur eget#}
-                                {#imperdiet sagittis, nunc iaculis malesuada fames ac lectus. Ut sodales felis, in#}
-                                {#vehicula est. In hac habitasse platea dictumst. Proin orci. Integer egestas, dui dui,#}
-                                {#porta tincidunt. Pellentesque fermentum in, vulputate tempor diam. Aenean lacus tellus#}
-                                {#non nulla. Aenean et magnis dis parturient montes, nascetur ridiculus mus. Vivamus#}
-                                {#consequat mollis ut, gravida sit amet tellus malesuada velit vitae magna non erat#}
-                                {#volutpat. Curabitur vel laoreet urna. Sed eu nulla. Sed laoreet urna. Aenean quis lectus#}
-                                {#eu libero. Pellentesque bibendum, urna et netus et malesuada arcu luctus scelerisque.#}
-                                {#Maecenas feugiat sagittis luctus sagittis. Curabitur sed ante. In nunc volutpat#}
-                                {#facilisis, wisi vel laoreet condimentum, pulvinar mollis. Nulla diam vel bibendum sem,#}
-                                {#posuere cubilia Curae, In mollis, metus. Maecenas diam mauris, consequat non, lobortis#}
-                                {#quis, tincidunt eget, ultricies nulla, accumsan augue justo ipsum cursus a, convallis#}
-                                {#ac, tincidunt quis, massa. Vestibulum fermentum. Vivamus ullamcorper.#}
-                            {#</div>#}
-                            {#<div class="actions"></div>#}
-                        {#</div>#}
                         <div class="card post">
                             <div class="card-body">
-                                <h4 class="card-title">Card title <small>07.03.1992</small></h4>
+                                <h4 class="card-title">Card title
+                                    <small>07.03.1992</small>
+                                </h4>
                                 <p class="card-text content">
-                                    Quisque pharetra, urna mattis sed, posuere sit amet dui turpis dolor, porttitor odio.
+                                    Quisque pharetra, urna mattis sed, posuere sit amet dui turpis dolor, porttitor
+                                    odio.
                                     Nunc condimentum vitae, dapibus vitae, vestibulum ac, auctor mi. Curabitur eget
                                     imperdiet sagittis, nunc iaculis malesuada fames ac lectus. Ut sodales felis, in
-                                    vehicula est. In hac habitasse platea dictumst. Proin orci. Integer egestas, dui dui,
-                                    porta tincidunt. Pellentesque fermentum in, vulputate tempor diam. Aenean lacus tellus
+                                    vehicula est. In hac habitasse platea dictumst. Proin orci. Integer egestas, dui
+                                    dui,
+                                    porta tincidunt. Pellentesque fermentum in, vulputate tempor diam. Aenean lacus
+                                    tellus
                                     non nulla. Aenean et magnis dis parturient montes, nascetur ridiculus mus. Vivamus
                                     consequat mollis ut, gravida sit amet tellus malesuada velit vitae magna non erat
-                                    volutpat. Curabitur vel laoreet urna. Sed eu nulla. Sed laoreet urna. Aenean quis lectus
-                                    eu libero. Pellentesque bibendum, urna et netus et malesuada arcu luctus scelerisque.
+                                    volutpat. Curabitur vel laoreet urna. Sed eu nulla. Sed laoreet urna. Aenean quis
+                                    lectus
+                                    eu libero. Pellentesque bibendum, urna et netus et malesuada arcu luctus
+                                    scelerisque.
                                     Maecenas feugiat sagittis luctus sagittis. Curabitur sed ante. In nunc volutpat
-                                    facilisis, wisi vel laoreet condimentum, pulvinar mollis. Nulla diam vel bibendum sem,
-                                    posuere cubilia Curae, In mollis, metus. Maecenas diam mauris, consequat non, lobortis
-                                    quis, tincidunt eget, ultricies nulla, accumsan augue justo ipsum cursus a, convallis
+                                    facilisis, wisi vel laoreet condimentum, pulvinar mollis. Nulla diam vel bibendum
+                                    sem,
+                                    posuere cubilia Curae, In mollis, metus. Maecenas diam mauris, consequat non,
+                                    lobortis
+                                    quis, tincidunt eget, ultricies nulla, accumsan augue justo ipsum cursus a,
+                                    convallis
                                     ac, tincidunt quis, massa. Vestibulum fermentum. Vivamus ullamcorper.
                                 </p>
                                 <a href="#" class="btn btn-primary">Go somewhere</a>
@@ -80,7 +70,8 @@
                             <ul class="pagination">
                                 <li class="page-item"><a class="page-link" href="#">Previous</a></li>
                                 {% for page in posts %}
-                                <li class="page-item"><a class="page-link" href="#/{{  loop.index0 }}">{{  loop.index0 + 1 }}</a></li>
+                                    <li class="page-item"><a class="page-link"
+                                                             href="#/{{ loop.index0 }}">{{ loop.index0 + 1 }}</a></li>
                                 {% endfor %}
                                 <li class="page-item"><a class="page-link" href="#">Next</a></li>
                             </ul>
