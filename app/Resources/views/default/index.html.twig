@@ -71,7 +71,8 @@
                                 <li class="page-item"><a class="page-link" href="#">Previous</a></li>
                                 {% for page in posts %}
                                     <li class="page-item"><a class="page-link"
-                                                             href="#/{{ loop.index0 }}">{{ loop.index0 + 1 }}</a></li>
+                                                             onclick="console.log({{ loop.index0 }})"
+                                                             href="">{{ loop.index0 + 1 }}</a></li>
                                 {% endfor %}
                                 <li class="page-item"><a class="page-link" href="#">Next</a></li>
                             </ul>
