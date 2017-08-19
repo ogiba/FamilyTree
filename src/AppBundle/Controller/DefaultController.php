@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Model\About;
+use AppBundle\Model\PostPage;
 use AppBundle\Model\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,22 +13,28 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
 
-        $posts = array();
+        $postsPage = new PostPage();
 
-        for ($j = 0; $j < 2; $j++) {
-            $item = array();
-            $item["numberOfPage"] = $j;
-            $ps = array();
-            for ($i = 0; $i < 5; $i++) {
-                $ps[$i] = $i;
-            }
-            $item["posts"] = $ps;
-            $posts[$j] = $item;
+        $totalNumberOfItems = 10;
+        $itemsForPage = 5;
+
+        $postsPage->setTotalItems($totalNumberOfItems);
+        $totalNumberOfPages = $totalNumberOfItems / $itemsForPage;
+        $postsPage->setNumberOfPages($totalNumberOfPages);
+
+        $postsPage->setCurrentPage(1);
+
+        $ps = array();
+        for ($i = 0; $i < $itemsForPage; $i++) {
+            $ps[$i] = $i;
         }
+        $postsPage->setPosts($ps);
 
         $aboutInfo = new About(" Quisque pharetra, urna mattis sed, posuere sit amet dui turpis dolor, porttitor
                                     odio.
@@ -39,7 +46,7 @@ class DefaultController extends Controller
         $request->setLocale("pl");
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', array(
-            "posts" => $posts,
+            "postsPage" => $postsPage,
             "aboutInfo" => $aboutInfo
         ));
     }

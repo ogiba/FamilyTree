@@ -3,7 +3,7 @@
 
 section .index {
   margin: 0 auto;
-  max-width: 80%;
+  max-width: 60%;
   min-height: 100vh;
   padding-top: 10%; }
   section .index .about-me {
