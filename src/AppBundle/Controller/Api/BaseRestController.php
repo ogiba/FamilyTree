@@ -7,20 +7,14 @@
 
 namespace AppBundle\Controller\Api;
 
+use AppBundle\Utils\SerializeManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 abstract class BaseRestController extends Controller
 {
+    protected $serializeManager;
+
     public function setupSerializer() {
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        return $serializer;
+        $this->serializeManager = new SerializeManager();
     }
 }

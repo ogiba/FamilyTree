@@ -4,7 +4,7 @@
 
 function selectPage(pageNumber) {
     console.log(pageNumber);
-    $.get("/" + pageNumber, function (data) {
+    $.get("/page/" + pageNumber, function (data) {
         $("#postsContainer").html("").html(data);
     });
 }

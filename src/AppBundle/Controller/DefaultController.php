@@ -10,13 +10,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-
 class DefaultController extends Controller
 {
+
+    const NUMBER_OF_ITEMS = 5;
+    const STARTING_PAGE = 1;
+
     /**
      * @Route("/", name="homepage")
      * @param Request $request
@@ -25,7 +24,7 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
 
-        $postsPage = $this->getPosts(5,1);
+        $postsPage = $this->getPosts(self::NUMBER_OF_ITEMS, self::STARTING_PAGE);
 
         $aboutInfo = new About(" Quisque pharetra, urna mattis sed, posuere sit amet dui turpis dolor, porttitor
                                     odio.
@@ -43,19 +42,23 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/{page}")
+     * @Route("/page/{page}")
      * @Method({"GET"})
+     * @param $page
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function postPageAction($page){
+    public function postPageAction($page)
+    {
 
-        $postsPage = $this->getPosts(5,$page);
+        $postsPage = $this->getPosts(5, $page);
 
         return $this->render(":default:posts.html.twig", array(
             "postsPage" => $postsPage
         ));
     }
 
-    private function getPosts($pageSize, $pageNumber){
+    private function getPosts($pageSize, $pageNumber)
+    {
         $postsPage = new PostPage();
 
         $postPageSize = $pageSize != null && $pageSize > 0 ? $pageSize : 10;
@@ -78,14 +81,5 @@ class DefaultController extends Controller
         $postsPage->setPosts($ps);
 
         return $postsPage;
-    }
-
-    private function setupSerializer() {
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        return $serializer;
     }
 }

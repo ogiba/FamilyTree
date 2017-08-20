@@ -33,6 +33,7 @@ class PostController extends BaseRestController
      * @return Response
      */
     public function postListAction(Request $request) {
+        $this->setupSerializer();
 
         $postsPage = new PostPage();
 
@@ -58,9 +59,7 @@ class PostController extends BaseRestController
         }
         $postsPage->setPosts($ps);
 
-        $serializer = $this->setupSerializer();
-
-        $jsonPage = $serializer->serialize($postsPage, 'json');
+        $jsonPage = $this->serializeManager->serializeJson($postsPage);
 
         $response = new Response($jsonPage);
         $response->headers->set("Content-Type", "application/json");
