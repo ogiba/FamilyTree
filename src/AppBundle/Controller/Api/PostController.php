@@ -26,6 +26,8 @@ use AppBundle\Model\PostPage;
  */
 class PostController extends BaseRestController
 {
+    const DEFAULT_PAGE_SIZE = 10;
+    const STARTING_PAGE = 1;
     /**
      * @Route("/posts")
      * @Method({"GET"})
@@ -40,14 +42,15 @@ class PostController extends BaseRestController
         $pageSize = $request->query->get("pageSize");
         $pageNumber = $request->query->get("page");
 
-        $postPageSize = $pageSize != null && $pageSize > 0 ? $pageSize : 10;
+        $postPageSize = $pageSize != null && $pageSize > 0 ? $pageSize : self::DEFAULT_PAGE_SIZE;
 
         $totalNumberOfItems = 10;
         $totalNumberOfPages = ceil($totalNumberOfItems / $postPageSize);
 
         $postsPage->setTotalItems($totalNumberOfItems);
 
-        $selectedPageNumber = $pageNumber != null && $pageNumber > 0 && $pageNumber <= $totalNumberOfPages ? $pageNumber : 1;
+        $selectedPageNumber = $pageNumber != null && $pageNumber > 0 && $pageNumber <= $totalNumberOfPages ?
+            $pageNumber : self::STARTING_PAGE;
 
         $postsPage->setNumberOfPages($totalNumberOfPages);
 

@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Model\About;
+use AppBundle\Model\Post;
 use AppBundle\Model\PostPage;
 use AppBundle\Model\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -50,7 +51,7 @@ class DefaultController extends Controller
     public function postPageAction($page)
     {
 
-        $postsPage = $this->getPosts(5, $page);
+        $postsPage = $this->getPosts(self::NUMBER_OF_ITEMS, $page);
 
         return $this->render(":default:posts.html.twig", array(
             "postsPage" => $postsPage
@@ -61,14 +62,15 @@ class DefaultController extends Controller
     {
         $postsPage = new PostPage();
 
-        $postPageSize = $pageSize != null && $pageSize > 0 ? $pageSize : 10;
+        $postPageSize = $pageSize != null && $pageSize > 0 ? $pageSize : self::NUMBER_OF_ITEMS;
 
         $totalNumberOfItems = 20;
         $totalNumberOfPages = ceil($totalNumberOfItems / $postPageSize);
 
         $postsPage->setTotalItems($totalNumberOfItems);
 
-        $selectedPageNumber = $pageNumber != null && $pageNumber > 0 && $pageNumber <= $totalNumberOfPages ? $pageNumber : 1;
+        $selectedPageNumber = $pageNumber != null && $pageNumber > 0 && $pageNumber <= $totalNumberOfPages ?
+            $pageNumber : self::STARTING_PAGE;
 
         $postsPage->setNumberOfPages($totalNumberOfPages);
 
@@ -76,7 +78,29 @@ class DefaultController extends Controller
 
         $ps = array();
         for ($i = 0; $i < $postPageSize; $i++) {
-            $ps[$i] = "$i $pageNumber";
+            $post = new Post("Test $i $pageNumber", "Quisque pharetra, urna mattis sed, posuere sit amet dui turpis dolor, porttitor
+                odio.
+                Nunc condimentum vitae, dapibus vitae, vestibulum ac, auctor mi. Curabitur eget
+                imperdiet sagittis, nunc iaculis malesuada fames ac lectus. Ut sodales felis, in
+                vehicula est. In hac habitasse platea dictumst. Proin orci. Integer egestas, dui
+                dui,
+                porta tincidunt. Pellentesque fermentum in, vulputate tempor diam. Aenean lacus
+                tellus
+                non nulla. Aenean et magnis dis parturient montes, nascetur ridiculus mus. Vivamus
+                consequat mollis ut, gravida sit amet tellus malesuada velit vitae magna non erat
+                volutpat. Curabitur vel laoreet urna. Sed eu nulla. Sed laoreet urna. Aenean quis
+                lectus
+                eu libero. Pellentesque bibendum, urna et netus et malesuada arcu luctus
+                scelerisque.
+                Maecenas feugiat sagittis luctus sagittis. Curabitur sed ante. In nunc volutpat
+                facilisis, wisi vel laoreet condimentum, pulvinar mollis. Nulla diam vel bibendum
+                sem,
+                posuere cubilia Curae, In mollis, metus. Maecenas diam mauris, consequat non,
+                lobortis
+                quis, tincidunt eget, ultricies nulla, accumsan augue justo ipsum cursus a,
+                convallis
+                ac, tincidunt quis, massa. Vestibulum fermentum. Vivamus ullamcorper.", "20.08.2017");
+            $ps[$i] = $post;
         }
         $postsPage->setPosts($ps);
 
