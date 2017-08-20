@@ -12,9 +12,15 @@ header {
   left: 0;
   right: 0;
   background: yellow;
-  text-align: center; }
+  text-align: center;
+  z-index: 100; }
+  .nav-bar.attach-top {
+    position: fixed;
+    top: 0;
+    bottom: auto; }
   .nav-bar .container {
-    position: relative; }
+    position: relative;
+    transition: 0.5s all; }
     .nav-bar .container .nav-btn {
       min-width: 50px;
       display: inline-block;

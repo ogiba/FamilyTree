@@ -15,9 +15,17 @@ header{
     right: 0;
     background: yellow;
     text-align: center;
+    z-index: 100;
+
+    &.attach-top {
+        position: fixed;
+        top: 0;
+        bottom: auto;
+    }
 
     .container{
         position: relative;
+        transition: 0.5s all;
 
         .nav-btn {
             min-width: 50px;
