@@ -8,3 +8,7 @@ function selectPage(pageNumber) {
         $("#postsContainer").html("").html(data);
     });
 }
+
+function navigateToScene(sceneAddress) {
+    window.location.href = sceneAddress;
+}

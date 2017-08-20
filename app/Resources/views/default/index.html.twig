@@ -1,14 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block header %}
-    <div id="nav-bar" class="nav-bar">
-        <div class="container">
-            {% block navbar %}
-                <div class="nav-btn">{{ 'home.page'|trans }}</div>
-                <div class="nav-btn">{{ 'tree.page'|trans }}</div>
-            {% endblock %}
-        </div>
-    </div>
+    <header>
+        {% include ':default:nav_bar.html.twig' %}
+    </header>
 {% endblock %}
 
 {% block body %}
