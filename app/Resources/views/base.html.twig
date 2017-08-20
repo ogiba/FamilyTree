@@ -16,6 +16,8 @@
             {% block header %}{% endblock %}
         </header>
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            <script src="{{ asset('scripts/plugins/jquery-3.2.1.min.js') }}"></script>
+        {% endblock %}
     </body>
 </html>

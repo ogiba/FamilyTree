@@ -5,7 +5,7 @@
  * Time: 22:17
  */
 
-namespace AppBundle\RESTApi;
+namespace AppBundle\Controller\Api;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;

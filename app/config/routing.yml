@@ -1,6 +1,3 @@
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
-rest:
-    resource: '@AppBundle/RESTApi/'
-    type: annotation

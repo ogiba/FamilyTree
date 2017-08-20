@@ -5,7 +5,7 @@
  * Time: 22:06
  */
 
-namespace AppBundle\RESTApi;
+namespace AppBundle\Controller\Api;
 
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -17,7 +17,7 @@ use AppBundle\Model\PostPage;
 
 /**
  * Class PostController
- * @package AppBundle\RESTApi
+ * @package AppBundle\Api
  *
  */
 
@@ -37,16 +37,20 @@ class PostController extends BaseRestController
         $postsPage = new PostPage();
 
         $pageSize = $request->query->get("pageSize");
+        $pageNumber = $request->query->get("page");
 
         $postPageSize = $pageSize != null && $pageSize > 0 ? $pageSize : 10;
 
         $totalNumberOfItems = 10;
+        $totalNumberOfPages = ceil($totalNumberOfItems / $postPageSize);
 
         $postsPage->setTotalItems($totalNumberOfItems);
-        $totalNumberOfPages = ceil($totalNumberOfItems / $postPageSize);
+
+        $selectedPageNumber = $pageNumber != null && $pageNumber > 0 && $pageNumber <= $totalNumberOfPages ? $pageNumber : 1;
+
         $postsPage->setNumberOfPages($totalNumberOfPages);
 
-        $postsPage->setCurrentPage(1);
+        $postsPage->setCurrentPage($selectedPageNumber);
 
         $ps = array();
         for ($i = 0; $i < $postPageSize; $i++) {

@@ -30,55 +30,7 @@
                 </div>
             </aside>
             <div class="col-md-8">
-                <div class="posts">
-                    {% for post in postsPage.posts %}
-                        <div class="card post">
-                            <div class="card-body">
-                                <h4 class="card-title">Card title
-                                    <small>07.03.1992</small>
-                                </h4>
-                                <p class="card-text content">
-                                    Quisque pharetra, urna mattis sed, posuere sit amet dui turpis dolor, porttitor
-                                    odio.
-                                    Nunc condimentum vitae, dapibus vitae, vestibulum ac, auctor mi. Curabitur eget
-                                    imperdiet sagittis, nunc iaculis malesuada fames ac lectus. Ut sodales felis, in
-                                    vehicula est. In hac habitasse platea dictumst. Proin orci. Integer egestas, dui
-                                    dui,
-                                    porta tincidunt. Pellentesque fermentum in, vulputate tempor diam. Aenean lacus
-                                    tellus
-                                    non nulla. Aenean et magnis dis parturient montes, nascetur ridiculus mus. Vivamus
-                                    consequat mollis ut, gravida sit amet tellus malesuada velit vitae magna non erat
-                                    volutpat. Curabitur vel laoreet urna. Sed eu nulla. Sed laoreet urna. Aenean quis
-                                    lectus
-                                    eu libero. Pellentesque bibendum, urna et netus et malesuada arcu luctus
-                                    scelerisque.
-                                    Maecenas feugiat sagittis luctus sagittis. Curabitur sed ante. In nunc volutpat
-                                    facilisis, wisi vel laoreet condimentum, pulvinar mollis. Nulla diam vel bibendum
-                                    sem,
-                                    posuere cubilia Curae, In mollis, metus. Maecenas diam mauris, consequat non,
-                                    lobortis
-                                    quis, tincidunt eget, ultricies nulla, accumsan augue justo ipsum cursus a,
-                                    convallis
-                                    ac, tincidunt quis, massa. Vestibulum fermentum. Vivamus ullamcorper.
-                                </p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-                    {% endfor %}
-                    <div class="paging">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                {% set pages = postsPage.numberOfPages - 1 %}
-                                {% for page in 0..pages %}
-                                    <li class="page-item"><a class="page-link"
-                                                             onclick="console.log({{ page }})" >{{ page + 1 }}</a></li>
-                                {% endfor %}
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
+                {% include 'default/posts.html.twig' %}
             </div>
         </div>
     </section>
@@ -87,4 +39,9 @@
 {% block stylesheets %}
     {{ parent() }}
     <link type="text/css" rel="stylesheet" href="{{ asset('stylesheets/index.css') }}"
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('scripts/index.js') }}"></script>
 {% endblock %}
