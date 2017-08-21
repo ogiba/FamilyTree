@@ -1,0 +1,8 @@
+header {
+  height: auto;
+  background: none; }
+
+.nav-bar {
+  position: fixed;
+  top: 0;
+  bottom: auto; }

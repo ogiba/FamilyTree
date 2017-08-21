@@ -2,7 +2,7 @@
     <div id="nav-bar" class="nav-bar">
         <div class="container">
             {% block nav_items %}
-                <div class="nav-btn">{{ 'home.page'|trans }}</div>
+                <div class="nav-btn" onclick='navigateToScene("/")'>{{ 'home.page'|trans }}</div>
                 <div class="nav-btn" onclick='navigateToScene("/tree")'>{{ 'tree.page'|trans }}</div>
             {% endblock %}
         </div>

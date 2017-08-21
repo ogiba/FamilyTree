@@ -26,6 +26,3 @@ function selectPage(pageNumber) {
     });
 }
 
-function navigateToScene(sceneAddress) {
-    window.location.href = sceneAddress;
-}

@@ -1,8 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('stylesheets/tree_page.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
 {% block header %}
     <header>
         {% embed ':default:nav_bar.html.twig' %}
         {% endembed %}
     </header>
+{% endblock %}
+
+{% block body %}
+    <section>
+
+    </section>
 {% endblock %}
