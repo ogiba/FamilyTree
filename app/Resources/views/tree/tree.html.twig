@@ -7,6 +7,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('scripts/plugins/jquery-ui.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('scripts/tree_page.js') }}" type="text/javascript"></script>
 {% endblock %}
 
@@ -19,12 +20,19 @@
 
 {% block body %}
     <section class="tree-playground">
-        <div id="playground" class="row">
+        <div id="playground" class="row fill">
             <div class="col-md-10">
+                <div id="treeContainer" class="tree-container">
 
+                </div>
             </div>
-            <div class="col-md-2">
-                Test
+            <div class="col-md-2 family-manager">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="draggableTest" style="background-color: red;">Test</div>
+                        <div  class="draggableTest" style="background-color: red;">Test2</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
