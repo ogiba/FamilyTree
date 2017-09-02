@@ -22,6 +22,29 @@
     <section class="tree-playground">
         <div id="playground" class="row fill">
             <div class="col-md-10">
+                <table class="table table-condensed">
+                    <tbody>
+                    {% for i in 0..10 %}
+                        <tr>
+                            <td>
+                                <div class="tree-container">
+
+                                </div>
+                            </td>
+                            <td>
+                                <div class="tree-container">
+
+                                </div>
+                            </td>
+                            <td>
+                                <div class="tree-container">
+
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
                 <div id="treeContainer" class="tree-container">
 
                 </div>
@@ -29,8 +52,8 @@
             <div class="col-md-2 family-manager">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="draggableTest" style="background-color: red;">Test</div>
-                        <div  class="draggableTest" style="background-color: red;">Test2</div>
+                        <div class="draggableTest" style="background-color: red; display: inline-block; padding: 10px;">Test</div>
+                        <div class="draggableTest" style="background-color: red; display: inline-block; padding: 10px;">Test2</div>
                     </div>
                 </div>
             </div>

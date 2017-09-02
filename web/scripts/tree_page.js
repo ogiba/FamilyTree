@@ -32,7 +32,7 @@ function setupDraggable() {
         }
     });
 
-    $( "#treeContainer" ).droppable({
+    $( ".tree-container" ).droppable({
         scope: 'demoBox',
         drop: function( event, ui ) {
             var box = $(ui.draggable).html();
