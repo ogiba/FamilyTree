@@ -98,3 +98,8 @@ fabric.properties
 
 # Sonarlint plugin
 .idea/sonarlint
+
+### macOS ###
+*.DS_Store
+.AppleDouble
+.LSOverride
