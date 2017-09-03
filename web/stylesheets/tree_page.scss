@@ -3,6 +3,10 @@ header {
     background: none;
 }
 
+body{
+  background-color: #727b84;
+}
+
 .nav-bar{
     position: fixed;
     top: 0;
@@ -10,16 +14,44 @@ header {
 }
 
 .tree-playground{
-    background-color: #727b84;
     height: 100vh;
 
     .family-manager{
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        top: 60px;
         background-color: #0056b3;
+
+        .person-container{
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: auto;
+            padding-bottom: 100px;
+        }
+
+        .person-item{
+            display: block;
+            background: red;
+            padding: 10px;
+            margin-top: 10px;
+        }
     }
 
     .tree-container{
         width: 100%;
         height: 100px;
+
+        .person-item{
+            display: inline-block;
+            background: red;
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+        }
     }
 }
 

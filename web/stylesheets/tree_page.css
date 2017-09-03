@@ -2,19 +2,44 @@ header {
   height: auto;
   background: none; }
 
+body {
+  background-color: #727b84; }
+
 .nav-bar {
   position: fixed;
   top: 0;
   bottom: auto; }
 
 .tree-playground {
-  background-color: #727b84;
   height: 100vh; }
   .tree-playground .family-manager {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    top: 60px;
     background-color: #0056b3; }
+    .tree-playground .family-manager .person-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: auto;
+      padding-bottom: 100px; }
+    .tree-playground .family-manager .person-item {
+      display: block;
+      background: red;
+      padding: 10px;
+      margin-top: 10px; }
   .tree-playground .tree-container {
     width: 100%;
     height: 100px; }
+    .tree-playground .tree-container .person-item {
+      display: inline-block;
+      background: red;
+      width: 100%;
+      height: 100%;
+      padding: 10px; }
 
 .fill {
   height: 100%; }
