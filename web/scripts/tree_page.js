@@ -29,12 +29,28 @@ function setupDraggable() {
         revertDuration: 100,
         appendTo: "#playground",
         helper: "clone",
+        connectToSortable: ".person-container ul",
         cursorAt: { left: 5 },
+        revert: function(droppableObj)
+        {
+            if(droppableObj === false)
+             {
+                $(this).removeClass('dragging');
+                return true;
+             }
+             else
+             {
+                return false;
+             }
+        },
         start: function( event, ui ) {
             //Reset
             $( ".draggableTest" ).draggable({
                 revert: true
             });
+
+            $draggingParent = $(this).parent();
+            $(this).addClass('dragging');
         }
     });
 
@@ -49,4 +65,33 @@ function setupDraggable() {
         }
     })
 
+    $(".person-container ul").droppable({
+      scope: 'demoBox',
+      drop: function(event, ui) {
+          $( ".draggableTest" ).draggable( "option", "revert", false );
+
+          $(ui.draggable).detach().css({top: 0,left: 0}).appendTo(this);
+      }
+    });
+    //   ,stop: function(event, ui) {
+    //       $(ui.item).removeClass('dragging');
+    //       $('.dragging').remove();
+    //       if($(this).hasClass('new')) {
+    //           var clone = $(this).clone();
+    //           clone.empty();
+    //           $(this).after(clone);
+    //           $(this).removeClass('new');
+    //           initDroppableSort( clone );
+    //       }
+    //       cleanUp();
+    //     }
+    // })
+}
+
+function cleanUp() {
+      $('.droppable').not('.new').each(function() {
+    	if($(this).find('li').length === 0) {
+    		$(this).remove();
+    	}
+	     });
 }
