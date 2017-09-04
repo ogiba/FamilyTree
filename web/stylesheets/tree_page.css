@@ -12,6 +12,10 @@ body {
 
 .tree-playground {
   height: 100vh; }
+  .tree-playground .person-item {
+    display: inline-block;
+    background: red;
+    padding: 10px; }
   .tree-playground .family-manager {
     position: fixed;
     right: 0;
@@ -26,6 +30,8 @@ body {
       bottom: 0;
       overflow: auto;
       padding-bottom: 100px; }
+    .tree-playground .family-manager ::-webkit-scrollbar {
+      display: none; }
     .tree-playground .family-manager .person-item {
       display: block;
       background: red;

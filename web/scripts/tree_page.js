@@ -25,10 +25,16 @@ function setupDraggable() {
 
     $( ".draggableTest" ).draggable({
         scope: 'demoBox',
+        containment: "document",
         revertDuration: 100,
+        appendTo: "#playground",
+        helper: "clone",
+        cursorAt: { left: 5 },
         start: function( event, ui ) {
             //Reset
-            $( ".draggableTest" ).draggable( "option", "revert", true );
+            $( ".draggableTest" ).draggable({
+                revert: true
+            });
         }
     });
 
