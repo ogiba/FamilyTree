@@ -21,46 +21,31 @@
 {% block body %}
     <section class="tree-playground">
         <div id="playground" class="row fill">
-            <div class="col-md-10">
+            <div class="col-md-10" style="overflow: auto;">
                 <table class="table" style="table-layout: fixed;">
-                    <thead>
-                        <tr class="col-xs-1"></tr>
-                        <tr class="col-xs-1"></tr>
-                        <tr class="col-xs-1"></tr>
-                    </thead>
                     <tbody>
-                    {% for i in 0..10 %}
+                    {% set items = 10 %}
+                    {% for i in 0..items %}
                         <tr>
-                            <td>
-                                <div class="tree-container">
+                            {% for j in 0..items %}
+                                <td>
+                                    <div class="tree-container">
 
-                                </div>
-                            </td>
-                            <td>
-                                <div class="tree-container">
-
-                                </div>
-                            </td>
-                            <td>
-                                <div class="tree-container">
-
-                                </div>
-                            </td>
+                                    </div>
+                                </td>
+                            {% endfor %}
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
-                <div id="treeContainer" class="tree-container">
-
-                </div>
             </div>
             <div class="col-md-2 family-manager">
                 <div class="row">
                     <div class="col-md-12 person-container">
                         <ul>
-                        {% for i in 0..30 %}
-                            <li class="draggableTest person-item">Test{{i}}</li>
-                        {% endfor %}
+                            {% for i in 0..30 %}
+                                <li class="draggableTest person-item">Test{{ i }}</li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>

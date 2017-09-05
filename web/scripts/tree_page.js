@@ -23,29 +23,26 @@ function setupDraggable() {
     //     }
     // });
 
-    $( ".draggableTest" ).draggable({
+    $(".draggableTest").draggable({
         scope: 'demoBox',
         containment: "document",
         revertDuration: 100,
         appendTo: "#playground",
         helper: "clone",
         connectToSortable: ".person-container ul",
-        cursorAt: { left: 5 },
-        revert: function(droppableObj)
-        {
-            if(droppableObj === false)
-             {
+        cursorAt: {left: 5},
+        revert: function (droppableObj) {
+            if (droppableObj === false) {
                 $(this).removeClass('dragging');
                 return true;
-             }
-             else
-             {
+            }
+            else {
                 return false;
-             }
+            }
         },
-        start: function( event, ui ) {
+        start: function (event, ui) {
             //Reset
-            $( ".draggableTest" ).draggable({
+            $(".draggableTest").draggable({
                 revert: true
             });
 
@@ -54,44 +51,43 @@ function setupDraggable() {
         }
     });
 
-    $( ".tree-container" ).droppable({
+    $(".tree-container").droppable({
         scope: 'demoBox',
-        drop: function( event, ui ) {
+        drop: function (event, ui) {
             var box = $(ui.draggable).html();
-            $( ".draggableTest" ).draggable( "option", "revert", false );
+            $(".draggableTest").draggable("option", "revert", false);
 
             //Realign item
-            $(ui.draggable).detach().css({top: 0,left: 0}).appendTo(this);
+            $(ui.draggable).detach().css({top: 0, left: 0}).appendTo(this);
         }
     })
 
     $(".person-container ul").droppable({
-      scope: 'demoBox',
-      drop: function(event, ui) {
-          $( ".draggableTest" ).draggable( "option", "revert", false );
+        scope: 'demoBox',
+        drop: function (event, ui) {
+            $(".draggableTest").draggable("option", "revert", false);
 
-          $(ui.draggable).detach().css({top: 0,left: 0}).appendTo(this);
-      }
+            $(ui.draggable).detach().css({top: 0, left: 0}).appendTo(this);
+        }
+        // })
+        , stop: function (event, ui) {
+            $(ui.item).removeClass('dragging');
+            $('.dragging').remove();
+            if ($(this).hasClass('new')) {
+                var clone = $(this).clone();
+                clone.empty();
+                $(this).after(clone);
+                $(this).removeClass('new');
+            }
+            cleanUp();
+        }
     });
-    //   ,stop: function(event, ui) {
-    //       $(ui.item).removeClass('dragging');
-    //       $('.dragging').remove();
-    //       if($(this).hasClass('new')) {
-    //           var clone = $(this).clone();
-    //           clone.empty();
-    //           $(this).after(clone);
-    //           $(this).removeClass('new');
-    //           initDroppableSort( clone );
-    //       }
-    //       cleanUp();
-    //     }
-    // })
 }
 
 function cleanUp() {
-      $('.droppable').not('.new').each(function() {
-    	if($(this).find('li').length === 0) {
-    		$(this).remove();
-    	}
-	     });
+    $('.droppable').not('.new').each(function () {
+        if ($(this).find('li').length === 0) {
+            $(this).remove();
+        }
+    });
 }

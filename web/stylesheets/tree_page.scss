@@ -3,33 +3,52 @@ header {
     background: none;
 }
 
-body{
-  background-color: #727b84;
+body {
+    background-color: #727b84;
 }
 
-.nav-bar{
+.nav-bar {
     position: fixed;
     top: 0;
     bottom: auto;
 }
 
-.tree-playground{
+.tree-playground {
     height: 100vh;
 
-    .person-item{
+    .table {
+        table-layout: fixed;
+
+        tbody {
+            & tr {
+
+                & td {
+                    word-wrap: break-word;
+                    width: 150px;
+                    height: 150px;
+                }
+            }
+        }
+    }
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    .person-item {
         background: red;
         padding: 10px;
         list-style-type: none;
     }
 
-    .family-manager{
+    .family-manager {
         position: fixed;
         right: 0;
         bottom: 0;
         top: 60px;
         background-color: #0056b3;
 
-        .person-container{
+        .person-container {
             position: absolute;
             top: 0;
             left: 0;
@@ -38,43 +57,46 @@ body{
             overflow: auto;
             padding-bottom: 100px;
 
-            ul{
-              margin: 0 auto;
-              list-style: none;
-              list-style-type: none;
+            ul {
+                margin: 0 auto;
+                list-style: none;
 
-              li {
-                  width: inherit;
-                  padding: 15px 20px;
-                  -webkit-transition: transform .25s ease-in-out;
-                  -moz-transition: transform .25s ease-in-out;
-                  -o-transition: transform .25s ease-in-out;
-                  transition: transform .25s ease-in-out;
+                li {
+                    width: inherit;
+                    padding: 15px 20px;
+                    -webkit-transition: transform .25s ease-in-out;
+                    -moz-transition: transform .25s ease-in-out;
+                    -o-transition: transform .25s ease-in-out;
+                    transition: transform .25s ease-in-out;
 
-                  -webkit-transition: box-shadow .25s ease-in-out;
-                  -moz-transition: box-shadow .25s ease-in-out;
-                  -o-transition: box-shadow .25s ease-in-out;
-                  transition: box-shadow .25s ease-in-out;
+                    -webkit-transition: box-shadow .25s ease-in-out;
+                    -moz-transition: box-shadow .25s ease-in-out;
+                    -o-transition: box-shadow .25s ease-in-out;
+                    transition: box-shadow .25s ease-in-out;
 
-                  &.person-item{
-                      background: red;
-                      padding: 10px;
-                      margin-top: 10px;
-                  }
+                    &.person-item {
+                        background: red;
+                        padding: 10px;
+                        margin-top: 10px;
+                    }
 
-                  .dragging {
-                      visibility:hidden;
-                  }
-              }
+                    .dragging {
+                        visibility: hidden;
+                    }
+                }
             }
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
         }
     }
 
-    .tree-container{
+    .tree-container {
         width: 100%;
-        height: 100px;
+        height: 100%;
 
-        .person-item{
+        .person-item {
             display: inline-block;
             background: red;
             width: 100%;
