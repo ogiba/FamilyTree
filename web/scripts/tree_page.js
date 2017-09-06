@@ -42,12 +42,15 @@ function setupDraggable() {
         },
         start: function (event, ui) {
             //Reset
+
             $(".draggableTest").draggable({
                 revert: true
             });
 
+            $(this).css("display", "none");
+
             $draggingParent = $(this).parent();
-            $(this).addClass('dragging');
+            // $(this).addClass('dragging');
         }
     });
 
@@ -58,7 +61,7 @@ function setupDraggable() {
             $(".draggableTest").draggable("option", "revert", false);
 
             //Realign item
-            $(ui.draggable).detach().css({top: 0, left: 0}).appendTo(this);
+            $(ui.draggable).detach().css({top: 0, left: 0, display: "inline-block"}).appendTo(this);
         }
     })
 
@@ -67,20 +70,20 @@ function setupDraggable() {
         drop: function (event, ui) {
             $(".draggableTest").draggable("option", "revert", false);
 
-            $(ui.draggable).detach().css({top: 0, left: 0}).appendTo(this);
+            $(ui.draggable).detach().css({top: "", left: "", display: "block"}).appendTo(this);
         }
         // })
-        , stop: function (event, ui) {
-            $(ui.item).removeClass('dragging');
-            $('.dragging').remove();
-            if ($(this).hasClass('new')) {
-                var clone = $(this).clone();
-                clone.empty();
-                $(this).after(clone);
-                $(this).removeClass('new');
-            }
-            cleanUp();
-        }
+        // , stop: function (event, ui) {
+        //     $(ui.item).removeClass('dragging');
+        //     $('.dragging').remove();
+        //     if ($(this).hasClass('new')) {
+        //         var clone = $(this).clone();
+        //         clone.empty();
+        //         $(this).after(clone);
+        //         $(this).removeClass('new');
+        //     }
+        //     cleanUp();
+        // }
     });
 }
 
