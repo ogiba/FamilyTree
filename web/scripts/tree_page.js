@@ -50,7 +50,7 @@ function setupDraggable() {
             $(this).css("display", "none");
 
             $draggingParent = $(this).parent();
-            // $(this).addClass('dragging');
+            $(this).addClass('dragging');
         }
     });
 
@@ -67,23 +67,24 @@ function setupDraggable() {
 
     $(".person-container ul").droppable({
         scope: 'demoBox',
+        placeholder: "ui-state-highlight",
         drop: function (event, ui) {
             $(".draggableTest").draggable("option", "revert", false);
 
             $(ui.draggable).detach().css({top: "", left: "", display: "block"}).appendTo(this);
         }
-        // })
-        // , stop: function (event, ui) {
-        //     $(ui.item).removeClass('dragging');
-        //     $('.dragging').remove();
-        //     if ($(this).hasClass('new')) {
-        //         var clone = $(this).clone();
-        //         clone.empty();
-        //         $(this).after(clone);
-        //         $(this).removeClass('new');
-        //     }
-        //     cleanUp();
-        // }
+        }).sortable({
+            stop: function (event, ui) {
+            $(ui.item).removeClass('dragging');
+            $('.dragging').remove();
+            if ($(this).hasClass('new')) {
+                var clone = $(this).clone();
+                clone.empty();
+                $(this).after(clone);
+                $(this).removeClass('new');
+            }
+            cleanUp();
+        }
     });
 }
 

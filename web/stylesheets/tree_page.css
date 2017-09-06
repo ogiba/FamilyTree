@@ -58,6 +58,9 @@ body {
             margin-top: 10px; }
           .tree-playground .family-manager .person-container ul li .dragging {
             visibility: hidden; }
+          .tree-playground .family-manager .person-container ul li .ui-state-highlight {
+            height: 1.5em;
+            line-height: 1.2em; }
     .tree-playground .family-manager ::-webkit-scrollbar {
       display: none; }
   .tree-playground .tree-container {
