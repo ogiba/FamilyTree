@@ -29,7 +29,7 @@
                         <tr>
                             {% for j in 0..items %}
                                 <td>
-                                    <div class="tree-container">
+                                    <div class="tree-container" ondragover="allowDrop(event)" ondrop="drop(event)">
 
                                     </div>
                                 </td>
@@ -42,9 +42,9 @@
             <div class="col-md-2 family-manager">
                 <div class="row">
                     <div class="col-md-12 person-container">
-                        <ul>
+                        <ul ondragover="allowDrop(event)" ondrop="drop(event)">
                             {% for i in 0..30 %}
-                                <li class="draggableTest person-item">Test{{ i }}</li>
+                                <li id="drag{{ i }}" class="draggableTest person-item" draggable="true" ondragstart="drag(event)" ondragover="makePlace(event)">Test{{ i }}</li>
                             {% endfor %}
                         </ul>
                     </div>
