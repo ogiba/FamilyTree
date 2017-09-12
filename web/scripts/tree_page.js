@@ -11,6 +11,9 @@ function allowDrop(ev) {
 }
 
 function drag(ev) {
+    if (ev.target.parentElement.className == "tree-container") {
+
+    }
     ev.dataTransfer.setData("text", ev.target.id);
 }
 
@@ -24,12 +27,38 @@ function drop(ev) {
     var targetItem = ev.target;
     var parentList = targetItem.parentNode;
 
-    //ev.target.appendChild(document.getElementById(data));
+    if (ev.target.parentElement.localName == "ul") {
+        ev.target.parentElement.childNodes.forEach(function (item, index) {
+            console.log(index);
+            if (item.id === targetItem.id) {
+                parentList.insertBefore(document.getElementById(data), parentList.childNodes[index]);
+            }
+        });
+    } else {
+        var droppedItem = document.getElementById(data)
+        rebuildItem(droppedItem)
+        ev.target.appendChild(droppedItem);
+    }
+}
 
-    ev.target.parentElement.childNodes.forEach(function (item, index) {
-        console.log(index);
-        if (item.id === targetItem.id) {
-            parentList.insertBefore(document.getElementById(data), parentList.childNodes[index]);
-        }
-    });
+function rebuildItem(elem) {
+    var text = elem.childNodes[0];
+
+    $("<div/>", {
+        id: "container_img_" + elem.id,
+        "style": "height: 50%; text-align: center;"
+    }).appendTo(elem);
+
+    $("<img>", {
+    }).appendTo("#container_img_" + elem.id);
+
+    $("<div/>", {
+        id: "container_" + elem.id,
+        "style": "height: 50%;"
+    }).appendTo(elem);
+
+    $("<label/>", {
+    }).appendTo("#container_" + elem.id);
+
+
 }
