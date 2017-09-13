@@ -45,7 +45,7 @@ function drop(ev) {
     } else {
         var droppedItem = document.getElementById(data)
         rebuildItem(droppedItem)
-        if (droppedItem.parentElement.className !== "tree-container") {
+        if (ev.target.parentElement.className !== "tree-container") {
             ev.target.appendChild(droppedItem);
         }
     }
