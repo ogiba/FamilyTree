@@ -11,8 +11,16 @@ function allowDrop(ev) {
 }
 
 function drag(ev) {
-    if (ev.target.parentElement.className == "tree-container") {
-
+    if (ev.target.parentElement.className === "tree-container") {
+        var label = "";
+        ev.target.childNodes.forEach(function (item, i) {
+            item.childNodes.forEach(function (childrenItem, j) {
+                if (childrenItem.localName === "label") {
+                    label = childrenItem.innerText;
+                }
+            });
+        });
+        ev.target.innerHTML = label;
     }
     ev.dataTransfer.setData("text", ev.target.id);
 }
@@ -27,7 +35,7 @@ function drop(ev) {
     var targetItem = ev.target;
     var parentList = targetItem.parentNode;
 
-    if (ev.target.parentElement.localName == "ul") {
+    if (ev.target.parentElement.localName === "ul") {
         ev.target.parentElement.childNodes.forEach(function (item, index) {
             console.log(index);
             if (item.id === targetItem.id) {
@@ -37,12 +45,15 @@ function drop(ev) {
     } else {
         var droppedItem = document.getElementById(data)
         rebuildItem(droppedItem)
-        ev.target.appendChild(droppedItem);
+        if (droppedItem.parentElement.className !== "tree-container") {
+            ev.target.appendChild(droppedItem);
+        }
     }
 }
 
 function rebuildItem(elem) {
     var text = elem.childNodes[0];
+    elem.innerHTML = "";
 
     $("<div/>", {
         id: "container_img_" + elem.id,
@@ -58,6 +69,7 @@ function rebuildItem(elem) {
     }).appendTo(elem);
 
     $("<label/>", {
+        text: text.data
     }).appendTo("#container_" + elem.id);
 
 
