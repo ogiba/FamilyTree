@@ -11,17 +11,6 @@ function allowDrop(ev) {
 }
 
 function drag(ev) {
-    if (ev.target.parentElement.className === "tree-container") {
-        var label = "";
-        ev.target.childNodes.forEach(function (item, i) {
-            item.childNodes.forEach(function (childrenItem, j) {
-                if (childrenItem.localName === "label") {
-                    label = childrenItem.innerText;
-                }
-            });
-        });
-        ev.target.innerHTML = label;
-    }
     ev.dataTransfer.setData("text", ev.target.id);
 }
 
@@ -36,10 +25,24 @@ function drop(ev) {
     var parentList = targetItem.parentNode;
 
     if (ev.target.parentElement.localName === "ul") {
+        var draggedItem = document.getElementById(data);
+        
         ev.target.parentElement.childNodes.forEach(function (item, index) {
             console.log(index);
             if (item.id === targetItem.id) {
-                parentList.insertBefore(document.getElementById(data), parentList.childNodes[index]);
+                if (draggedItem.parentElement.className === "tree-container") {
+                    var label = "";
+                    draggedItem.childNodes.forEach(function (item, i) {
+                        item.childNodes.forEach(function (childrenItem, j) {
+                            if (childrenItem.localName === "label") {
+                                label = childrenItem.innerText;
+                            }
+                        });
+                    });
+                    draggedItem.innerHTML = label;
+                }
+
+                parentList.insertBefore(draggedItem, parentList.childNodes[index]);
             }
         });
     } else {
