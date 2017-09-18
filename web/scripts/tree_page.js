@@ -26,7 +26,7 @@ function drop(ev) {
 
     if (ev.target.parentElement.localName === "ul") {
         var draggedItem = document.getElementById(data);
-        
+
         ev.target.parentElement.childNodes.forEach(function (item, index) {
             console.log(index);
             if (item.id === targetItem.id) {
@@ -46,9 +46,16 @@ function drop(ev) {
             }
         });
     } else {
-        var droppedItem = document.getElementById(data)
-        rebuildItem(droppedItem)
-        if (ev.target.parentElement.className !== "tree-container") {
+        var droppedItem = document.getElementById(data);
+        var parentElement = ev.target.parentElement;
+        if (parentElement.classList[0] !== "draggableTest" &&
+            parentElement.localName !== "li" &&
+            parentElement.id.indexOf("container_") === -1 &&
+            parentElement.childNodes[1].childNodes.length < 2) {
+                
+            if (droppedItem.parentElement.localName === "ul")
+                rebuildItem(droppedItem)
+
             ev.target.appendChild(droppedItem);
         }
     }
