@@ -18,7 +18,7 @@ function makePlace(ev) {
     ev.preventDefault();
 }
 
-function drop(ev) {
+function drop(ev, items) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
     var targetItem = ev.target;
@@ -52,9 +52,17 @@ function drop(ev) {
             parentElement.localName !== "li" &&
             parentElement.id.indexOf("container_") === -1 &&
             parentElement.childNodes[1].childNodes.length < 2) {
-                
+
             if (droppedItem.parentElement.localName === "ul")
                 rebuildItem(droppedItem)
+
+            if (parentElement.localName === "td" && parentElement.parentElement.localName == "tr") {
+                console.log("col:"+parentElement.cellIndex+" row:"+parentElement.parentElement.rowIndex);
+
+                if (parentElement.parentElement.rowIndex == 0) {
+                    items += 1;
+                }
+            }
 
             ev.target.appendChild(droppedItem);
         }
@@ -75,12 +83,21 @@ function rebuildItem(elem) {
 
     $("<div/>", {
         id: "container_" + elem.id,
-        "style": "height: 50%;"
+        "style": "height: 50%; line-height: 1;"
     }).appendTo(elem);
 
     $("<label/>", {
-        text: text.data
+        text: text.data,
+        "style": "margin-bottom: 0;"
     }).appendTo("#container_" + elem.id);
 
+    $("<div/>", {
+        text: "00.00.0000",
+        "style": "font-size: 14px; margin-bottom: 0;"
+    }).appendTo("#container_" + elem.id);
 
+    $("<div/>", {
+        text: "00.00.0000",
+        "style": "font-size: 14px; margin-bottom: 0;"
+    }).appendTo("#container_" + elem.id);
 }

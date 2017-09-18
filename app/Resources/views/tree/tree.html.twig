@@ -29,8 +29,7 @@
                         <tr>
                             {% for j in 0..items %}
                                 <td>
-                                    <div class="tree-container" ondragover="allowDrop(event)" ondrop="drop(event)">
-
+                                    <div class="tree-container" ondragover="allowDrop(event)" ondrop="drop(event,{{items}})">
                                     </div>
                                 </td>
                             {% endfor %}
