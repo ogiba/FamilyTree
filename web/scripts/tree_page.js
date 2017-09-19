@@ -62,6 +62,10 @@ function drop(ev) {
                 if (parentElement.parentElement.rowIndex == 0) {
                     addNewRow();
                 }
+
+                if (parentElement.cellIndex == 0) {
+                    addNewColumn()
+                }
             }
 
             ev.target.appendChild(droppedItem);
@@ -114,10 +118,9 @@ function addNewRow() {
 function addNewColumn() {
     var tbody = $(".table").children()[0];
     if (tbody.localName === "tbody") {
-        tbody.children.forEach(function(item){
-            console.log(item);
+        Array.from(tbody.children).forEach(function(item){
+            var clonedCell = $(item.children[0].cloneNode(true));
+            clonedCell.prependTo(item);
         });
-
-        // newRow.prependTo(tbody);
     }
 }
