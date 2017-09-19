@@ -18,7 +18,7 @@ function makePlace(ev) {
     ev.preventDefault();
 }
 
-function drop(ev, items) {
+function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
     var targetItem = ev.target;
@@ -60,7 +60,7 @@ function drop(ev, items) {
                 console.log("col:"+parentElement.cellIndex+" row:"+parentElement.parentElement.rowIndex);
 
                 if (parentElement.parentElement.rowIndex == 0) {
-                    items += 1;
+                    addNewRow();
                 }
             }
 
@@ -100,4 +100,24 @@ function rebuildItem(elem) {
         text: "00.00.0000",
         "style": "font-size: 14px; margin-bottom: 0;"
     }).appendTo("#container_" + elem.id);
+}
+
+function addNewRow() {
+    var tbody = $(".table").children()[0];
+    if (tbody.localName === "tbody") {
+        var newRow = $(tbody.children[0].cloneNode(true));
+
+        newRow.prependTo(tbody);
+    }
+}
+
+function addNewColumn() {
+    var tbody = $(".table").children()[0];
+    if (tbody.localName === "tbody") {
+        tbody.children.forEach(function(item){
+            console.log(item);
+        });
+
+        // newRow.prependTo(tbody);
+    }
 }
