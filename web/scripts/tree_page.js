@@ -1,6 +1,7 @@
 /**
  * Created by ogiba on 21.08.2017.
  */
+var treeItems = [];
 
 $(document).ready(function () {
     $("#playground").css("padding-top", "" + $(".nav-bar").height() + "px");
@@ -65,6 +66,11 @@ function drop(ev) {
                     $('html, body').animate({
                         scrollTop: $(droppedItem).offset().top
                     }, 0);
+
+                    treeItems.forEach(function(item){
+                        item.row += 1;
+                        console.log(item);
+                    });
                 } else if (parentElement.parentElement.rowIndex == parentElement.parentElement.parentElement.childElementCount - 1) {
                     addNewRow(false);
                 }
@@ -75,9 +81,18 @@ function drop(ev) {
                     $('html, body').animate({
                         scrollLeft: $(droppedItem).offset().left + 500
                     }, 0);
+
+                    treeItems.forEach(function(item){
+                        item.column += 1;
+                        console.log(item);
+                    });
                 } else if (parentElement.cellIndex == parentElement.parentElement.childElementCount - 1) {
                     addNewColumn(false);
                 }
+
+                var node = new TreeNode(0, parentElement.cellIndex, parentElement.parentElement.rowIndex);
+                treeItems.push(node)
+                console.log(treeItems);
             }
 
             ev.target.appendChild(droppedItem);
@@ -160,4 +175,10 @@ function addNewColumn(inFirstPlace) {
             }
         });
     }
+}
+
+var TreeNode = function(id, column, row) {
+    this.id = id;
+    this.column = column;
+    this.row = row;
 }
