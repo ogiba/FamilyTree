@@ -90,6 +90,22 @@ function rebuildItem(elem) {
     elem.innerHTML = "";
 
     $("<div/>", {
+        "class" : "left-dot"
+    }).appendTo(elem);
+
+    $("<div/>", {
+        "class" : "top-dot"
+    }).appendTo(elem);
+
+    $("<div/>", {
+        "class" : "bottom-dot"
+    }).appendTo(elem);
+
+    $("<div/>", {
+        "class" : "right-dot"
+    }).appendTo(elem);
+
+    $("<div/>", {
         id: "container_img_" + elem.id,
         "style": "height: 50%; text-align: center;"
     }).appendTo(elem);

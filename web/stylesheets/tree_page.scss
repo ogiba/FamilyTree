@@ -117,6 +117,63 @@ body {
             height: 100%;
             padding: 10px;
             border-radius: 10px;
+            position: relative;
+
+            &:hover > .left-dot {
+                display: inline-block;
+                background: orange;
+                border-radius: 20px;
+                padding: 10px;
+            }
+
+            &:hover > .top-dot {
+                display: inline-block;
+                background: orange;
+                border-radius: 20px;
+                padding: 10px;
+            }
+
+            &:hover > .bottom-dot {
+                display: inline-block;
+                background: orange;
+                border-radius: 20px;
+                padding: 10px;
+            }
+
+            &:hover > .right-dot {
+                display: inline-block;
+                background: orange;
+                border-radius: 20px;
+                padding: 10px;
+            }
+
+            .left-dot {
+                display: none;
+                position: absolute;
+                left: -10px;
+                top: 45%;
+            }
+
+            .top-dot {
+                display: none;
+                position: absolute;
+                left: 45%;
+                top: -10px;
+            }
+
+            .bottom-dot {
+                display: none;
+                position: absolute;
+                left: 45%;
+                bottom: -10px;
+            }
+
+            .right-dot {
+                display: none;
+                position: absolute;
+                top: 45%;
+                right: -10px;
+            }
         }
     }
 }

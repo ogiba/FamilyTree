@@ -79,7 +79,48 @@ body {
       width: 100%;
       height: 100%;
       padding: 10px;
-      border-radius: 10px; }
+      border-radius: 10px;
+      position: relative; }
+      .tree-playground .tree-container .person-item:hover > .left-dot {
+        display: inline-block;
+        background: orange;
+        border-radius: 20px;
+        padding: 10px; }
+      .tree-playground .tree-container .person-item:hover > .top-dot {
+        display: inline-block;
+        background: orange;
+        border-radius: 20px;
+        padding: 10px; }
+      .tree-playground .tree-container .person-item:hover > .bottom-dot {
+        display: inline-block;
+        background: orange;
+        border-radius: 20px;
+        padding: 10px; }
+      .tree-playground .tree-container .person-item:hover > .right-dot {
+        display: inline-block;
+        background: orange;
+        border-radius: 20px;
+        padding: 10px; }
+      .tree-playground .tree-container .person-item .left-dot {
+        display: none;
+        position: absolute;
+        left: -10px;
+        top: 45%; }
+      .tree-playground .tree-container .person-item .top-dot {
+        display: none;
+        position: absolute;
+        left: 45%;
+        top: -10px; }
+      .tree-playground .tree-container .person-item .bottom-dot {
+        display: none;
+        position: absolute;
+        left: 45%;
+        bottom: -10px; }
+      .tree-playground .tree-container .person-item .right-dot {
+        display: none;
+        position: absolute;
+        top: 45%;
+        right: -10px; }
 
 .fill {
   height: 100%; }
