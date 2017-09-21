@@ -55,9 +55,9 @@ function drop(ev) {
             parentElement.childNodes[1].childNodes.length < 2) {
 
             if (droppedItem.parentElement.localName === "ul" && droppedItem.id.startsWith("person")) {
-                rebuildItem(droppedItem)
+                rebuildPersonItem(droppedItem)
             } else if (droppedItem.parentElement.localName === "ul" && droppedItem.id.startsWith("connection")) {
-                console.log("Connection dropped");
+                rebuildConnectionItem(droppedItem)
             }
 
             if (parentElement.localName === "td" && parentElement.parentElement.localName == "tr") {
@@ -103,7 +103,7 @@ function drop(ev) {
     }
 }
 
-function rebuildItem(elem) {
+function rebuildPersonItem(elem) {
     var text = elem.childNodes[0];
     elem.innerHTML = "";
 
@@ -150,6 +150,15 @@ function rebuildItem(elem) {
         text: "00.00.0000",
         "style": "font-size: 14px; margin-bottom: 0;"
     }).appendTo("#container_" + elem.id);
+}
+
+function rebuildConnectionItem(elem) {
+    var text = elem.childNodes[0];
+    elem.innerHTML = "";
+
+    $("<div/>", {
+        "style":"margin-top: 50%; background: black; height: 1px;"
+    }).appendTo(elem);
 }
 
 function addNewRow(inFirstPlace) {

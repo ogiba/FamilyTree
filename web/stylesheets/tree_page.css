@@ -126,6 +126,8 @@ body {
         position: absolute;
         top: 45%;
         right: -10px; }
+    .tree-playground .tree-container li {
+      list-style: none; }
 
 .fill {
   height: 100%; }
