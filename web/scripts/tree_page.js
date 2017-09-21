@@ -54,8 +54,11 @@ function drop(ev) {
             parentElement.id.indexOf("container_") === -1 &&
             parentElement.childNodes[1].childNodes.length < 2) {
 
-            if (droppedItem.parentElement.localName === "ul")
+            if (droppedItem.parentElement.localName === "ul" && droppedItem.id.startsWith("person")) {
                 rebuildItem(droppedItem)
+            } else if (droppedItem.parentElement.localName === "ul" && droppedItem.id.startsWith("connection")) {
+                console.log("Connection dropped");
+            }
 
             if (parentElement.localName === "td" && parentElement.parentElement.localName == "tr") {
                 console.log("col:"+parentElement.cellIndex+" row:"+parentElement.parentElement.rowIndex);

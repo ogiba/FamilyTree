@@ -37,14 +37,11 @@ body {
     top: 60px;
     background-color: #0056b3; }
     .tree-playground .family-manager .person-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      overflow: auto;
-      padding-bottom: 100px; }
+      height: 15%;
+      overflow: auto; }
       .tree-playground .family-manager .person-container ul {
+        overflow: auto;
+        height: 100%;
         margin: 0 auto;
         list-style: none; }
         .tree-playground .family-manager .person-container ul li {
@@ -67,6 +64,14 @@ body {
           .tree-playground .family-manager .person-container ul li .ui-state-highlight {
             height: 1.5em;
             line-height: 1.2em; }
+    .tree-playground .family-manager .conection-container {
+      height: 20%;
+      overflow: auto; }
+      .tree-playground .family-manager .conection-container ul {
+        overflow: auto;
+        height: 100%;
+        margin: 0 auto;
+        list-style: none; }
     .tree-playground .family-manager ::-webkit-scrollbar {
       display: none; }
   .tree-playground .tree-container {

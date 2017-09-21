@@ -40,15 +40,31 @@
             </div>
             <div class="col-md-2 family-manager">
                 <div class="row">
-                    <div class="col-md-12 person-container">
-                        <ul ondragover="allowDrop(event)" ondrop="drop(event)">
-                            {% for i in 0..30 %}
-                                <li id="drag{{ i }}" class="draggableTest person-item" draggable="true" ondragstart="drag(event)" ondragover="makePlace(event)">Test{{ i }} Testowy</li>
-                            {% endfor %}
-                        </ul>
+                    <div class="col-md-12">
+                        <div>
+                            <label>Family persons</label>
+                        </div>
+                        <div class="person-container">
+                            <ul ondragover="allowDrop(event)" ondrop="drop(event)">
+                                {% for i in 0..30 %}
+                                    <li id="person{{ i }}" class="draggableTest person-item" draggable="true" ondragstart="drag(event)" ondragover="makePlace(event)">Test{{ i }} Testowy</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div>
+                            <label>Connections</label>
+                        </div>
+                        <div class="conection-container">
+                            <ul>
+                                {% for i in 0..30 %}
+                                    <li id="connection{{ i }}" draggable="true" ondragstart="drag(event)" ondragover="makePlace(event)"> Test {{ i }} </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
+            <canvas id="paint" style="position: absolute; left: 0; top 0;"></canvas>
         </div>
     </section>
 {% endblock %}
