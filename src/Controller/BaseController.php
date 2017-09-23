@@ -20,10 +20,10 @@ class BaseController
      * @return string
      */
     public function render($viewName, $properties = []) {
-        $loader = new Twig_Loader_Filesystem('Views');
+        $loader = new Twig_Loader_Filesystem('views');
         $twig = new Twig_Environment($loader, array());
         $twig->addFunction(new Twig_SimpleFunction("asset", function($path){
-            return "Web/assets/".$path;
+            return "web/assets/".$path;
         }));
         return $twig->render($viewName, $properties);
     }
