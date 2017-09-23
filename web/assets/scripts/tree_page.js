@@ -150,6 +150,9 @@ function rebuildPersonItem(elem) {
         text: "00.00.0000",
         "style": "font-size: 14px; margin-bottom: 0;"
     }).appendTo("#container_" + elem.id);
+
+    var list = document.querySelector(".table");
+    var draggableList = new DraggableList(list);
 }
 
 function rebuildConnectionItem(elem) {
@@ -194,3 +197,198 @@ var TreeNode = function(id, column, row) {
     this.column = column;
     this.row = row;
 }
+
+var DraggableList = function(listElement)
+{
+    this.elements = [];
+    this.ghostElement = null;
+    this.offset = null;
+    this.selectedElement = null;
+    this.canvas = null;
+
+    var listElements = document.querySelectorAll(".right-dot");
+
+    for(var i = 0; i < listElements.length; i++)
+    {
+        this.elements.push(new DraggableElement(this, listElements[i]));
+    }
+
+    document.addEventListener("mouseup", this.onMouseUp.bind(this));
+    document.addEventListener("mousemove", this.onMouseMove.bind(this));
+}
+
+/**
+ * @param {DraggableElement} element
+ * @param {{x: number, y: number}} offset
+ * @param {{x: number, y: number}} startPos
+ */
+DraggableList.prototype.select = function(element, offset, startPos)
+{
+    //element.addClass("selected");
+
+    this.selectedElement = element;
+    //this.ghostElement = element.element.cloneNode();
+    //this.ghostElement.className = "element ghost";
+    this.canvas = document.createElement("canvas");
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+
+    this.canvas.style.position = "absolute";
+    this.canvas.style.top = "0";
+    this.canvas.style.left = "0";
+
+    this.canvasContext = this.canvas.getContext("2d");
+    this.offset = offset;
+    this.startPos = startPos;
+
+    //this.updateGhostPosition(startPos);
+    this.updateCanvasLine(startPos);
+
+    //document.body.appendChild(this.ghostElement);
+    document.body.appendChild(this.canvas);
+
+};
+
+DraggableList.prototype.onMouseUp = function()
+{
+    if(this.canvas)
+    {
+        this.selectedElement.removeClass("selected");
+
+        //document.body.removeChild(this.ghostElement);
+        document.body.removeChild(this.canvas);
+        this.ghostElement = null;
+        this.selectedElement = null;
+        this.offset = null;
+        this.canvas = null;
+        this.canvasContext = null;
+
+        for(var i = 0; i < this.elements.length; i++)
+        {
+            var element = this.elements[i];
+            element.removeClass("ghost-over");
+        }
+    }
+};
+
+/**
+ * @param {MouseEvent} e
+ */
+DraggableList.prototype.onMouseMove = function(e)
+{
+    if(this.canvas != null)
+    {
+        //this.updateGhostPosition(e);
+        this.updateCanvasLine({ x: e.clientX,  y: e.clientY });
+        var isOver = false;
+
+        for(var i = 0; i < this.elements.length; i++)
+        {
+            var element = this.elements[i];
+
+            if(element == this.selectedElement)
+                continue;
+
+            if(this.intersectsWithPos(element, { x: e.clientX,  y: e.clientY }) && !isOver)
+            {
+                element.addClass("ghost-over");
+                isOver = true;
+            }
+            else
+            {
+                element.removeClass("ghost-over");
+            }
+        }
+    }
+};
+
+/**
+ * @param {{x: number, y: number}} startPos
+ */
+DraggableList.prototype.updateGhostPosition = function(startPos)
+{
+    this.ghostElement.style.left = (startPos.x - this.offset.x) + "px";
+    this.ghostElement.style.top = (startPos.y - this.offset.y) + "px";
+};
+
+DraggableList.prototype.updateCanvasLine = function(pos)
+{
+    this.canvasContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    this.canvasContext.strokeStyle = "black";
+    this.canvasContext.beginPath();
+    this.canvasContext.moveTo(this.startPos.x, this.startPos.y);
+    this.canvasContext.lineTo(pos.x, pos.y);
+    this.canvasContext.stroke();
+};
+
+/**
+ * @param {DraggableElement} element
+ */
+DraggableList.prototype.intersectsWithGhost = function(element)
+{
+    var elementRect = element.element.getBoundingClientRect();
+    var ghostRect = this.ghostElement.getBoundingClientRect();
+
+    return (elementRect.left < ghostRect.right && elementRect.right > ghostRect.left &&
+    elementRect.top < ghostRect.bottom && elementRect.bottom > ghostRect.top );
+};
+
+/**
+ * @param {{ x: number, y: number }} pos
+ */
+DraggableList.prototype.intersectsWithPos = function(element, pos)
+{
+    var elementRect = element.element.getBoundingClientRect();
+
+    return (pos.x > elementRect.left  && pos.x < elementRect.right &&
+    pos.y > elementRect.top && pos.y < elementRect.bottom);
+};
+
+
+/**
+ * @param {DraggableList} list
+ * @param {HTMLElement} element
+ */
+function DraggableElement(list, element)
+{
+    this.list = list;
+    this.element = element;
+
+    this.element.addEventListener("mousedown", this.onMouseDown.bind(this));
+}
+
+/**
+ * @param {string} name
+ */
+DraggableElement.prototype.addClass = function(name)
+{
+    var classes = this.element.className.split(" ");
+    var index = classes.indexOf(name);
+
+    if(index >= 0)
+        return;
+
+    classes.push(name);
+    this.element.className = classes.join(" ");
+};
+
+DraggableElement.prototype.removeClass = function(name)
+{
+    var classes = this.element.className.split(" ");
+    var index = classes.indexOf(name);
+
+    if(index >= 0)
+        classes.splice(index, 1);
+
+    this.element.className = classes.join(" ");
+};
+
+DraggableElement.prototype.onMouseDown = function(e)
+{
+    var rect = this.element.getBoundingClientRect();
+    var offset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+
+    this.list.select(this, offset, { x: e.clientX, y: e.clientY });
+
+    e.preventDefault();
+};

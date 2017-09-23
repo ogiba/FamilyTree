@@ -97,7 +97,7 @@ body {
             }
         }
 
-        .conection-container {
+        .connection-container {
             height: 20%;
             overflow: auto;
 
@@ -154,6 +154,10 @@ body {
                 background: orange;
                 border-radius: 20px;
                 padding: 10px;
+            }
+
+            &:not(.selected).ghost-over{
+                background-color: rgb(200, 100, 100);
             }
 
             .left-dot {

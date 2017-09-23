@@ -64,10 +64,10 @@ body {
           .tree-playground .family-manager .person-container ul li .ui-state-highlight {
             height: 1.5em;
             line-height: 1.2em; }
-    .tree-playground .family-manager .conection-container {
+    .tree-playground .family-manager .connection-container {
       height: 20%;
       overflow: auto; }
-      .tree-playground .family-manager .conection-container ul {
+      .tree-playground .family-manager .connection-container ul {
         overflow: auto;
         height: 100%;
         margin: 0 auto;
@@ -106,6 +106,8 @@ body {
         background: orange;
         border-radius: 20px;
         padding: 10px; }
+      .tree-playground .tree-container .person-item:not(.selected).ghost-over {
+        background-color: #c86464; }
       .tree-playground .tree-container .person-item .left-dot {
         display: none;
         position: absolute;
