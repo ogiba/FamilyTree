@@ -156,7 +156,7 @@ body {
                 padding: 10px;
             }
 
-            &:not(.selected).ghost-over{
+            &.ghost-over{
                 background-color: rgb(200, 100, 100);
             }
 

@@ -60,10 +60,10 @@ function drop(ev) {
                 rebuildConnectionItem(droppedItem)
             }
 
-            if (parentElement.localName === "td" && parentElement.parentElement.localName == "tr") {
+            if (parentElement.localName === "td" && parentElement.parentElement.localName === "tr") {
                 console.log("col:"+parentElement.cellIndex+" row:"+parentElement.parentElement.rowIndex);
 
-                if (parentElement.parentElement.rowIndex == 0) {
+                if (parentElement.parentElement.rowIndex === 0) {
                     addNewRow(true);
 
                     $('html, body').animate({
@@ -74,11 +74,11 @@ function drop(ev) {
                         item.row += 1;
                         console.log(item);
                     });
-                } else if (parentElement.parentElement.rowIndex == parentElement.parentElement.parentElement.childElementCount - 1) {
+                } else if (parentElement.parentElement.rowIndex === parentElement.parentElement.parentElement.childElementCount - 1) {
                     addNewRow(false);
                 }
 
-                if (parentElement.cellIndex == 0) {
+                if (parentElement.cellIndex === 0) {
                     addNewColumn(true);
 
                     $('html, body').animate({
@@ -89,7 +89,7 @@ function drop(ev) {
                         item.column += 1;
                         console.log(item);
                     });
-                } else if (parentElement.cellIndex == parentElement.parentElement.childElementCount - 1) {
+                } else if (parentElement.cellIndex === parentElement.parentElement.childElementCount - 1) {
                     addNewColumn(false);
                 }
 
@@ -152,7 +152,7 @@ function rebuildPersonItem(elem) {
     }).appendTo("#container_" + elem.id);
 
     var list = document.querySelector(".table");
-    var draggableList = new DraggableList(list);
+    var draggableList = new DraggableList(list, elem);
 }
 
 function rebuildConnectionItem(elem) {
@@ -198,7 +198,7 @@ var TreeNode = function(id, column, row) {
     this.row = row;
 }
 
-var DraggableList = function(listElement)
+var DraggableList = function(listElement, parentElem)
 {
     this.elements = [];
     this.ghostElement = null;
@@ -206,11 +206,25 @@ var DraggableList = function(listElement)
     this.selectedElement = null;
     this.canvas = null;
 
-    var listElements = document.querySelectorAll(".right-dot");
+    var items = Array.from(listElement.querySelectorAll(".person-item"));
+    items.push(parentElem);
+    console.log(items);
+
+    var allItems = [];
+    var rightDots = document.querySelectorAll(".right-dot");
+    var topDots = document.querySelectorAll(".top-dot");
+    var bottomDots = document.querySelectorAll(".bottom-dot");
+    var leftDots = document.querySelectorAll(".left-dot");
+    Array.prototype.push.apply(allItems, rightDots);
+    Array.prototype.push.apply(allItems, topDots);
+    Array.prototype.push.apply(allItems, bottomDots);
+    Array.prototype.push.apply(allItems, leftDots);
+    var listElements = allItems;
+
 
     for(var i = 0; i < listElements.length; i++)
     {
-        this.elements.push(new DraggableElement(this, listElements[i]));
+        this.elements.push(new DraggableElement(this, listElements[i], parentElem));
     }
 
     document.addEventListener("mouseup", this.onMouseUp.bind(this));
@@ -276,7 +290,7 @@ DraggableList.prototype.onMouseUp = function()
  */
 DraggableList.prototype.onMouseMove = function(e)
 {
-    if(this.canvas != null)
+    if(this.canvas !== null)
     {
         //this.updateGhostPosition(e);
         this.updateCanvasLine({ x: e.clientX,  y: e.clientY });
@@ -286,7 +300,7 @@ DraggableList.prototype.onMouseMove = function(e)
         {
             var element = this.elements[i];
 
-            if(element == this.selectedElement)
+            if(element === this.selectedElement)
                 continue;
 
             if(this.intersectsWithPos(element, { x: e.clientX,  y: e.clientY }) && !isOver)
@@ -338,7 +352,7 @@ DraggableList.prototype.intersectsWithGhost = function(element)
  */
 DraggableList.prototype.intersectsWithPos = function(element, pos)
 {
-    var elementRect = element.element.getBoundingClientRect();
+    var elementRect = element.parent.getBoundingClientRect();
 
     return (pos.x > elementRect.left  && pos.x < elementRect.right &&
     pos.y > elementRect.top && pos.y < elementRect.bottom);
@@ -349,10 +363,11 @@ DraggableList.prototype.intersectsWithPos = function(element, pos)
  * @param {DraggableList} list
  * @param {HTMLElement} element
  */
-function DraggableElement(list, element)
+function DraggableElement(list, element, parent)
 {
     this.list = list;
     this.element = element;
+    this.parent = parent;
 
     this.element.addEventListener("mousedown", this.onMouseDown.bind(this));
 }
@@ -362,25 +377,25 @@ function DraggableElement(list, element)
  */
 DraggableElement.prototype.addClass = function(name)
 {
-    var classes = this.element.className.split(" ");
+    var classes = this.parent.className.split(" ");
     var index = classes.indexOf(name);
 
     if(index >= 0)
         return;
 
     classes.push(name);
-    this.element.className = classes.join(" ");
+    this.parent.className = classes.join(" ");
 };
 
 DraggableElement.prototype.removeClass = function(name)
 {
-    var classes = this.element.className.split(" ");
+    var classes = this.parent.className.split(" ");
     var index = classes.indexOf(name);
 
     if(index >= 0)
         classes.splice(index, 1);
 
-    this.element.className = classes.join(" ");
+    this.parent.className = classes.join(" ");
 };
 
 DraggableElement.prototype.onMouseDown = function(e)

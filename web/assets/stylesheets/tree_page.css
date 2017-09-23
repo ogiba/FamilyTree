@@ -106,7 +106,7 @@ body {
         background: orange;
         border-radius: 20px;
         padding: 10px; }
-      .tree-playground .tree-container .person-item:not(.selected).ghost-over {
+      .tree-playground .tree-container .person-item.ghost-over {
         background-color: #c86464; }
       .tree-playground .tree-container .person-item .left-dot {
         display: none;
