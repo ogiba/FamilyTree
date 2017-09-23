@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('stylesheets/tree_page.css') }}" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('scripts/plugins/jquery-ui.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('scripts/tree_page.js') }}" type="text/javascript"></script>
+{% endblock %}
+
+{% block header %}
+    <header>
+        {% embed 'default/nav_bar.html.twig' %}
+        {% endembed %}
+    </header>
+{% endblock %}
+
+{% block body %}
+    <section class="tree-playground">
+        <div id="playground" class="row fill">
+            <div class="col-md-10" style="overflow: auto;">
+                <table class="table" style="table-layout: fixed;">
+                    <tbody>
+                    {% set items = 10 %}
+                    {% for i in 0..items %}
+                        <tr>
+                            {% for j in 0..items %}
+                                <td>
+                                    <div class="tree-container" ondragover="allowDrop(event)" ondrop="drop(event,{{items}})">
+                                    </div>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-2 family-manager">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <label>Family persons</label>
+                        </div>
+                        <div class="person-container">
+                            <ul ondragover="allowDrop(event)" ondrop="drop(event)">
+                                {% for i in 0..30 %}
+                                    <li id="person{{ i }}" class="draggableTest person-item" draggable="true" ondragstart="drag(event)" ondragover="makePlace(event)">Test{{ i }} Testowy</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div>
+                            <label>Connections</label>
+                        </div>
+                        <div class="conection-container">
+                            <ul>
+                                {% for i in 0..30 %}
+                                    <li id="connection{{ i }}" draggable="true" ondragstart="drag(event)" ondragover="makePlace(event)"> Test {{ i }} </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <canvas id="paint" style="position: absolute; left: 0; top 0;"></canvas>
+        </div>
+    </section>
+{% endblock %}

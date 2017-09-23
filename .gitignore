@@ -15,6 +15,9 @@
 !var/logs/.gitkeep
 !var/sessions/.gitkeep
 
+# Cache, session files and logs (Custom solution)
+Cache
+
 # Parameters
 /app/config/parameters.yml
 /app/config/parameters.ini
