@@ -35,7 +35,11 @@ class Application
             if ($explodedPath[1] == "post") {
                 $postController = new PostController();
 
-                $postController->postListAction($_REQUEST);
+                if (isset($_REQUEST["id"])) {
+                    $postController->getPostAction($_REQUEST);
+                } else {
+                    $postController->postListAction($_REQUEST);
+                }
             } else if($explodedPath[1] == "test") {
                 $test = new TestController();
                 $test->test($_REQUEST);

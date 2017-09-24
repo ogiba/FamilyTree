@@ -16,8 +16,8 @@ class TestController extends BaseRestController
 {
     public function test($request) {
         //TODO: Allows to place test implementation of required methods and test it via restClient
-        $posts = new FamilyManager();
-        $posts->loadFamilies();
+        $posts = new PostsManager();
+        $posts->loadPosts();
         echo "Tested :D";
     }
 }

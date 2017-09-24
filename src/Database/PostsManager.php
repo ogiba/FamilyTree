@@ -8,25 +8,44 @@
 
 namespace Database;
 
-
-use HttpRequest;
 use Model\Post;
+use Model\PostPage;
 
 class PostsManager extends BaseDatabaseManager
 {
     public function loadPosts($page = 0, $pageSize = 5) {
         $database = $this->createConnection();
-        $stmt = $database->prepare("SELECT * FROM posts LIMIT $page, $pageSize");
+        $selectedPage = $page * $pageSize;
+        $stmt = $database->prepare("SELECT * FROM posts LIMIT $pageSize OFFSET $selectedPage");
         $stmt->execute();
 
         $data = $this->bindResult($stmt);
         $results = array();
 
+        $postPage = new PostPage();
+
         while ($stmt->fetch()){
             $results[] = array("id" => $data["id"]);
         }
 
-        echo json_encode($results);
+        $postPage->setPosts($results);
+
+        $stmt->reset();
+        $stmt = $database->prepare("SELECT COUNT(*) FROM posts");
+
+        $stmt->execute();
+        $countData = $this->bindResult($stmt);
+        if ($stmt->fetch()) {
+            $totalNumberOfItems = $countData["COUNT(*)"];
+            $postPage->setTotalItems($totalNumberOfItems);
+
+            $totalNumberOfPages = ceil($totalNumberOfItems / $pageSize);
+            $postPage->setNumberOfPages($totalNumberOfPages);
+        }
+
+        $postPage->setCurrentPage($page + 1);
+
+        return $postPage;
     }
 
     /**

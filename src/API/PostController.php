@@ -7,6 +7,7 @@
 
 namespace API;
 
+use Database\PostsManager;
 use Model\PostPage;
 
 
@@ -19,42 +20,40 @@ use Model\PostPage;
 
 class PostController extends BaseRestController
 {
-    const DEFAULT_PAGE_SIZE = 10;
-    const STARTING_PAGE = 1;
+    const DEFAULT_PAGE_SIZE = 5;
+    const STARTING_PAGE = 0;
+
+    private $postsManager;
+
+    /**
+     * PostController constructor.
+     */
+    public function __construct()
+    {
+        $this->setupSerializer();
+
+        $this->postsManager = new PostsManager();
+    }
 
 
     public function postListAction($request) {
-        $this->setupSerializer();
-
-        $postsPage = new PostPage();
-
         $pageSize = isset($request["pageSize"]) ? (int)$request["pageSize"] : 0;
         $pageNumber = isset($request["page"]) ?  (int)$request["page"] : 0;
 
         $postPageSize = $pageSize != null && $pageSize > 0 ? $pageSize : self::DEFAULT_PAGE_SIZE;
 
-        $totalNumberOfItems = 10;
-        $totalNumberOfPages = ceil($totalNumberOfItems / $postPageSize);
+        $postsPage = $this->postsManager->loadPosts($pageNumber, $postPageSize);
 
-        $postsPage->setTotalItems($totalNumberOfItems);
+        if (count($postsPage->getPosts()) > 0) {
+            $jsonPage = $this->serializeManager->serializeJson($postsPage);
 
-        $selectedPageNumber = $pageNumber != null && $pageNumber > 0 && $pageNumber <= $totalNumberOfPages ?
-            $pageNumber : self::STARTING_PAGE;
-
-        $postsPage->setNumberOfPages($totalNumberOfPages);
-
-        $postsPage->setCurrentPage($selectedPageNumber);
-
-        $ps = array();
-        for ($i = 0; $i < $postPageSize; $i++) {
-            $ps[$i] = $i;
+            header("Content-Type: application/json");
+            header("HTTP/1.1 200 OK");
+            echo $jsonPage;
+        } else {
+            header("HTTP/1.1 404 Not found");
+            echo "";
         }
-        $postsPage->setPosts($ps);
-
-        $jsonPage = $this->serializeManager->serializeJson($postsPage);
-
-        header('Content-Type: application/json');
-        echo $jsonPage;
     }
 
     function getPostAction($request) {
@@ -65,5 +64,16 @@ class PostController extends BaseRestController
         }
 
         $id = $request["id"];
+        $selectedPost = $this->postsManager->loadPost($id);
+
+        if (!is_null($selectedPost)){
+            $jsonString = $this->serializeManager->serializeJson($selectedPost);
+            header("Content-Type: application/json");
+            header("HTTP/1.1 200 OK");
+            echo $jsonString;
+        } else {
+            header("HTTP/1.1 404 Not found");
+            echo "";
+        }
     }
 }

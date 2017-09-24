@@ -19,7 +19,7 @@ class BaseController
      * @param array $properties
      * @return string
      */
-    public function render($viewName, $properties = []) {
+    protected function render($viewName, $properties = []) {
         $loader = new Twig_Loader_Filesystem('views');
         $twig = new Twig_Environment($loader, array());
         $twig->addFunction(new Twig_SimpleFunction("asset", function($path){
