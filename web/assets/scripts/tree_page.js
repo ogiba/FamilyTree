@@ -54,11 +54,11 @@ function drop(ev) {
             parentElement.id.indexOf("container_") === -1 &&
             parentElement.childNodes[1].childNodes.length < 2) {
 
-            if (droppedItem.parentElement.localName === "ul" && droppedItem.id.startsWith("person")) {
-                rebuildPersonItem(droppedItem)
-            } else if (droppedItem.parentElement.localName === "ul" && droppedItem.id.startsWith("connection")) {
-                rebuildConnectionItem(droppedItem)
-            }
+            // if (droppedItem.parentElement.localName === "ul" && droppedItem.id.startsWith("person")) {
+            //     rebuildPersonItem(droppedItem)
+            // } else if (droppedItem.parentElement.localName === "ul" && droppedItem.id.startsWith("connection")) {
+            //     rebuildConnectionItem(droppedItem)
+            // }
 
             if (parentElement.localName === "td" && parentElement.parentElement.localName === "tr") {
                 console.log("col:"+parentElement.cellIndex+" row:"+parentElement.parentElement.rowIndex);
@@ -98,76 +98,118 @@ function drop(ev) {
                 console.log(treeItems);
             }
 
-            ev.target.appendChild(droppedItem);
+            if (droppedItem.parentElement.localName === "ul" && droppedItem.id.startsWith("person")) {
+                rebuildPersonItem(droppedItem, ev.target)
+            } else if (droppedItem.parentElement.localName === "ul" && droppedItem.id.startsWith("connection")) {
+                rebuildConnectionItem(droppedItem)
+            } else {
+                ev.target.appendChild(droppedItem);
+            }
         }
     }
 }
 
-function rebuildPersonItem(elem) {
+function rebuildPersonItem(elem, parent) {
     var text = elem.childNodes[0];
     elem.innerHTML = "";
 
-    $("<div/>", {
-        "class" : "left-dot"
-    }).appendTo(elem);
+    // $("<div/>", {
+    //     "class" : "left-dot"
+    // }).appendTo(elem);
+    //
+    // $("<div/>", {
+    //     "class" : "top-dot"
+    // }).appendTo(elem);
+    //
+    // $("<div/>", {
+    //     "class" : "bottom-dot"
+    // }).appendTo(elem);
+    //
+    // $("<div/>", {
+    //     "class" : "right-dot"
+    // }).appendTo(elem);
+    //
+    // $("<div/>", {
+    //     id: "container_img_" + elem.id,
+    //     "style": "height: 50%; text-align: center;"
+    // }).appendTo(elem);
+    //
+    // $("<img>", {
+    // }).appendTo("#container_img_" + elem.id);
+    //
+    // $("<div/>", {
+    //     id: "container_" + elem.id,
+    //     "style": "height: 50%; line-height: 1;"
+    // }).appendTo(elem);
+    //
+    // $("<label/>", {
+    //     text: text.data,
+    //     "style": "margin-bottom: 0;"
+    // }).appendTo("#container_" + elem.id);
+    //
+    // $("<div/>", {
+    //     text: "00.00.0000",
+    //     "style": "font-size: 14px; margin-bottom: 0;"
+    // }).appendTo("#container_" + elem.id);
+    //
+    // $("<div/>", {
+    //     text: "00.00.0000",
+    //     "style": "font-size: 14px; margin-bottom: 0;"
+    // }).appendTo("#container_" + elem.id);
+    $.get("/tree/rebuild?data=" + text.data + "&id=" + elem.id, function (data) {
+        elem.innerHTML = data;
 
-    $("<div/>", {
-        "class" : "top-dot"
-    }).appendTo(elem);
+        var list = document.querySelector(".table");
+        var draggableList = new DraggableList(list, elem);
 
-    $("<div/>", {
-        "class" : "bottom-dot"
-    }).appendTo(elem);
+        draggableList.onDraggingItemMouseEnter = function(item)
+        {
+            addClass(item.element, "ghost-over");
+        };
 
-    $("<div/>", {
-        "class" : "right-dot"
-    }).appendTo(elem);
+        draggableList.onDraggingItemMouseLeave = function(item)
+        {
+            removeClass(item.element, "ghost-over");
+        };
 
-    $("<div/>", {
-        id: "container_img_" + elem.id,
-        "style": "height: 50%; text-align: center;"
-    }).appendTo(elem);
+        draggableList.onItemConnected = function(item, dot)
+        {
+            var cellIndex = item.element.parentNode.parentNode.cellIndex;
+            var rowIndex = item.element.parentNode.parentNode.parentNode.rowIndex;
 
-    $("<img>", {
-    }).appendTo("#container_img_" + elem.id);
+            console.log("Position("+cellIndex+","+rowIndex+")");
 
-    $("<div/>", {
-        id: "container_" + elem.id,
-        "style": "height: 50%; line-height: 1;"
-    }).appendTo(elem);
+            var cells = document.querySelectorAll("td");
 
-    $("<label/>", {
-        text: text.data,
-        "style": "margin-bottom: 0;"
-    }).appendTo("#container_" + elem.id);
+            cells.forEach(function (item) {
+                if (item.cellIndex === cellIndex - 1 && item.parentNode.rowIndex === rowIndex){
+                    console.log("same row");
+                }
+            });
 
-    $("<div/>", {
-        text: "00.00.0000",
-        "style": "font-size: 14px; margin-bottom: 0;"
-    }).appendTo("#container_" + elem.id);
+            addClass(item.element, "selected");
+        };
 
-    $("<div/>", {
-        text: "00.00.0000",
-        "style": "font-size: 14px; margin-bottom: 0;"
-    }).appendTo("#container_" + elem.id);
+        parent.appendChild(elem);
+    });
 
-    var list = document.querySelector(".table");
-    var draggableList = new DraggableList(list, elem);
-
-    draggableList.onDraggingItemMouseEnter = function(item)
-    {
-        addClass(item.element, "ghost-over");
-    };
-
-    draggableList.onDraggingItemMouseLeave = function(item)
-    {
-        removeClass(item.element, "ghost-over");
-    };
-
-    draggableList.onItemConnected = function(item)
-    {
-        addClass(item.element, "selected");
-    };
+    // var list = document.querySelector(".table");
+    // var draggableList = new DraggableList(list, elem);
+    //
+    // draggableList.onDraggingItemMouseEnter = function(item)
+    // {
+    //     addClass(item.element, "ghost-over");
+    // };
+    //
+    // draggableList.onDraggingItemMouseLeave = function(item)
+    // {
+    //     removeClass(item.element, "ghost-over");
+    // };
+    //
+    // draggableList.onItemConnected = function(item)
+    // {
+    //     addClass(item.element, "selected");
+    // };
 }
 
 function rebuildConnectionItem(elem) {

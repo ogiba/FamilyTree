@@ -30,7 +30,12 @@ class Application
             }
         } else if ($explodedPath[0] == "tree") {
             $controller = new TreeController();
-            $controller->indexAction();
+
+            if(count($explodedPath) > 1 && $explodedPath[1] == "rebuild") {
+                $controller->rebuildItem($_REQUEST);
+            } else {
+                $controller->indexAction();
+            }
         } else if ($explodedPath[0] == "api") {
             if ($explodedPath[1] == "post") {
                 $postController = new PostController();
