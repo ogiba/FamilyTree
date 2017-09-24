@@ -9,14 +9,15 @@
 namespace API;
 
 
+use Database\FamilyManager;
 use Database\PostsManager;
 
 class TestController extends BaseRestController
 {
     public function test($request) {
         //TODO: Allows to place test implementation of required methods and test it via restClient
-        $posts = new PostsManager();
-        $posts->loadPost($request);
+        $posts = new FamilyManager();
+        $posts->loadFamilies();
         echo "Tested :D";
     }
 }

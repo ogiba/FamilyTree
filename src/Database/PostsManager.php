@@ -32,17 +32,10 @@ class PostsManager extends BaseDatabaseManager
     /**
      * Allows to get post by his ID from database
      *
-     * @param $request
+     * @param $id
+     * @return Post mixed|null
      */
-    public function loadPost($request) {
-        if (!isset($request["id"]) || empty($request["id"])){
-            header("HTTP/1.1 422 Missing required parameter");
-            echo "Required parameter not set";
-            return;
-        }
-
-        $id = $request["id"];
-
+    public function loadPost($id) {
         $database = $this->createConnection();
         $stmt = $database->prepare("SELECT * FROM posts WHERE id = ?");
         $stmt->bind_param("i", $id);
@@ -52,10 +45,10 @@ class PostsManager extends BaseDatabaseManager
 
         if ($stmt->fetch()){
             $result = $this->arrayToObject($data, Post::class);
-            echo json_encode($result);
+            return $result;
         } else {
             header("HTTP/1.1 404 Not found");
-            echo "";
+            return null;
         }
     }
 }

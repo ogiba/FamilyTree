@@ -56,4 +56,14 @@ class PostController extends BaseRestController
         header('Content-Type: application/json');
         echo $jsonPage;
     }
+
+    function getPostAction($request) {
+        if (!isset($request["id"]) || empty($request["id"])){
+            header("HTTP/1.1 422 Missing required parameter");
+            echo "Required parameter not set";
+            return;
+        }
+
+        $id = $request["id"];
+    }
 }
