@@ -153,6 +153,21 @@ function rebuildPersonItem(elem) {
 
     var list = document.querySelector(".table");
     var draggableList = new DraggableList(list, elem);
+
+    draggableList.onDraggingItemMouseEnter = function(item)
+    {
+        addClass(item.element, "ghost-over");
+    };
+
+    draggableList.onDraggingItemMouseLeave = function(item)
+    {
+        removeClass(item.element, "ghost-over");
+    };
+
+    draggableList.onItemConnected = function(item)
+    {
+        addClass(item.element, "selected");
+    };
 }
 
 function rebuildConnectionItem(elem) {
@@ -198,33 +213,55 @@ var TreeNode = function(id, column, row) {
     this.row = row;
 }
 
-var DraggableList = function(listElement, parentElem)
+/**
+ * @param {string} name
+ */
+function addClass(element, name)
+{
+    var classes = element.className.split(" ");
+    var index = classes.indexOf(name);
+
+    if(index >= 0)
+        return;
+
+    classes.push(name);
+    element.className = classes.join(" ");
+};
+
+function removeClass(element, name)
+{
+    var classes = element.className.split(" ");
+    var index = classes.indexOf(name);
+
+    if(index >= 0)
+        classes.splice(index, 1);
+
+    element.className = classes.join(" ");
+};
+
+/**
+ *  @class
+ */
+var DraggableList = function (listElement, parentElement)
 {
     this.elements = [];
-    this.ghostElement = null;
     this.offset = null;
     this.selectedElement = null;
+    this.selectDot = null;
+    this.draggingOverElement = null;
     this.canvas = null;
 
-    var items = Array.from(listElement.querySelectorAll(".person-item"));
-    items.push(parentElem);
-    console.log(items);
+    this.onDraggingItemMouseEnter = null;
+    this.onDraggingItemMouseLeave = null;
+    this.onItemConnected = null;
 
-    var allItems = [];
-    var rightDots = document.querySelectorAll(".right-dot");
-    var topDots = document.querySelectorAll(".top-dot");
-    var bottomDots = document.querySelectorAll(".bottom-dot");
-    var leftDots = document.querySelectorAll(".left-dot");
-    Array.prototype.push.apply(allItems, rightDots);
-    Array.prototype.push.apply(allItems, topDots);
-    Array.prototype.push.apply(allItems, bottomDots);
-    Array.prototype.push.apply(allItems, leftDots);
-    var listElements = allItems;
+    var listElements = Array.from(listElement.querySelectorAll(".person-item"));
+    listElements.push(parentElement);
 
 
     for(var i = 0; i < listElements.length; i++)
     {
-        this.elements.push(new DraggableElement(this, listElements[i], parentElem));
+        this.elements.push(new DraggableElement(this, listElements[i]));
     }
 
     document.addEventListener("mouseup", this.onMouseUp.bind(this));
@@ -236,13 +273,11 @@ var DraggableList = function(listElement, parentElem)
  * @param {{x: number, y: number}} offset
  * @param {{x: number, y: number}} startPos
  */
-DraggableList.prototype.select = function(element, offset, startPos)
+DraggableList.prototype.select = function(element, offset, startPos, dot)
 {
-    //element.addClass("selected");
-
     this.selectedElement = element;
-    //this.ghostElement = element.element.cloneNode();
-    //this.ghostElement.className = "element ghost";
+    this.selectedDot = dot;
+
     this.canvas = document.createElement("canvas");
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
@@ -255,33 +290,45 @@ DraggableList.prototype.select = function(element, offset, startPos)
     this.offset = offset;
     this.startPos = startPos;
 
-    //this.updateGhostPosition(startPos);
     this.updateCanvasLine(startPos);
 
-    //document.body.appendChild(this.ghostElement);
     document.body.appendChild(this.canvas);
+};
 
+DraggableList.prototype.deselect = function()
+{
+    if(this.draggingOverElement && this.onItemConnected)
+        this.onItemConnected(this.draggingOverElement, this.selectDot);
+
+    document.body.removeChild(this.canvas);
+
+    this.ghostElement = null;
+    this.selectedElement = null;
+    this.offset = null;
+    this.selectDot = null;
+    this.canvas = null;
+    this.canvasContext = null;
+    this.draggingOverElement = null;
+
+    for(var i = 0; i < this.elements.length; i++)
+    {
+        var element = this.elements[i];
+
+        if(element.draggingMouseIsOver)
+        {
+            element.draggingMouseIsOver = false;
+
+            if(this.onDraggingItemMouseLeave)
+                this.onDraggingItemMouseLeave(element);
+        }
+    }
 };
 
 DraggableList.prototype.onMouseUp = function()
 {
     if(this.canvas)
     {
-        this.selectedElement.removeClass("selected");
-
-        //document.body.removeChild(this.ghostElement);
-        document.body.removeChild(this.canvas);
-        this.ghostElement = null;
-        this.selectedElement = null;
-        this.offset = null;
-        this.canvas = null;
-        this.canvasContext = null;
-
-        for(var i = 0; i < this.elements.length; i++)
-        {
-            var element = this.elements[i];
-            element.removeClass("ghost-over");
-        }
+        this.deselect();
     }
 };
 
@@ -292,9 +339,7 @@ DraggableList.prototype.onMouseMove = function(e)
 {
     if(this.canvas !== null)
     {
-        //this.updateGhostPosition(e);
         this.updateCanvasLine({ x: e.clientX,  y: e.clientY });
-        var isOver = false;
 
         for(var i = 0; i < this.elements.length; i++)
         {
@@ -303,14 +348,27 @@ DraggableList.prototype.onMouseMove = function(e)
             if(element === this.selectedElement)
                 continue;
 
-            if(this.intersectsWithPos(element, { x: e.clientX,  y: e.clientY }) && !isOver)
+            if(this.intersectsWithPos(element, { x: e.clientX,  y: e.clientY }))
             {
-                element.addClass("ghost-over");
-                isOver = true;
+                if(!element.draggingMouseIsOver && !this.draggingOverElement)
+                {
+                    if(this.onDraggingItemMouseEnter)
+                        this.onDraggingItemMouseEnter(element);
+
+                    element.draggingMouseIsOver = true;
+                    this.draggingOverElement = element;
+                }
             }
             else
             {
-                element.removeClass("ghost-over");
+                if(element.draggingMouseIsOver)
+                {
+                    if(this.onDraggingItemMouseLeave)
+                        this.onDraggingItemMouseLeave(element);
+
+                    element.draggingMouseIsOver = false;
+                    this.draggingOverElement = null;
+                }
             }
         }
     }
@@ -352,7 +410,7 @@ DraggableList.prototype.intersectsWithGhost = function(element)
  */
 DraggableList.prototype.intersectsWithPos = function(element, pos)
 {
-    var elementRect = element.parent.getBoundingClientRect();
+    var elementRect = element.element.getBoundingClientRect();
 
     return (pos.x > elementRect.left  && pos.x < elementRect.right &&
     pos.y > elementRect.top && pos.y < elementRect.bottom);
@@ -360,50 +418,33 @@ DraggableList.prototype.intersectsWithPos = function(element, pos)
 
 
 /**
+ * @class
  * @param {DraggableList} list
  * @param {HTMLElement} element
  */
-function DraggableElement(list, element, parent)
+function DraggableElement(list, element)
 {
     this.list = list;
     this.element = element;
-    this.parent = parent;
+    this.draggingMouseIsOver = false;
 
-    this.element.addEventListener("mousedown", this.onMouseDown.bind(this));
+    var rightDot = element.querySelector(".right-dot");
+    var topDot = element.querySelector(".top-dot");
+    var bottomDot = element.querySelector(".bottom-dot");
+    var leftDot = element.querySelector(".left-dot");
+
+    rightDot.addEventListener("mousedown", this.onMouseDown.bind(this, rightDot));
+    topDot.addEventListener("mousedown", this.onMouseDown.bind(this, topDot));
+    bottomDot.addEventListener("mousedown", this.onMouseDown.bind(this, bottomDot));
+    leftDot.addEventListener("mousedown", this.onMouseDown.bind(this, leftDot));
 }
 
-/**
- * @param {string} name
- */
-DraggableElement.prototype.addClass = function(name)
-{
-    var classes = this.parent.className.split(" ");
-    var index = classes.indexOf(name);
-
-    if(index >= 0)
-        return;
-
-    classes.push(name);
-    this.parent.className = classes.join(" ");
-};
-
-DraggableElement.prototype.removeClass = function(name)
-{
-    var classes = this.parent.className.split(" ");
-    var index = classes.indexOf(name);
-
-    if(index >= 0)
-        classes.splice(index, 1);
-
-    this.parent.className = classes.join(" ");
-};
-
-DraggableElement.prototype.onMouseDown = function(e)
+DraggableElement.prototype.onMouseDown = function(dot, e)
 {
     var rect = this.element.getBoundingClientRect();
     var offset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
 
-    this.list.select(this, offset, { x: e.clientX, y: e.clientY });
+    this.list.select(this, offset, { x: e.clientX, y: e.clientY }, dot);
 
     e.preventDefault();
 };

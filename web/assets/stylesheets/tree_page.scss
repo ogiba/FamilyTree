@@ -156,8 +156,12 @@ body {
                 padding: 10px;
             }
 
-            &.ghost-over{
-                background-color: rgb(200, 100, 100);
+            &.selected{
+                background: olive;
+            }
+
+            &:not(.selected).ghost-over{
+                background: skyblue;
             }
 
             .left-dot {
