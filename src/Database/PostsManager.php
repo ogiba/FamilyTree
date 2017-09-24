@@ -13,6 +13,13 @@ use Model\PostPage;
 
 class PostsManager extends BaseDatabaseManager
 {
+    /**
+     * Load posts from db and return it as {@link PostPage} model
+     *
+     * @param int $page
+     * @param int $pageSize
+     * @return PostPage
+     */
     public function loadPosts($page = 0, $pageSize = 5) {
         $database = $this->createConnection();
         $selectedPage = $page * $pageSize;
@@ -25,7 +32,8 @@ class PostsManager extends BaseDatabaseManager
         $postPage = new PostPage();
 
         while ($stmt->fetch()){
-            $results[] = array("id" => $data["id"]);
+            $post = $this->arrayToObject($data, Post::class);
+            $results[] = $post;
         }
 
         $postPage->setPosts($results);
@@ -49,7 +57,7 @@ class PostsManager extends BaseDatabaseManager
     }
 
     /**
-     * Allows to get post by his ID from database
+     * Allows to get post by his {@see $id} from database
      *
      * @param $id
      * @return Post mixed|null

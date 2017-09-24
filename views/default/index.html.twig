@@ -13,15 +13,15 @@
                 <div class="about-me">
                     <div class="title">
                         {#{{ 'about.me'| trans }}#}
-                        About me
+                        {{ aboutInfo.section }}
                     </div>
                     <div class="image">
-                        {% if aboutInfo.getImage() != null %}
+                        {% if aboutInfo.image != null %}
                             <img src="" alt="Image">
                         {% endif %}
                     </div>
                     <div class="desc">
-                        {{ aboutInfo.getDesc() }}
+                        {{ aboutInfo.content }}
                     </div>
                 </div>
             </aside>

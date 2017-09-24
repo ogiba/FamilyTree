@@ -8,10 +8,16 @@
 namespace Model;
 
 
-class About
+use JsonSerializable;
+
+class About implements JsonSerializable
 {
-    private $desc;
-    private $image;
+    public $id;
+    public $content;
+    public $image;
+    public $section;
+    public $dateTime;
+
 
     /**
      * About constructor.
@@ -19,15 +25,27 @@ class About
      */
     public function __construct($desc)
     {
-        $this->desc = $desc;
+        $this->content = $desc;
     }
+
+    function jsonSerialize()
+    {
+        return [
+            "id" => $this->id,
+            "content" => $this->content,
+            "image" => $this->content,
+            "section" => $this->section,
+            "dateTime" => $this->dateTime
+        ];
+    }
+
 
     /**
      * @return mixed
      */
     public function getDesc()
     {
-        return $this->desc;
+        return $this->content;
     }
 
     /**
@@ -54,5 +72,11 @@ class About
         $this->image = $image;
     }
 
-
+    /**
+     * @param mixed $section
+     */
+    public function setSection($section)
+    {
+        $this->section = $section;
+    }
 }
