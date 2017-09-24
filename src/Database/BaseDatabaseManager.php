@@ -8,11 +8,12 @@
 
 namespace Database;
 
+use Model\Config;
 use Utils\SerializeManager;
 
 class BaseDatabaseManager
 {
-    function createConnection(){
+    protected function createConnection(){
         $jsonString = file_get_contents('config.json', true);
         $config = new Config();
         SerializeManager::deserializeJson($jsonString, $config);//json_decode($jsonString, true);
@@ -21,7 +22,7 @@ class BaseDatabaseManager
         return $mySql;
     }
 
-    function &bindResult($stmt) {
+    protected function &bindResult($stmt) {
         $variables = array();
         $data = array();
         $meta = $stmt->result_metadata();
