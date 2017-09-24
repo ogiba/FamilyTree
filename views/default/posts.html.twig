@@ -3,6 +3,7 @@
         {% for post in postsPage.posts %}
             {% include 'default/post.html.twig' %}
         {% endfor %}
+        {% if postsPage.numberOfPages > 1 %}
         <div class="paging">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
@@ -16,10 +17,12 @@
                     {% endfor %}
                     {% if postsPage.currentPage < postsPage.numberOfPages %}
                         <li class="page-item"><a class="page-link"
-                                                 onclick="selectPage({{ (postsPage.currentPage -1) + 1 }})">Next</a></li>
+                                                 onclick="selectPage({{ (postsPage.currentPage -1) + 1 }})">Next</a>
+                        </li>
                     {% endif %}
                 </ul>
             </nav>
         </div>
+        {% endif %}
     </div>
 {% endblock %}
