@@ -11,7 +11,7 @@ namespace Database;
 use Model\Config;
 use Utils\SerializeManager;
 
-class BaseDatabaseManager
+abstract class BaseDatabaseManager
 {
     protected function createConnection(){
         $jsonString = file_get_contents('config.json', true);
@@ -37,5 +37,15 @@ class BaseDatabaseManager
         call_user_func_array(array($stmt, 'bind_result'), $variables);
 
         return $data;
+    }
+
+
+    protected function arrayToObject(array $array, $className) {
+        return unserialize(sprintf(
+            'O:%d:"%s"%s',
+            strlen($className),
+            $className,
+            strstr(serialize($array), ':')
+        ));
     }
 }

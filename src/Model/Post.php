@@ -8,12 +8,17 @@
 namespace Model;
 
 
-class Post
+use JsonSerializable;
+
+class Post implements JsonSerializable
 {
-    private $title;
-    private $content;
-    private $images;
-    private $dateTime;
+    public $id;
+    public $title;
+    public $content;
+    public $author;
+    public $published;
+    public $images;
+    public $timeStamp;
 
     /**
      * Post constructor.
@@ -28,6 +33,25 @@ class Post
         $this->dateTime = $dateTime;
     }
 
+    function jsonSerialize()
+    {
+        return [
+            "id" => $this->id,
+            "title" => $this->title,
+            "content" => $this->content,
+            "author" => $this->author,
+            "published" => $this->published,
+            "timeStamp" => $this->timeStamp
+        ];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @return mixed
@@ -64,6 +88,40 @@ class Post
     /**
      * @return mixed
      */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param mixed $author
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * @param mixed $published
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
+    }
+
+
+
+    /**
+     * @return mixed
+     */
     public function getImages()
     {
         return $this->images;
@@ -82,7 +140,7 @@ class Post
      */
     public function getDateTime()
     {
-        return $this->dateTime;
+        return $this->timeStamp;
     }
 
     /**
