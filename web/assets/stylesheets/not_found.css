@@ -1,0 +1,21 @@
+header {
+  height: auto;
+  background: none; }
+
+.nav-bar {
+  position: fixed;
+  top: 0;
+  bottom: auto; }
+
+.not-found {
+  height: 100vh; }
+  .not-found .container {
+    height: 100%; }
+    .not-found .container .row {
+      height: 100%; }
+      .not-found .container .row .col-md-12 {
+        height: 100%; }
+        .not-found .container .row .col-md-12 .information {
+          transition: 0.5s all;
+          padding: 40vh;
+          text-align: center; }

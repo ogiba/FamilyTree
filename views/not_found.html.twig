@@ -1,0 +1,32 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Not found
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('stylesheets/not_found.css') }}" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block header %}
+    <header>
+        {% embed 'default/nav_bar.html.twig' %}
+        {% endembed %}
+    </header>
+{% endblock %}
+
+
+{% block body %}
+    <section class="not-found">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="information">
+                        <h1 style="text-align: center;">404 Not found</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -2,6 +2,7 @@
 use API\PostController;
 use API\TestController;
 use Controller\IndexController;
+use Controller\NotFoundController;
 use Controller\TreeController;
 
 /**
@@ -39,6 +40,9 @@ class Application
                 $test = new TestController();
                 $test->test($_REQUEST);
             }
+        } else {
+            $notFound = new NotFoundController();
+            $notFound->notFoundAction();
         }
     }
 }
