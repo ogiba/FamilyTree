@@ -1,5 +1,6 @@
 <?php
 use API\PostController;
+use API\TestController;
 use Controller\IndexController;
 use Controller\TreeController;
 
@@ -34,6 +35,9 @@ class Application
                 $postController = new PostController();
 
                 $postController->postListAction($_REQUEST);
+            } else if($explodedPath[1] == "test") {
+                $test = new TestController();
+                $test->test($_REQUEST);
             }
         }
     }
