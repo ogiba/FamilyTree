@@ -7,6 +7,8 @@
 
 namespace API;
 
+use Utils\SerializeManager;
+
 abstract class BaseRestController
 {
     protected  $serializeManager;

@@ -1,6 +1,6 @@
 <?php
 
-namespace API;
+namespace Utils;
 /**
  * Created by PhpStorm.
  * User: ogiba
@@ -14,9 +14,8 @@ class SerializeManager
         $jsonData = json_encode($data);
         return $jsonData;
     }
-    public function deserializeJson($jsonData, $class) {
+    public static function deserializeJson($jsonData, $class) {
         $data = json_decode($jsonData,true);
         foreach ($data as $key => $value) $class->{$key} = $value;
-        return $data;
     }
 }
