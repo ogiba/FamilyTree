@@ -6,7 +6,7 @@
  * Time: 01:42
  */
 
-namespace Database;
+namespace Model;
 
 
 use JsonSerializable;
