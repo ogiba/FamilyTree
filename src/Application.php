@@ -64,10 +64,13 @@ class Application
             } else if ($explodedPath[1] == "login") {
                 $login = new LoginController();
                 if (count($explodedPath) > 2) {
-                    $login->loginUser($_POST);
+                    $login->loginAction($_POST);
                 } else {
                     $login->indexAction();
                 }
+            } else if ($explodedPath[1] == "logout") {
+                $login = new LoginController();
+                $login->logoutAction();
             }
         } else {
             $notFound = new NotFoundController();

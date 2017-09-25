@@ -20,7 +20,7 @@ class LoginController extends BaseController
         echo $this->render("admin/login.html.twig");
     }
 
-    public function loginUser($data){
+    public function loginAction($data){
         $serializer = new SerializeManager();
         if(!isset($data["username"])){
             $response = new Response("Required username", 422);
@@ -61,5 +61,19 @@ class LoginController extends BaseController
         $json = $serializer->serializeJson($response);
         echo $json;
         exit;
+    }
+
+    public function logoutAction() {
+        $manager = new LoginManager();
+        $serializer = new SerializeManager();
+        $isLoggedOut = $manager->logoutUser();
+
+        if ($isLoggedOut) {
+            $response = new Response("User logged out", 200);
+            header("HTTP/1.1 200 OK");
+            header("Content-Type: application/json");
+            echo $serializer->serializeJson($response);
+            header( "Location: /" );
+        }
     }
 }

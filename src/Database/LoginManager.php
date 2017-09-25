@@ -31,6 +31,24 @@ class LoginManager extends BaseDatabaseManager
         return null;
     }
 
+    /**
+     * @return bool
+     */
+    public function logoutUser(){
+        if (is_null($_SESSION["token"]) || !isset($_SESSION["token"])){
+            return false;
+        }
+        $currentToken = $_SESSION["token"];
+
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("DELETE FROM login_attempts WHERE token = ?");
+        $stmt->bind_param("s", $currentToken);
+        $stmt->execute();
+
+        $_SESSION["token"] = null;
+        return true;
+    }
+
     private function insertAttempt($id, $username) {
         $token = md5(uniqid($username, true));
 

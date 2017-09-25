@@ -17,6 +17,10 @@
 {% block header %}
     <header>
         {% embed 'default/nav_bar.html.twig' %}
+            {% block nav_items %}
+                {{ parent() }}
+                <div class="nav-btn" onclick='navigateToScene("/admin/logout")'>Logout</div>
+            {% endblock %}
         {% endembed %}
     </header>
 {% endblock %}
