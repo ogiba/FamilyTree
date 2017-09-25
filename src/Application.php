@@ -1,6 +1,9 @@
 <?php
+
 use API\PostController;
 use API\TestController;
+use Controller\Admin\LoginController;
+use Controller\Admin\PanelController;
 use Controller\IndexController;
 use Controller\NotFoundController;
 use Controller\TreeController;
@@ -11,8 +14,12 @@ use Controller\TreeController;
  * Date: 23.09.2017
  * Time: 00:23
  */
+
+session_start();
+
 class Application
 {
+
     public function run(){
         $path = "";
         if (isset($_GET["path"])) {
@@ -45,9 +52,17 @@ class Application
                 } else {
                     $postController->postListAction($_REQUEST);
                 }
-            } else if($explodedPath[1] == "test") {
+            } else if ($explodedPath[1] == "test") {
                 $test = new TestController();
                 $test->test($_REQUEST);
+            }
+        } else if ($explodedPath[0] == "admin"){
+            if (count($explodedPath) == 1) {
+                $panel = new PanelController();
+                $panel->indexAction();
+            } else if($explodedPath[1] == "login") {
+                $login = new LoginController();
+                $login->indexAction();
             }
         } else {
             $notFound = new NotFoundController();
