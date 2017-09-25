@@ -1,0 +1,25 @@
+header {
+  height: auto;
+  background: none; }
+
+.nav-bar {
+  position: relative; }
+  .nav-bar.flying {
+    position: fixed;
+    top: 0;
+    bottom: auto; }
+
+.login-page .container {
+  margin-top: 10%; }
+  .login-page .container .row .col-md-4 .form {
+    padding: 10px;
+    background-color: #999999;
+    border-radius: 10px; }
+    .login-page .container .row .col-md-4 .form input {
+      width: 100%; }
+    .login-page .container .row .col-md-4 .form label, .login-page .container .row .col-md-4 .form button {
+      margin-top: 10px; }
+    .login-page .container .row .col-md-4 .form .form-check {
+      text-align: center; }
+    .login-page .container .row .col-md-4 .form button {
+      width: 100%; }

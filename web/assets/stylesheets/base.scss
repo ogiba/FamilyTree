@@ -8,6 +8,12 @@ header{
     background: cadetblue;
 }
 
+section {
+    &.marginned {
+        margin-top: 64px;
+    }
+}
+
 .nav-bar {
     position: absolute;
     bottom: 0;

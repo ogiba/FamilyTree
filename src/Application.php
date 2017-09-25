@@ -20,7 +20,8 @@ session_start();
 class Application
 {
 
-    public function run(){
+    public function run()
+    {
         $path = "";
         if (isset($_GET["path"])) {
             $path = $_GET["path"];
@@ -29,8 +30,8 @@ class Application
         $explodedPath = explode("/", $path);
 
         if ($explodedPath[0] == "") {
-                $index = new IndexController();
-            if (isset($_GET["postPage"])){
+            $index = new IndexController();
+            if (isset($_GET["postPage"])) {
                 $index->postPageAction($_GET["postPage"]);
             } else {
                 $index->indexAction();
@@ -38,7 +39,7 @@ class Application
         } else if ($explodedPath[0] == "tree") {
             $controller = new TreeController();
 
-            if(count($explodedPath) > 1 && $explodedPath[1] == "rebuild") {
+            if (count($explodedPath) > 1 && $explodedPath[1] == "rebuild") {
                 $controller->rebuildItem($_REQUEST);
             } else {
                 $controller->indexAction();
@@ -56,13 +57,18 @@ class Application
                 $test = new TestController();
                 $test->test($_REQUEST);
             }
-        } else if ($explodedPath[0] == "admin"){
+        } else if ($explodedPath[0] == "admin") {
             if (count($explodedPath) == 1) {
                 $panel = new PanelController();
                 $panel->indexAction();
-            } else if($explodedPath[1] == "login") {
+            } else if ($explodedPath[1] == "login") {
                 $login = new LoginController();
-                $login->indexAction();
+                if (count($explodedPath) > 2) {
+                    header("Content-Type: application/json", true);
+                    $test = "";
+                } else {
+                    $login->indexAction();
+                }
             }
         } else {
             $notFound = new NotFoundController();

@@ -1,0 +1,46 @@
+header {
+    height: auto;
+    background: none;
+}
+
+.nav-bar {
+    position: relative;
+
+    &.flying {
+        position: fixed;
+        top: 0;
+        bottom: auto;
+    }
+}
+
+.login-page {
+    .container {
+        margin-top: 10%;
+
+        .row {
+            .col-md-4 {
+                .form {
+                    padding: 10px;
+                    background-color: #999999;
+                    border-radius: 10px;
+
+                    input {
+                        width: 100%;
+                    }
+
+                    label, button{
+                        margin-top: 10px;
+                    }
+
+                    .form-check {
+                        text-align: center;
+                    }
+
+                    button {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}

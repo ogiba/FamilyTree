@@ -23,7 +23,7 @@ class BaseController
         $loader = new Twig_Loader_Filesystem('views');
         $twig = new Twig_Environment($loader, array());
         $twig->addFunction(new Twig_SimpleFunction("asset", function($path){
-            return "web/assets/".$path;
+            return "/web/assets/".$path;
         }));
         return $twig->render($viewName, $properties);
     }

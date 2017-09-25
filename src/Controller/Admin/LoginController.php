@@ -16,4 +16,8 @@ class LoginController extends BaseController
     public function indexAction() {
         echo $this->render("admin/login.html.twig");
     }
+
+    public function loginUser(){
+
+    }
 }

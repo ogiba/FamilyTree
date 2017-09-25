@@ -8,19 +8,12 @@
 
 namespace Controller\Admin;
 
-
-use Controller\BaseController;
-
 session_start();
 
-class PanelController extends BaseController
+class PanelController extends BaseAdminController
 {
-    public function indexAction(){
-        if(!isset($_SESSION['token']) || empty($_SESSION['token'])){
-            header("location: admin/login");
-            exit;
-        }
-
+    protected function indexCustomAction()
+    {
         echo $this->render("/admin/panel/panel.html.twig");
     }
 }
