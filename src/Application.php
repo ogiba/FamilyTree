@@ -64,8 +64,7 @@ class Application
             } else if ($explodedPath[1] == "login") {
                 $login = new LoginController();
                 if (count($explodedPath) > 2) {
-                    header("Content-Type: application/json", true);
-                    $test = "";
+                    $login->loginUser($_POST);
                 } else {
                     $login->indexAction();
                 }

@@ -8,8 +8,6 @@
 
 namespace Controller\Admin;
 
-session_start();
-
 class PanelController extends BaseAdminController
 {
     protected function indexCustomAction()
