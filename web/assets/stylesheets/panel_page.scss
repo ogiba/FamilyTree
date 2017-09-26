@@ -26,8 +26,34 @@ header {
     .card {
         margin-top: 5%;
 
+        .date {
+            text-align: right;
+            margin-right: 10px;
+            background-color: rgba(0,0,0,.03);
+        }
+
+        .card-body {
+            input {
+                border: none;
+                width: 100%;
+
+                &:focus {
+                    outline-color: rgba(0,0,0,0.1);
+                }
+            }
+        }
         .description {
             min-height: 400px;
+
+            textarea {
+                width: 100%;
+                border: none;
+
+                &:focus {
+                    border: none;
+                    outline-color: rgba(0,0,0,0.1);
+                }
+            }
         }
     }
 }

@@ -62,11 +62,11 @@ class Application
                 $panel = new PanelController();
                 $panel->indexAction();
             } else if ($explodedPath[1] == "post") {
+                $postView = new \Controller\Admin\PostController();
                 if(count($explodedPath) == 2) {
-                    $postView = new \Controller\Admin\PostController();
                     $postView->indexAction();
-                } else if ($explodedPath[2] == "new") {
-
+                } else {
+                    $postView->indexAction($explodedPath[2]);
                 }
             } else if ($explodedPath[1] == "login") {
                 $login = new LoginController();

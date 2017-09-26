@@ -10,24 +10,35 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
+                        {% block postModified %}
+                            <div class="date">Modified: <span>{{ post.timeStamp }}</span></div>
+                        {% endblock %}
                         <h4 class="card-header">Title</h4>
                         <div class="card-body">
-                            <h4 class="card-title">{{ post.title }}</h4>
+                            {% block postTitle %}
+                                <h4 class="card-title">{{ post.title }}</h4>
+                            {% endblock %}
                         </div>
                         <h4 class="card-header">Content</h4>
                         <div class="card-body description">
-                            <p class="card-text">{{ post.content }}</p>
+                            {% block postContent %}
+                                <p class="card-text">{{ post.content }}</p>
+                            {% endblock %}
                         </div>
-                        <h4 class="card-header">Images <span><button class="btn btn-primary">+</button></span></h4>
-                        <div class="card-body">
-                            {% if post.images|length > 0 %}
-                                <img class="card-img-bottom" src="..." alt="Card image cap">
-                                {#<img src="..." alt="..." class="img-thumbnail">#}
-                            {% endif %}
-                        </div>
+                        {% block postImage %}
+                            <h4 class="card-header">Images <span><button class="btn btn-primary">+</button></span></h4>
+                            <div class="card-body">
+                                {% if post.images|length > 0 %}
+                                    <img class="card-img-bottom" src="..." alt="Card image cap">
+                                    {#<img src="..." alt="..." class="img-thumbnail">#}
+                                {% endif %}
+                            </div>
+                        {% endblock %}
                     </div>
                 </div>
             </div>
+            {% block customView %}
+            {% endblock %}
         </div>
     </section>
 {% endblock %}

@@ -13,7 +13,7 @@ use Controller\BaseController;
 
 abstract class BaseAdminController extends BaseController
 {
-    public function indexAction() {
+    public function indexAction($path = null) {
         $_SESSION['url'] = $_SERVER['REQUEST_URI'];
 
         if(!isset($_SESSION['token']) || empty($_SESSION['token'])){
@@ -21,8 +21,8 @@ abstract class BaseAdminController extends BaseController
             exit;
         }
 
-        $this->indexCustomAction();
+        $this->indexCustomAction($path);
     }
 
-    protected abstract function indexCustomAction();
+    protected abstract function indexCustomAction($path);
 }

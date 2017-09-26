@@ -12,7 +12,7 @@ use Database\PostsManager;
 
 class PanelController extends BaseAdminController
 {
-    protected function indexCustomAction()
+    protected function indexCustomAction($path)
     {
         $userLogged = false;
         if (isset($_SESSION["token"])) {
