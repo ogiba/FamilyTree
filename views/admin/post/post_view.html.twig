@@ -1,0 +1,33 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}
+    Post details
+{% endblock %}
+
+{% block body %}
+    <section class="post-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <h4 class="card-header">Title</h4>
+                        <div class="card-body">
+                            <h4 class="card-title">{{ post.title }}</h4>
+                        </div>
+                        <h4 class="card-header">Content</h4>
+                        <div class="card-body description">
+                            <p class="card-text">{{ post.content }}</p>
+                        </div>
+                        <h4 class="card-header">Images <span><button class="btn btn-primary">+</button></span></h4>
+                        <div class="card-body">
+                            {% if post.images|length > 0 %}
+                                <img class="card-img-bottom" src="..." alt="Card image cap">
+                                {#<img src="..." alt="..." class="img-thumbnail">#}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

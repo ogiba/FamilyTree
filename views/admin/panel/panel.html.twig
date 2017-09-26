@@ -1,35 +1,13 @@
-{% extends "base.html.twig" %}
-
-{% block title %}
-    Admin panel
-{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    <link type="text/css" rel="stylesheet" href="/web/assets/stylesheets/panel_page.css"
-{% endblock %}
-
-{% block header %}
-    <header>
-        {% embed 'default/nav_bar.html.twig' %}
-            {% block nav_items %}
-                {{ parent() }}
-                {% if userLogged %}
-                    <div class="nav-btn" onclick='navigateToScene("/admin/logout")'>Logout</div>
-                {% endif %}
-            {% endblock %}
-        {% endembed %}
-    </header>
-{% endblock %}
+{% extends 'admin/base_admin.html.twig' %}
 
 {% block body %}
     <section class="panel-page">
         <div class="container">
-            <div class="row">
+                <div class="row">
                 <div class="col-md-12">
                     <div>
                         {% include 'admin/panel/posts_list.html.twig' %}
-                        <button href="/admin/post/new">Press me to add new post</button>
+                        <button class="btn btn-primary" onclick="window.location.href += '/post/new';">Add new post</button>
                     </div>
                 </div>
             </div>

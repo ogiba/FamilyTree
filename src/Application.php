@@ -61,6 +61,13 @@ class Application
             if (count($explodedPath) == 1) {
                 $panel = new PanelController();
                 $panel->indexAction();
+            } else if ($explodedPath[1] == "post") {
+                if(count($explodedPath) == 2) {
+                    $postView = new \Controller\Admin\PostController();
+                    $postView->indexAction();
+                } else if ($explodedPath[2] == "new") {
+
+                }
             } else if ($explodedPath[1] == "login") {
                 $login = new LoginController();
                 if (count($explodedPath) > 2) {
@@ -71,6 +78,9 @@ class Application
             } else if ($explodedPath[1] == "logout") {
                 $login = new LoginController();
                 $login->logoutAction();
+            } else {
+                $notFound = new NotFoundController();
+                $notFound->notFoundAction();
             }
         } else {
             $notFound = new NotFoundController();

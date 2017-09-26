@@ -9,3 +9,8 @@ header {
 
 .panel-page table tbody tr th, .panel-page table tbody tr td {
   vertical-align: middle; }
+
+.post-page .card {
+  margin-top: 5%; }
+  .post-page .card .description {
+    min-height: 400px; }
