@@ -47,8 +47,8 @@ class LoginController extends BaseController
         if (is_null($userLogged)) {
             $response = new Response("Login user failed", 422);
             $jsonResponse = $serializer->serializeJson($response);
-            header("HTTP/1.1 401 Unauthorized");
             echo $jsonResponse;
+//            header("HTTP/1.1 401 Unauthorized");
             exit;
         }
 

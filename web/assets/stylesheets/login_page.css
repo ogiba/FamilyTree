@@ -9,12 +9,29 @@ header {
     top: 0;
     bottom: auto; }
 
-.login-page .container {
-  margin-top: 10%; }
+.login-page {
+  padding-bottom: 100px;
+  padding-top: 100px;
+  background-color: #999999;
+  margin-top: 10%;
+  transition: 0.5s all; }
   .login-page .container .row .col-md-4 .form {
     padding: 10px;
-    background-color: #999999;
     border-radius: 10px; }
+    .login-page .container .row .col-md-4 .form .login-info {
+      transition: 0.5s all;
+      text-align: center;
+      font-size: 14px;
+      color: #b30015;
+      font-weight: 600; }
+      .login-page .container .row .col-md-4 .form .login-info #loginInfo {
+        display: none; }
+        .login-page .container .row .col-md-4 .form .login-info #loginInfo.shown {
+          display: block; }
+      .login-page .container .row .col-md-4 .form .login-info .progress {
+        display: none; }
+        .login-page .container .row .col-md-4 .form .login-info .progress.shown {
+          display: block; }
     .login-page .container .row .col-md-4 .form input {
       width: 100%; }
     .login-page .container .row .col-md-4 .form label, .login-page .container .row .col-md-4 .form button {
@@ -23,3 +40,89 @@ header {
       text-align: center; }
     .login-page .container .row .col-md-4 .form button {
       width: 100%; }
+
+/* Progress Bar */
+.progress {
+  position: relative;
+  height: 4px;
+  display: block;
+  width: 100%;
+  background-color: #acece6;
+  border-radius: 2px;
+  background-clip: padding-box;
+  margin: 0.5rem 0 1rem 0;
+  overflow: hidden; }
+  .progress .determinate {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background-color: blue;
+    transition: width .3s linear; }
+  .progress .indeterminate {
+    background-color: blue; }
+    .progress .indeterminate:before {
+      content: '';
+      position: absolute;
+      background-color: inherit;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      will-change: left, right;
+      -webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+      animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite; }
+    .progress .indeterminate:after {
+      content: '';
+      position: absolute;
+      background-color: inherit;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      will-change: left, right;
+      -webkit-animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+      animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+      -webkit-animation-delay: 1.15s;
+      animation-delay: 1.15s; }
+
+@-webkit-keyframes indeterminate {
+  0% {
+    left: -35%;
+    right: 100%; }
+  60% {
+    left: 100%;
+    right: -90%; }
+  100% {
+    left: 100%;
+    right: -90%; } }
+
+@keyframes indeterminate {
+  0% {
+    left: -35%;
+    right: 100%; }
+  60% {
+    left: 100%;
+    right: -90%; }
+  100% {
+    left: 100%;
+    right: -90%; } }
+
+@-webkit-keyframes indeterminate-short {
+  0% {
+    left: -200%;
+    right: 100%; }
+  60% {
+    left: 107%;
+    right: -8%; }
+  100% {
+    left: 107%;
+    right: -8%; } }
+
+@keyframes indeterminate-short {
+  0% {
+    left: -200%;
+    right: 100%; }
+  60% {
+    left: 107%;
+    right: -8%; }
+  100% {
+    left: 107%;
+    right: -8%; } }
