@@ -14,6 +14,7 @@ class Post implements JsonSerializable
 {
     public $id;
     public $title;
+    public $shortDescription;
     public $content;
     public $author;
     public $published;
@@ -30,7 +31,7 @@ class Post implements JsonSerializable
     {
         $this->title = $title;
         $this->content = $content;
-        $this->dateTime = $dateTime;
+        $this->timeStamp = $dateTime;
     }
 
     function jsonSerialize()
@@ -38,6 +39,7 @@ class Post implements JsonSerializable
         return [
             "id" => $this->id,
             "title" => $this->title,
+            "shortDescription" => $this->shortDescription,
             "content" => $this->content,
             "author" => $this->author,
             "published" => $this->published,

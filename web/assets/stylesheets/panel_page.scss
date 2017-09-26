@@ -1,0 +1,22 @@
+header {
+    height: auto;
+    background: none;
+}
+
+.nav-bar {
+    position: relative;
+    top: 0;
+    bottom: auto;
+}
+
+.panel-page {
+    table{
+        tbody {
+            tr{
+                th, td {
+                    vertical-align: middle;
+                }
+            }
+        }
+    }
+}

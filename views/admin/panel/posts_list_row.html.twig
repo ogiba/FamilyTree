@@ -1,0 +1,9 @@
+{% block postListRow %}
+<tr>
+    <th scope="row">{{ loop.index }}</th>
+    <td>{{ post.title }}</td>
+    <td>{{ post.shortDescription }}</td>
+    <td>{{ post.author }}</td>
+    <td>{{ post.timeStamp }}</td>
+</tr>
+{% endblock %}

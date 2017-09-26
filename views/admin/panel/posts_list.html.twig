@@ -1,0 +1,43 @@
+{% block postsList %}
+    <table class="table table-striped table-hover">
+        <thead class="thead-default">
+        <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Author</th>
+            <th>Modified</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for post in postsPage.posts %}
+            {% include 'admin/panel/posts_list_row.html.twig' %}
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if postsPage.numberOfPages > 1 %}
+        <div class="paging">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    {% if postsPage.currentPage > 1 %}
+                        <li class="page-item"><a class="page-link"
+                                                 onclick="selectPage({{ (postsPage.currentPage -1) - 1 }})">Previous</a>
+                        </li>
+                    {% endif %}
+                    {% set pages = postsPage.numberOfPages %}
+                    {% for page in 1..pages %}
+                        <li class="page-item {% if postsPage.currentPage == page %} active {% endif %}"><a
+                                    class="page-link"
+                                    onclick="selectPage({{ page -1 }})">{{ page }}</a></li>
+                    {% endfor %}
+                    {% if postsPage.currentPage < postsPage.numberOfPages %}
+                        <li class="page-item"><a class="page-link"
+                                                 onclick="selectPage({{ (postsPage.currentPage -1) + 1 }})">Next</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    {% endif %}
+{% endblock %}
