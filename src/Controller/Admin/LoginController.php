@@ -16,13 +16,15 @@ use Utils\SerializeManager;
 
 class LoginController extends BaseController
 {
-    public function indexAction() {
+    public function indexAction()
+    {
         echo $this->render("admin/login.html.twig");
     }
 
-    public function loginAction($data){
+    public function loginAction($data)
+    {
         $serializer = new SerializeManager();
-        if(!isset($data["username"])){
+        if (!isset($data["username"])) {
             $response = new Response("Required username", 422);
             $jsonResponse = $serializer->serializeJson($response);
             header("HTTP/1.1 422 Missed required parameter");
@@ -30,7 +32,7 @@ class LoginController extends BaseController
             exit;
         }
 
-        if(!isset($data["password"])) {
+        if (!isset($data["password"])) {
             $response = new Response("Required password", 422);
             $jsonResponse = $serializer->serializeJson($response);
             header("HTTP/1.1 422 Missed required parameter");
@@ -48,22 +50,30 @@ class LoginController extends BaseController
             $response = new Response("Login user failed", 422);
             $jsonResponse = $serializer->serializeJson($response);
             echo $jsonResponse;
-//            header("HTTP/1.1 401 Unauthorized");
+            header("HTTP/1.1 401 Unauthorized");
             exit;
         }
 
+        $previousLocation = "/";
+        if (isset($_SESSION["url"])) {
+            $previousLocation = $_SESSION["url"];
+        }
+
         $_SESSION["token"] = $userLogged;
-        header("HTTP/1.1 200 OK");
+//        header("HTTP/1.1 200 OK");
 
-        $response = new Response("Login successful", 200);
-
-        $serializer = new SerializeManager();
-        $json = $serializer->serializeJson($response);
-        echo $json;
+        ob_start();
+        header("location: $previousLocation");
+        ob_get_clean();
+//        $response = new Response("Login successful", 200);
+//        $serializer = new SerializeManager();
+//        $json = $serializer->serializeJson($response);
+//        echo $json;
         exit;
     }
 
-    public function logoutAction() {
+    public function logoutAction()
+    {
         $manager = new LoginManager();
         $serializer = new SerializeManager();
         $isLoggedOut = $manager->logoutUser();
@@ -73,7 +83,7 @@ class LoginController extends BaseController
             header("HTTP/1.1 200 OK");
             header("Content-Type: application/json");
             echo $serializer->serializeJson($response);
-            header( "Location: /" );
+            header("Location: /");
         }
     }
 }

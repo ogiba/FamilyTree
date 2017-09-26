@@ -19,7 +19,10 @@ $('#submit').click(function () {
             "password": $("#passwordInput").val()
         },
         success: function(data){
-            var resp = JSON.parse(data);
+
+        },
+        error: function (error) {
+            var resp = JSON.parse(error.responseText);
 
             $(".progress").removeClass("shown");
 
