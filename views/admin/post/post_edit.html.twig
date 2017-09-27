@@ -11,19 +11,19 @@
     <script type="text/javascript" src="/web/assets/scripts/new_post.js"></script>
 {% endblock %}
 
- {% block postModified %}
+ {% block postActions %}
      <div class="actions">
          <span><button class="btn btn-danger" onclick="window.history.back()">Cancel</button></span>
-         <span><button class="btn btn-success" onclick="savePost()">Save</button></span>
+         <span><button class="btn btn-success" onclick="{{ action }}">Save</button></span>
      </div>
  {% endblock %}
 
 {% block postTitle %}
-    <input id="postTitle" type="text" placeholder="Insert title">
+    <input id="postTitle" type="text" placeholder="Insert title" value="{{ post.title }}">
 {% endblock %}
 
 {% block postContent %}
-    <textarea id="postContent" type="text" placeholder="Insert content" cols="1" rows="15"></textarea>
+    <textarea id="postContent" type="text" placeholder="Insert content" cols="1" rows="15">{{ post.content }}</textarea>
 {% endblock %}
 
 {% block postImage %}

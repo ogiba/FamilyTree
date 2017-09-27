@@ -13,12 +13,22 @@ use Database\PostsManager;
 
 class PostController extends BaseAdminController
 {
+    private $manager;
+
+    /**
+     * PostController constructor.
+     */
+    public function __construct()
+    {
+        $this->manager = new PostsManager();
+    }
+
     protected function indexCustomAction($path)
     {
         if ($path == null) {
             $this->viewPostBehavior();
         } else if ($path[2] == "edit") {
-            $this->editPostBehavior();
+            $this->editPostBehavior($path);
         } else if ($path[2] == "new") {
             $this->newPostBehavior($path);
         }
@@ -37,9 +47,7 @@ class PostController extends BaseAdminController
         }
 
         $postId = $_GET["id"];
-
-        $postManager = new PostsManager();
-        $postToView = $postManager->loadPost($postId);
+        $postToView = $this->manager->loadPost($postId);
 
         echo $this->render("/admin/post/post_view.html.twig", [
             "userLogged" => $userLogged,
@@ -47,21 +55,33 @@ class PostController extends BaseAdminController
         ]);
     }
 
-    private function editPostBehavior()
+    private function editPostBehavior($pathArray)
     {
         $userLogged = false;
         if (isset($_SESSION["token"])) {
             $userLogged = true;
         }
 
-        if (!isset($_GET["id"]) || empty($_GET["id"])) {
-            header("location: /not_found");
-            exit;
-        }
+        if (count($pathArray) > 3 && $pathArray[3] == "update") {
+            $this->updateEditedPost();
+        } else {
+            if (!isset($_GET["id"]) || empty($_GET["id"])) {
+                header("location: /not_found");
+                exit;
+            }
 
-        echo $this->render("/admin/post/post_edit.html.twig", [
-            "userLogged" => $userLogged
-        ]);
+            $postId = $_GET["id"];
+
+            $post = $this->manager->loadPost($postId);
+
+            $saveAction = "updatePost($postId)";
+
+            echo $this->render("/admin/post/post_edit.html.twig", [
+                "userLogged" => $userLogged,
+                "post" => $post,
+                "action" => $saveAction
+            ]);
+        }
     }
 
     private function newPostBehavior($pathArray)
@@ -76,8 +96,11 @@ class PostController extends BaseAdminController
                 $userLogged = true;
             }
 
+            $saveAction = "savePost()";
+
             echo $this->render("/admin/post/post_edit.html.twig", [
-                "userLogged" => $userLogged
+                "userLogged" => $userLogged,
+                "action" => $saveAction
             ]);
         }
     }
@@ -112,8 +135,21 @@ class PostController extends BaseAdminController
         $postTitle = $_POST["title"];
         $postContent = $_POST["content"];
 
-        $manager = new PostsManager();
-        $manager->savePost($postTitle, $postContent);
-        exit;
+        $this->manager->savePost($postTitle, $postContent);
+    }
+
+    private function updateEditedPost()
+    {
+        if (!isset($_POST["id"]) || empty($_POST["id"]) ||
+            !isset($_POST["title"]) || empty($_POST["title"]) ||
+            !isset($_POST["content"]) || empty($_POST["content"])) {
+            exit;
+        }
+
+        $postId = $_POST["id"];
+        $postTitle = $_POST["title"];
+        $postContent = $_POST["content"];
+
+        $this->manager->updatePost($postId, $postTitle, $postContent);
     }
 }

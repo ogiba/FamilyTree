@@ -105,4 +105,19 @@ class PostsManager extends BaseDatabaseManager
         $stmt->execute();
         $stmt->fetch();
     }
+
+    public function updatePost($id, $title, $content) {
+        if (!isset($_SESSION["token"])) {
+            exit;
+        }
+
+        $token = $_SESSION["token"];
+
+        $database = $this->createConnection();
+        $stmt = $database->prepare("UPDATE posts SET title = ?, content = ?, shortDescription = ? WHERE id = ?");
+        $shortDesc = substr($content, 0, 100);
+        $stmt->bind_param("sssi", $title, $content, $shortDesc, $id);
+        $stmt->execute();
+        $stmt->fetch();
+    }
 }
