@@ -7,15 +7,24 @@
 {% block body %}
     <section class="post-page">
         <div class="container">
-            {% block postButtons %}
-            {% endblock %}
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         {% block postModified %}
-                            <div class="date">Modified: <span>{{ post.timeStamp }}</span></div>
+                            <div class="actions">
+                                <button class="btn btn-warning" onclick="window.location.href = '/admin/post/edit?id={{ post.id }}'">Edit</button>
+                            </div>
                         {% endblock %}
-                        <h4 class="card-header">Title</h4>
+                        <h4 class="card-header">
+                            <div class="row">
+                                <div class="col-md-8">Title</div>
+                                <div class="col-md-4">
+                                    <div class="date">
+                                        Modified: <span>{{ post.timeStamp }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </h4>
                         <div class="card-body">
                             {% block postTitle %}
                                 <h4 class="card-title">{{ post.title }}</h4>

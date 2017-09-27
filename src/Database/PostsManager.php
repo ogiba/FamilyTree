@@ -20,10 +20,18 @@ class PostsManager extends BaseDatabaseManager
      * @param int $pageSize
      * @return PostPage
      */
-    public function loadPosts($page = 0, $pageSize = 5) {
+    public function loadPosts($page = 0, $pageSize = 5)
+    {
         $database = $this->createConnection();
         $selectedPage = $page * $pageSize;
-        $stmt = $database->prepare("SELECT * FROM posts ORDER BY TIMESTAMP DESC LIMIT $pageSize OFFSET $selectedPage");
+        $stmt = $database->prepare("SELECT p.id, p.title, p.content, p.published, p.timeStamp, p.shortDescription,
+                                                u.nickName AS author 
+                                            FROM posts p 
+                                            INNER JOIN users AS u ON p.author = u.id 
+                                            ORDER BY timeStamp 
+                                            DESC LIMIT ? 
+                                            OFFSET ?");
+        $stmt->bind_param("ii", $pageSize, $selectedPage);
         $stmt->execute();
 
         $data = $this->bindResult($stmt);
@@ -31,7 +39,7 @@ class PostsManager extends BaseDatabaseManager
 
         $postPage = new PostPage();
 
-        while ($stmt->fetch()){
+        while ($stmt->fetch()) {
             $post = $this->arrayToObject($data, Post::class);
             $results[] = $post;
         }
@@ -62,15 +70,18 @@ class PostsManager extends BaseDatabaseManager
      * @param $id
      * @return Post mixed|null
      */
-    public function loadPost($id) {
+    public function loadPost($id)
+    {
         $database = $this->createConnection();
-        $stmt = $database->prepare("SELECT * FROM posts WHERE id = ?");
+        $stmt = $database->prepare("SELECT p.id, p.title, p.content, p.published, p.timeStamp, p.shortDescription, u.nickName AS author 
+                                            FROM posts p INNER JOIN users AS u ON p.author = u.id 
+                                            WHERE p.id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
 
         $data = $this->bindResult($stmt);
 
-        if ($stmt->fetch()){
+        if ($stmt->fetch()) {
             $result = $this->arrayToObject($data, Post::class);
             return $result;
         } else {
@@ -79,7 +90,8 @@ class PostsManager extends BaseDatabaseManager
         }
     }
 
-    public function savePost($title, $content) {
+    public function savePost($title, $content)
+    {
         if (!isset($_SESSION["token"])) {
             exit;
         }
@@ -89,7 +101,7 @@ class PostsManager extends BaseDatabaseManager
         $database = $this->createConnection();
         $stmt = $database->prepare("INSERT INTO posts (title, content, author, shortDescription) SELECT ?,?, user,? FROM login_attempts WHERE token = ?");
         $shortDesc = substr($content, 0, 100);
-        $stmt->bind_param("ssis", $title, $content, $shortDesc, $token);
+        $stmt->bind_param("ssss", $title, $content, $shortDesc, $token);
         $stmt->execute();
         $stmt->fetch();
     }

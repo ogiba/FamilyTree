@@ -16,7 +16,7 @@ header {
   .post-page .card .date {
     text-align: right;
     margin-right: 10px;
-    background-color: rgba(0, 0, 0, 0.03); }
+    font-size: 16px; }
   .post-page .card .actions {
     padding: 5px;
     text-align: right;

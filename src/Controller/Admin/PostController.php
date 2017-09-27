@@ -59,7 +59,7 @@ class PostController extends BaseAdminController
             exit;
         }
 
-        echo $this->render("/admin/post/post_view.html.twig", [
+        echo $this->render("/admin/post/post_edit.html.twig", [
             "userLogged" => $userLogged
         ]);
     }
@@ -68,7 +68,7 @@ class PostController extends BaseAdminController
     {
         if (count($pathArray) > 3 && $pathArray[3] == "upload") {
             $this->uploadFiles();
-        } else if (count($pathArray) > 3 && $pathArray[3] == "save"){
+        } else if (count($pathArray) > 3 && $pathArray[3] == "save") {
             $this->saveNewPost();
         } else {
             $userLogged = false;
@@ -82,16 +82,17 @@ class PostController extends BaseAdminController
         }
     }
 
-    private function uploadFiles() {
+    private function uploadFiles()
+    {
         $storeFolder = 'uploads';   //2
 
         if (!empty($_FILES)) {
 
-            $destFolder = "/".$storeFolder."/";
+            $destFolder = "/" . $storeFolder . "/";
 
             $tempFile = $_FILES['file']['tmp_name'];
 
-            $targetFile =  $destFolder. $_FILES['file']['name'];  //5
+            $targetFile = $destFolder . $_FILES['file']['name'];  //5
 
             if (move_uploaded_file($tempFile, $targetFile)) {
                 echo "File is valid, and was successfully uploaded.\n";
@@ -102,7 +103,8 @@ class PostController extends BaseAdminController
         }
     }
 
-    private function saveNewPost() {
+    private function saveNewPost()
+    {
         if (!isset($_POST["title"]) || empty($_POST["title"]) || !isset($_POST["content"]) || empty($_POST["content"])) {
             exit;
         }
