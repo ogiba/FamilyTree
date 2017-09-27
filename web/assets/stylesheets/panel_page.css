@@ -11,16 +11,24 @@ header {
   vertical-align: middle; }
 
 .post-page .card {
-  margin-top: 5%; }
+  margin-top: 5%;
+  margin-bottom: 5%; }
   .post-page .card .date {
     text-align: right;
     margin-right: 10px;
+    background-color: rgba(0, 0, 0, 0.03); }
+  .post-page .card .actions {
+    padding: 5px;
+    text-align: right;
+    display: inline-block;
     background-color: rgba(0, 0, 0, 0.03); }
   .post-page .card .card-body input {
     border: none;
     width: 100%; }
     .post-page .card .card-body input:focus {
       outline-color: rgba(0, 0, 0, 0.1); }
+  .post-page .card .card-body .dropzone {
+    border: none; }
   .post-page .card .description {
     min-height: 400px; }
     .post-page .card .description textarea {

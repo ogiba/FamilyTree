@@ -23,7 +23,7 @@ class PostsManager extends BaseDatabaseManager
     public function loadPosts($page = 0, $pageSize = 5) {
         $database = $this->createConnection();
         $selectedPage = $page * $pageSize;
-        $stmt = $database->prepare("SELECT * FROM posts LIMIT $pageSize OFFSET $selectedPage");
+        $stmt = $database->prepare("SELECT * FROM posts ORDER BY TIMESTAMP DESC LIMIT $pageSize OFFSET $selectedPage");
         $stmt->execute();
 
         $data = $this->bindResult($stmt);

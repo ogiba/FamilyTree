@@ -10,9 +10,9 @@ header {
 }
 
 .panel-page {
-    table{
+    table {
         tbody {
-            tr{
+            tr {
                 th, td {
                     vertical-align: middle;
                 }
@@ -25,11 +25,19 @@ header {
 
     .card {
         margin-top: 5%;
+        margin-bottom: 5%;
 
         .date {
             text-align: right;
             margin-right: 10px;
-            background-color: rgba(0,0,0,.03);
+            background-color: rgba(0, 0, 0, .03);
+        }
+
+        .actions {
+            padding: 5px;
+            text-align: right;
+            display: inline-block;
+            background-color: rgba(0, 0, 0, .03);;
         }
 
         .card-body {
@@ -38,8 +46,12 @@ header {
                 width: 100%;
 
                 &:focus {
-                    outline-color: rgba(0,0,0,0.1);
+                    outline-color: rgba(0, 0, 0, 0.1);
                 }
+            }
+
+            .dropzone {
+                border: none;
             }
         }
         .description {
@@ -51,7 +63,7 @@ header {
 
                 &:focus {
                     border: none;
-                    outline-color: rgba(0,0,0,0.1);
+                    outline-color: rgba(0, 0, 0, 0.1);
                 }
             }
         }

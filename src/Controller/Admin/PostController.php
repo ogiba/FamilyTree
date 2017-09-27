@@ -68,6 +68,8 @@ class PostController extends BaseAdminController
     {
         if (count($pathArray) > 3 && $pathArray[3] == "upload") {
             $this->uploadFiles();
+        } else if (count($pathArray) > 3 && $pathArray[3] == "save"){
+            $this->saveNewPost();
         } else {
             $userLogged = false;
             if (isset($_SESSION["token"])) {
@@ -98,5 +100,18 @@ class PostController extends BaseAdminController
             }
 
         }
+    }
+
+    private function saveNewPost() {
+        if (!isset($_POST["title"]) || empty($_POST["title"]) || !isset($_POST["content"]) || empty($_POST["content"])) {
+            exit;
+        }
+
+        $postTitle = $_POST["title"];
+        $postContent = $_POST["content"];
+
+        $manager = new PostsManager();
+        $manager->savePost($postTitle, $postContent);
+        exit;
     }
 }
