@@ -1,9 +1,18 @@
 {% extends '/admin/post/post_view.html.twig' %}
 
 
-
  {% block postModified %}
  {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="/web/assets/stylesheets/dropzone.min.css">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="/web/assets/scripts/plugins/dropzone.js"></script>
+{% endblock %}
 
 {% block postTitle %}
     <input type="text" placeholder="Insert title">
@@ -11,4 +20,13 @@
 
 {% block postContent %}
     <textarea type="text" placeholder="Insert content" cols="1" rows="15"></textarea>
+{% endblock %}
+
+{% block postImage %}
+    <h4 class="card-header">Images <span><button class="btn btn-primary">+</button></span></h4>
+    <div class="card-body">
+        <form action="/admin/post/new/upload" class="dropzone"></form>
+        {% if post.images|length > 0 %}
+        {% endif %}
+    </div>
 {% endblock %}
