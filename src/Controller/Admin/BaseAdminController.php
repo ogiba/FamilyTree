@@ -17,7 +17,7 @@ abstract class BaseAdminController extends BaseController
         $_SESSION['url'] = $_SERVER['REQUEST_URI'];
 
         if(!isset($_SESSION['token']) || empty($_SESSION['token'])){
-            header("location: admin/login");
+            header("location: /admin/login");
             exit;
         }
 

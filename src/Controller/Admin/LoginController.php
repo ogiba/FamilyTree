@@ -62,9 +62,7 @@ class LoginController extends BaseController
         $_SESSION["token"] = $userLogged;
 //        header("HTTP/1.1 200 OK");
 
-        ob_start();
         header("location: $previousLocation");
-        ob_get_clean();
 //        $response = new Response("Login successful", 200);
 //        $serializer = new SerializeManager();
 //        $json = $serializer->serializeJson($response);
