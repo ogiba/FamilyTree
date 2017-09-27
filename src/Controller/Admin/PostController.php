@@ -17,14 +17,15 @@ class PostController extends BaseAdminController
     {
         if ($path == null) {
             $this->viewPostBehavior();
-        } else if ($path == "edit") {
+        } else if ($path[2] == "edit") {
             $this->editPostBehavior();
-        } else if ($path == "new") {
-            $this->newPostBehavior();
+        } else if ($path[2] == "new") {
+            $this->newPostBehavior($path);
         }
     }
 
-    private function viewPostBehavior() {
+    private function viewPostBehavior()
+    {
         $userLogged = false;
         if (isset($_SESSION["token"])) {
             $userLogged = true;
@@ -46,7 +47,8 @@ class PostController extends BaseAdminController
         ]);
     }
 
-    private function editPostBehavior() {
+    private function editPostBehavior()
+    {
         $userLogged = false;
         if (isset($_SESSION["token"])) {
             $userLogged = true;
@@ -62,13 +64,39 @@ class PostController extends BaseAdminController
         ]);
     }
 
-    private function newPostBehavior() {
-        $userLogged = false;
-        if (isset($_SESSION["token"])) {
-            $userLogged = true;
-        }
+    private function newPostBehavior($pathArray)
+    {
+        if (count($pathArray) > 3 && $pathArray[3] == "upload") {
+            $this->uploadFiles();
+        } else {
+            $userLogged = false;
+            if (isset($_SESSION["token"])) {
+                $userLogged = true;
+            }
 
-        echo $this->render("/admin/post/post_edit.html.twig");
+            echo $this->render("/admin/post/post_edit.html.twig", [
+                "userLogged" => $userLogged
+            ]);
+        }
     }
 
+    private function uploadFiles() {
+        $storeFolder = 'uploads';   //2
+
+        if (!empty($_FILES)) {
+
+            $destFolder = "/".$storeFolder."/";
+
+            $tempFile = $_FILES['file']['tmp_name'];
+
+            $targetFile =  $destFolder. $_FILES['file']['name'];  //5
+
+            if (move_uploaded_file($tempFile, $targetFile)) {
+                echo "File is valid, and was successfully uploaded.\n";
+            } else {
+                echo "Error occurred\n";
+            }
+
+        }
+    }
 }

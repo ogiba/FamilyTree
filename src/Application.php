@@ -66,7 +66,7 @@ class Application
                 if(count($explodedPath) == 2) {
                     $postView->indexAction();
                 } else {
-                    $postView->indexAction($explodedPath[2]);
+                    $postView->indexAction($explodedPath);
                 }
             } else if ($explodedPath[1] == "login") {
                 $login = new LoginController();
