@@ -78,4 +78,19 @@ class PostsManager extends BaseDatabaseManager
             return null;
         }
     }
+
+    public function savePost($title, $content) {
+        if (!isset($_SESSION["token"])) {
+            exit;
+        }
+
+        $token = $_SESSION["token"];
+
+        $database = $this->createConnection();
+        $stmt = $database->prepare("INSERT INTO posts (title, content, author, shortDescription) SELECT ?,?, user,? FROM login_attempts WHERE token = ?");
+        $shortDesc = substr($content, 0, 100);
+        $stmt->bind_param("ssis", $title, $content, $shortDesc, $token);
+        $stmt->execute();
+        $stmt->fetch();
+    }
 }
