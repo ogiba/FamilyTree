@@ -11,6 +11,15 @@ namespace Controller;
 
 class TreeController extends BaseController
 {
+    public function action($name, $action, $params)
+    {
+        if ($action == "rebuild") {
+            $this->rebuildItem($_REQUEST);
+        } else {
+            $this->indexAction();
+        }
+    }
+
     public function indexAction(){
         echo $this->render("tree/tree.html.twig");
     }

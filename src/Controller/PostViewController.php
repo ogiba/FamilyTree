@@ -23,9 +23,10 @@ class PostViewController extends BaseController
         $this->manager = new PostsManager();
     }
 
-
-    public function indexAction () {
-        if (!isset($_GET["id"]) || empty($_GET["id"])) {
+    public function action($name, $action, $params)
+    {
+        if (!isset($_GET["id"]) || empty($_GET["id"]))
+        {
             header("location: /not_found");
             exit;
         }

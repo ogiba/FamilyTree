@@ -16,6 +16,21 @@ use Utils\SerializeManager;
 
 class LoginController extends BaseController
 {
+    public function action($name, $action, $params)
+    {
+        if($name == "login")
+        {
+            if(count($_POST) > 0)
+                $this->loginAction($_POST);
+            else
+                $this->indexAction();
+        }
+        else if($name == "logout")
+        {
+            $this->logoutAction();
+        }
+    }
+
     public function indexAction()
     {
         echo $this->render("admin/login.html.twig");

@@ -12,8 +12,15 @@ use Twig_Environment;
 use Twig_Loader_Filesystem;
 use Twig_SimpleFunction;
 
-class BaseController
+abstract class BaseController
 {
+    /**
+     * @param string|null $name
+     * @param string|null $action
+     * @param array $params
+     */
+    public abstract function action($name, $action, $params);
+
     /**
      * @param string $viewName
      * @param array $properties

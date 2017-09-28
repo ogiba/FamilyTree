@@ -108,3 +108,5 @@ fabric.properties
 *.DS_Store
 .AppleDouble
 .LSOverride
+
+.idea

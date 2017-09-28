@@ -13,16 +13,13 @@ use Controller\BaseController;
 
 abstract class BaseAdminController extends BaseController
 {
-    public function indexAction($path = null) {
+    public function action($name, $action, $params)
+    {
         $_SESSION['url'] = $_SERVER['REQUEST_URI'];
 
         if(!isset($_SESSION['token']) || empty($_SESSION['token'])){
             header("location: /admin/login");
             exit;
         }
-
-        $this->indexCustomAction($path);
     }
-
-    protected abstract function indexCustomAction($path);
 }
