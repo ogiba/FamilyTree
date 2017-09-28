@@ -84,7 +84,7 @@ class PostsManager extends BaseDatabaseManager
                                                 u1.nickName AS modifiedBy
                                             FROM posts p 
                                             INNER JOIN users AS u ON p.author = u.id
-                                            INNER JOIN users AS u1 ON p.modifiedBy = u1.id
+                                            LEFT JOIN users AS u1 ON p.modifiedBy = u1.id
                                             WHERE p.id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
