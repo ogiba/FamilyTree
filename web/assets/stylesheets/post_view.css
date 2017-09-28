@@ -1,0 +1,14 @@
+body {
+  background: cadetblue; }
+
+header {
+  height: auto;
+  background: none; }
+
+.nav-bar {
+  position: relative;
+  top: 0;
+  bottom: auto; }
+
+.post-view-page .card {
+  margin-top: 10%; }

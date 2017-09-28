@@ -6,6 +6,7 @@ use Controller\Admin\LoginController;
 use Controller\Admin\PanelController;
 use Controller\IndexController;
 use Controller\NotFoundController;
+use Controller\PostViewController;
 use Controller\TreeController;
 
 /**
@@ -44,6 +45,9 @@ class Application
             } else {
                 $controller->indexAction();
             }
+        } else if ($explodedPath[0] == "post") {
+            $postViewController = new PostViewController();
+            $postViewController->indexAction();
         } else if ($explodedPath[0] == "api") {
             if ($explodedPath[1] == "post") {
                 $postController = new PostController();
