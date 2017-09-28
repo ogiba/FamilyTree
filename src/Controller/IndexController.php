@@ -16,12 +16,20 @@ use Model\PostPage;
 
 class IndexController extends BaseController
 {
-
     const NUMBER_OF_ITEMS = 5;
     const STARTING_PAGE = 0;
 
-    public function indexAction() {
+    public function action($name, $action, $params)
+    {
+        if (isset($_GET["postPage"])) {
+            $this->postPageAction($_GET["postPage"]);
+        } else {
+            $this->indexAction();
+        }
+    }
 
+    public function indexAction()
+    {
         $postsPage = $this->getPosts(self::NUMBER_OF_ITEMS, self::STARTING_PAGE);
         $aboutInfo = $this->getAbout();
 

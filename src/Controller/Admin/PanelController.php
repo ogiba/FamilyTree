@@ -12,8 +12,10 @@ use Database\PostsManager;
 
 class PanelController extends BaseAdminController
 {
-    protected function indexCustomAction($path)
+    public function action($name, $action, $params)
     {
+        parent::action($name, $action, $params);
+
         $userLogged = false;
         if (isset($_SESSION["token"])) {
             $userLogged = true;

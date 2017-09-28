@@ -11,6 +11,11 @@ namespace Controller;
 
 class NotFoundController extends BaseController
 {
+    public function action($name, $action, $params)
+    {
+        $this->notFoundAction();
+    }
+
     public function notFoundAction() {
         header("HTTP/1.1 404 Not found");
         echo $this->render("not_found.html.twig");

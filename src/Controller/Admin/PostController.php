@@ -23,6 +23,19 @@ class PostController extends BaseAdminController
         $this->manager = new PostsManager();
     }
 
+    public function action($name, $action, $params)
+    {
+        parent::action($name, $action, $params);
+
+        if ($action == null) {
+            $this->viewPostBehavior();
+        } else if ($action == "edit") {
+            $this->editPostBehavior($params);
+        } else if ($action == "new") {
+            $this->newPostBehavior($params);
+        }
+    }
+
     protected function indexCustomAction($path)
     {
         if ($path == null) {
@@ -62,7 +75,7 @@ class PostController extends BaseAdminController
             $userLogged = true;
         }
 
-        if (count($pathArray) > 3 && $pathArray[3] == "update") {
+        if (count($pathArray) > 0 && $pathArray[0] == "update") {
             $this->updateEditedPost();
         } else {
             if (!isset($_GET["id"]) || empty($_GET["id"])) {
@@ -86,9 +99,9 @@ class PostController extends BaseAdminController
 
     private function newPostBehavior($pathArray)
     {
-        if (count($pathArray) > 3 && $pathArray[3] == "upload") {
+        if (count($pathArray) > 0 && $pathArray[0] == "upload") {
             $this->uploadFiles();
-        } else if (count($pathArray) > 3 && $pathArray[3] == "save") {
+        } else if (count($pathArray) > 0 && $pathArray[0] == "save") {
             $this->saveNewPost();
         } else {
             $userLogged = false;
