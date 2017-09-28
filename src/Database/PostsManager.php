@@ -73,8 +73,18 @@ class PostsManager extends BaseDatabaseManager
     public function loadPost($id)
     {
         $database = $this->createConnection();
-        $stmt = $database->prepare("SELECT p.id, p.title, p.content, p.published, p.timeStamp, p.shortDescription, u.nickName AS author 
-                                            FROM posts p INNER JOIN users AS u ON p.author = u.id 
+        $stmt = $database->prepare("SELECT 
+                                                p.id, 
+                                                p.title,
+                                                p.content,
+                                                p.published,
+                                                p.timeStamp,
+                                                p.shortDescription,
+                                                u.nickName AS author,
+                                                u1.nickName AS modifiedBy
+                                            FROM posts p 
+                                            INNER JOIN users AS u ON p.author = u.id
+                                            INNER JOIN users AS u1 ON p.modifiedBy = u1.id
                                             WHERE p.id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
@@ -99,14 +109,15 @@ class PostsManager extends BaseDatabaseManager
         $token = $_SESSION["token"];
 
         $database = $this->createConnection();
-        $stmt = $database->prepare("INSERT INTO posts (title, content, author, shortDescription) SELECT ?,?, user,? FROM login_attempts WHERE token = ?");
+        $stmt = $database->prepare("INSERT INTO posts (title, content, author, shortDescription) SELECT ?,?, user, ? FROM login_attempts WHERE token = ?");
         $shortDesc = substr($content, 0, 100);
         $stmt->bind_param("ssss", $title, $content, $shortDesc, $token);
         $stmt->execute();
         $stmt->fetch();
     }
 
-    public function updatePost($id, $title, $content) {
+    public function updatePost($id, $title, $content)
+    {
         if (!isset($_SESSION["token"])) {
             exit;
         }
@@ -114,9 +125,9 @@ class PostsManager extends BaseDatabaseManager
         $token = $_SESSION["token"];
 
         $database = $this->createConnection();
-        $stmt = $database->prepare("UPDATE posts SET title = ?, content = ?, shortDescription = ? WHERE id = ?");
+        $stmt = $database->prepare("UPDATE posts SET title = ?, content = ?, shortDescription = ?, modfiedBy = (SELECT user FROM login_attempts WHERE token = ?) WHERE id = ?");
         $shortDesc = substr($content, 0, 100);
-        $stmt->bind_param("sssi", $title, $content, $shortDesc, $id);
+        $stmt->bind_param("ssssi", $title, $content, $shortDesc, $token, $id);
         $stmt->execute();
         $stmt->fetch();
     }

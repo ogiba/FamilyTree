@@ -17,6 +17,7 @@ class Post implements JsonSerializable
     public $shortDescription;
     public $content;
     public $author;
+    public $modifiedBy;
     public $published;
     public $images;
     public $timeStamp;
@@ -42,6 +43,7 @@ class Post implements JsonSerializable
             "shortDescription" => $this->shortDescription,
             "content" => $this->content,
             "author" => $this->author,
+            "modifiedBy" => $this->modifiedBy,
             "published" => $this->published,
             "timeStamp" => $this->timeStamp
         ];
