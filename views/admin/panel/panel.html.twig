@@ -5,9 +5,9 @@
         <div class="container">
                 <div class="row">
                 <div class="col-md-12">
-                    <div>
-                        {% include 'admin/panel/posts_list.html.twig' %}
+                    <div class="posts-container">
                         <button class="btn btn-primary" onclick="window.location.href += '/post/new';">Add new post</button>
+                        {% include 'admin/panel/posts_list.html.twig' %}
                     </div>
                 </div>
             </div>

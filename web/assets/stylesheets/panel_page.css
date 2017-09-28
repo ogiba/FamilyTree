@@ -10,6 +10,9 @@ header {
 .panel-page table tbody tr th, .panel-page table tbody tr td {
   vertical-align: middle; }
 
+.post-page .posts-container {
+  margin-top: 5%; }
+
 .post-page .card {
   margin-top: 5%;
   margin-bottom: 5%; }
