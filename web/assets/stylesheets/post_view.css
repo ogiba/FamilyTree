@@ -12,3 +12,5 @@ header {
 
 .post-view-page .card {
   margin-top: 10%; }
+  .post-view-page .card .card-body .content {
+    min-height: 400px; }

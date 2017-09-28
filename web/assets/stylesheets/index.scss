@@ -63,16 +63,26 @@ section {
                     text-overflow: ellipsis;
                 }
 
-                .actions {
+                .footer {
+                    margin-top: 10px;
 
+                    .date {
+                        color: #868e96!important;
+                        vertical-align: middle;
+                    }
+
+                    .actions {
+                        vertical-align: middle;
+                        text-align: right;
+                    }
                 }
             }
 
-            .paging{
+            .paging {
                 text-align: right;
                 height: $paging-size;
 
-                nav{
+                nav {
                     display: inline-block;
                 }
             }

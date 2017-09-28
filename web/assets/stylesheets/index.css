@@ -38,6 +38,14 @@ section .index {
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis; }
+      section .index .posts .post .footer {
+        margin-top: 10px; }
+        section .index .posts .post .footer .date {
+          color: #868e96 !important;
+          vertical-align: middle; }
+        section .index .posts .post .footer .actions {
+          vertical-align: middle;
+          text-align: right; }
     section .index .posts .paging {
       text-align: right;
       height: 50px; }

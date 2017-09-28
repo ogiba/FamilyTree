@@ -26,7 +26,13 @@
                             </div>
                         </h4>
                         <div class="card-body">
-                            {{ post.content }}
+                            <div class="content">
+                                {{ post.content }}
+                            </div>
+                            <div>
+                                {% if post.images|length > 0 %}
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="card-footer text-muted">
                             <div class="date">
