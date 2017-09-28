@@ -14,3 +14,5 @@ header {
   margin-top: 10%; }
   .post-view-page .card .card-body .content {
     min-height: 400px; }
+  .post-view-page .card .card-footer .author {
+    text-align: right; }

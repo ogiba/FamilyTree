@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    {{ post.title }}
+{% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
     <link type="text/css" rel="stylesheet" href="/web/assets/stylesheets/post_view.css"
@@ -35,8 +39,17 @@
                             </div>
                         </div>
                         <div class="card-footer text-muted">
-                            <div class="date">
-                                Edited: <span>{{ post.timeStamp }}</span>
+                            <div class="row">
+                                <div class="col-md-6 date">
+                                    Edited: <span>{{ post.timeStamp }}</span>
+                                </div>
+                                <div class="col-md-6 author">
+                                    {% if post.modifiedBy is null %}
+                                        Created by: {{ post.author }}
+                                    {% else %}
+                                        Modified by: {{ post.modifiedBy }}
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
