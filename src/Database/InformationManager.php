@@ -10,13 +10,31 @@ namespace Database;
 
 
 use Model\About;
+use Model\Section;
 use Model\SectionInformation;
 
 class InformationManager extends BaseDatabaseManager
 {
     const ABOUT_ME = 1;
 
-    public function loadAboutMe() {
+    public function loadSections()
+    {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("SELECT * FROM sections");
+        $stmt->execute();
+
+        $sectionData = $this->bindResult($stmt);
+        $sections = array();
+
+        while ($stmt->fetch()) {
+            $sections[] = $this->arrayToObject($sectionData, Section::class);
+        }
+
+        return $sections;
+    }
+
+    public function loadAboutMe()
+    {
         $sectionId = self::ABOUT_ME;
         $connection = $this->createConnection();
 
@@ -31,7 +49,7 @@ class InformationManager extends BaseDatabaseManager
             $section = $sectionData["name"];
         }
 
-        if (empty($section)){
+        if (empty($section)) {
             return null;
         }
 

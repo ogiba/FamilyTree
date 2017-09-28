@@ -1,0 +1,15 @@
+{% block sectionsList %}
+    <table class="table table-striped table-hover">
+        <thead class="thead-default">
+        <tr>
+            <th>#</th>
+            <th>Section Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for section in sections %}
+            {% include 'admin/section/section_list_row.html.twig' %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

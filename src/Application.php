@@ -2,6 +2,7 @@
 
 use API\PostController;
 use API\TestController;
+use Controller\Admin\InformationManageController;
 use Controller\Admin\LoginController;
 use Controller\Admin\PanelController;
 use Controller\IndexController;
@@ -35,7 +36,7 @@ class Application
         $action = isset($explodedPath[1]) ? $explodedPath[1] : null;
         $params = [];
 
-        if(count($explodedPath) > 2)
+        if (count($explodedPath) > 2)
             $params = array_slice($explodedPath, 2);
 
         call_user_func_array([$controller, "action"], [$name, $action, $params]);
@@ -49,33 +50,53 @@ class Application
     {
         // puste oznaczaja domyslny routing
         $routing = [
-            "" => function() { return new IndexController(); },
-            "tree" => function() { return new TreeController(); },
+            "" => function () {
+                return new IndexController();
+            },
+            "tree" => function () {
+                return new TreeController();
+            },
             "api" => [
-                "post" => function() { return new PostController(); },
-                "test" => function() { return new TestController(); }
+                "post" => function () {
+                    return new PostController();
+                },
+                "test" => function () {
+                    return new TestController();
+                }
             ],
             "admin" => [
-                "" => function() { return new PanelController(); },
-                "post" => function() { return new \Controller\Admin\PostController(); },
-                "login" => function() { return new LoginController(); },
-                "logout" => function() { return new LoginController(); }
+                "" => function () {
+                    return new PanelController();
+                },
+                "post" => function () {
+                    return new \Controller\Admin\PostController();
+                },
+                "sections" => function () {
+                    return new InformationManageController();
+                },
+                "login" => function () {
+                    return new LoginController();
+                },
+                "logout" => function () {
+                    return new LoginController();
+                }
             ],
-            "post" => function() { return new PostViewController(); },
-            "not_found" => function() { return new NotFoundController(); }
+            "post" => function () {
+                return new PostViewController();
+            },
+            "not_found" => function () {
+                return new NotFoundController();
+            }
         ];
 
         $currentRouting = $routing;
 
-        while(count($path) > 0)
-        {
+        while (count($path) > 0) {
             $pathItem = $path[0];
 
-            if(isset($currentRouting[$pathItem]))
-            {
+            if (isset($currentRouting[$pathItem])) {
                 // jesli aktualny obiekt jest tablica pobierz go i powtorz petle
-                if (is_array($currentRouting[$pathItem]))
-                {
+                if (is_array($currentRouting[$pathItem])) {
                     $currentRouting = $currentRouting[$pathItem];
                     array_shift($path);
                     continue;
@@ -89,7 +110,7 @@ class Application
         }
 
         // domyslny routing
-        if(isset($currentRouting[""]))
+        if (isset($currentRouting[""]))
             return $currentRouting[""]();
 
         return new NotFoundController();
