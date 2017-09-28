@@ -1,13 +1,22 @@
 {% block post %}
     <div class="card post">
         <div class="card-body">
-            <h4 class="card-title">{{ post.title }}
-                <small>{{ post.dateTime }}</small>
+            <h4 class="card-title">
+                {{ post.title }}
             </h4>
             <p class="card-text content">
                 {{ post.content }}
             </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <div class="footer">
+                <div class="row">
+                    <div class="col-md-6 date">
+                        {{ post.dateTime }}
+                    </div>
+                    <div class="col-md-6 actions">
+                        <a href="/post?id={{ post.id }}" class="btn btn-primary">View</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -15,6 +15,7 @@
             {% block nav_items %}
                 {{ parent() }}
                 {% if userLogged %}
+                    <div class="nav-btn" onclick='navigateToScene("/admin")'>Posts</div>
                     <div class="nav-btn" onclick='navigateToScene("/admin/logout")'>Logout</div>
                 {% endif %}
             {% endblock %}

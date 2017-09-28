@@ -6,6 +6,7 @@ use Controller\Admin\LoginController;
 use Controller\Admin\PanelController;
 use Controller\IndexController;
 use Controller\NotFoundController;
+use Controller\PostViewController;
 use Controller\TreeController;
 
 /**
@@ -59,7 +60,9 @@ class Application
                 "post" => function() { return new \Controller\Admin\PostController(); },
                 "login" => function() { return new LoginController(); },
                 "logout" => function() { return new LoginController(); }
-            ]
+            ],
+            "post" => function() { return new PostViewController(); },
+            "not_found" => function() { return new NotFoundController(); }
         ];
 
         $currentRouting = $routing;
@@ -68,17 +71,19 @@ class Application
         {
             $pathItem = $path[0];
 
-            // jesli aktualny obiekt jest tablica pobierz go i powtorz petle
-            if(is_array($currentRouting[$pathItem]))
-            {
-                $currentRouting = $currentRouting[$pathItem];
-                array_shift($path);
-                continue;
-            }
-
-            // jesli nie jest tablica wywolaj funckje zapisana w $routing
             if(isset($currentRouting[$pathItem]))
+            {
+                // jesli aktualny obiekt jest tablica pobierz go i powtorz petle
+                if (is_array($currentRouting[$pathItem]))
+                {
+                    $currentRouting = $currentRouting[$pathItem];
+                    array_shift($path);
+                    continue;
+                }
+
+                // jesli nie jest tablica wywolaj funckje zapisana w $routing
                 return $currentRouting[$pathItem]();
+            }
 
             return new NotFoundController();
         }
