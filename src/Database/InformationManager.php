@@ -13,8 +13,7 @@ use Model\About;
 use Model\Section;
 use Model\SectionInformation;
 
-class InformationManager extends BaseDatabaseManager
-{
+class InformationManager extends BaseDatabaseManager {
     const ABOUT_ME = 1;
 
     public function loadSections()
@@ -68,6 +67,30 @@ class InformationManager extends BaseDatabaseManager
             return $about;
         } else {
             $connection->close();
+            return null;
+        }
+    }
+
+    /**
+     *
+     * Load section information by given {@code id}
+     *
+     * @param $id
+     * @return SectionInformation|null
+     */
+    public function loadSectionById($id)
+    {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("SELECT i.id, s.name AS section, i.content, i.image, i.dateTime FROM informations i INNER JOIN sections AS s ON i.section = s.id WHERE s.id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
+        $data = $this->bindResult($stmt);
+
+        if ($stmt->fetch()) {
+            $section = $this->arrayToObject($data, SectionInformation::class);
+            return $section;
+        } else {
             return null;
         }
     }
