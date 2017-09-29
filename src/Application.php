@@ -71,9 +71,11 @@ class Application
                 "post" => function () {
                     return new \Controller\Admin\PostController();
                 },
-                "sections" => function () {
-                    return new InformationManageController();
-                },
+                "sections" => [
+                    "" => function() { return new InformationManageController(); },
+                    "section" => function() { return new InformationManageController(); }
+
+                ],
                 "login" => function () {
                     return new LoginController();
                 },

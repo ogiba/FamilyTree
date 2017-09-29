@@ -1,5 +1,5 @@
 {% block sectionListRow %}
-    <tr onclick="window.location+='/section?id={{ post.id }}';">
+    <tr onclick="window.location+='/section/view/{{ section.id }}';">
         <th scope="row">{{ loop.index }}</th>
         <td>{{ section.name }}</td>
     </tr>

@@ -40,3 +40,9 @@ header {
       .post-page .card .description textarea:focus {
         border: none;
         outline-color: rgba(0, 0, 0, 0.1); }
+
+.section-view .card {
+  margin-top: 5%;
+  margin-bottom: 5%; }
+  .section-view .card .card-body .content {
+    min-height: 300px; }

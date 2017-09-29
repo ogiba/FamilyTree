@@ -1,0 +1,41 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}
+    {{ section.section }}
+{% endblock %}
+
+{% block body %}
+    <section class="section-view">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <h4 class="card-header">
+                            Title
+                        </h4>
+                        <div class="card-body">
+                            {{ section.section }}
+                        </div>
+                        <h4 class="card-header">
+                            Content
+                        </h4>
+                        <div class="card-body">
+                            {{ section.content }}
+                        </div>
+                        <h4 class="card-header">
+                            Image
+                        </h4>
+                        <div class="card-body">
+                            {% if section.images|length > 0 %}
+
+                            {% endif %}
+                        </div>
+                        <div class="card-footer">
+                            {{ section.dateTime }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

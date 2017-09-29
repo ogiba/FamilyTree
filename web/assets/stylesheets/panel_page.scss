@@ -73,3 +73,14 @@ header {
         }
     }
 }
+
+.section-view {
+    .card {
+        margin-top: 5%;
+        margin-bottom: 5%;
+
+        .card-body .content {
+            min-height: 300px;
+        }
+    }
+}
