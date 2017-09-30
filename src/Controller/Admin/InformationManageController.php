@@ -37,8 +37,10 @@ class InformationManageController extends BaseAdminController {
         } else if ($name == "section" && $action == "view") {
             if (!empty($params) && count($params) == 1) {
                 $this->loadSectionPreview($userLogged, $params[0]);
-            } else if(!empty($params) && $params[1] == "edit") {
+            } else if (!empty($params) && $params[1] == "edit") {
                 $this->loadSectionEdit($userLogged, $params[0]);
+            } else if (!empty($params) && $params[1] == "save") {
+                $this->saveChangesInSection($params[0]);
             }
         }
     }
@@ -63,12 +65,13 @@ class InformationManageController extends BaseAdminController {
         $sectionInformation = $this->manager->loadSectionById($id);
 
         echo $this->render("/admin/section/section_view.html.twig", [
-           "userLogged" => $userLogged,
-           "section" => $sectionInformation
+            "userLogged" => $userLogged,
+            "section" => $sectionInformation
         ]);
     }
 
-    private function loadSectionEdit($userLogged, $id) {
+    private function loadSectionEdit($userLogged, $id)
+    {
         $sectionToEdit = $this->manager->loadSectionById($id);
         $availableSections = $this->loadSectionsFormDB();
 
@@ -77,5 +80,16 @@ class InformationManageController extends BaseAdminController {
             "section" => $sectionToEdit,
             "sections" => $availableSections
         ]);
+    }
+
+    private function saveChangesInSection($id)
+    {
+        if (!isset($_POST["content"]) || empty($_POST["content"])) {
+            exit;
+        }
+
+        $updatedContent = $_POST["content"];
+
+        $this->manager->updateSection($id, $updatedContent);
     }
 }

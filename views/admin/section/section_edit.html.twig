@@ -12,11 +12,12 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" src="/web/assets/scripts/plugins/dropzone.js"></script>
+    <script type="text/javascript" src="/web/assets/scripts/section_page.js"></script>
 {% endblock %}
 
 {% block sectionAction %}
     <button class="btn btn-danger" onclick="window.history.back()">Cancel</button>
-    <button class="btn btn-success" onclick="">Save changes</button>
+    <button class="btn btn-success" onclick="updateSection({{ section.id }})">Save changes</button>
 {% endblock %}
 
 {% block sectionName %}
@@ -24,7 +25,7 @@
 {% endblock %}
 
 {% block sectionContent %}
-    <textarea placeholder="Insert content of section" rows="10">{{ section.content }}</textarea>
+    <textarea id="sectionContent" placeholder="Insert content of section" rows="10">{{ section.content }}</textarea>
 {% endblock %}
 
 {% block sectionImages %}

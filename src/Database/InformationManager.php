@@ -94,4 +94,11 @@ class InformationManager extends BaseDatabaseManager {
             return null;
         }
     }
+
+    public function updateSection($id, $content) {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("UPDATE informations SET content = ? WHERE id = ?");
+        $stmt->bind_param("si", $content, $id);
+        $stmt->execute();
+    }
 }
