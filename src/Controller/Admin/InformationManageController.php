@@ -35,8 +35,10 @@ class InformationManageController extends BaseAdminController {
         if (is_null($name)) {
             $this->prepareSectionsList($userLogged);
         } else if ($name == "section" && $action == "view") {
-            if (!empty($params)) {
+            if (!empty($params) && count($params) == 1) {
                 $this->loadSectionPreview($userLogged, $params[0]);
+            } else if(!empty($params) && $params[1] == "edit") {
+                $this->loadSectionEdit($userLogged, $params[0]);
             }
         }
     }
@@ -63,6 +65,15 @@ class InformationManageController extends BaseAdminController {
         echo $this->render("/admin/section/section_view.html.twig", [
            "userLogged" => $userLogged,
            "section" => $sectionInformation
+        ]);
+    }
+
+    private function loadSectionEdit($userLogged, $id) {
+        $sectionToEdit = $this->manager->loadSectionById($id);
+
+        echo $this->render("/admin/section/section_edit.html.twig", [
+            "userLogged" => $userLogged,
+            "section" => $sectionToEdit
         ]);
     }
 }

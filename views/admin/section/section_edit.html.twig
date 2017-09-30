@@ -1,0 +1,18 @@
+{% extends '/admin/section/section_view.html.twig' %}
+
+{% block title %}
+    Editing
+{% endblock %}
+
+{% block sectionAction %}
+    <button class="btn btn-danger" onclick="window.history.back()">Cancel</button>
+    <button class="btn btn-success" onclick="">Save changes</button>
+{% endblock %}
+
+{% block sectionName %}
+    {{ parent() }}
+{% endblock %}
+
+{% block sectionContent %}
+    <textarea placeholder="Insert content of section" rows="10">{{ section.content }}</textarea>
+{% endblock %}

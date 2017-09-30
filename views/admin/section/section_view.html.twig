@@ -11,16 +11,28 @@
                 <div class="col-md-12">
                     <div class="card">
                         <h4 class="card-header">
-                            Title
+                            <div class="row">
+                                <div class="col-md-6">Title</div>
+                                <div class="col-md-6 actions">
+                                    {% block sectionAction %}
+                                        <button onclick="window.location.href += '/edit'" class="btn btn-warning">Edit
+                                        </button>
+                                    {% endblock %}
+                                </div>
+                            </div>
                         </h4>
                         <div class="card-body">
-                            {{ section.section }}
+                            {% block sectionName %}
+                                {{ section.section }}
+                            {% endblock %}
                         </div>
                         <h4 class="card-header">
                             Content
                         </h4>
-                        <div class="card-body">
-                            {{ section.content }}
+                        <div class="card-body content">
+                            {% block sectionContent %}
+                                {{ section.content }}
+                            {% endblock %}
                         </div>
                         <h4 class="card-header">
                             Image

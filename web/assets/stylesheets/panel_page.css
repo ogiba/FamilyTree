@@ -44,5 +44,13 @@ header {
 .section-view .card {
   margin-top: 5%;
   margin-bottom: 5%; }
-  .section-view .card .card-body .content {
+  .section-view .card .card-header .actions {
+    text-align: right; }
+  .section-view .card .card-body.content {
     min-height: 300px; }
+    .section-view .card .card-body.content textarea {
+      width: 100%;
+      border: none; }
+      .section-view .card .card-body.content textarea:focus {
+        border: none;
+        outline-color: rgba(0, 0, 0, 0.1); }

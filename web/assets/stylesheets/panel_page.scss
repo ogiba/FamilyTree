@@ -79,8 +79,26 @@ header {
         margin-top: 5%;
         margin-bottom: 5%;
 
-        .card-body .content {
-            min-height: 300px;
+        .card-header {
+            .actions {
+                text-align: right;
+            }
+        }
+
+        .card-body {
+            &.content {
+                min-height: 300px;
+
+                textarea {
+                    width: 100%;
+                    border: none;
+
+                    &:focus {
+                        border: none;
+                        outline-color: rgba(0, 0, 0, 0.1);
+                    }
+                }
+            }
         }
     }
 }
