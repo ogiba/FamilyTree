@@ -16,7 +16,8 @@ section.marginned {
   right: 0;
   background: yellow;
   text-align: center;
-  z-index: 100; }
+  z-index: 100;
+  transition: 0.5s all; }
   .nav-bar.attach-top {
     position: fixed;
     top: 0;

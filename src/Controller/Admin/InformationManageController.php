@@ -70,10 +70,12 @@ class InformationManageController extends BaseAdminController {
 
     private function loadSectionEdit($userLogged, $id) {
         $sectionToEdit = $this->manager->loadSectionById($id);
+        $availableSections = $this->loadSectionsFormDB();
 
         echo $this->render("/admin/section/section_edit.html.twig", [
             "userLogged" => $userLogged,
-            "section" => $sectionToEdit
+            "section" => $sectionToEdit,
+            "sections" => $availableSections
         ]);
     }
 }

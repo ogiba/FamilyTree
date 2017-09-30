@@ -38,9 +38,11 @@
                             Image
                         </h4>
                         <div class="card-body">
-                            {% if section.images|length > 0 %}
+                            {% block sectionImages %}
+                                {% if section.images|length > 0 %}
 
-                            {% endif %}
+                                {% endif %}
+                            {% endblock %}
                         </div>
                         <div class="card-footer">
                             {{ section.dateTime }}

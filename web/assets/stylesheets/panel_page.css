@@ -54,3 +54,11 @@ header {
       .section-view .card .card-body.content textarea:focus {
         border: none;
         outline-color: rgba(0, 0, 0, 0.1); }
+  .section-view .card .card-body input {
+    border: none;
+    width: 100%; }
+    .section-view .card .card-body input:focus {
+      outline-color: rgba(0, 0, 0, 0.1); }
+  .section-view .card .card-body .dropzone {
+    border: none;
+    min-height: 300px; }

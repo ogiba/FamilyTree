@@ -99,6 +99,20 @@ header {
                     }
                 }
             }
+
+            input {
+                border: none;
+                width: 100%;
+
+                &:focus {
+                    outline-color: rgba(0, 0, 0, 0.1);
+                }
+            }
+
+            .dropzone {
+                border: none;
+                min-height: 300px;
+            }
         }
     }
 }
