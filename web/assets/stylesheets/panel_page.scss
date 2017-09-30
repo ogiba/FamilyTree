@@ -41,7 +41,7 @@ header {
             padding: 5px;
             text-align: right;
             display: inline-block;
-            background-color: rgba(0, 0, 0, .03);;
+            background-color: rgba(0, 0, 0, .03);
         }
 
         .card-body {
@@ -112,6 +112,12 @@ header {
             .dropzone {
                 border: none;
                 min-height: 300px;
+            }
+        }
+
+        .card-footer {
+            .date {
+                color: #868e96!important;
             }
         }
     }

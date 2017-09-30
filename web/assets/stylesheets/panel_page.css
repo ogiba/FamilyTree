@@ -62,3 +62,5 @@ header {
   .section-view .card .card-body .dropzone {
     border: none;
     min-height: 300px; }
+  .section-view .card .card-footer .date {
+    color: #868e96 !important; }

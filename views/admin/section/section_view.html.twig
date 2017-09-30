@@ -12,7 +12,9 @@
                     <div class="card">
                         <h4 class="card-header">
                             <div class="row">
-                                <div class="col-md-6">Title</div>
+                                <div class="col-md-6">
+                                    <div>Title</div>
+                                </div>
                                 <div class="col-md-6 actions">
                                     {% block sectionAction %}
                                         <button onclick="window.location.href += '/edit'" class="btn btn-warning">Edit
@@ -45,7 +47,9 @@
                             {% endblock %}
                         </div>
                         <div class="card-footer">
-                            {{ section.dateTime }}
+                            <div class="date">
+                                {{ section.dateTime }}
+                            </div>
                         </div>
                     </div>
                 </div>

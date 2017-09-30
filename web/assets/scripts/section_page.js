@@ -6,10 +6,9 @@ function updateSection(id) {
             content: $("#sectionContent").val()
         },
         success: function (data) {
-            alert(data);
+            window.history.back();
         },
         error: function (error) {
-            alert(error);
         }
     });
 }
