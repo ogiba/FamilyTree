@@ -215,16 +215,27 @@ function rebuildPersonItem(elem, parent) {
 
                     connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
                         ConnectionType.line);
+                } else if (
+                    startElemCellIndex + 1 === _foundItemCellIndex
+                    && startElemRowIndex === _foundItemRowIndex) {
+
+                    console.log("first cell(" + _foundItemCellIndex + ", " + _foundItemRowIndex + ")");
+                    connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
+                        ConnectionType.down);
                 } else if (_foundItemRowIndex === rowIndex
                     && _foundItemRowIndex >= startElemRowIndex
                     && _foundItemCellIndex > startElemCellIndex
                     && _foundItemCellIndex < cellIndex) {
 
                     if ((_foundItemCellIndex - startElemCellIndex) === 1) {
-                        if (_fou)
+                        // if (startElemCellIndex === _foundItemCellIndex - 1 && startElemRowIndex === _foundItemRowIndex - 1) {
+                        //     console.log("first cell(" + _item.cellIndex + ", " + _item.parentNode.rowIndex - 1 + ")");
+                        //     connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex - 1),
+                        //         ConnectionType.down);
+                        // }
                         console.log("first cell(" + _item.cellIndex + ", " + _item.parentNode.rowIndex + ")");
                         connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
-                            ConnectionType.down);
+                            ConnectionType.downFinish);
                     } else {
                         console.log("lower row(" + _item.cellIndex + ", " + _item.parentNode.rowIndex + ")");
                         connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
@@ -571,38 +582,90 @@ var ConnectionType = {
     line: 0,
     down: 1,
     up: 2,
-    cross: 3
+    downFinish: 3,
+    upFinish: 4,
+    cross: 5
 };
 
+/**
+ *
+ * @param  parent
+ */
 Connection.prototype.drawConnection = function (parent) {
+    if (!parent.hasClass("no-padding")) {
+        parent.addClass("no-padding");
+    }
+
     switch (this.type) {
         case ConnectionType.line:
             var line = $("<div/>", {
-                "class" : "connection-type-horizontal fill centered"
+                "class": "connection-type-horizontal fill centered"
             });
-
-            if (!parent.hasClass("no-padding")) {
-                parent.addClass("no-padding");
-            }
 
             parent.append(line);
             break;
         case ConnectionType.down:
+
             if (!parent.find(".connection-type-horizontal").length) {
                 var line = $("<div/>", {
-                    "class" : "connection-type-horizontal fill centered"
+                    "class": "connection-type-horizontal centered"
                 });
 
                 parent.append(line);
             }
 
             var lowerLine = $("<div/>", {
-                "class" : "connection-type-vertical"
+                "class": "connection-type-vertical"
             });
 
             parent.append(lowerLine);
             break;
         case ConnectionType.up:
+
+            if (!parent.find(".connection-type-horizontal").length) {
+                var line = $("<div/>", {
+                    "class": "connection-type-horizontal centered"
+                });
+
+                parent.append(line);
+            }
+
+            var upperLine = $("<div/>", {
+                "class": "connection-type-vertical"
+            });
+
+            parent.prepend(upperLine);
+
+            break;
+        case ConnectionType.downFinish:
+            if (!parent.find(".connection-type-horizontal").length) {
+                var line = $("<div/>", {
+                    "class": "connection-type-horizontal righted"
+                });
+
+                parent.append(line);
+            }
+
+            var lowerLine = $("<div/>", {
+                "class": "connection-type-vertical"
+            });
+
+            parent.prepend(lowerLine);
+            break;
+        case ConnectionType.upFinish:
+            if (!parent.find(".connection-type-horizontal").length) {
+                var line = $("<div/>", {
+                    "class": "connection-type-horizontal centered righted"
+                });
+
+                parent.append(line);
+            }
+
+            var upperLine = $("<div/>", {
+                "class": "connection-type-vertical"
+            });
+
+            parent.append(upperLine);
             break;
         case ConnectionType.cross:
             break;
