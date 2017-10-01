@@ -41,7 +41,7 @@ header {
             padding: 5px;
             text-align: right;
             display: inline-block;
-            background-color: rgba(0, 0, 0, .03);;
+            background-color: rgba(0, 0, 0, .03);
         }
 
         .card-body {
@@ -69,6 +69,55 @@ header {
                     border: none;
                     outline-color: rgba(0, 0, 0, 0.1);
                 }
+            }
+        }
+    }
+}
+
+.section-view {
+    .card {
+        margin-top: 5%;
+        margin-bottom: 5%;
+
+        .card-header {
+            .actions {
+                text-align: right;
+            }
+        }
+
+        .card-body {
+            &.content {
+                min-height: 300px;
+
+                textarea {
+                    width: 100%;
+                    border: none;
+
+                    &:focus {
+                        border: none;
+                        outline-color: rgba(0, 0, 0, 0.1);
+                    }
+                }
+            }
+
+            input {
+                border: none;
+                width: 100%;
+
+                &:focus {
+                    outline-color: rgba(0, 0, 0, 0.1);
+                }
+            }
+
+            .dropzone {
+                border: none;
+                min-height: 300px;
+            }
+        }
+
+        .card-footer {
+            .date {
+                color: #868e96!important;
             }
         }
     }

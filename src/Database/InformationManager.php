@@ -10,13 +10,30 @@ namespace Database;
 
 
 use Model\About;
+use Model\Section;
 use Model\SectionInformation;
 
-class InformationManager extends BaseDatabaseManager
-{
+class InformationManager extends BaseDatabaseManager {
     const ABOUT_ME = 1;
 
-    public function loadAboutMe() {
+    public function loadSections()
+    {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("SELECT * FROM sections");
+        $stmt->execute();
+
+        $sectionData = $this->bindResult($stmt);
+        $sections = array();
+
+        while ($stmt->fetch()) {
+            $sections[] = $this->arrayToObject($sectionData, Section::class);
+        }
+
+        return $sections;
+    }
+
+    public function loadAboutMe()
+    {
         $sectionId = self::ABOUT_ME;
         $connection = $this->createConnection();
 
@@ -31,7 +48,7 @@ class InformationManager extends BaseDatabaseManager
             $section = $sectionData["name"];
         }
 
-        if (empty($section)){
+        if (empty($section)) {
             return null;
         }
 
@@ -52,5 +69,36 @@ class InformationManager extends BaseDatabaseManager
             $connection->close();
             return null;
         }
+    }
+
+    /**
+     *
+     * Load section information by given {@code id}
+     *
+     * @param $id
+     * @return SectionInformation|null
+     */
+    public function loadSectionById($id)
+    {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("SELECT i.id, s.name AS section, i.content, i.image, i.dateTime FROM informations i INNER JOIN sections AS s ON i.section = s.id WHERE s.id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
+        $data = $this->bindResult($stmt);
+
+        if ($stmt->fetch()) {
+            $section = $this->arrayToObject($data, SectionInformation::class);
+            return $section;
+        } else {
+            return null;
+        }
+    }
+
+    public function updateSection($id, $content) {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("UPDATE informations SET content = ? WHERE id = ?");
+        $stmt->bind_param("si", $content, $id);
+        $stmt->execute();
     }
 }

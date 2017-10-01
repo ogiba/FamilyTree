@@ -163,6 +163,12 @@ class PostController extends BaseAdminController
         $postTitle = $_POST["title"];
         $postContent = $_POST["content"];
 
-        $this->manager->updatePost($postId, $postTitle, $postContent);
+
+        $updated = $this->manager->updatePost($postId, $postTitle, $postContent);
+        if ($updated) {
+            header("HTTP/1.1 200 OK");
+        } else {
+            exit;
+        }
     }
 }

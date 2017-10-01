@@ -40,3 +40,27 @@ header {
       .post-page .card .description textarea:focus {
         border: none;
         outline-color: rgba(0, 0, 0, 0.1); }
+
+.section-view .card {
+  margin-top: 5%;
+  margin-bottom: 5%; }
+  .section-view .card .card-header .actions {
+    text-align: right; }
+  .section-view .card .card-body.content {
+    min-height: 300px; }
+    .section-view .card .card-body.content textarea {
+      width: 100%;
+      border: none; }
+      .section-view .card .card-body.content textarea:focus {
+        border: none;
+        outline-color: rgba(0, 0, 0, 0.1); }
+  .section-view .card .card-body input {
+    border: none;
+    width: 100%; }
+    .section-view .card .card-body input:focus {
+      outline-color: rgba(0, 0, 0, 0.1); }
+  .section-view .card .card-body .dropzone {
+    border: none;
+    min-height: 300px; }
+  .section-view .card .card-footer .date {
+    color: #868e96 !important; }

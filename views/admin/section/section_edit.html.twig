@@ -1,0 +1,33 @@
+{% extends '/admin/section/section_view.html.twig' %}
+
+{% block title %}
+    Editing
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="/web/assets/stylesheets/dropzone.min.css">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="/web/assets/scripts/plugins/dropzone.js"></script>
+    <script type="text/javascript" src="/web/assets/scripts/section_page.js"></script>
+{% endblock %}
+
+{% block sectionAction %}
+    <button class="btn btn-danger" onclick="window.history.back()">Cancel</button>
+    <button class="btn btn-success" onclick="updateSection({{ section.id }})">Save changes</button>
+{% endblock %}
+
+{% block sectionName %}
+    {{ parent() }}
+{% endblock %}
+
+{% block sectionContent %}
+    <textarea id="sectionContent" placeholder="Insert content of section" rows="10">{{ section.content }}</textarea>
+{% endblock %}
+
+{% block sectionImages %}
+    <form action="/admin/post/new/upload" class="dropzone"></form>
+{% endblock %}

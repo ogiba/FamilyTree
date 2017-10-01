@@ -37,7 +37,7 @@ function updatePost(postValue) {
             "content": $("#postContent").val()
         },
         success: function(data){
-
+            window.history.back();
         },
         error: function (error) {
             var resp = JSON.parse(error.responseText);
