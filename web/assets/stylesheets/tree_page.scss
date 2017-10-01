@@ -214,6 +214,10 @@ body {
             &.fill{
                 width: 100%;
             }
+
+            &.righted {
+                margin-left: 50%;
+            }
         }
 
         .connection-type-vertical {

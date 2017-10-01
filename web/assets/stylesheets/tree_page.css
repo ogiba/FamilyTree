@@ -143,6 +143,8 @@ body {
         margin-top: 50%; }
       .tree-playground .tree-container .connection-type-horizontal.fill {
         width: 100%; }
+      .tree-playground .tree-container .connection-type-horizontal.righted {
+        margin-left: 50%; }
     .tree-playground .tree-container .connection-type-vertical {
       display: inline-block;
       width: 1px;
