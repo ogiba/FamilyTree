@@ -227,6 +227,10 @@ body {
             background: black;
             margin-left: 50%;
             margin-bottom: -8px;
+
+            &.fill{
+                height: 100%;
+            }
         }
     }
 }
