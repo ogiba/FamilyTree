@@ -61,7 +61,7 @@ function drop(ev) {
             // }
 
             if (parentElement.localName === "td" && parentElement.parentElement.localName === "tr") {
-                console.log("col:"+parentElement.cellIndex+" row:"+parentElement.parentElement.rowIndex);
+                console.log("col:" + parentElement.cellIndex + " row:" + parentElement.parentElement.rowIndex);
 
                 if (parentElement.parentElement.rowIndex === 0) {
                     addNewRow(true);
@@ -70,7 +70,7 @@ function drop(ev) {
                         scrollTop: $(droppedItem).offset().top
                     }, 0);
 
-                    treeItems.forEach(function(item){
+                    treeItems.forEach(function (item) {
                         item.row += 1;
                         console.log(item);
                     });
@@ -85,7 +85,7 @@ function drop(ev) {
                         scrollLeft: $(droppedItem).offset().left + 500
                     }, 0);
 
-                    treeItems.forEach(function(item){
+                    treeItems.forEach(function (item) {
                         item.column += 1;
                         console.log(item);
                     });
@@ -162,30 +162,58 @@ function rebuildPersonItem(elem, parent) {
         var list = document.querySelector(".table");
         var draggableList = new DraggableList(list, elem);
 
-        draggableList.onDraggingItemMouseEnter = function(item)
-        {
+        draggableList.onDraggingItemMouseEnter = function (item) {
             addClass(item.element, "ghost-over");
         };
 
-        draggableList.onDraggingItemMouseLeave = function(item)
-        {
+        draggableList.onDraggingItemMouseLeave = function (item) {
             removeClass(item.element, "ghost-over");
         };
 
-        draggableList.onItemConnected = function(item, dot)
-        {
+        draggableList.onItemConnected = function (item, dot) {
             var cellIndex = item.element.parentNode.parentNode.cellIndex;
             var rowIndex = item.element.parentNode.parentNode.parentNode.rowIndex;
+            var startElemCellIndex = dot.parentNode.parentNode.parentNode.cellIndex;
 
-            console.log("Position("+cellIndex+","+rowIndex+")");
+            console.log("Position(" + cellIndex + "," + rowIndex + ")");
 
             var cells = document.querySelectorAll("td");
 
-            cells.forEach(function (item) {
-                if (item.cellIndex === cellIndex - 1 && item.parentNode.rowIndex === rowIndex){
-                    console.log("same row");
+            var linesToDraw = [];
+
+            cells.forEach(function (_item) {
+                switch (dot.className) {
+                    // case "left-dot":
+                    //     console.log("left-dot");
+                    //     break;
+                    // case "top-dot":
+                    //     console.log("top-dot");
+                    //     break;
+                    // case "right-dot":
+                    //     console.log("right-dot");
+                    //     break;
+                    // case "bottom-dot":
+                    //     console.log("bottom-dot");
+                    //     break;
+                    // default:
+                    //     break;
+                }
+                // if (item.cellIndex === cellIndex - 1 && item.parentNode.rowIndex === rowIndex) {
+                //     console.log("same row(" + item.cellIndex + ", " + item.parentNode.rowIndex + ")");
+                // }
+                if (_item.parentNode.rowIndex === rowIndex && _item.cellIndex > startElemCellIndex && _item.cellIndex < cellIndex) {
+                    console.log("same row(" + _item.cellIndex + ", " + _item.parentNode.rowIndex + ")");
+
+                    var itemPosition = new TablePosition(_item.cellIndex, _item.parentNode.rowIndex);
+                    linesToDraw.push(itemPosition);
                 }
             });
+
+            console.log("Number of found postions:" + linesToDraw.length);
+
+            if (linesToDraw.length > 0) {
+                buildConnectionBetweenItems(linesToDraw);
+            }
 
             addClass(item.element, "selected");
         };
@@ -212,12 +240,24 @@ function rebuildPersonItem(elem, parent) {
     // };
 }
 
+function buildConnectionBetweenItems(linesToDraw) {
+    linesToDraw.forEach(function (position) {
+        var cellContainer = $('tr:eq(' + position.row + ') td:eq(' + position.cell + ') .tree-container');
+
+        var line = $("<div/>", {
+            "style": "margin-top: 50%; background: black; height: 1px;"
+        })
+
+        cellContainer.append(line);
+    });
+}
+
 function rebuildConnectionItem(elem) {
     var text = elem.childNodes[0];
     elem.innerHTML = "";
 
     $("<div/>", {
-        "style":"margin-top: 50%; background: black; height: 1px;"
+        "style": "margin-top: 50%; background: black; height: 1px;"
     }).appendTo(elem);
 }
 
@@ -237,7 +277,7 @@ function addNewRow(inFirstPlace) {
 function addNewColumn(inFirstPlace) {
     var tbody = $(".table").children()[0];
     if (tbody.localName === "tbody") {
-        Array.from(tbody.children).forEach(function(item){
+        Array.from(tbody.children).forEach(function (item) {
             var clonedCell = $(item.children[0].cloneNode(true));
 
             if (inFirstPlace) {
@@ -249,7 +289,7 @@ function addNewColumn(inFirstPlace) {
     }
 }
 
-var TreeNode = function(id, column, row) {
+var TreeNode = function (id, column, row) {
     this.id = id;
     this.column = column;
     this.row = row;
@@ -258,24 +298,22 @@ var TreeNode = function(id, column, row) {
 /**
  * @param {string} name
  */
-function addClass(element, name)
-{
+function addClass(element, name) {
     var classes = element.className.split(" ");
     var index = classes.indexOf(name);
 
-    if(index >= 0)
+    if (index >= 0)
         return;
 
     classes.push(name);
     element.className = classes.join(" ");
 };
 
-function removeClass(element, name)
-{
+function removeClass(element, name) {
     var classes = element.className.split(" ");
     var index = classes.indexOf(name);
 
-    if(index >= 0)
+    if (index >= 0)
         classes.splice(index, 1);
 
     element.className = classes.join(" ");
@@ -284,8 +322,7 @@ function removeClass(element, name)
 /**
  *  @class
  */
-var DraggableList = function (listElement, parentElement)
-{
+var DraggableList = function (listElement, parentElement) {
     this.elements = [];
     this.offset = null;
     this.selectedElement = null;
@@ -301,8 +338,7 @@ var DraggableList = function (listElement, parentElement)
     listElements.push(parentElement);
 
 
-    for(var i = 0; i < listElements.length; i++)
-    {
+    for (var i = 0; i < listElements.length; i++) {
         this.elements.push(new DraggableElement(this, listElements[i]));
     }
 
@@ -315,8 +351,7 @@ var DraggableList = function (listElement, parentElement)
  * @param {{x: number, y: number}} offset
  * @param {{x: number, y: number}} startPos
  */
-DraggableList.prototype.select = function(element, offset, startPos, dot)
-{
+DraggableList.prototype.select = function (element, offset, startPos, dot) {
     this.selectedElement = element;
     this.selectedDot = dot;
 
@@ -337,10 +372,9 @@ DraggableList.prototype.select = function(element, offset, startPos, dot)
     document.body.appendChild(this.canvas);
 };
 
-DraggableList.prototype.deselect = function()
-{
-    if(this.draggingOverElement && this.onItemConnected)
-        this.onItemConnected(this.draggingOverElement, this.selectDot);
+DraggableList.prototype.deselect = function () {
+    if (this.draggingOverElement && this.onItemConnected)
+        this.onItemConnected(this.draggingOverElement, this.selectedDot);
 
     document.body.removeChild(this.canvas);
 
@@ -352,24 +386,20 @@ DraggableList.prototype.deselect = function()
     this.canvasContext = null;
     this.draggingOverElement = null;
 
-    for(var i = 0; i < this.elements.length; i++)
-    {
+    for (var i = 0; i < this.elements.length; i++) {
         var element = this.elements[i];
 
-        if(element.draggingMouseIsOver)
-        {
+        if (element.draggingMouseIsOver) {
             element.draggingMouseIsOver = false;
 
-            if(this.onDraggingItemMouseLeave)
+            if (this.onDraggingItemMouseLeave)
                 this.onDraggingItemMouseLeave(element);
         }
     }
 };
 
-DraggableList.prototype.onMouseUp = function()
-{
-    if(this.canvas)
-    {
+DraggableList.prototype.onMouseUp = function () {
+    if (this.canvas) {
         this.deselect();
     }
 };
@@ -377,35 +407,28 @@ DraggableList.prototype.onMouseUp = function()
 /**
  * @param {MouseEvent} e
  */
-DraggableList.prototype.onMouseMove = function(e)
-{
-    if(this.canvas !== null)
-    {
-        this.updateCanvasLine({ x: e.clientX,  y: e.clientY });
+DraggableList.prototype.onMouseMove = function (e) {
+    if (this.canvas !== null) {
+        this.updateCanvasLine({x: e.clientX, y: e.clientY});
 
-        for(var i = 0; i < this.elements.length; i++)
-        {
+        for (var i = 0; i < this.elements.length; i++) {
             var element = this.elements[i];
 
-            if(element === this.selectedElement)
+            if (element === this.selectedElement)
                 continue;
 
-            if(this.intersectsWithPos(element, { x: e.clientX,  y: e.clientY }))
-            {
-                if(!element.draggingMouseIsOver && !this.draggingOverElement)
-                {
-                    if(this.onDraggingItemMouseEnter)
+            if (this.intersectsWithPos(element, {x: e.clientX, y: e.clientY})) {
+                if (!element.draggingMouseIsOver && !this.draggingOverElement) {
+                    if (this.onDraggingItemMouseEnter)
                         this.onDraggingItemMouseEnter(element);
 
                     element.draggingMouseIsOver = true;
                     this.draggingOverElement = element;
                 }
             }
-            else
-            {
-                if(element.draggingMouseIsOver)
-                {
-                    if(this.onDraggingItemMouseLeave)
+            else {
+                if (element.draggingMouseIsOver) {
+                    if (this.onDraggingItemMouseLeave)
                         this.onDraggingItemMouseLeave(element);
 
                     element.draggingMouseIsOver = false;
@@ -419,14 +442,12 @@ DraggableList.prototype.onMouseMove = function(e)
 /**
  * @param {{x: number, y: number}} startPos
  */
-DraggableList.prototype.updateGhostPosition = function(startPos)
-{
+DraggableList.prototype.updateGhostPosition = function (startPos) {
     this.ghostElement.style.left = (startPos.x - this.offset.x) + "px";
     this.ghostElement.style.top = (startPos.y - this.offset.y) + "px";
 };
 
-DraggableList.prototype.updateCanvasLine = function(pos)
-{
+DraggableList.prototype.updateCanvasLine = function (pos) {
     this.canvasContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
     this.canvasContext.strokeStyle = "black";
     this.canvasContext.beginPath();
@@ -438,24 +459,22 @@ DraggableList.prototype.updateCanvasLine = function(pos)
 /**
  * @param {DraggableElement} element
  */
-DraggableList.prototype.intersectsWithGhost = function(element)
-{
+DraggableList.prototype.intersectsWithGhost = function (element) {
     var elementRect = element.element.getBoundingClientRect();
     var ghostRect = this.ghostElement.getBoundingClientRect();
 
     return (elementRect.left < ghostRect.right && elementRect.right > ghostRect.left &&
-    elementRect.top < ghostRect.bottom && elementRect.bottom > ghostRect.top );
+        elementRect.top < ghostRect.bottom && elementRect.bottom > ghostRect.top );
 };
 
 /**
  * @param {{ x: number, y: number }} pos
  */
-DraggableList.prototype.intersectsWithPos = function(element, pos)
-{
+DraggableList.prototype.intersectsWithPos = function (element, pos) {
     var elementRect = element.element.getBoundingClientRect();
 
-    return (pos.x > elementRect.left  && pos.x < elementRect.right &&
-    pos.y > elementRect.top && pos.y < elementRect.bottom);
+    return (pos.x > elementRect.left && pos.x < elementRect.right &&
+        pos.y > elementRect.top && pos.y < elementRect.bottom);
 };
 
 
@@ -464,8 +483,7 @@ DraggableList.prototype.intersectsWithPos = function(element, pos)
  * @param {DraggableList} list
  * @param {HTMLElement} element
  */
-function DraggableElement(list, element)
-{
+function DraggableElement(list, element) {
     this.list = list;
     this.element = element;
     this.draggingMouseIsOver = false;
@@ -481,12 +499,16 @@ function DraggableElement(list, element)
     leftDot.addEventListener("mousedown", this.onMouseDown.bind(this, leftDot));
 }
 
-DraggableElement.prototype.onMouseDown = function(dot, e)
-{
+DraggableElement.prototype.onMouseDown = function (dot, e) {
     var rect = this.element.getBoundingClientRect();
-    var offset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    var offset = {x: e.clientX - rect.left, y: e.clientY - rect.top};
 
-    this.list.select(this, offset, { x: e.clientX, y: e.clientY }, dot);
+    this.list.select(this, offset, {x: e.clientX, y: e.clientY}, dot);
 
     e.preventDefault();
+};
+
+var TablePosition = function (cell, row) {
+    this.cell = cell;
+    this.row = row;
 };
