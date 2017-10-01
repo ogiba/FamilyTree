@@ -114,6 +114,26 @@ class PostsManager extends BaseDatabaseManager
         $stmt->bind_param("ssss", $title, $content, $shortDesc, $token);
         $stmt->execute();
         $stmt->fetch();
+
+        return $stmt->insert_id;
+    }
+
+    public function savePostImages($postId, $files)
+    {
+        if (!isset($_SESSION["token"])) {
+            exit;
+        }
+
+        $token = $_SESSION["token"];
+
+        foreach($files as $file)
+        {
+            $database = $this->createConnection();
+            $stmt = $database->prepare("INSERT INTO post_images (image, postId) VALUES(?, ?)");
+            $stmt->bind_param("si", $file, $postId);
+            $stmt->execute();
+            $stmt->fetch();
+        }
     }
 
     public function updatePost($id, $title, $content)

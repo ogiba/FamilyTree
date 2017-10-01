@@ -12,6 +12,7 @@ namespace Controller\Admin;
 use Database\InformationManager;
 
 class InformationManageController extends BaseAdminController {
+    const userSectionImagesActions = "user-section-images-actions";
     private $manager;
 
     /**
@@ -41,6 +42,8 @@ class InformationManageController extends BaseAdminController {
                 $this->loadSectionEdit($userLogged, $params[0]);
             } else if (!empty($params) && $params[1] == "save") {
                 $this->saveChangesInSection($params[0]);
+            } else if (!empty($params) && $params[1] == "upload") {
+                $this->uploadSectionFile($params[0]);
             }
         }
     }
@@ -75,6 +78,8 @@ class InformationManageController extends BaseAdminController {
         $sectionToEdit = $this->manager->loadSectionById($id);
         $availableSections = $this->loadSectionsFormDB();
 
+        $_SESSION[self::userSectionImagesActions] = [];
+
         echo $this->render("/admin/section/section_edit.html.twig", [
             "userLogged" => $userLogged,
             "section" => $sectionToEdit,
@@ -91,5 +96,67 @@ class InformationManageController extends BaseAdminController {
         $updatedContent = $_POST["content"];
 
         $this->manager->updateSection($id, $updatedContent);
+
+        // TODO: combine with uploading images in PostController and make common interface
+
+        $uploadedFiles = [];
+        $removedFiles = [];
+        $storeFolder = 'uploads';   //2
+        $destFolder = $storeFolder . "/";
+
+        foreach($_SESSION[self::userSectionImagesActions] as $action)
+        {
+            if($action->action == "add")
+            {
+                $targetFile = $destFolder . uniqid("section_iamge_");
+
+                if (rename($action->data, $targetFile))
+                {
+                    $uploadedFiles[] = $targetFile;
+                }
+                else
+                {
+                    echo "Error occurred\n";
+                }
+            }
+            else if($action->action == "remove")
+            {
+                $removedFiles[] = $action->data;
+
+                // TODO: remove image file from disk
+            }
+        }
+
+        $this->manager->insertSectionImages($id, $uploadedFiles);
+
+        // TODO: remove images from database
+        //$this->manager->removeSectionImages($id, $removedFiles);
+    }
+
+    private function uploadSectionFile($id)
+    {
+        if (!empty($_FILES))
+        {
+            $tempFile = $_FILES['file']['tmp_name'];
+            $storeFolder = 'uploads/temp';   //2
+            $destFolder = $storeFolder . "/";
+            $targetFile = $destFolder . uniqid("section_iamge_");
+
+            if(!file_exists($destFolder))
+                mkdir($destFolder,0x0777, true);
+
+            if (move_uploaded_file($tempFile, $targetFile))
+            {
+                $action = new \stdClass();
+                $action->action = "add";
+                $action->data = $targetFile;
+
+                $_SESSION[self::userSectionImagesActions][] = $action;
+            }
+            else
+            {
+                echo "Error occurred\n";
+            }
+        }
     }
 }
