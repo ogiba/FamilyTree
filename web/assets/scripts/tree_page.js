@@ -174,6 +174,7 @@ function rebuildPersonItem(elem, parent) {
             var cellIndex = item.element.parentNode.parentNode.cellIndex;
             var rowIndex = item.element.parentNode.parentNode.parentNode.rowIndex;
             var startElemCellIndex = dot.parentNode.parentNode.parentNode.cellIndex;
+            var startElemRowIndex = dot.parentNode.parentNode.parentNode.parentNode.rowIndex;
 
             console.log("Position(" + cellIndex + "," + rowIndex + ")");
 
@@ -201,11 +202,36 @@ function rebuildPersonItem(elem, parent) {
                 // if (item.cellIndex === cellIndex - 1 && item.parentNode.rowIndex === rowIndex) {
                 //     console.log("same row(" + item.cellIndex + ", " + item.parentNode.rowIndex + ")");
                 // }
-                if (_item.parentNode.rowIndex === rowIndex && _item.cellIndex > startElemCellIndex && _item.cellIndex < cellIndex) {
+
+                var _foundItemCellIndex = _item.cellIndex;
+                var _foundItemRowIndex = _item.parentNode.rowIndex;
+                var connection = null;
+
+                if (_foundItemRowIndex === rowIndex
+                    && _foundItemRowIndex === startElemRowIndex
+                    && _foundItemCellIndex > startElemCellIndex
+                    && _foundItemCellIndex < cellIndex) {
                     console.log("same row(" + _item.cellIndex + ", " + _item.parentNode.rowIndex + ")");
 
-                    var itemPosition = new TablePosition(_item.cellIndex, _item.parentNode.rowIndex);
-                    linesToDraw.push(itemPosition);
+                    connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
+                        ConnectionType.line);
+                } else if (_foundItemRowIndex === rowIndex
+                    && _foundItemRowIndex >= startElemRowIndex
+                    && _foundItemCellIndex > startElemCellIndex
+                    && _foundItemCellIndex < cellIndex) {
+
+                    if ((_foundItemCellIndex - startElemCellIndex) === 1) {
+                        console.log("first cell(" + _item.cellIndex + ", " + _item.parentNode.rowIndex + ")");
+                    } else {
+                        console.log("lower row(" + _item.cellIndex + ", " + _item.parentNode.rowIndex + ")");
+                    }
+
+                    connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
+                        ConnectionType.line);
+                }
+
+                if (connection !== null) {
+                    linesToDraw.push(connection);
                 }
             });
 
@@ -240,13 +266,17 @@ function rebuildPersonItem(elem, parent) {
     // };
 }
 
+/**
+ *
+ * @param {Connection[]} linesToDraw
+ */
 function buildConnectionBetweenItems(linesToDraw) {
-    linesToDraw.forEach(function (position) {
-        var cellContainer = $('tr:eq(' + position.row + ') td:eq(' + position.cell + ') .tree-container');
+    linesToDraw.forEach(function (connection) {
+        var cellContainer = $('tr:eq(' + connection.position.row + ') td:eq(' + connection.position.cell + ') .tree-container');
 
         var line = $("<div/>", {
-            "style": "margin-top: 50%; background: black; height: 1px;"
-        })
+            "style": "margin-top: 50%; margin-left: -10px; margin-right: -10px; background: black; height: 1px;"
+        });
 
         cellContainer.append(line);
     });
@@ -257,7 +287,7 @@ function rebuildConnectionItem(elem) {
     elem.innerHTML = "";
 
     $("<div/>", {
-        "style": "margin-top: 50%; background: black; height: 1px;"
+        "style": "margin-top: 50%; margin-left: -10px; margin-right: -10px; background: black; height: 1px;"
     }).appendTo(elem);
 }
 
@@ -508,7 +538,35 @@ DraggableElement.prototype.onMouseDown = function (dot, e) {
     e.preventDefault();
 };
 
+/**
+ *
+ * @param {TablePosition} tablePosition
+ * @param {ConnectionType|Number} type
+ * @constructor
+ */
+var Connection = function (tablePosition, type) {
+    this.position = tablePosition;
+    this.type = type;
+}
+
+/**
+ *
+ * @param {Number} cell
+ * @param {Number} row
+ * @constructor
+ */
 var TablePosition = function (cell, row) {
     this.cell = cell;
     this.row = row;
+};
+
+/**
+ * Enum that defines style of drawing connection between elements
+ * @type {{line: number, down: number, up: number, cross: number}}
+ */
+var ConnectionType = {
+    line: 0,
+    down: 1,
+    up: 2,
+    cross: 3
 };
