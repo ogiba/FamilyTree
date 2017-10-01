@@ -119,6 +119,10 @@ body {
         height: 100%;
         padding: 5px;
 
+        &.no-padding {
+            padding: 0;
+        }
+
         .person-item {
             display: inline-block;
             background: beige;
@@ -195,6 +199,30 @@ body {
 
         li {
             list-style: none;
+        }
+
+        .connection-type-horizontal {
+            display: inline-block;
+            width: 50%;
+            height: 1px;
+            background: black;
+
+            &.centered{
+                margin-top: 50%;
+            }
+
+            &.fill{
+                width: 100%;
+            }
+        }
+
+        .connection-type-vertical {
+            display: inline-block;
+            width: 1px;
+            height: 50%;
+            background: black;
+            margin-left: 50%;
+            margin-bottom: -8px;
         }
     }
 }
