@@ -101,4 +101,22 @@ class InformationManager extends BaseDatabaseManager {
         $stmt->bind_param("si", $content, $id);
         $stmt->execute();
     }
+
+    public function insertSectionImages($sectionId, $files)
+    {
+        if (!isset($_SESSION["token"])) {
+            exit;
+        }
+
+        $token = $_SESSION["token"];
+
+        foreach($files as $file)
+        {
+            $database = $this->createConnection();
+            $stmt = $database->prepare("INSERT INTO information_images (image, informationID) VALUES(?, ?)");
+            $stmt->bind_param("si", $file, $sectionId);
+            $stmt->execute();
+            $stmt->fetch();
+        }
+    }
 }

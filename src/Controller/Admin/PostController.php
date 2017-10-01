@@ -13,6 +13,7 @@ use Database\PostsManager;
 
 class PostController extends BaseAdminController
 {
+    const userAddPostImagesActions = "user-add-post-images";
     private $manager;
 
     /**
@@ -111,6 +112,8 @@ class PostController extends BaseAdminController
 
             $saveAction = "savePost()";
 
+            $_SESSION[self::userAddPostImagesActions] = [];
+
             echo $this->render("/admin/post/post_edit.html.twig", [
                 "userLogged" => $userLogged,
                 "action" => $saveAction
@@ -120,22 +123,28 @@ class PostController extends BaseAdminController
 
     private function uploadFiles()
     {
-        $storeFolder = 'uploads';   //2
-
-        if (!empty($_FILES)) {
-
-            $destFolder = "/" . $storeFolder . "/";
-
+        if (!empty($_FILES))
+        {
             $tempFile = $_FILES['file']['tmp_name'];
+            $storeFolder = 'uploads/temp';   //2
+            $destFolder = $storeFolder . "/";
+            $targetFile = $destFolder . uniqid("post_image_");
 
-            $targetFile = $destFolder . $_FILES['file']['name'];  //5
+            if(!file_exists($destFolder))
+                mkdir($destFolder,0x0777, true);
 
-            if (move_uploaded_file($tempFile, $targetFile)) {
-                echo "File is valid, and was successfully uploaded.\n";
-            } else {
+            if (move_uploaded_file($tempFile, $targetFile))
+            {
+                $action = new \stdClass();
+                $action->action = "add";
+                $action->data = $targetFile;
+
+                $_SESSION[self::userAddPostImagesActions][] = $action;
+            }
+            else
+            {
                 echo "Error occurred\n";
             }
-
         }
     }
 
@@ -148,7 +157,30 @@ class PostController extends BaseAdminController
         $postTitle = $_POST["title"];
         $postContent = $_POST["content"];
 
-        $this->manager->savePost($postTitle, $postContent);
+        $postId = $this->manager->savePost($postTitle, $postContent);
+
+        $uploadedFiles = [];
+        $storeFolder = 'uploads';   //2
+        $destFolder = $storeFolder . "/";
+
+        foreach($_SESSION[self::userAddPostImagesActions] as $action)
+        {
+            if($action->action != "add")
+                continue;
+
+            $targetFile = $destFolder . uniqid("post_image_");
+
+            if (rename($action->data, $targetFile))
+            {
+                $uploadedFiles[] = $targetFile;
+            }
+            else
+            {
+                echo "Error occurred\n";
+            }
+        }
+
+        $this->manager->savePostImages($postId, $uploadedFiles);
     }
 
     private function updateEditedPost()
