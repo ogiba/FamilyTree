@@ -221,13 +221,15 @@ function rebuildPersonItem(elem, parent) {
                     && _foundItemCellIndex < cellIndex) {
 
                     if ((_foundItemCellIndex - startElemCellIndex) === 1) {
+                        if (_fou)
                         console.log("first cell(" + _item.cellIndex + ", " + _item.parentNode.rowIndex + ")");
+                        connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
+                            ConnectionType.down);
                     } else {
                         console.log("lower row(" + _item.cellIndex + ", " + _item.parentNode.rowIndex + ")");
+                        connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
+                            ConnectionType.line);
                     }
-
-                    connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
-                        ConnectionType.line);
                 }
 
                 if (connection !== null) {
@@ -273,12 +275,13 @@ function rebuildPersonItem(elem, parent) {
 function buildConnectionBetweenItems(linesToDraw) {
     linesToDraw.forEach(function (connection) {
         var cellContainer = $('tr:eq(' + connection.position.row + ') td:eq(' + connection.position.cell + ') .tree-container');
-
-        var line = $("<div/>", {
-            "style": "margin-top: 50%; margin-left: -10px; margin-right: -10px; background: black; height: 1px;"
-        });
-
-        cellContainer.append(line);
+        //
+        // var line = $("<div/>", {
+        //     "style": "margin-top: 50%; margin-left: -10px; margin-right: -10px; background: black; height: 1px;"
+        // });
+        //
+        // cellContainer.append(line);
+        connection.drawConnection(cellContainer);
     });
 }
 
@@ -494,7 +497,7 @@ DraggableList.prototype.intersectsWithGhost = function (element) {
     var ghostRect = this.ghostElement.getBoundingClientRect();
 
     return (elementRect.left < ghostRect.right && elementRect.right > ghostRect.left &&
-        elementRect.top < ghostRect.bottom && elementRect.bottom > ghostRect.top );
+    elementRect.top < ghostRect.bottom && elementRect.bottom > ghostRect.top );
 };
 
 /**
@@ -504,7 +507,7 @@ DraggableList.prototype.intersectsWithPos = function (element, pos) {
     var elementRect = element.element.getBoundingClientRect();
 
     return (pos.x > elementRect.left && pos.x < elementRect.right &&
-        pos.y > elementRect.top && pos.y < elementRect.bottom);
+    pos.y > elementRect.top && pos.y < elementRect.bottom);
 };
 
 
@@ -570,3 +573,38 @@ var ConnectionType = {
     up: 2,
     cross: 3
 };
+
+Connection.prototype.drawConnection = function (parent) {
+    switch (this.type) {
+        case ConnectionType.line:
+            var line = $("<div/>", {
+                "class" : "connection-type-horizontal fill centered"
+            });
+
+            if (!parent.hasClass("no-padding")) {
+                parent.addClass("no-padding");
+            }
+
+            parent.append(line);
+            break;
+        case ConnectionType.down:
+            if (!parent.find(".connection-type-horizontal").length) {
+                var line = $("<div/>", {
+                    "class" : "connection-type-horizontal fill centered"
+                });
+
+                parent.append(line);
+            }
+
+            var lowerLine = $("<div/>", {
+                "class" : "connection-type-vertical"
+            });
+
+            parent.append(lowerLine);
+            break;
+        case ConnectionType.up:
+            break;
+        case ConnectionType.cross:
+            break;
+    }
+}

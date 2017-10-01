@@ -78,6 +78,8 @@ body {
     width: 100%;
     height: 100%;
     padding: 5px; }
+    .tree-playground .tree-container.no-padding {
+      padding: 0; }
     .tree-playground .tree-container .person-item {
       display: inline-block;
       background: beige;
@@ -132,6 +134,22 @@ body {
         right: -10px; }
     .tree-playground .tree-container li {
       list-style: none; }
+    .tree-playground .tree-container .connection-type-horizontal {
+      display: inline-block;
+      width: 50%;
+      height: 1px;
+      background: black; }
+      .tree-playground .tree-container .connection-type-horizontal.centered {
+        margin-top: 50%; }
+      .tree-playground .tree-container .connection-type-horizontal.fill {
+        width: 100%; }
+    .tree-playground .tree-container .connection-type-vertical {
+      display: inline-block;
+      width: 1px;
+      height: 50%;
+      background: black;
+      margin-left: 50%;
+      margin-bottom: -8px; }
 
 .fill {
   height: 100%; }
