@@ -1,7 +1,7 @@
 {% extends 'admin/base_admin.html.twig' %}
 
 {% block title %}
-    Post details
+    {{ trans("admin-view-scene-title") }}
 {% endblock %}
 
 {% block body %}
@@ -12,15 +12,15 @@
                     <div class="card">
                         {% block postActions %}
                             <div class="actions">
-                                <button class="btn btn-warning" onclick="window.location.href = '/admin/post/edit?id={{ post.id }}'">Edit</button>
+                                <button class="btn btn-warning" onclick="window.location.href = '/admin/post/edit?id={{ post.id }}'">{{ trans("edit") }}</button>
                             </div>
                         {% endblock %}
                         <h4 class="card-header">
                             <div class="row">
-                                <div class="col-md-8">Title</div>
+                                <div class="col-md-8">{{ trans("admin-post-title") }}</div>
                                 <div class="col-md-4">
                                     <div class="date">
-                                        Modified: <span>{{ post.timeStamp }}</span>
+                                        {{ trans("admin-posts-modified") }}: <span>{{ post.timeStamp }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -30,14 +30,14 @@
                                 <h4 class="card-title">{{ post.title }}</h4>
                             {% endblock %}
                         </div>
-                        <h4 class="card-header">Content</h4>
+                        <h4 class="card-header">{{ trans("admin-post-content") }}</h4>
                         <div class="card-body description">
                             {% block postContent %}
                                 <p class="card-text">{{ post.content }}</p>
                             {% endblock %}
                         </div>
                         {% block postImage %}
-                            <h4 class="card-header">Images <span></span></h4>
+                            <h4 class="card-header">{{ trans("admin-post-images") }}</h4>
                             <div class="card-body">
                                 {% if post.images|length > 0 %}
                                     <img class="card-img-bottom" src="..." alt="Card image cap">

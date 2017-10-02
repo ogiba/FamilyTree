@@ -41,13 +41,13 @@
                         <div class="card-footer text-muted">
                             <div class="row">
                                 <div class="col-md-6 date">
-                                    Edited: <span>{{ post.timeStamp }}</span>
+                                    {{ trans("post-edited") }} <span>{{ post.timeStamp }}</span>
                                 </div>
                                 <div class="col-md-6 author">
                                     {% if post.modifiedBy is null %}
-                                        Created by: {{ post.author }}
+                                        {{ trans("post-created") }} {{ post.author }}
                                     {% else %}
-                                        Modified by: {{ post.modifiedBy }}
+                                        {{ trans("post-modified") }} {{ post.modifiedBy }}
                                     {% endif %}
                                 </div>
                             </div>

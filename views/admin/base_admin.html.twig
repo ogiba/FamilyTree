@@ -15,9 +15,9 @@
             {% block nav_items %}
                 {{ parent() }}
                 {% if userLogged %}
-                    <div class="nav-btn" onclick='navigateToScene("/admin")'>Posts</div>
-                    <div class="nav-btn" onclick='navigateToScene("/admin/sections")'>Sections</div>
-                    <div class="nav-btn" onclick='navigateToScene("/admin/logout")'>Logout</div>
+                    <div class="nav-btn" onclick='navigateToScene("/admin")'>{{ trans("admin-posts") }}</div>
+                    <div class="nav-btn" onclick='navigateToScene("/admin/sections")'>{{ trans("admin-sections") }}</div>
+                    <div class="nav-btn" onclick='navigateToScene("/admin/logout")'>{{ trans("admin-logout") }}</div>
                 {% endif %}
             {% endblock %}
         {% endembed %}

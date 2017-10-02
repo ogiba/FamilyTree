@@ -17,25 +17,25 @@
              <div class="form-check form-check-inline" style="text-align: center">
                 <label class="form-check-label">
                     <input id="postPublished" class="form-check-input" type="checkbox" {{ post.published ? "checked" : "" }}>
-                    Published
+                    {{ trans("admin-posts-published") }}
                 </label>
             </div>
          </span>
-         <span><button class="btn btn-danger" onclick="window.history.back()">Cancel</button></span>
-         <span><button class="btn btn-success" onclick="{{ action }}">Save</button></span>
+         <span><button class="btn btn-danger" onclick="window.history.back()">{{ trans("cancel") }}</button></span>
+         <span><button class="btn btn-success" onclick="{{ action }}">{{ trans("save") }}</button></span>
      </div>
  {% endblock %}
 
 {% block postTitle %}
-    <input id="postTitle" type="text" placeholder="Insert title" value="{{ post.title }}">
+    <input id="postTitle" type="text" placeholder="{{ trans("admin-post-title-info") }}" value="{{ post.title }}">
 {% endblock %}
 
 {% block postContent %}
-    <textarea id="postContent" type="text" placeholder="Insert content" cols="1" rows="15">{{ post.content }}</textarea>
+    <textarea id="postContent" type="text" placeholder="{{ trans("admin-post-content-info") }}" cols="1" rows="15">{{ post.content }}</textarea>
 {% endblock %}
 
 {% block postImage %}
-    <h4 class="card-header">Images</h4>
+    <h4 class="card-header">{{ trans("admin-post-images") }}</h4>
     <div class="card-body">
         <form action="/admin/post/new/upload" class="dropzone"></form>
         {% if post.images|length > 0 %}
