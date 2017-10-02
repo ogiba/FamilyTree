@@ -215,27 +215,52 @@ function rebuildPersonItem(elem, parent) {
 
                     connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
                         ConnectionType.line);
-                } else if (
-                    startElemCellIndex + 1 === _foundItemCellIndex
+                } else if (startElemCellIndex + 1 === _foundItemCellIndex
                     && startElemRowIndex === _foundItemRowIndex) {
 
-                    console.log("first cell(" + _foundItemCellIndex + ", " + _foundItemRowIndex + ")");
+                    if (rowIndex > startElemRowIndex) {
+                        console.log("first cell(" + _foundItemCellIndex + ", " + _foundItemRowIndex + ")");
+                        connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
+                            ConnectionType.down);
+                    } else {
+                        connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
+                            ConnectionType.up);
+                    }
+                } else if (startElemCellIndex + 1 === _foundItemCellIndex
+                    && _foundItemRowIndex > startElemRowIndex
+                    && _foundItemRowIndex < rowIndex) {
+
                     connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
-                        ConnectionType.down);
+                        ConnectionType.lineVertical);
                 } else if (_foundItemRowIndex === rowIndex
                     && _foundItemRowIndex >= startElemRowIndex
                     && _foundItemCellIndex > startElemCellIndex
                     && _foundItemCellIndex < cellIndex) {
 
                     if ((_foundItemCellIndex - startElemCellIndex) === 1) {
-                        // if (startElemCellIndex === _foundItemCellIndex - 1 && startElemRowIndex === _foundItemRowIndex - 1) {
-                        //     console.log("first cell(" + _item.cellIndex + ", " + _item.parentNode.rowIndex - 1 + ")");
-                        //     connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex - 1),
-                        //         ConnectionType.down);
-                        // }
                         console.log("first cell(" + _item.cellIndex + ", " + _item.parentNode.rowIndex + ")");
                         connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
                             ConnectionType.downFinish);
+                    } else {
+                        console.log("lower row(" + _item.cellIndex + ", " + _item.parentNode.rowIndex + ")");
+                        connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
+                            ConnectionType.line);
+                    }
+                } else if (startElemCellIndex + 1 === _foundItemCellIndex
+                    && _foundItemRowIndex < startElemRowIndex
+                    && _foundItemRowIndex > rowIndex) {
+
+                    connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
+                        ConnectionType.lineVertical);
+                } else if (_foundItemRowIndex === rowIndex
+                    && _foundItemRowIndex <= startElemRowIndex
+                    && _foundItemCellIndex > startElemCellIndex
+                    && _foundItemCellIndex < cellIndex) {
+
+                    if ((_foundItemCellIndex - startElemCellIndex) === 1) {
+                        console.log("first cell(" + _item.cellIndex + ", " + _item.parentNode.rowIndex + ")");
+                        connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
+                            ConnectionType.upFinish);
                     } else {
                         console.log("lower row(" + _item.cellIndex + ", " + _item.parentNode.rowIndex + ")");
                         connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
@@ -286,12 +311,7 @@ function rebuildPersonItem(elem, parent) {
 function buildConnectionBetweenItems(linesToDraw) {
     linesToDraw.forEach(function (connection) {
         var cellContainer = $('tr:eq(' + connection.position.row + ') td:eq(' + connection.position.cell + ') .tree-container');
-        //
-        // var line = $("<div/>", {
-        //     "style": "margin-top: 50%; margin-left: -10px; margin-right: -10px; background: black; height: 1px;"
-        // });
-        //
-        // cellContainer.append(line);
+
         connection.drawConnection(cellContainer);
     });
 }
@@ -340,6 +360,7 @@ var TreeNode = function (id, column, row) {
 }
 
 /**
+ * @param element
  * @param {string} name
  */
 function addClass(element, name) {
@@ -576,18 +597,20 @@ var TablePosition = function (cell, row) {
 
 /**
  * Enum that defines style of drawing connection between elements
- * @type {{line: number, down: number, up: number, cross: number}}
+ * @type {{line: number, lineVertical: number, down: number, up: number, downFinish: number, upFinish: number, cross: number}}
  */
 var ConnectionType = {
     line: 0,
-    down: 1,
-    up: 2,
-    downFinish: 3,
-    upFinish: 4,
-    cross: 5
+    lineVertical: 1,
+    down: 2,
+    up: 3,
+    downFinish: 4,
+    upFinish: 5,
+    cross: 6
 };
 
 /**
+ * Responsible for drawing connections between selected items
  *
  * @param  parent
  */
@@ -603,6 +626,13 @@ Connection.prototype.drawConnection = function (parent) {
             });
 
             parent.append(line);
+            break;
+        case ConnectionType.lineVertical:
+            var upperLine = $("<div/>", {
+                "class": "connection-type-vertical fill"
+            });
+
+            parent.append(upperLine);
             break;
         case ConnectionType.down:
 
@@ -624,7 +654,7 @@ Connection.prototype.drawConnection = function (parent) {
 
             if (!parent.find(".connection-type-horizontal").length) {
                 var line = $("<div/>", {
-                    "class": "connection-type-horizontal centered"
+                    "class": "connection-type-horizontal"
                 });
 
                 parent.append(line);

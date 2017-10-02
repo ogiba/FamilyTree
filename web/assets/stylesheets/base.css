@@ -4,7 +4,8 @@ body {
 
 header {
   height: 100vh;
-  background: cadetblue; }
+  background-repeat: no-repeat;
+  background-image: url(../images/background.JPG); }
 
 section.marginned {
   margin-top: 64px; }
@@ -14,10 +15,11 @@ section.marginned {
   bottom: 0;
   left: 0;
   right: 0;
-  background: yellow;
+  background: #1f1b10;
   text-align: center;
   z-index: 100;
-  transition: 0.5s all; }
+  transition: 0.5s all;
+  color: white; }
   .nav-bar.attach-top {
     position: fixed;
     top: 0;

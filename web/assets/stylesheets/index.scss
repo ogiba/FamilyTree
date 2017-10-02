@@ -1,3 +1,9 @@
+$primaryColor: #174732;
+$accentColor: #EBC0FF;
+$secondaryColor: #1f1b10;
+$secondaryAccentColor: #9C7BCC;
+$backgroundColor: #D0E88B;
+
 .nav-bar {
     display: block;
 }
@@ -11,11 +17,11 @@ section {
 
         .about-me {
             min-height: 50%;
-            background: paleturquoise;
             border-radius: 5px;
             padding: 5px;
 
             .title {
+                font-size: 20px;
                 text-align: center;
             }
 
@@ -24,10 +30,10 @@ section {
             }
 
             .desc {
-                font-size: 14px;
                 text-align: justify;
                 margin: 10px;
                 min-height: 30px;
+                font-size: 18px;
             }
         }
 
@@ -38,7 +44,8 @@ section {
             //max-height: $max-container-size+$paging-size;
 
             .post {
-                //background: darkgreen;
+                color: white;
+                background: $primaryColor;
                 //margin: 5px;
                 //border-radius: 6px;
                 //padding: 10px;
@@ -67,7 +74,8 @@ section {
                     margin-top: 10px;
 
                     .date {
-                        color: #868e96!important;
+                        //color: #868e96!important;
+                        color: rgba(255,255,255,0.6)!important;
                         vertical-align: middle;
                     }
 
@@ -94,7 +102,7 @@ section {
     }
 
     &.posts {
-        background: goldenrod;
+        background: $backgroundColor;
     }
 
     &.info {
