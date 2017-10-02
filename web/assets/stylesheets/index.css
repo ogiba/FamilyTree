@@ -30,7 +30,7 @@ section .index {
         border-radius: 200px;
         display: inline-block; }
     section .index .about-me .desc {
-      text-align: justify;
+      text-align: center;
       margin: 10px;
       min-height: 30px;
       font-size: 14px; }
