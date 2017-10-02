@@ -53,6 +53,9 @@ section .index {
       height: 50px; }
       section .index .posts .paging nav {
         display: inline-block; }
+        section .index .posts .paging nav .pagination .page-item.active .page-link {
+          background-color: #1f1b10;
+          border-color: #1f1b10; }
 
 section.intro {
   background: cadetblue; }
