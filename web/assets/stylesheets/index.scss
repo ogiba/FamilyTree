@@ -92,6 +92,17 @@ section {
 
                 nav {
                     display: inline-block;
+
+                    .pagination {
+                        .page-item {
+                            &.active {
+                                .page-link {
+                                    background-color: $secondaryColor;
+                                    border-color: $secondaryColor;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

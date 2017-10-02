@@ -32,6 +32,23 @@ abstract class BaseController
         $twig->addFunction(new Twig_SimpleFunction("asset", function($path){
             return "/web/assets/".$path;
         }));
+        $twig->addFunction(new Twig_SimpleFunction("trans", function ($key) {
+            $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+            $translatedString = null;
+            switch ($lang){
+                case "pl":
+                    //echo "PAGE EN";
+                    $jsonString = file_get_contents("Translations/translation-pl.json", true);
+                    $translatedString = json_decode($jsonString,true)[$key];
+                    break;
+                default:
+                    //echo "PAGE EN - Setting Default";
+                    $jsonString = file_get_contents("/src/Translations/translation-".$lang.".json", true);
+                    $translatedString = json_decode($jsonString,true)[$key];
+                    break;
+            }
+            return $translatedString;
+        }));
         return $twig->render($viewName, $properties);
     }
 }
