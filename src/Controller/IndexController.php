@@ -30,7 +30,7 @@ class IndexController extends BaseController
 
     public function indexAction()
     {
-        $postsPage = $this->getPosts(self::NUMBER_OF_ITEMS, self::STARTING_PAGE);
+        $postsPage = $this->getPosts(self::NUMBER_OF_ITEMS, self::STARTING_PAGE,  true);
         $aboutInfo = $this->getAbout();
 
         echo $this->render("default/index.html.twig", array(
@@ -41,7 +41,7 @@ class IndexController extends BaseController
 
     public function postPageAction($page = self::STARTING_PAGE)
     {
-        $postsPage = $this->getPosts(self::NUMBER_OF_ITEMS, $page);
+        $postsPage = $this->getPosts(self::NUMBER_OF_ITEMS, $page,  true);
 
         echo $this->render("default/posts.html.twig", array(
             "postsPage" => $postsPage
@@ -51,12 +51,13 @@ class IndexController extends BaseController
     /**
      * @param $pageSize
      * @param $pageNumber
+     * @param bool $publishedOnly
      * @return PostPage
      */
-    private function getPosts($pageSize, $pageNumber)
+    private function getPosts($pageSize, $pageNumber, $publishedOnly = false)
     {
         $postsManager = new PostsManager();
-        $postsPage = $postsManager->loadPosts($pageNumber, $pageSize);
+        $postsPage = $postsManager->loadPosts($pageNumber, $pageSize, $publishedOnly);
 
         return $postsPage;
     }

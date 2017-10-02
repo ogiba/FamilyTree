@@ -13,6 +13,14 @@
 
  {% block postActions %}
      <div class="actions">
+         <span>
+             <div class="form-check form-check-inline" style="text-align: center">
+                <label class="form-check-label">
+                    <input id="postPublished" class="form-check-input" type="checkbox" {{ post.published ? "checked" : "" }}>
+                    Published
+                </label>
+            </div>
+         </span>
          <span><button class="btn btn-danger" onclick="window.history.back()">Cancel</button></span>
          <span><button class="btn btn-success" onclick="{{ action }}">Save</button></span>
      </div>

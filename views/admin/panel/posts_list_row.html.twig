@@ -4,6 +4,13 @@
     <td>{{ post.title }}</td>
     <td>{{ post.shortDescription }}</td>
     <td>{{ post.author }}</td>
+    <td>
+        <div class="form-check" style="text-align: center">
+            <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" {{ post.published ? "checked" : "" }} disabled>
+            </label>
+        </div>
+    </td>
     <td>{{ post.timeStamp }}</td>
 </tr>
 {% endblock %}

@@ -18,19 +18,36 @@ class PostsManager extends BaseDatabaseManager
      *
      * @param int $page
      * @param int $pageSize
+     * @param bool $publishedOnly
      * @return PostPage
      */
-    public function loadPosts($page = 0, $pageSize = 5)
+    public function loadPosts($page = 0, $pageSize = 5, $publishedOnly = false)
     {
         $database = $this->createConnection();
         $selectedPage = $page * $pageSize;
-        $stmt = $database->prepare("SELECT p.id, p.title, p.content, p.published, p.timeStamp, p.shortDescription,
+
+        if(!$publishedOnly)
+        {
+            $stmt = $database->prepare("SELECT p.id, p.title, p.content, p.published, p.timeStamp, p.shortDescription,
                                                 u.nickName AS author 
                                             FROM posts p 
                                             INNER JOIN users AS u ON p.author = u.id 
                                             ORDER BY timeStamp 
                                             DESC LIMIT ? 
                                             OFFSET ?");
+        }
+        else
+        {
+            $stmt = $database->prepare("SELECT p.id, p.title, p.content, p.published, p.timeStamp, p.shortDescription,
+                                                u.nickName AS author 
+                                            FROM posts p 
+                                            INNER JOIN users AS u ON p.author = u.id 
+                                            WHERE p.published = 1
+                                            ORDER BY timeStamp 
+                                            DESC LIMIT ? 
+                                            OFFSET ?");
+        }
+
         $stmt->bind_param("ii", $pageSize, $selectedPage);
         $stmt->execute();
 
@@ -47,7 +64,11 @@ class PostsManager extends BaseDatabaseManager
         $postPage->setPosts($results);
 
         $stmt->reset();
-        $stmt = $database->prepare("SELECT COUNT(*) FROM posts");
+
+        if(!$publishedOnly)
+            $stmt = $database->prepare("SELECT COUNT(*) FROM posts");
+        else
+            $stmt = $database->prepare("SELECT COUNT(*) FROM posts WHERE published = 1");
 
         $stmt->execute();
         $countData = $this->bindResult($stmt);
@@ -100,7 +121,7 @@ class PostsManager extends BaseDatabaseManager
         }
     }
 
-    public function savePost($title, $content)
+    public function savePost($title, $content, $published)
     {
         if (!isset($_SESSION["token"])) {
             exit;
@@ -108,10 +129,11 @@ class PostsManager extends BaseDatabaseManager
 
         $token = $_SESSION["token"];
 
+        $published = $published ? 1 : 0;
         $database = $this->createConnection();
-        $stmt = $database->prepare("INSERT INTO posts (title, content, author, shortDescription) SELECT ?,?, user, ? FROM login_attempts WHERE token = ?");
+        $stmt = $database->prepare("INSERT INTO posts (title, content, published, author, shortDescription) SELECT ?,?,?, user, ? FROM login_attempts WHERE token = ?");
         $shortDesc = substr($content, 0, 100);
-        $stmt->bind_param("ssss", $title, $content, $shortDesc, $token);
+        $stmt->bind_param("ssiss", $title, $content, $published, $shortDesc, $token);
         $stmt->execute();
         $stmt->fetch();
 
@@ -136,18 +158,26 @@ class PostsManager extends BaseDatabaseManager
         }
     }
 
-    public function updatePost($id, $title, $content)
+    /**
+     * @param int $id
+     * @param string $title
+     * @param string $content
+     * @param bool $published
+     * @return bool
+     */
+    public function updatePost($id, $title, $content, $published)
     {
         if (!isset($_SESSION["token"])) {
             return false;
         }
 
         $token = $_SESSION["token"];
+        $published = $published ? 1 : 0;
 
         $database = $this->createConnection();
-        $stmt = $database->prepare("UPDATE posts SET title = ?, content = ?, shortDescription = ?, modifiedBy = (SELECT user FROM login_attempts WHERE token = ?) WHERE id = ?");
+        $stmt = $database->prepare("UPDATE posts SET title = ?, content = ?, published = ?, shortDescription = ?, modifiedBy = (SELECT user FROM login_attempts WHERE token = ?) WHERE id = ?");
         $shortDesc = substr($content, 0, 100);
-        $stmt->bind_param("ssssi", $title, $content, $shortDesc, $token, $id);
+        $stmt->bind_param("ssissi", $title, $content, $published, $shortDesc, $token, $id);
         $stmt->execute();
         $stmt->fetch();
 

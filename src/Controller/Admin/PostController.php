@@ -150,14 +150,16 @@ class PostController extends BaseAdminController
 
     private function saveNewPost()
     {
-        if (!isset($_POST["title"]) || empty($_POST["title"]) || !isset($_POST["content"]) || empty($_POST["content"])) {
+        if (!isset($_POST["title"]) || empty($_POST["title"]) || !isset($_POST["content"]) || empty($_POST["content"]) ||
+            !($_POST["published"] === "false" || $_POST["published"] === "true")) {
             exit;
         }
 
         $postTitle = $_POST["title"];
         $postContent = $_POST["content"];
+        $postPublished = $_POST["published"];
 
-        $postId = $this->manager->savePost($postTitle, $postContent);
+        $postId = $this->manager->savePost($postTitle, $postContent, $postPublished);
 
         $uploadedFiles = [];
         $storeFolder = 'uploads';   //2
@@ -187,16 +189,17 @@ class PostController extends BaseAdminController
     {
         if (!isset($_POST["id"]) || empty($_POST["id"]) ||
             !isset($_POST["title"]) || empty($_POST["title"]) ||
-            !isset($_POST["content"]) || empty($_POST["content"])) {
+            !isset($_POST["content"]) || empty($_POST["content"]) ||
+            !isset($_POST["published"]) || !($_POST["published"] === "true" || $_POST["published"] === "false")) {
             exit;
         }
 
         $postId = $_POST["id"];
         $postTitle = $_POST["title"];
         $postContent = $_POST["content"];
+        $postPublished = $_POST["published"] === "true" ? true : false;
 
-
-        $updated = $this->manager->updatePost($postId, $postTitle, $postContent);
+        $updated = $this->manager->updatePost($postId, $postTitle, $postContent, $postPublished);
         if ($updated) {
             header("HTTP/1.1 200 OK");
         } else {

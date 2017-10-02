@@ -9,7 +9,8 @@ function savePost() {
         type: 'POST',
         data: {
             "title":  $("#postTitle").val(),
-            "content": $("#postContent").val()
+            "content": $("#postContent").val(),
+            "published": $("#postPublished")[0].checked
         },
         success: function(data){
 
@@ -34,7 +35,8 @@ function updatePost(postValue) {
         data: {
             "id" : postValue,
             "title":  $("#postTitle").val(),
-            "content": $("#postContent").val()
+            "content": $("#postContent").val(),
+            "published": $("#postPublished")[0].checked
         },
         success: function(data){
             window.history.back();
