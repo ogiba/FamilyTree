@@ -13,7 +13,8 @@ use Model\About;
 use Model\Section;
 use Model\SectionInformation;
 
-class InformationManager extends BaseDatabaseManager {
+class InformationManager extends BaseDatabaseManager
+{
     const ABOUT_ME = 1;
 
     public function loadSections()
@@ -37,23 +38,25 @@ class InformationManager extends BaseDatabaseManager {
         $sectionId = self::ABOUT_ME;
         $connection = $this->createConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM sections WHERE id = ?");
-        $stmt->bind_param("i", $sectionId);
-        $stmt->execute();
+//        $stmt = $connection->prepare("SELECT * FROM sections WHERE id = ?");
+//        $stmt->bind_param("i", $sectionId);
+//        $stmt->execute();
+//
+//        $sectionData = $this->bindResult($stmt);
+//        $section = "";
+//
+//        if ($stmt->fetch()) {
+//            $section = $sectionData["name"];
+//        }
+//
+//        if (empty($section)) {
+//            return null;
+//        }
 
-        $sectionData = $this->bindResult($stmt);
-        $section = "";
-
-        if ($stmt->fetch()) {
-            $section = $sectionData["name"];
-        }
-
-        if (empty($section)) {
-            return null;
-        }
-
-        $stmt->reset();
-        $stmt = $connection->prepare("SELECT * FROM informations WHERE section = ?");
+//        $stmt->reset();
+        $stmt = $connection->prepare("SELECT i.id, i.content, im.image AS image, s.name AS section, i.dateTime FROM informations i 
+                                            INNER JOIN information_images AS im ON i.id = im.informationID
+                                            INNER JOIN sections AS s ON i.section = s.id WHERE i.section = ?");
         $stmt->bind_param("i", $sectionId);
         $stmt->execute();
 
@@ -61,8 +64,6 @@ class InformationManager extends BaseDatabaseManager {
 
         if ($stmt->fetch()) {
             $about = $this->arrayToObject($data, SectionInformation::class);
-            $about->setSection($section);
-
             $connection->close();
             return $about;
         } else {
@@ -95,7 +96,8 @@ class InformationManager extends BaseDatabaseManager {
         }
     }
 
-    public function updateSection($id, $content) {
+    public function updateSection($id, $content)
+    {
         $connection = $this->createConnection();
         $stmt = $connection->prepare("UPDATE informations SET content = ? WHERE id = ?");
         $stmt->bind_param("si", $content, $id);
@@ -110,8 +112,7 @@ class InformationManager extends BaseDatabaseManager {
 
         $token = $_SESSION["token"];
 
-        foreach($files as $file)
-        {
+        foreach ($files as $file) {
             $database = $this->createConnection();
             $stmt = $database->prepare("INSERT INTO information_images (image, informationID) VALUES(?, ?)");
             $stmt->bind_param("si", $file, $sectionId);

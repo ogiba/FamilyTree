@@ -15,11 +15,14 @@
                         {#{{ 'about.me'| trans }}#}
                         {{ aboutInfo.section }}
                     </div>
+                    {% if aboutInfo.image != null %}
                     <div class="image">
-                        {% if aboutInfo.image != null %}
-                            <img src="" alt="Image">
-                        {% endif %}
+                            {#<img src="{{ aboutInfo.image }}" alt="Image">#}
+                        <div style="background-image: url({{ aboutInfo.image }})">
+
+                        </div>
                     </div>
+                    {% endif %}
                     <div class="desc">
                         {{ aboutInfo.content }}
                     </div>

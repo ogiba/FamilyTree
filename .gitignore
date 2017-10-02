@@ -34,6 +34,7 @@ Cache
 # Assets and user uploads
 /web/bundles/
 /web/uploads/
+/uploads/*
 
 # PHPUnit
 /app/phpunit.xml

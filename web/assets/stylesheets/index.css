@@ -14,7 +14,15 @@ section .index {
       font-size: 20px;
       text-align: center; }
     section .index .about-me .image {
-      max-height: 60px; }
+      text-align: center; }
+      section .index .about-me .image div {
+        height: 200px;
+        width: 200px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        border-radius: 200px;
+        display: inline-block; }
     section .index .about-me .desc {
       text-align: justify;
       margin: 10px;
