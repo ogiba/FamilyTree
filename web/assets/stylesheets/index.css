@@ -8,21 +8,23 @@ section .index {
   padding-top: 10%; }
   section .index .about-me {
     min-height: 50%;
-    background: paleturquoise;
     border-radius: 5px;
     padding: 5px; }
     section .index .about-me .title {
+      font-size: 20px;
       text-align: center; }
     section .index .about-me .image {
       max-height: 60px; }
     section .index .about-me .desc {
-      font-size: 14px;
       text-align: justify;
       margin: 10px;
-      min-height: 30px; }
+      min-height: 30px;
+      font-size: 18px; }
   section .index .posts {
     min-height: 50%; }
     section .index .posts .post {
+      color: white;
+      background: #174732;
       margin-bottom: 10px; }
       section .index .posts .post .content {
         display: block;
@@ -41,7 +43,7 @@ section .index {
       section .index .posts .post .footer {
         margin-top: 10px; }
         section .index .posts .post .footer .date {
-          color: #868e96 !important;
+          color: rgba(255, 255, 255, 0.6) !important;
           vertical-align: middle; }
         section .index .posts .post .footer .actions {
           vertical-align: middle;
@@ -56,7 +58,7 @@ section.intro {
   background: cadetblue; }
 
 section.posts {
-  background: goldenrod; }
+  background: #D0E88B; }
 
 section.info {
   background: cornflowerblue; }
