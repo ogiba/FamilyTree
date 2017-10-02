@@ -31,9 +31,10 @@ section .index {
   section .index .posts {
     min-height: 50%; }
     section .index .posts .post {
-      color: white;
-      background: #174732;
-      margin-bottom: 10px; }
+      color: black;
+      background: #F2F2E3;
+      margin-bottom: 10px;
+      border-color: #775B3D; }
       section .index .posts .post .content {
         display: block;
         /* Fallback for non-webkit */
@@ -51,11 +52,16 @@ section .index {
       section .index .posts .post .footer {
         margin-top: 10px; }
         section .index .posts .post .footer .date {
-          color: rgba(255, 255, 255, 0.6) !important;
+          color: rgba(0, 0, 0, 0.6) !important;
           vertical-align: middle; }
         section .index .posts .post .footer .actions {
           vertical-align: middle;
           text-align: right; }
+          section .index .posts .post .footer .actions .btn.btn-light {
+            border-color: #775B3D; }
+            section .index .posts .post .footer .actions .btn.btn-light:hover {
+              color: white;
+              background-color: #775B3D; }
     section .index .posts .paging {
       text-align: right;
       height: 50px; }
@@ -69,7 +75,7 @@ section.intro {
   background: cadetblue; }
 
 section.posts {
-  background: #D0E88B; }
+  background: #D2F8BF; }
 
 section.info {
   background: cornflowerblue; }

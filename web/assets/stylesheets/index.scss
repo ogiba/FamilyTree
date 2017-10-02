@@ -1,8 +1,10 @@
 $primaryColor: #174732;
-$accentColor: #EBC0FF;
+$accentColor: #775B3D;
 $secondaryColor: #1f1b10;
-$secondaryAccentColor: #9C7BCC;
-$backgroundColor: #D0E88B;
+$secondaryAccentColor: #F2F2E3;
+//$backgroundColor: #D0E88B;
+$backgroundColor: #D2F8BF;
+$asdasd: #D2F8BF;
 
 .nav-bar {
     display: block;
@@ -27,7 +29,7 @@ section {
 
             .image {
                 text-align: center;
-                
+
                 div {
                     //max-height: 60px;
                     height: 200px;
@@ -55,13 +57,14 @@ section {
             //max-height: $max-container-size+$paging-size;
 
             .post {
-                color: white;
-                background: $primaryColor;
+                color: black;
+                background: $secondaryAccentColor;
                 //margin: 5px;
                 //border-radius: 6px;
                 //padding: 10px;
                 //min-height: 200px;
                 margin-bottom: 10px;
+                border-color: $accentColor;
 
                 .content {
                     $font-size: 14px;
@@ -86,13 +89,24 @@ section {
 
                     .date {
                         //color: #868e96!important;
-                        color: rgba(255,255,255,0.6)!important;
+                        color: rgba(0, 0, 0, 0.6) !important;
                         vertical-align: middle;
                     }
 
                     .actions {
                         vertical-align: middle;
                         text-align: right;
+
+                        .btn {
+                            &.btn-light {
+                                border-color: $accentColor;
+
+                                &:hover {
+                                    color: white;
+                                    background-color: $accentColor;
+                                }
+                            }
+                        }
                     }
                 }
             }
