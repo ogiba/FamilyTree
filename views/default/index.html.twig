@@ -2,6 +2,9 @@
 
 {% block header %}
     <header>
+        <div class="img">
+            <div class="app-title">DrzewoGosi</div>
+        </div>
         {% include 'default/nav_bar.html.twig' %}
     </header>
 {% endblock %}
@@ -9,28 +12,26 @@
 {% block body %}
     <section class="posts">
         <div class="row index">
+            <div class="col-md-8">
+                {% include 'default/posts.html.twig' %}
+            </div>
             <aside class="col-md-4">
                 <div class="about-me">
                     <div class="title">
                         {#{{ 'about.me'| trans }}#}
                         {{ aboutInfo.section }}
                     </div>
-                    {% if aboutInfo.image != null %}
-                    <div class="image">
-                            {#<img src="{{ aboutInfo.image }}" alt="Image">#}
-                        <div style="background-image: url({{ aboutInfo.image }})">
-
+                    {% if aboutInfo.image is not null %}
+                        <div class="image">
+                            <div class="filled" style="background-image: url({{ aboutInfo.image }})">
+                            </div>
                         </div>
-                    </div>
                     {% endif %}
                     <div class="desc">
                         {{ aboutInfo.content }}
                     </div>
                 </div>
             </aside>
-            <div class="col-md-8">
-                {% include 'default/posts.html.twig' %}
-            </div>
         </div>
     </section>
 {% endblock %}

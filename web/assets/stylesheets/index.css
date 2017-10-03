@@ -1,6 +1,39 @@
 .nav-bar {
   display: block; }
 
+header {
+  height: 100vh; }
+  header .img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background-color: #535a17;
+    background-repeat: no-repeat;
+    background-image: url(../images/background.JPG); }
+    header .img .app-title {
+      text-align: center;
+      top: 35%;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 50%;
+      color: white;
+      background: rgba(0, 0, 0, 0.4);
+      font-size: 6em;
+      transition: 0.5s all;
+      font-family: 'Dancing Script', cursive;
+      box-shadow: 0px 1px 30px black; }
+      @media screen and (max-width: 767px) {
+        header .img .app-title {
+          font-size: 4em;
+          line-height: 2em; } }
+      @media screen and (max-width: 370px) {
+        header .img .app-title {
+          font-size: 2em;
+          line-height: 4em; } }
+
 section .index {
   margin: 0 auto;
   max-width: 60%;
@@ -22,13 +55,16 @@ section .index {
     section .index .about-me .image {
       text-align: center; }
       section .index .about-me .image div {
-        height: 200px;
-        width: 200px;
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
         border-radius: 200px;
         display: inline-block; }
+        section .index .about-me .image div.filled {
+          background-color: lightgray;
+          height: 200px;
+          width: 200px;
+          box-shadow: 0 1px 10px black; }
     section .index .about-me .desc {
       text-align: center;
       margin: 10px;
@@ -41,7 +77,9 @@ section .index {
       color: black;
       background: #F2F2E3;
       margin-bottom: 10px;
-      border-color: #775B3D; }
+      border-color: #775B3D;
+      border-radius: 30px;
+      box-shadow: 0px 1px 8px #775B3D; }
       section .index .posts .post .content {
         display: block;
         /* Fallback for non-webkit */
@@ -65,7 +103,9 @@ section .index {
           vertical-align: middle;
           text-align: right; }
           section .index .posts .post .footer .actions .btn.btn-light {
-            border-color: #775B3D; }
+            border-color: #775B3D;
+            border-radius: 30px;
+            box-shadow: 0 1px 2px #775B3D; }
             section .index .posts .post .footer .actions .btn.btn-light:hover {
               color: white;
               background-color: #775B3D; }
@@ -82,7 +122,10 @@ section.intro {
   background: cadetblue; }
 
 section.posts {
-  background: #D2F8BF; }
+  background: #D2F8BF;
+  box-shadow: inset 0 2px 5px 0 rgba(0, 0, 0, 0.5), inset 0 -2px 5px 0 rgba(0, 0, 0, 0.5);
+  border-top: 2px solid rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.5); }
 
 section.info {
   background: cornflowerblue; }
