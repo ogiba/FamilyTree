@@ -14,7 +14,7 @@ header {
 }
 
 .nav-bar {
-    position: relative;
+    position: fixed;
     top: 0;
     bottom: auto;
 }
@@ -22,7 +22,12 @@ header {
 .post-view-page {
     .card {
         background: #F2F2E3;
-        margin-top: 10%;
+        margin-top: 15%;
+        margin-bottom: 10%;
+        
+        @media screen and (max-width: 767px) {
+            margin-top: 30%;
+        }
 
         .card-body {
             .content {

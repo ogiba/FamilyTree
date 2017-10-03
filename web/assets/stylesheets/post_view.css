@@ -6,13 +6,17 @@ header {
   background: none; }
 
 .nav-bar {
-  position: relative;
+  position: fixed;
   top: 0;
   bottom: auto; }
 
 .post-view-page .card {
   background: #F2F2E3;
-  margin-top: 10%; }
+  margin-top: 15%;
+  margin-bottom: 10%; }
+  @media screen and (max-width: 767px) {
+    .post-view-page .card {
+      margin-top: 30%; } }
   .post-view-page .card .card-body .content {
     min-height: 400px; }
   .post-view-page .card .card-footer .author {

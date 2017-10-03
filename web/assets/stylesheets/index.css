@@ -35,7 +35,8 @@ section .index {
       min-height: 30px;
       font-size: 14px; }
   section .index .posts {
-    min-height: 50%; }
+    min-height: 50%;
+    padding-bottom: 50px; }
     section .index .posts .post {
       color: black;
       background: #F2F2E3;
