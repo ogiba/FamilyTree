@@ -57,6 +57,11 @@ section {
     }
 }
 
+footer {
+    background-color: $secondaryColor;
+    height: 200px;
+}
+
 .col-2 {
     display: inline-block;
     width: 19%;
