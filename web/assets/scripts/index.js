@@ -8,7 +8,9 @@ window.addEventListener("DOMContentLoaded", function () {
 
 function setupScrollListener() {
     var navBar =  $('.nav-bar');
+    var titleBar = $('.app-title');
     var distance = navBar.offset().top;
+    var titleBarDistane = titleBar.offset().top;
 
     $(window).scroll(function() {
         if ( $(this).scrollTop() >= distance ) {
@@ -16,6 +18,12 @@ function setupScrollListener() {
         } else {
             navBar.removeClass("attach-top");
         }
+
+        // if ( $(this).scrollTop() >= titleBarDistane ) {
+        //     titleBar.addClass('attach-top');
+        // } else {
+        //     titleBar.removeClass("attach-top");
+        // }
     });
 }
 

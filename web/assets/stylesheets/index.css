@@ -25,6 +25,10 @@ header {
       transition: 0.5s all;
       font-family: 'Dancing Script', cursive;
       box-shadow: 0px 1px 30px black; }
+      header .img .app-title.attach-top {
+        position: fixed;
+        top: 0;
+        bottom: auto; }
       @media screen and (max-width: 767px) {
         header .img .app-title {
           font-size: 4em;

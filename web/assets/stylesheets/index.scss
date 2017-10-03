@@ -36,6 +36,12 @@ header{
             font-family: 'Dancing Script', cursive;
             box-shadow: 0px 1px 30px black;
 
+            &.attach-top {
+                position: fixed;
+                top: 0;
+                bottom: auto;
+            }
+
             @media screen and (max-width: 767px) {
                 font-size: 4em;
                 line-height: 2em;

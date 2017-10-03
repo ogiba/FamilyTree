@@ -35,6 +35,9 @@
                             </div>
                             <div>
                                 {% if post.images|length > 0 %}
+                                    {% for image in post.images %}
+                                        <img src="{{ image }}" class="img-thumbnail">
+                                    {% endfor %}
                                 {% endif %}
                             </div>
                         </div>
