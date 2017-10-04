@@ -183,22 +183,22 @@ function rebuildPersonItem(elem, parent) {
             var linesToDraw = [];
 
             cells.forEach(function (_item) {
-                switch (dot.className) {
-                    // case "left-dot":
-                    //     console.log("left-dot");
-                    //     break;
-                    // case "top-dot":
-                    //     console.log("top-dot");
-                    //     break;
-                    // case "right-dot":
-                    //     console.log("right-dot");
-                    //     break;
-                    // case "bottom-dot":
-                    //     console.log("bottom-dot");
-                    //     break;
-                    // default:
-                    //     break;
-                }
+                // switch (dot.className) {
+                // case "left-dot":
+                //     console.log("left-dot");
+                //     break;
+                // case "top-dot":
+                //     console.log("top-dot");
+                //     break;
+                // case "right-dot":
+                //     console.log("right-dot");
+                //     break;
+                // case "bottom-dot":
+                //     console.log("bottom-dot");
+                //     break;
+                // default:
+                //     break;
+                // }
                 // if (item.cellIndex === cellIndex - 1 && item.parentNode.rowIndex === rowIndex) {
                 //     console.log("same row(" + item.cellIndex + ", " + item.parentNode.rowIndex + ")");
                 // }
@@ -216,7 +216,9 @@ function rebuildPersonItem(elem, parent) {
                     connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
                         ConnectionType.line);
                 } else if (startElemCellIndex + 1 === _foundItemCellIndex
-                    && startElemRowIndex === _foundItemRowIndex) {
+                    && startElemRowIndex === _foundItemRowIndex
+                    && _foundItemCellIndex > startElemCellIndex
+                    && _foundItemCellIndex < cellIndex) {
 
                     if (rowIndex > startElemRowIndex) {
                         console.log("first cell(" + _foundItemCellIndex + ", " + _foundItemRowIndex + ")");
@@ -266,6 +268,12 @@ function rebuildPersonItem(elem, parent) {
                         connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
                             ConnectionType.line);
                     }
+                } else if (_foundItemRowIndex === rowIndex
+                    && _foundItemCellIndex < startElemCellIndex
+                    && _foundItemCellIndex > cellIndex) {
+
+                    connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
+                        ConnectionType.line);
                 }
 
                 if (connection !== null) {
@@ -529,7 +537,7 @@ DraggableList.prototype.intersectsWithGhost = function (element) {
     var ghostRect = this.ghostElement.getBoundingClientRect();
 
     return (elementRect.left < ghostRect.right && elementRect.right > ghostRect.left &&
-    elementRect.top < ghostRect.bottom && elementRect.bottom > ghostRect.top );
+        elementRect.top < ghostRect.bottom && elementRect.bottom > ghostRect.top );
 };
 
 /**
@@ -539,7 +547,7 @@ DraggableList.prototype.intersectsWithPos = function (element, pos) {
     var elementRect = element.element.getBoundingClientRect();
 
     return (pos.x > elementRect.left && pos.x < elementRect.right &&
-    pos.y > elementRect.top && pos.y < elementRect.bottom);
+        pos.y > elementRect.top && pos.y < elementRect.bottom);
 };
 
 
