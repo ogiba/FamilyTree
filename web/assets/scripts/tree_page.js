@@ -257,8 +257,17 @@ function rebuildPersonItem(elem, parent) {
                     && _foundItemCellIndex < startElemCellIndex
                     && _foundItemCellIndex > cellIndex) {
 
-                    connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
-                        ConnectionType.line);
+                    if ((startElemCellIndex - _foundItemCellIndex) === 1 && rowIndex > startElemRowIndex) {
+                        console.log("down last cell(" + _item.cellIndex + ", " + _item.parentNode.rowIndex + ")");
+                        connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
+                            ConnectionType.up);
+                    } else if ((startElemCellIndex - _foundItemCellIndex) === 1 && rowIndex < startElemRowIndex) {
+                        connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
+                            ConnectionType.down);
+                    } else {
+                        connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
+                            ConnectionType.line);
+                    }
                 } else if (startElemCellIndex - 1 === _foundItemCellIndex
                     && startElemRowIndex === _foundItemRowIndex
                     && _foundItemRowIndex < startElemRowIndex
@@ -266,6 +275,19 @@ function rebuildPersonItem(elem, parent) {
 
                     connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
                         ConnectionType.lineVertical);
+                } else if (startElemCellIndex - 1 === _foundItemCellIndex
+                    && startElemRowIndex === _foundItemRowIndex
+                    && _foundItemCellIndex < startElemCellIndex
+                    && _foundItemCellIndex > cellIndex) {
+
+                    if (rowIndex > startElemRowIndex) {
+                        console.log("first cell(" + _foundItemCellIndex + ", " + _foundItemRowIndex + ")");
+                        connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
+                            ConnectionType.upFinish);
+                    } else {
+                        connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
+                            ConnectionType.downFinish);
+                    }
                 }
 
                 if (connection !== null) {
