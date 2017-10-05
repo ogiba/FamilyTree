@@ -182,27 +182,8 @@ function rebuildPersonItem(elem, parent) {
 
             var linesToDraw = [];
 
+            //TODO: Change if statement to better solution (in case of free time)
             cells.forEach(function (_item) {
-                // switch (dot.className) {
-                // case "left-dot":
-                //     console.log("left-dot");
-                //     break;
-                // case "top-dot":
-                //     console.log("top-dot");
-                //     break;
-                // case "right-dot":
-                //     console.log("right-dot");
-                //     break;
-                // case "bottom-dot":
-                //     console.log("bottom-dot");
-                //     break;
-                // default:
-                //     break;
-                // }
-                // if (item.cellIndex === cellIndex - 1 && item.parentNode.rowIndex === rowIndex) {
-                //     console.log("same row(" + item.cellIndex + ", " + item.parentNode.rowIndex + ")");
-                // }
-
                 var _foundItemCellIndex = _item.cellIndex;
                 var _foundItemRowIndex = _item.parentNode.rowIndex;
                 var connection = null;
@@ -228,12 +209,16 @@ function rebuildPersonItem(elem, parent) {
                         connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
                             ConnectionType.up);
                     }
-                } else if (startElemCellIndex + 1 === _foundItemCellIndex
-                    && _foundItemRowIndex > startElemRowIndex
+                } else if (_foundItemRowIndex > startElemRowIndex
                     && _foundItemRowIndex < rowIndex) {
 
-                    connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
-                        ConnectionType.lineVertical);
+                    if ((_foundItemCellIndex - startElemCellIndex) === 1 && $(dot).hasClass("right-dot")) {
+                        connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
+                            ConnectionType.lineVertical);
+                    } else if ((startElemCellIndex - _foundItemCellIndex) === 1 && $(dot).hasClass("left-dot")) {
+                        connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
+                            ConnectionType.lineVertical);
+                    }
                 } else if (_foundItemRowIndex === rowIndex
                     && _foundItemRowIndex >= startElemRowIndex
                     && _foundItemCellIndex > startElemCellIndex
@@ -274,6 +259,13 @@ function rebuildPersonItem(elem, parent) {
 
                     connection = new Connection(new TablePosition(_item.cellIndex, _item.parentNode.rowIndex),
                         ConnectionType.line);
+                } else if (startElemCellIndex - 1 === _foundItemCellIndex
+                    && startElemRowIndex === _foundItemRowIndex
+                    && _foundItemRowIndex < startElemRowIndex
+                    && _foundItemRowIndex > rowIndex) {
+
+                    connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
+                        ConnectionType.lineVertical);
                 }
 
                 if (connection !== null) {
@@ -365,7 +357,7 @@ var TreeNode = function (id, column, row) {
     this.id = id;
     this.column = column;
     this.row = row;
-}
+};
 
 /**
  * @param element
@@ -380,7 +372,7 @@ function addClass(element, name) {
 
     classes.push(name);
     element.className = classes.join(" ");
-};
+}
 
 function removeClass(element, name) {
     var classes = element.className.split(" ");
@@ -390,7 +382,7 @@ function removeClass(element, name) {
         classes.splice(index, 1);
 
     element.className = classes.join(" ");
-};
+}
 
 /**
  *  @class
@@ -417,7 +409,7 @@ var DraggableList = function (listElement, parentElement) {
 
     document.addEventListener("mouseup", this.onMouseUp.bind(this));
     document.addEventListener("mousemove", this.onMouseMove.bind(this));
-}
+};
 
 /**
  * @param {DraggableElement} element
