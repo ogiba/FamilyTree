@@ -90,6 +90,8 @@ class PostController extends BaseAdminController
 
             $saveAction = "updatePost($postId)";
 
+            $_SESSION[self::userAddPostImagesActions] = [];
+
             echo $this->render("/admin/post/post_edit.html.twig", [
                 "userLogged" => $userLogged,
                 "post" => $post,
@@ -161,6 +163,39 @@ class PostController extends BaseAdminController
 
         $postId = $this->manager->savePost($postTitle, $postContent, $postPublished);
 
+        $uploadedFiles = $this->saveUploadedFiles();
+
+        $this->manager->savePostImages($postId, $uploadedFiles);
+    }
+
+    private function updateEditedPost()
+    {
+        if (!isset($_POST["id"]) || empty($_POST["id"]) ||
+            !isset($_POST["title"]) || empty($_POST["title"]) ||
+            !isset($_POST["content"]) || empty($_POST["content"]) ||
+            !isset($_POST["published"]) || !($_POST["published"] === "true" || $_POST["published"] === "false")) {
+            exit;
+        }
+
+        $postId = $_POST["id"];
+        $postTitle = $_POST["title"];
+        $postContent = $_POST["content"];
+        $postPublished = $_POST["published"] === "true" ? true : false;
+
+        $updated = $this->manager->updatePost($postId, $postTitle, $postContent, $postPublished);
+        if ($updated) {
+
+            $uploadedFiles = $this->saveUploadedFiles();
+            $this->manager->savePostImages($postId, $uploadedFiles);
+
+            header("HTTP/1.1 200 OK");
+        } else {
+            exit;
+        }
+    }
+
+    private function saveUploadedFiles()
+    {
         $uploadedFiles = [];
         $storeFolder = 'uploads';   //2
         $destFolder = $storeFolder . "/";
@@ -182,28 +217,6 @@ class PostController extends BaseAdminController
             }
         }
 
-        $this->manager->savePostImages($postId, $uploadedFiles);
-    }
-
-    private function updateEditedPost()
-    {
-        if (!isset($_POST["id"]) || empty($_POST["id"]) ||
-            !isset($_POST["title"]) || empty($_POST["title"]) ||
-            !isset($_POST["content"]) || empty($_POST["content"]) ||
-            !isset($_POST["published"]) || !($_POST["published"] === "true" || $_POST["published"] === "false")) {
-            exit;
-        }
-
-        $postId = $_POST["id"];
-        $postTitle = $_POST["title"];
-        $postContent = $_POST["content"];
-        $postPublished = $_POST["published"] === "true" ? true : false;
-
-        $updated = $this->manager->updatePost($postId, $postTitle, $postContent, $postPublished);
-        if ($updated) {
-            header("HTTP/1.1 200 OK");
-        } else {
-            exit;
-        }
+        return $uploadedFiles;
     }
 }
