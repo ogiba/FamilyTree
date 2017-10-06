@@ -37,7 +37,7 @@ body {
     top: 60px;
     background-color: #0056b3; }
     .tree-playground .family-manager .person-container {
-      height: 15%;
+      height: 85vh;
       overflow: auto; }
       .tree-playground .family-manager .person-container ul {
         overflow: auto;
