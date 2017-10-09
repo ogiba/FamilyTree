@@ -680,6 +680,8 @@ Connection.prototype.drawConnection = function (parent) {
                 });
 
                 parent.append(line);
+            } else if (parent.find(".connection-type-horizontal.centered").length) {
+                parent.find(".connection-type-horizontal.centered").removeClass("centered");
             }
 
             var upperLine = $("<div/>", {
