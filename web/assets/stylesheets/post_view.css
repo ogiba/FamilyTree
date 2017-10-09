@@ -18,7 +18,9 @@ section {
     border-radius: 2rem;
     background: #F2F2E3;
     margin-top: 15%;
-    margin-bottom: 10%; }
+    margin-bottom: 10%;
+    border-color: #775B3D;
+    box-shadow: 0 1px 8px #775B3D; }
     @media screen and (max-width: 767px) {
       section.post-view-page .card {
         margin-top: 30%; } }
