@@ -643,11 +643,31 @@ Connection.prototype.drawConnection = function (parent) {
 
     switch (this.type) {
         case ConnectionType.line:
-            var line = $("<div/>", {
-                "class": "connection-type-horizontal fill centered"
-            });
+            var line = null;
+            var shouldPrepend = false;
 
-            parent.append(line);
+            if (parent.find(".connection-type-horizontal.righted").length) {
+                var child = parent.find(".connection-type-horizontal.righted");
+
+                var childPostiton = Array.from(parent.children()).indexOf(child[0]);
+                shouldPrepend = childPostiton === 0;
+                child.remove();
+
+                line= $("<div/>", {
+                    "class": "connection-type-horizontal fill"
+                });
+
+            } else {
+                line= $("<div/>", {
+                    "class": "connection-type-horizontal fill centered"
+                });
+            }
+
+            if (shouldPrepend) {
+                line.addClass("centered");
+                parent.prepend(line);
+            } else
+                parent.append(line);
             break;
         case ConnectionType.lineVertical:
             var upperLine = $("<div/>", {
@@ -692,12 +712,15 @@ Connection.prototype.drawConnection = function (parent) {
 
             break;
         case ConnectionType.downFinish:
-            if (!parent.find(".connection-type-horizontal").length) {
+            var horizontalItem = parent.find(".connection-type-horizontal");
+            if (!horizontalItem.length) {
                 var line = $("<div/>", {
                     "class": "connection-type-horizontal righted"
                 });
 
                 parent.append(line);
+            } else {
+                horizontalItem.removeClass("centered");
             }
 
             var lowerLine = $("<div/>", {
