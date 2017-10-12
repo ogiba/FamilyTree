@@ -347,6 +347,10 @@ function rebuildConnectionItem(elem) {
     }).appendTo(elem);
 }
 
+/**
+ * Add row at first or last position of the {@code table}
+ * @param {Boolean} inFirstPlace - defines wheter the new row should be added (as first or last element)
+ */
 function addNewRow(inFirstPlace) {
     var tbody = $(".table").children()[0];
     if (tbody.localName === "tbody") {
@@ -360,6 +364,10 @@ function addNewRow(inFirstPlace) {
     }
 }
 
+/**
+ * Add column at first or last postion of the {@code table}
+ * @param {Boolean} inFirstPlace - defines wheter the column should be added (as first or last element)
+ */
 function addNewColumn(inFirstPlace) {
     var tbody = $(".table").children()[0];
     if (tbody.localName === "tbody") {
@@ -375,6 +383,13 @@ function addNewColumn(inFirstPlace) {
     }
 }
 
+/**
+ *
+ * @param id
+ * @param column
+ * @param row
+ * @constructor
+ */
 var TreeNode = function (id, column, row) {
     this.id = id;
     this.column = column;
@@ -396,6 +411,10 @@ function addClass(element, name) {
     element.className = classes.join(" ");
 }
 
+/**
+ * @param element
+ * @param name
+ */
 function removeClass(element, name) {
     var classes = element.className.split(" ");
     var index = classes.indexOf(name);
@@ -437,6 +456,7 @@ var DraggableList = function (listElement, parentElement) {
  * @param {DraggableElement} element
  * @param {{x: number, y: number}} offset
  * @param {{x: number, y: number}} startPos
+ * @param dot
  */
 DraggableList.prototype.select = function (element, offset, startPos, dot) {
     this.selectedElement = element;
@@ -534,6 +554,10 @@ DraggableList.prototype.updateGhostPosition = function (startPos) {
     this.ghostElement.style.top = (startPos.y - this.offset.y) + "px";
 };
 
+/**
+ *
+ * @param pos
+ */
 DraggableList.prototype.updateCanvasLine = function (pos) {
     this.canvasContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
     this.canvasContext.strokeStyle = "black";
@@ -555,6 +579,7 @@ DraggableList.prototype.intersectsWithGhost = function (element) {
 };
 
 /**
+ * @param element
  * @param {{ x: number, y: number }} pos
  */
 DraggableList.prototype.intersectsWithPos = function (element, pos) {
@@ -586,6 +611,11 @@ function DraggableElement(list, element) {
     leftDot.addEventListener("mousedown", this.onMouseDown.bind(this, leftDot));
 }
 
+/**
+ *
+ * @param dot
+ * @param e
+ */
 DraggableElement.prototype.onMouseDown = function (dot, e) {
     var rect = this.element.getBoundingClientRect();
     var offset = {x: e.clientX - rect.left, y: e.clientY - rect.top};
@@ -607,7 +637,6 @@ var Connection = function (tablePosition, type) {
 }
 
 /**
- *
  * @param {Number} cell
  * @param {Number} row
  * @constructor
@@ -665,6 +694,10 @@ Connection.prototype.drawConnection = function (parent) {
     }
 };
 
+/**
+ * Draws horizontal connection between two selected items
+ * @param parent
+ */
 function lineConnectionBehavior(parent) {
     var line = null;
     var shouldPrepend = false;
@@ -694,8 +727,8 @@ function lineConnectionBehavior(parent) {
 
     } else if (parent.find(".connection-type-horizontal").length
         && !parent.find(".connection-type-horizontal").hasClass("fill")) {
-            var child = parent.find(".connection-type-horizontal");
-            child.addClass("fill")
+        var child = parent.find(".connection-type-horizontal");
+        child.addClass("fill")
     } else if (!parent.find(".connection-type-horizontal").length) {
         line = $("<div/>", {
             "class": "connection-type-horizontal fill centered"
@@ -711,6 +744,10 @@ function lineConnectionBehavior(parent) {
     }
 }
 
+/**
+ * Draws vertical lines that are required to properly connect items
+ * @param parent
+ */
 function lineVerticalConnectionBehavior(parent) {
     var upperLine = $("<div/>", {
         "class": "connection-type-vertical fill"
@@ -719,6 +756,10 @@ function lineVerticalConnectionBehavior(parent) {
     parent.append(upperLine);
 }
 
+/**
+ * Draws type of connection that point to bottom elements of the tree
+ * @param parent
+ */
 function downConnectionBehavior(parent) {
     if (!parent.find(".connection-type-horizontal").length) {
         var line = $("<div/>", {
@@ -735,6 +776,10 @@ function downConnectionBehavior(parent) {
     parent.append(lowerLine);
 }
 
+/**
+ * Draws type of connection that point to top elements of the tree
+ * @param parent
+ */
 function upConnectionBehavior(parent) {
     if (!parent.find(".connection-type-horizontal").length) {
         var line = $("<div/>", {
@@ -757,6 +802,10 @@ function upConnectionBehavior(parent) {
     }
 }
 
+/**
+ * Draws type of connection that end drawing vertical lines to bottom elements of the tree
+ * @param parent
+ */
 function downFinishConnectionBehavior(parent) {
     var horizontalItem = parent.find(".connection-type-horizontal");
     if (!horizontalItem.length) {
@@ -780,6 +829,10 @@ function downFinishConnectionBehavior(parent) {
     }
 }
 
+/**
+ * Draws type of connection that end drawing vertical lines to top elements of the tree
+ * @param parent
+ */
 function upFinishConnectionBehavior(parent) {
     if (!parent.find(".connection-type-horizontal").length) {
         var line = $("<div/>", {
