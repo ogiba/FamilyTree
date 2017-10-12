@@ -696,7 +696,7 @@ function lineConnectionBehavior(parent) {
         && !parent.find(".connection-type-horizontal").hasClass("fill")) {
             var child = parent.find(".connection-type-horizontal");
             child.addClass("fill")
-    } else {
+    } else if (!parent.find(".connection-type-horizontal").length) {
         line = $("<div/>", {
             "class": "connection-type-horizontal fill centered"
         });
@@ -746,11 +746,15 @@ function upConnectionBehavior(parent) {
         parent.find(".connection-type-horizontal.centered").removeClass("centered");
     }
 
-    var upperLine = $("<div/>", {
-        "class": "connection-type-vertical"
-    });
+    var verticalLine = parent.find(".connection-type-vertical");
 
-    parent.prepend(upperLine);
+    if (!verticalLine.length) {
+        var upperLine = $("<div/>", {
+            "class": "connection-type-vertical"
+        });
+
+        parent.prepend(upperLine);
+    }
 }
 
 function downFinishConnectionBehavior(parent) {
@@ -765,11 +769,15 @@ function downFinishConnectionBehavior(parent) {
         horizontalItem.removeClass("centered");
     }
 
-    var lowerLine = $("<div/>", {
-        "class": "connection-type-vertical"
-    });
+    var verticalLine = parent.find(".connection-type-vertical");
 
-    parent.prepend(lowerLine);
+    if (!verticalLine.length) {
+        var lowerLine = $("<div/>", {
+            "class": "connection-type-vertical"
+        });
+
+        parent.prepend(lowerLine);
+    }
 }
 
 function upFinishConnectionBehavior(parent) {
