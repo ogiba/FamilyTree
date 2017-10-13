@@ -12,9 +12,6 @@
 {% block body %}
     <section class="posts">
         <div class="row index">
-            <div class="col-md-8">
-                {% include 'default/posts.html.twig' %}
-            </div>
             <aside class="col-md-4">
                 <div class="about-me">
                     <div class="title">
@@ -32,6 +29,9 @@
                     </div>
                 </div>
             </aside>
+            <div class="col-md-8">
+                {% include 'default/posts.html.twig' %}
+            </div>
         </div>
     </section>
 {% endblock %}
