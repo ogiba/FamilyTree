@@ -7,8 +7,16 @@ header {
   top: 0;
   bottom: auto; }
 
-.panel-page table tbody tr th, .panel-page table tbody tr td {
-  vertical-align: middle; }
+@media screen and (min-width: 1200px) {
+  .panel-page .container {
+    max-width: 95%; } }
+
+.panel-page .posts-container {
+  margin-top: 5%; }
+  .panel-page .posts-container .posts-list {
+    overflow: auto; }
+    .panel-page .posts-container .posts-list table tbody tr th, .panel-page .posts-container .posts-list table tbody tr td {
+      vertical-align: middle; }
 
 .post-page .posts-container {
   margin-top: 5%; }
@@ -40,6 +48,14 @@ header {
       .post-page .card .description textarea:focus {
         border: none;
         outline-color: rgba(0, 0, 0, 0.1); }
+
+@media screen and (min-width: 1200px) {
+  .section-page .container {
+    max-width: 95%; } }
+
+.section-page .container .sections-container {
+  margin-top: 5%;
+  overflow: auto; }
 
 .section-view .card {
   margin-top: 5%;

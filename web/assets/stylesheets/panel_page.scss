@@ -10,11 +10,26 @@ header {
 }
 
 .panel-page {
-    table {
-        tbody {
-            tr {
-                th, td {
-                    vertical-align: middle;
+
+    .container {
+        @media screen and (min-width: 1200px) {
+            max-width: 95%;
+        }
+    }
+
+    .posts-container {
+        margin-top: 5%;
+
+        .posts-list {
+            overflow: auto;
+
+            table {
+                tbody {
+                    tr {
+                        th, td {
+                            vertical-align: middle;
+                        }
+                    }
                 }
             }
         }
@@ -70,6 +85,19 @@ header {
                     outline-color: rgba(0, 0, 0, 0.1);
                 }
             }
+        }
+    }
+}
+
+.section-page {
+    .container {
+        @media screen and (min-width: 1200px) {
+            max-width: 95%;
+        }
+
+        .sections-container {
+            margin-top: 5%;
+            overflow: auto;
         }
     }
 }

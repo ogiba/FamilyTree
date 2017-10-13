@@ -7,7 +7,9 @@
                 <div class="col-md-12">
                     <div class="posts-container">
                         <button class="btn btn-primary" onclick="window.location.href += '/post/new';">{{ trans("admin-add-post") }}</button>
-                        {% include 'admin/panel/posts_list.html.twig' %}
+                        <div class="posts-list">
+                            {% include 'admin/panel/posts_list.html.twig' %}
+                        </div>
                     </div>
                 </div>
             </div>
