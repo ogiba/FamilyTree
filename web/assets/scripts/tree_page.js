@@ -648,7 +648,7 @@ var TablePosition = function (cell, row) {
 
 /**
  * Enum that defines style of drawing connection between elements
- * @type {{line: number, lineVertical: number, down: number, up: number, downFinish: number, upFinish: number, cross: number}}
+ * @type {{line: number, lineVertical: number, down: number, up: number, downFinish: number, upFinish: number}}
  */
 var ConnectionType = {
     line: 0,
@@ -656,8 +656,7 @@ var ConnectionType = {
     down: 2,
     up: 3,
     downFinish: 4,
-    upFinish: 5,
-    cross: 6
+    upFinish: 5
 };
 
 /**
