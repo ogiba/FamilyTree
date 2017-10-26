@@ -2,13 +2,13 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link type="text/css" rel="stylesheet" href="/web/assets/stylesheets/dropzone.min.css">
+    <link type="text/css" rel="stylesheet" href="{{ asset("stylesheets/dropzone.min.css") }}">
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="/web/assets/scripts/plugins/dropzone.js"></script>
-    <script type="text/javascript" src="/web/assets/scripts/new_post.js"></script>
+    <script type="text/javascript" src="{{ asset("scripts/plugins/dropzone.js") }}"></script>
+    <script type="text/javascript" src="{{ asset("scripts/new_post.js") }}"></script>
 {% endblock %}
 
  {% block postActions %}
