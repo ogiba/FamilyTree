@@ -113,49 +113,7 @@ function rebuildPersonItem(elem, parent) {
     var text = elem.childNodes[0];
     elem.innerHTML = "";
 
-    // $("<div/>", {
-    //     "class" : "left-dot"
-    // }).appendTo(elem);
-    //
-    // $("<div/>", {
-    //     "class" : "top-dot"
-    // }).appendTo(elem);
-    //
-    // $("<div/>", {
-    //     "class" : "bottom-dot"
-    // }).appendTo(elem);
-    //
-    // $("<div/>", {
-    //     "class" : "right-dot"
-    // }).appendTo(elem);
-    //
-    // $("<div/>", {
-    //     id: "container_img_" + elem.id,
-    //     "style": "height: 50%; text-align: center;"
-    // }).appendTo(elem);
-    //
-    // $("<img>", {
-    // }).appendTo("#container_img_" + elem.id);
-    //
-    // $("<div/>", {
-    //     id: "container_" + elem.id,
-    //     "style": "height: 50%; line-height: 1;"
-    // }).appendTo(elem);
-    //
-    // $("<label/>", {
-    //     text: text.data,
-    //     "style": "margin-bottom: 0;"
-    // }).appendTo("#container_" + elem.id);
-    //
-    // $("<div/>", {
-    //     text: "00.00.0000",
-    //     "style": "font-size: 14px; margin-bottom: 0;"
-    // }).appendTo("#container_" + elem.id);
-    //
-    // $("<div/>", {
-    //     text: "00.00.0000",
-    //     "style": "font-size: 14px; margin-bottom: 0;"
-    // }).appendTo("#container_" + elem.id);
+    //TODO - Add placeholder while data is loading
     $.get("/tree/rebuild?data=" + text.data + "&id=" + elem.id, function (data) {
         elem.innerHTML = data;
 
