@@ -707,15 +707,35 @@ function lineConnectionBehavior(parent) {
  */
 function lineVerticalConnectionBehavior(parent) {
     var verticalLine = null;
+    var shouldPrepend = false;
 
-    if (!parent.find(".connection-type-vertical").length) {
+    var foundItem = parent.find(".connection-type-vertical");
+
+    if (!foundItem.length) {
         verticalLine = $("<div/>", {
             "class": "connection-type-vertical fill"
         });
+    } else if (foundItem.length < 2) {
+        if (foundItem.hasClass("bottom")) {
+            shouldPrepend = true;
+            verticalLine = $("<div/>", {
+                "class": "connection-type-vertical top"
+            });
+        } else if (foundItem.hasClass("top")) {
+            verticalLine = $("<div/>", {
+                "class": "connection-type-vertical bottom"
+            });
+        }
     }
 
     if (verticalLine !== null) {
-        parent.append(verticalLine);
+        if (shouldPrepend) {
+            var horizontalLine = parent.find(".connection-type-horizontal");
+            horizontalLine.removeClass("centered");
+            parent.prepend(verticalLine);
+        } else {
+            parent.append(verticalLine);
+        }
     }
 }
 
@@ -732,11 +752,11 @@ function downConnectionBehavior(parent) {
         parent.append(line);
     }
 
-    var verticalLine = parent.find(".connection-type-vertical");
+    var verticalLine = parent.find(".connection-type-vertical.bottom");
 
-    if (verticalLine.length < 2) {
+    if (!verticalLine.length) {
         var lowerLine = $("<div/>", {
-            "class": "connection-type-vertical"
+            "class": "connection-type-vertical bottom"
         });
 
         parent.append(lowerLine);
@@ -758,11 +778,11 @@ function upConnectionBehavior(parent) {
         parent.find(".connection-type-horizontal.centered").removeClass("centered");
     }
 
-    var verticalLine = parent.find(".connection-type-vertical");
+    var verticalLine = parent.find(".connection-type-vertical.top");
 
-    if (verticalLine.length < 2) {
+    if (!verticalLine.length) {
         var upperLine = $("<div/>", {
-            "class": "connection-type-vertical"
+            "class": "connection-type-vertical top"
         });
 
         parent.prepend(upperLine);
@@ -785,11 +805,11 @@ function downFinishConnectionBehavior(parent) {
         horizontalItem.removeClass("centered");
     }
 
-    var verticalLine = parent.find(".connection-type-vertical");
+    var verticalLine = parent.find(".connection-type-vertical.top");
 
     if (!verticalLine.length) {
         var lowerLine = $("<div/>", {
-            "class": "connection-type-vertical"
+            "class": "connection-type-vertical top"
         });
 
         parent.prepend(lowerLine);
@@ -809,11 +829,11 @@ function upFinishConnectionBehavior(parent) {
         parent.append(line);
     }
 
-    var verticalLine = parent.find(".connection-type-vertical");
+    var verticalLine = parent.find(".connection-type-vertical.bottom");
 
     if (verticalLine.length < 1) {
         var upperLine = $("<div/>", {
-            "class": "connection-type-vertical"
+            "class": "connection-type-vertical bottom"
         });
 
         parent.append(upperLine);
