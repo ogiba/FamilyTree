@@ -533,7 +533,7 @@ DraggableList.prototype.intersectsWithGhost = function (element) {
     var ghostRect = this.ghostElement.getBoundingClientRect();
 
     return (elementRect.left < ghostRect.right && elementRect.right > ghostRect.left &&
-        elementRect.top < ghostRect.bottom && elementRect.bottom > ghostRect.top );
+    elementRect.top < ghostRect.bottom && elementRect.bottom > ghostRect.top );
 };
 
 /**
@@ -544,7 +544,7 @@ DraggableList.prototype.intersectsWithPos = function (element, pos) {
     var elementRect = element.element.getBoundingClientRect();
 
     return (pos.x > elementRect.left && pos.x < elementRect.right &&
-        pos.y > elementRect.top && pos.y < elementRect.bottom);
+    pos.y > elementRect.top && pos.y < elementRect.bottom);
 };
 
 
@@ -706,11 +706,17 @@ function lineConnectionBehavior(parent) {
  * @param parent
  */
 function lineVerticalConnectionBehavior(parent) {
-    var upperLine = $("<div/>", {
-        "class": "connection-type-vertical fill"
-    });
+    var verticalLine = null;
 
-    parent.append(upperLine);
+    if (!parent.find(".connection-type-vertical").length) {
+        verticalLine = $("<div/>", {
+            "class": "connection-type-vertical fill"
+        });
+    }
+
+    if (verticalLine !== null) {
+        parent.append(verticalLine);
+    }
 }
 
 /**
@@ -726,11 +732,15 @@ function downConnectionBehavior(parent) {
         parent.append(line);
     }
 
-    var lowerLine = $("<div/>", {
-        "class": "connection-type-vertical"
-    });
+    var verticalLine = parent.find(".connection-type-vertical");
 
-    parent.append(lowerLine);
+    if (verticalLine.length < 2) {
+        var lowerLine = $("<div/>", {
+            "class": "connection-type-vertical"
+        });
+
+        parent.append(lowerLine);
+    }
 }
 
 /**
@@ -750,7 +760,7 @@ function upConnectionBehavior(parent) {
 
     var verticalLine = parent.find(".connection-type-vertical");
 
-    if (!verticalLine.length) {
+    if (verticalLine.length < 2) {
         var upperLine = $("<div/>", {
             "class": "connection-type-vertical"
         });
@@ -799,9 +809,13 @@ function upFinishConnectionBehavior(parent) {
         parent.append(line);
     }
 
-    var upperLine = $("<div/>", {
-        "class": "connection-type-vertical"
-    });
+    var verticalLine = parent.find(".connection-type-vertical");
 
-    parent.append(upperLine);
+    if (verticalLine.length < 1) {
+        var upperLine = $("<div/>", {
+            "class": "connection-type-vertical"
+        });
+
+        parent.append(upperLine);
+    }
 }
