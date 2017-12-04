@@ -745,21 +745,44 @@ function lineVerticalConnectionBehavior(parent) {
  * @param parent
  */
 function downConnectionBehavior(parent) {
+    var verticalLine = parent.find(".connection-type-vertical");
+
     if (!parent.find(".connection-type-horizontal").length) {
         var line = $("<div/>", {
             "class": "connection-type-horizontal centered"
         });
 
+        if (verticalLine.hasClass("fill")) {
+            line.removeClass("centered");
+        }
+
         parent.append(line);
     }
-
-    var verticalLine = parent.find(".connection-type-vertical.bottom");
 
     if (!verticalLine.length) {
         var lowerLine = $("<div/>", {
             "class": "connection-type-vertical bottom"
         });
 
+        parent.append(lowerLine);
+    } else if (verticalLine.hasClass("top") && !verticalLine.hasClass("bottom")) {
+        var upperLine = $("<div/>", {
+            "class": "connection-type-vertical bottom"
+        });
+
+        parent.append(upperLine);
+    } else if (verticalLine.hasClass("fill")) {
+        verticalLine.remove();
+
+        var upperLine = $("<div/>", {
+            "class": "connection-type-vertical top"
+        });
+
+        var lowerLine = $("<div/>", {
+            "class": "connection-type-vertical bottom"
+        });
+
+        parent.prepend(upperLine);
         parent.append(lowerLine);
     }
 }
