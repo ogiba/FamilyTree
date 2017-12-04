@@ -786,6 +786,12 @@ function upConnectionBehavior(parent) {
         });
 
         parent.prepend(upperLine);
+    } else if (verticalLine.hasClass("bottom") && !verticalLine.hasClass("top")) {
+        var upperLine = $("<div/>", {
+            "class": "connection-type-vertical top"
+        });
+
+        parent.prepend(upperLine);
     } else if (verticalLine.hasClass("fill")) {
         verticalLine.remove();
 
@@ -826,6 +832,12 @@ function downFinishConnectionBehavior(parent) {
         });
 
         parent.prepend(lowerLine);
+    } else if (verticalLine.hasClass("bottom") && !verticalLine.hasClass("top")) {
+        var upperLine = $("<div/>", {
+            "class": "connection-type-vertical top"
+        });
+
+        parent.prepend(upperLine);
     } else if (verticalLine.hasClass("fill")) {
         verticalLine.remove();
 
