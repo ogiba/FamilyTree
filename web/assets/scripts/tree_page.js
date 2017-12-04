@@ -193,7 +193,8 @@ function rebuildPersonItem(elem, parent) {
                     }
                 } else if (startElemCellIndex + 1 === _foundItemCellIndex
                     && _foundItemRowIndex < startElemRowIndex
-                    && _foundItemRowIndex > rowIndex) {
+                    && _foundItemRowIndex > rowIndex
+                    && $(dot).hasClass("right-dot")) {
 
                     connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
                         ConnectionType.lineVertical);
@@ -227,9 +228,9 @@ function rebuildPersonItem(elem, parent) {
                             ConnectionType.line);
                     }
                 } else if (startElemCellIndex - 1 === _foundItemCellIndex
-                    && startElemRowIndex === _foundItemRowIndex
                     && _foundItemRowIndex < startElemRowIndex
-                    && _foundItemRowIndex > rowIndex) {
+                    && _foundItemRowIndex > rowIndex
+                    && $(dot).hasClass("left-dot")) {
 
                     connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
                         ConnectionType.lineVertical);
@@ -874,6 +875,12 @@ function upFinishConnectionBehavior(parent) {
     }
 
     if (!verticalLine.length) {
+        var upperLine = $("<div/>", {
+            "class": "connection-type-vertical bottom"
+        });
+
+        parent.append(upperLine);
+    } else if (verticalLine.hasClass("top") && !verticalLine.hasClass("bottom")) {
         var upperLine = $("<div/>", {
             "class": "connection-type-vertical bottom"
         });
