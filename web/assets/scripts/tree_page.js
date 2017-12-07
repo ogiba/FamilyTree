@@ -193,7 +193,8 @@ function rebuildPersonItem(elem, parent) {
                     }
                 } else if (startElemCellIndex + 1 === _foundItemCellIndex
                     && _foundItemRowIndex < startElemRowIndex
-                    && _foundItemRowIndex > rowIndex) {
+                    && _foundItemRowIndex > rowIndex
+                    && $(dot).hasClass("right-dot")) {
 
                     connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
                         ConnectionType.lineVertical);
@@ -227,9 +228,9 @@ function rebuildPersonItem(elem, parent) {
                             ConnectionType.line);
                     }
                 } else if (startElemCellIndex - 1 === _foundItemCellIndex
-                    && startElemRowIndex === _foundItemRowIndex
                     && _foundItemRowIndex < startElemRowIndex
-                    && _foundItemRowIndex > rowIndex) {
+                    && _foundItemRowIndex > rowIndex
+                    && $(dot).hasClass("left-dot")) {
 
                     connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
                         ConnectionType.lineVertical);
@@ -533,7 +534,7 @@ DraggableList.prototype.intersectsWithGhost = function (element) {
     var ghostRect = this.ghostElement.getBoundingClientRect();
 
     return (elementRect.left < ghostRect.right && elementRect.right > ghostRect.left &&
-        elementRect.top < ghostRect.bottom && elementRect.bottom > ghostRect.top );
+    elementRect.top < ghostRect.bottom && elementRect.bottom > ghostRect.top );
 };
 
 /**
@@ -544,7 +545,7 @@ DraggableList.prototype.intersectsWithPos = function (element, pos) {
     var elementRect = element.element.getBoundingClientRect();
 
     return (pos.x > elementRect.left && pos.x < elementRect.right &&
-        pos.y > elementRect.top && pos.y < elementRect.bottom);
+    pos.y > elementRect.top && pos.y < elementRect.bottom);
 };
 
 
@@ -706,11 +707,37 @@ function lineConnectionBehavior(parent) {
  * @param parent
  */
 function lineVerticalConnectionBehavior(parent) {
-    var upperLine = $("<div/>", {
-        "class": "connection-type-vertical fill"
-    });
+    var verticalLine = null;
+    var shouldPrepend = false;
 
-    parent.append(upperLine);
+    var foundItem = parent.find(".connection-type-vertical");
+
+    if (!foundItem.length) {
+        verticalLine = $("<div/>", {
+            "class": "connection-type-vertical fill"
+        });
+    } else if (foundItem.length < 2) {
+        if (foundItem.hasClass("bottom")) {
+            shouldPrepend = true;
+            verticalLine = $("<div/>", {
+                "class": "connection-type-vertical top"
+            });
+        } else if (foundItem.hasClass("top")) {
+            verticalLine = $("<div/>", {
+                "class": "connection-type-vertical bottom"
+            });
+        }
+    }
+
+    if (verticalLine !== null) {
+        if (shouldPrepend) {
+            var horizontalLine = parent.find(".connection-type-horizontal");
+            horizontalLine.removeClass("centered");
+            parent.prepend(verticalLine);
+        } else {
+            parent.append(verticalLine);
+        }
+    }
 }
 
 /**
@@ -718,19 +745,46 @@ function lineVerticalConnectionBehavior(parent) {
  * @param parent
  */
 function downConnectionBehavior(parent) {
+    var verticalLine = parent.find(".connection-type-vertical");
+
     if (!parent.find(".connection-type-horizontal").length) {
         var line = $("<div/>", {
             "class": "connection-type-horizontal centered"
         });
 
+        if (verticalLine.hasClass("fill")) {
+            line.removeClass("centered");
+        }
+
         parent.append(line);
     }
 
-    var lowerLine = $("<div/>", {
-        "class": "connection-type-vertical"
-    });
+    if (!verticalLine.length) {
+        var lowerLine = $("<div/>", {
+            "class": "connection-type-vertical bottom"
+        });
 
-    parent.append(lowerLine);
+        parent.append(lowerLine);
+    } else if (verticalLine.hasClass("top") && !verticalLine.hasClass("bottom")) {
+        var upperLine = $("<div/>", {
+            "class": "connection-type-vertical bottom"
+        });
+
+        parent.append(upperLine);
+    } else if (verticalLine.hasClass("fill")) {
+        verticalLine.remove();
+
+        var upperLine = $("<div/>", {
+            "class": "connection-type-vertical top"
+        });
+
+        var lowerLine = $("<div/>", {
+            "class": "connection-type-vertical bottom"
+        });
+
+        parent.prepend(upperLine);
+        parent.append(lowerLine);
+    }
 }
 
 /**
@@ -752,10 +806,29 @@ function upConnectionBehavior(parent) {
 
     if (!verticalLine.length) {
         var upperLine = $("<div/>", {
-            "class": "connection-type-vertical"
+            "class": "connection-type-vertical top"
         });
 
         parent.prepend(upperLine);
+    } else if (verticalLine.hasClass("bottom") && !verticalLine.hasClass("top")) {
+        var upperLine = $("<div/>", {
+            "class": "connection-type-vertical top"
+        });
+
+        parent.prepend(upperLine);
+    } else if (verticalLine.hasClass("fill")) {
+        verticalLine.remove();
+
+        var upperLine = $("<div/>", {
+            "class": "connection-type-vertical top"
+        });
+
+        var lowerLine = $("<div/>", {
+            "class": "connection-type-vertical bottom"
+        });
+
+        parent.prepend(upperLine);
+        parent.append(lowerLine);
     }
 }
 
@@ -779,10 +852,29 @@ function downFinishConnectionBehavior(parent) {
 
     if (!verticalLine.length) {
         var lowerLine = $("<div/>", {
-            "class": "connection-type-vertical"
+            "class": "connection-type-vertical top"
         });
 
         parent.prepend(lowerLine);
+    } else if (verticalLine.hasClass("bottom") && !verticalLine.hasClass("top")) {
+        var upperLine = $("<div/>", {
+            "class": "connection-type-vertical top"
+        });
+
+        parent.prepend(upperLine);
+    } else if (verticalLine.hasClass("fill")) {
+        verticalLine.remove();
+
+        var upperLine = $("<div/>", {
+            "class": "connection-type-vertical top"
+        });
+
+        var lowerLine = $("<div/>", {
+            "class": "connection-type-vertical bottom"
+        });
+
+        parent.prepend(upperLine);
+        parent.append(lowerLine);
     }
 }
 
@@ -791,17 +883,44 @@ function downFinishConnectionBehavior(parent) {
  * @param parent
  */
 function upFinishConnectionBehavior(parent) {
+    var verticalLine = parent.find(".connection-type-vertical");
+
     if (!parent.find(".connection-type-horizontal").length) {
         var line = $("<div/>", {
             "class": "connection-type-horizontal centered righted"
         });
 
+        if (verticalLine.hasClass("fill")) {
+            line.removeClass("centered");
+        }
+
         parent.append(line);
     }
 
-    var upperLine = $("<div/>", {
-        "class": "connection-type-vertical"
-    });
+    if (!verticalLine.length) {
+        var upperLine = $("<div/>", {
+            "class": "connection-type-vertical bottom"
+        });
 
-    parent.append(upperLine);
+        parent.append(upperLine);
+    } else if (verticalLine.hasClass("top") && !verticalLine.hasClass("bottom")) {
+        var upperLine = $("<div/>", {
+            "class": "connection-type-vertical bottom"
+        });
+
+        parent.append(upperLine);
+    } else if (verticalLine.hasClass("fill")) {
+        verticalLine.remove();
+
+        var lowerLine = $("<div/>", {
+            "class": "connection-type-vertical bottom"
+        });
+
+        var upperLine = $("<div/>", {
+            "class": "connection-type-vertical top"
+        });
+
+        parent.prepend(upperLine)
+        parent.append(lowerLine)
+    }
 }
