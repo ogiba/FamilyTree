@@ -109,6 +109,11 @@ function drop(ev) {
     }
 }
 
+/**
+ * Rebuilds dropped item to show more detailed information about person
+ * @param elem selected and dropped person item
+ * @param parent droppable container
+ */
 function rebuildPersonItem(elem, parent) {
     var text = elem.childNodes[0];
     elem.innerHTML = "";
@@ -157,9 +162,9 @@ function rebuildPersonItem(elem, parent) {
 }
 
 /**
- *
- * @param item
- * @param dot
+ *Detects connection between selected items
+ * @param item selected person item form container
+ * @param dot determine which of dots of first item was selected to draw connection
  */
 function detectConnections(item, dot) {
     var cellIndex = item.element.parentNode.parentNode.cellIndex;
@@ -189,6 +194,16 @@ function detectConnections(item, dot) {
     }
 }
 
+/**
+ * Detect connection for every cell from table.
+ * @param cellFound
+ * @param dot
+ * @param cellIndex
+ * @param rowIndex
+ * @param startElemCellIndex
+ * @param startElemRowIndex
+ * @returns {@link Connection}
+ */
 function detectConnectionForCell(cellFound, dot, cellIndex, rowIndex, startElemCellIndex, startElemRowIndex) {
     var _foundItemCellIndex = cellFound.cellIndex;
     var _foundItemRowIndex = cellFound.parentNode.rowIndex;
