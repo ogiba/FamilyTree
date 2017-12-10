@@ -180,14 +180,14 @@ function detectConnections(item, dot) {
 
     //TODO: Change if statement to better solution (in case of free time)
 
-    // testDetectingConnections(new TablePosition(startElemCellIndex, startElemRowIndex), new TablePosition(cellIndex, rowIndex));
-    cells.forEach(function (_cell) {
-        var connection = detectConnectionForCell(_cell, dot, cellIndex, rowIndex, startElemCellIndex, startElemRowIndex);
-
-        if (connection !== null) {
-            linesToDraw.push(connection);
-        }
-    });
+    testDetectingConnections(new TablePosition(startElemCellIndex, startElemRowIndex), new TablePosition(cellIndex, rowIndex));
+    // cells.forEach(function (_cell) {
+    //     var connection = detectConnectionForCell(_cell, dot, cellIndex, rowIndex, startElemCellIndex, startElemRowIndex);
+    //
+    //     if (connection !== null) {
+    //         linesToDraw.push(connection);
+    //     }
+    // });
 
     console.log("Number of found postions:" + linesToDraw.length);
 
@@ -207,48 +207,35 @@ function testDetectingConnections(startPosition, endPosition) {
 
         if (positionFound.cell > startPosition.cell
             && positionFound.cell < endPosition.cell
-            && positionFound.row <= startPosition.row
             && positionFound.row === endPosition.row) {
 
             return true;
         } else if (positionFound.cell < startPosition.cell
             && positionFound.cell > endPosition.cell
-            && positionFound.row <= startPosition.row
             && positionFound.row === endPosition.row) {
             return true;
         } else if (positionFound.cell === startPosition.cell + 1
             && positionFound.cell < endPosition.cell
-            && positionFound.row === startPosition.row
-            && positionFound.row > endPosition.row
-            && startPosition.row > endPosition.row) {
-
-            return true;
-        // } else if (positionFound.cell === startPosition.cell + 1
-        //     && positionFound.cell < endPosition.cell
-        //     && positionFound.row < startPosition.row
-        //     && positionFound.row === endPosition.row
-        //     && startPosition.row > endPosition.row) {
-        //
-        //     return true;
-        } else if (positionFound.cell === startPosition.cell + 1
-            && positionFound.cell < endPosition.cell
-            && positionFound.row < startPosition.row
-            && positionFound.row > endPosition.row
-            && startPosition.row > endPosition.row) {
-
-            return true;
-        } else if (positionFound.cell > startPosition.cell
-            && positionFound.cell < endPosition.cell
-            && positionFound.row < startPosition.row
-            && positionFound.row === endPosition.row
-            && startPosition.row > endPosition.row) {
+            && positionFound.row <= startPosition.row
+            && positionFound.row >= endPosition.row) {
 
             return true;
         } else if (positionFound.cell === startPosition.cell - 1
             && positionFound.cell > endPosition.cell
-            && positionFound.row === startPosition.row
-            && positionFound.row > endPosition.row
-            && startPosition.row > endPosition.row) {
+            && positionFound.row <= startPosition.row
+            && positionFound.row >= endPosition.row) {
+
+            return true;
+        } else if (positionFound.cell === startPosition.cell + 1
+            && positionFound.cell < endPosition.cell
+            && positionFound.row >= startPosition.row
+            && positionFound.row <= endPosition.row) {
+
+            return true;
+        } else if (positionFound.cell === startPosition.cell - 1
+            && positionFound.cell > endPosition.cell
+            && positionFound.row >= startPosition.row
+            && positionFound.row <= endPosition.row) {
 
             return true;
         }
