@@ -203,14 +203,20 @@ function detectConnections(item, dot) {
  */
 function testDetectingConnections(startPosition, endPosition) {
     var linesToDraw = [];
+    var justDraw = true;
 
     var filteredRows = $(document.querySelectorAll("td")).filter(function (cellIndex, cell) {
         var positionFound = new TablePosition(cell.cellIndex, cell.parentElement.rowIndex);
         var connection = null;
 
+        if (!justDraw)
+            return false;
+
         if (positionFound.cell > startPosition.cell
             && positionFound.cell < endPosition.cell
             && positionFound.row === endPosition.row) {
+
+            justDraw = checkConnectionPossibility(cell);
 
             if (positionFound.cell === startPosition.cell + 1 && positionFound.row < startPosition.row) {
                 connection = new Connection(positionFound, ConnectionType.upFinish);
@@ -224,6 +230,8 @@ function testDetectingConnections(startPosition, endPosition) {
         } else if (positionFound.cell < startPosition.cell
             && positionFound.cell > endPosition.cell
             && positionFound.row === endPosition.row) {
+
+            justDraw = checkConnectionPossibility(cell);
 
             if (positionFound.cell === startPosition.cell - 1 && positionFound.row < startPosition.row) {
                 connection = new Connection(positionFound, ConnectionType.down);
@@ -239,6 +247,8 @@ function testDetectingConnections(startPosition, endPosition) {
             && positionFound.row <= startPosition.row
             && positionFound.row >= endPosition.row) {
 
+            justDraw = checkConnectionPossibility(cell);
+
             if (positionFound.row === startPosition.row) {
                 connection = new Connection(positionFound, ConnectionType.up);
             } else {
@@ -251,6 +261,7 @@ function testDetectingConnections(startPosition, endPosition) {
             && positionFound.row <= startPosition.row
             && positionFound.row >= endPosition.row) {
 
+            justDraw = checkConnectionPossibility(cell);
 
             if (positionFound.row === startPosition.row) {
                 connection = new Connection(positionFound, ConnectionType.downFinish);
@@ -264,6 +275,8 @@ function testDetectingConnections(startPosition, endPosition) {
             && positionFound.row >= startPosition.row
             && positionFound.row <= endPosition.row) {
 
+            justDraw = checkConnectionPossibility(cell);
+
             if (positionFound.row === startPosition.row) {
                 connection = new Connection(positionFound, ConnectionType.down);
             } else {
@@ -275,6 +288,8 @@ function testDetectingConnections(startPosition, endPosition) {
             && positionFound.cell > endPosition.cell
             && positionFound.row >= startPosition.row
             && positionFound.row <= endPosition.row) {
+
+            justDraw = checkConnectionPossibility(cell);
 
             if (positionFound.row === startPosition.row) {
                 connection = new Connection(positionFound, ConnectionType.upFinish);
@@ -288,129 +303,15 @@ function testDetectingConnections(startPosition, endPosition) {
         return false;
     });
 
+    if (!justDraw)
+        linesToDraw = [];
+
     console.log("Filtered children count: " + filteredRows.length);
     return linesToDraw;
 }
 
-/**
- * Detect connection for every cell from table.
- * @param cellFound
- * @param dot
- * @param cellIndex
- * @param rowIndex
- * @param startElemCellIndex
- * @param startElemRowIndex
- * @returns {Connection}
- */
-function detectConnectionForCell(cellFound, dot, cellIndex, rowIndex, startElemCellIndex, startElemRowIndex) {
-    var _foundItemCellIndex = cellFound.cellIndex;
-    var _foundItemRowIndex = cellFound.parentNode.rowIndex;
-    var connection = null;
-
-    if (_foundItemRowIndex === rowIndex
-        && _foundItemRowIndex === startElemRowIndex
-        && _foundItemCellIndex > startElemCellIndex
-        && _foundItemCellIndex < cellIndex) {
-        console.log("same row(" + cellFound.cellIndex + ", " + cellFound.parentNode.rowIndex + ")");
-
-        connection = new Connection(new TablePosition(cellFound.cellIndex, cellFound.parentNode.rowIndex),
-            ConnectionType.line);
-    } else if (startElemCellIndex + 1 === _foundItemCellIndex
-        && startElemRowIndex === _foundItemRowIndex
-        && _foundItemCellIndex > startElemCellIndex
-        && _foundItemCellIndex < cellIndex) {
-
-        if (rowIndex > startElemRowIndex) {
-            console.log("first cell(" + _foundItemCellIndex + ", " + _foundItemRowIndex + ")");
-            connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
-                ConnectionType.down);
-        } else {
-            connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
-                ConnectionType.up);
-        }
-    } else if (_foundItemRowIndex > startElemRowIndex
-        && _foundItemRowIndex < rowIndex) {
-
-        if ((_foundItemCellIndex - startElemCellIndex) === 1 && $(dot).hasClass("right-dot")) {
-            connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
-                ConnectionType.lineVertical);
-        } else if ((startElemCellIndex - _foundItemCellIndex) === 1 && $(dot).hasClass("left-dot")) {
-            connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
-                ConnectionType.lineVertical);
-        }
-    } else if (_foundItemRowIndex === rowIndex
-        && _foundItemRowIndex >= startElemRowIndex
-        && _foundItemCellIndex > startElemCellIndex
-        && _foundItemCellIndex < cellIndex) {
-
-        if ((_foundItemCellIndex - startElemCellIndex) === 1) {
-            console.log("first cell(" + cellFound.cellIndex + ", " + cellFound.parentNode.rowIndex + ")");
-            connection = new Connection(new TablePosition(cellFound.cellIndex, cellFound.parentNode.rowIndex),
-                ConnectionType.downFinish);
-        } else {
-            console.log("lower row(" + cellFound.cellIndex + ", " + cellFound.parentNode.rowIndex + ")");
-            connection = new Connection(new TablePosition(cellFound.cellIndex, cellFound.parentNode.rowIndex),
-                ConnectionType.line);
-        }
-    } else if (startElemCellIndex + 1 === _foundItemCellIndex
-        && _foundItemRowIndex < startElemRowIndex
-        && _foundItemRowIndex > rowIndex
-        && $(dot).hasClass("right-dot")) {
-
-        connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
-            ConnectionType.lineVertical);
-    } else if (_foundItemRowIndex === rowIndex
-        && _foundItemRowIndex <= startElemRowIndex
-        && _foundItemCellIndex > startElemCellIndex
-        && _foundItemCellIndex < cellIndex) {
-
-        if ((_foundItemCellIndex - startElemCellIndex) === 1) {
-            console.log("first cell(" + cellFound.cellIndex + ", " + cellFound.parentNode.rowIndex + ")");
-            connection = new Connection(new TablePosition(cellFound.cellIndex, cellFound.parentNode.rowIndex),
-                ConnectionType.upFinish);
-        } else {
-            console.log("lower row(" + cellFound.cellIndex + ", " + cellFound.parentNode.rowIndex + ")");
-            connection = new Connection(new TablePosition(cellFound.cellIndex, cellFound.parentNode.rowIndex),
-                ConnectionType.line);
-        }
-    } else if (_foundItemRowIndex === rowIndex
-        && _foundItemCellIndex < startElemCellIndex
-        && _foundItemCellIndex > cellIndex) {
-
-        if ((startElemCellIndex - _foundItemCellIndex) === 1 && rowIndex > startElemRowIndex) {
-            console.log("down last cell(" + cellFound.cellIndex + ", " + cellFound.parentNode.rowIndex + ")");
-            connection = new Connection(new TablePosition(cellFound.cellIndex, cellFound.parentNode.rowIndex),
-                ConnectionType.up);
-        } else if ((startElemCellIndex - _foundItemCellIndex) === 1 && rowIndex < startElemRowIndex) {
-            connection = new Connection(new TablePosition(cellFound.cellIndex, cellFound.parentNode.rowIndex),
-                ConnectionType.down);
-        } else {
-            connection = new Connection(new TablePosition(cellFound.cellIndex, cellFound.parentNode.rowIndex),
-                ConnectionType.line);
-        }
-    } else if (startElemCellIndex - 1 === _foundItemCellIndex
-        && _foundItemRowIndex < startElemRowIndex
-        && _foundItemRowIndex > rowIndex
-        && $(dot).hasClass("left-dot")) {
-
-        connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
-            ConnectionType.lineVertical);
-    } else if (startElemCellIndex - 1 === _foundItemCellIndex
-        && startElemRowIndex === _foundItemRowIndex
-        && _foundItemCellIndex < startElemCellIndex
-        && _foundItemCellIndex > cellIndex) {
-
-        if (rowIndex > startElemRowIndex) {
-            console.log("first cell(" + _foundItemCellIndex + ", " + _foundItemRowIndex + ")");
-            connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
-                ConnectionType.upFinish);
-        } else {
-            connection = new Connection(new TablePosition(_foundItemCellIndex, _foundItemRowIndex),
-                ConnectionType.downFinish);
-        }
-    }
-
-    return connection;
+function checkConnectionPossibility(cell) {
+    return $(cell).find(".person-item").length === 0;
 }
 
 /**
