@@ -180,7 +180,7 @@ function detectConnections(item, dot) {
 
     //TODO: Change if statement to better solution (in case of free time)
 
-    testDetectingConnections(new TablePosition(startElemCellIndex, startElemRowIndex), new TablePosition(cellIndex, rowIndex));
+    linesToDraw = testDetectingConnections(new TablePosition(startElemCellIndex, startElemRowIndex), new TablePosition(cellIndex, rowIndex));
     // cells.forEach(function (_cell) {
     //     var connection = detectConnectionForCell(_cell, dot, cellIndex, rowIndex, startElemCellIndex, startElemRowIndex);
     //
@@ -202,47 +202,73 @@ function detectConnections(item, dot) {
  * @param {TablePosition} endPosition
  */
 function testDetectingConnections(startPosition, endPosition) {
+    var linesToDraw = [];
+
     var filteredRows = $(document.querySelectorAll("td")).filter(function (cellIndex, cell) {
         var positionFound = new TablePosition(cell.cellIndex, cell.parentElement.rowIndex);
+        var connection = null;
 
         if (positionFound.cell > startPosition.cell
             && positionFound.cell < endPosition.cell
             && positionFound.row === endPosition.row) {
 
+            if (positionFound.cell === startPosition.cell + 1 && positionFound.row !== startPosition.row) {
+                connection = new Connection(positionFound, ConnectionType.upFinish);
+            } else {
+                connection = new Connection(positionFound, ConnectionType.line);
+            }
+            linesToDraw.push(connection);
             return true;
         } else if (positionFound.cell < startPosition.cell
             && positionFound.cell > endPosition.cell
             && positionFound.row === endPosition.row) {
+
+            connection = new Connection(positionFound, ConnectionType.line);
+            linesToDraw.push(connection);
             return true;
         } else if (positionFound.cell === startPosition.cell + 1
             && positionFound.cell < endPosition.cell
             && positionFound.row <= startPosition.row
             && positionFound.row >= endPosition.row) {
 
+            if (positionFound.row === startPosition.row) {
+                connection = new Connection(positionFound, ConnectionType.up);
+            } else {
+                connection = new Connection(positionFound, ConnectionType.lineVertical);
+            }
+            linesToDraw.push(connection);
             return true;
         } else if (positionFound.cell === startPosition.cell - 1
             && positionFound.cell > endPosition.cell
             && positionFound.row <= startPosition.row
             && positionFound.row >= endPosition.row) {
 
+            connection = new Connection(positionFound, ConnectionType.lineVertical);
+            linesToDraw.push(connection);
             return true;
         } else if (positionFound.cell === startPosition.cell + 1
             && positionFound.cell < endPosition.cell
             && positionFound.row >= startPosition.row
             && positionFound.row <= endPosition.row) {
 
+            connection = new Connection(positionFound, ConnectionType.lineVertical);
+            linesToDraw.push(connection);
             return true;
         } else if (positionFound.cell === startPosition.cell - 1
             && positionFound.cell > endPosition.cell
             && positionFound.row >= startPosition.row
             && positionFound.row <= endPosition.row) {
 
+            connection = new Connection(positionFound, ConnectionType.lineVertical);
+            linesToDraw.push(connection);
             return true;
         }
 
         return false;
     });
+
     console.log("Filtered children count: " + filteredRows.length);
+    return linesToDraw;
 }
 
 /**
