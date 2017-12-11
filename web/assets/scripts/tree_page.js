@@ -212,8 +212,10 @@ function testDetectingConnections(startPosition, endPosition) {
             && positionFound.cell < endPosition.cell
             && positionFound.row === endPosition.row) {
 
-            if (positionFound.cell === startPosition.cell + 1 && positionFound.row !== startPosition.row) {
+            if (positionFound.cell === startPosition.cell + 1 && positionFound.row < startPosition.row) {
                 connection = new Connection(positionFound, ConnectionType.upFinish);
+            } else if (positionFound.cell === startPosition.cell + 1 && positionFound.row > startPosition.row) {
+                connection = new Connection(positionFound, ConnectionType.downFinish);
             } else {
                 connection = new Connection(positionFound, ConnectionType.line);
             }
@@ -223,7 +225,13 @@ function testDetectingConnections(startPosition, endPosition) {
             && positionFound.cell > endPosition.cell
             && positionFound.row === endPosition.row) {
 
-            connection = new Connection(positionFound, ConnectionType.line);
+            if (positionFound.cell === startPosition.cell - 1 && positionFound.row < startPosition.row) {
+                connection = new Connection(positionFound, ConnectionType.down);
+            } else if (positionFound.cell === startPosition.cell - 1 && positionFound.row > startPosition.row) {
+                connection = new Connection(positionFound, ConnectionType.up);
+            } else {
+                connection = new Connection(positionFound, ConnectionType.line);
+            }
             linesToDraw.push(connection);
             return true;
         } else if (positionFound.cell === startPosition.cell + 1
@@ -243,7 +251,12 @@ function testDetectingConnections(startPosition, endPosition) {
             && positionFound.row <= startPosition.row
             && positionFound.row >= endPosition.row) {
 
-            connection = new Connection(positionFound, ConnectionType.lineVertical);
+
+            if (positionFound.row === startPosition.row) {
+                connection = new Connection(positionFound, ConnectionType.downFinish);
+            } else {
+                connection = new Connection(positionFound, ConnectionType.lineVertical);
+            }
             linesToDraw.push(connection);
             return true;
         } else if (positionFound.cell === startPosition.cell + 1
@@ -251,7 +264,11 @@ function testDetectingConnections(startPosition, endPosition) {
             && positionFound.row >= startPosition.row
             && positionFound.row <= endPosition.row) {
 
-            connection = new Connection(positionFound, ConnectionType.lineVertical);
+            if (positionFound.row === startPosition.row) {
+                connection = new Connection(positionFound, ConnectionType.down);
+            } else {
+                connection = new Connection(positionFound, ConnectionType.lineVertical);
+            }
             linesToDraw.push(connection);
             return true;
         } else if (positionFound.cell === startPosition.cell - 1
@@ -259,7 +276,11 @@ function testDetectingConnections(startPosition, endPosition) {
             && positionFound.row >= startPosition.row
             && positionFound.row <= endPosition.row) {
 
-            connection = new Connection(positionFound, ConnectionType.lineVertical);
+            if (positionFound.row === startPosition.row) {
+                connection = new Connection(positionFound, ConnectionType.upFinish);
+            } else {
+                connection = new Connection(positionFound, ConnectionType.lineVertical);
+            }
             linesToDraw.push(connection);
             return true;
         }
@@ -390,11 +411,6 @@ function detectConnectionForCell(cellFound, dot, cellIndex, rowIndex, startElemC
     }
 
     return connection;
-}
-
-function detectConnectionForCellNewBehavior(cellFound, dot, startElemPosition, endElemPosition) {
-    var positionFound = new TablePosition(cellFound.cellIndex, cellFound.parentNode.rowIndex);
-    return null;
 }
 
 /**
