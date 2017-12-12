@@ -135,8 +135,6 @@ function rebuildPersonItem(elem, parent) {
 
         draggableList.onItemConnected = function (item, dot) {
             detectConnections(item, dot);
-
-            addClass(item.element, "selected");
         };
 
         parent.appendChild(elem);
@@ -176,10 +174,13 @@ function detectConnections(item, dot) {
 
     var linesToDraw = lookForConnections(new TablePosition(startElemCellIndex, startElemRowIndex), new TablePosition(cellIndex, rowIndex));
 
+    var connectionLine = new ConnectionLine(linesToDraw);
+
     console.log("Number of found postions:" + linesToDraw.length);
 
     if (linesToDraw.length > 0) {
-        buildConnectionBetweenItems(linesToDraw);
+        buildConnectionBetweenItems(connectionLine);
+        addClass(item.element, "selected");
     }
 }
 
@@ -303,10 +304,10 @@ function checkConnectionPossibility(cell) {
 
 /**
  *
- * @param {Connection[]} linesToDraw
+ * @param {ConnectionLine} connectionLine
  */
-function buildConnectionBetweenItems(linesToDraw) {
-    linesToDraw.forEach(function (connection) {
+function buildConnectionBetweenItems(connectionLine) {
+    connectionLine.connectionLines.forEach(function (connection) {
         var cellContainer = $('tr:eq(' + connection.position.row + ') td:eq(' + connection.position.cell + ') .tree-container');
 
         connection.drawConnection(cellContainer);
@@ -609,7 +610,16 @@ DraggableElement.prototype.onMouseDown = function (dot, e) {
 var Connection = function (tablePosition, type) {
     this.position = tablePosition;
     this.type = type;
-}
+};
+
+/**
+ *
+ * @param {Connection[]} connectionLines
+ * @constructor
+ */
+var ConnectionLine = function (connectionLines) {
+    this.connectionLines = connectionLines;
+};
 
 /**
  * @param {Number} cell
