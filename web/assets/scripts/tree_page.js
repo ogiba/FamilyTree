@@ -174,20 +174,7 @@ function detectConnections(item, dot) {
 
     console.log("Position(" + cellIndex + "," + rowIndex + ")");
 
-    var cells = document.querySelectorAll("td");
-
-    var linesToDraw = [];
-
-    //TODO: Change if statement to better solution (in case of free time)
-
-    linesToDraw = testDetectingConnections(new TablePosition(startElemCellIndex, startElemRowIndex), new TablePosition(cellIndex, rowIndex));
-    // cells.forEach(function (_cell) {
-    //     var connection = detectConnectionForCell(_cell, dot, cellIndex, rowIndex, startElemCellIndex, startElemRowIndex);
-    //
-    //     if (connection !== null) {
-    //         linesToDraw.push(connection);
-    //     }
-    // });
+    var linesToDraw = lookForConnections(new TablePosition(startElemCellIndex, startElemRowIndex), new TablePosition(cellIndex, rowIndex));
 
     console.log("Number of found postions:" + linesToDraw.length);
 
@@ -201,7 +188,7 @@ function detectConnections(item, dot) {
  * @param {TablePosition} startPosition
  * @param {TablePosition} endPosition
  */
-function testDetectingConnections(startPosition, endPosition) {
+function lookForConnections(startPosition, endPosition) {
     var linesToDraw = [];
     var justDraw = true;
 
