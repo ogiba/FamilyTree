@@ -591,7 +591,7 @@ DraggableElement.prototype.onMouseDown = function (dot, e) {
 /**
  *
  * @param {Connection[]} connectionLines
- * @constructor
+ * @class
  */
 var ConnectionLine = function (connectionLines) {
     this.connectionLines = connectionLines;
@@ -655,12 +655,14 @@ Connection.prototype.drawConnection = function (parent) {
         parent.addClass("no-padding");
     }
 
+    var drawnLine = null;
+
     switch (this.type) {
         case ConnectionType.line:
-            lineConnectionBehavior(this, parent);
+            drawnLine = lineConnectionBehavior(parent);
             break;
         case ConnectionType.lineVertical:
-            lineVerticalConnectionBehavior(parent);
+            drawnLine = lineVerticalConnectionBehavior(parent);
             break;
         case ConnectionType.down:
             downConnectionBehavior(parent);
@@ -675,13 +677,21 @@ Connection.prototype.drawConnection = function (parent) {
             upFinishConnectionBehavior(parent);
             break;
     }
+
+    if (drawnLine !== null) {
+        $(drawnLine).hover((function (item) {
+            return function () {
+                item.onHover();
+            }
+        })(this));
+    }
 };
 
 /**
  * Draws horizontal connection between two selected items
  * @param parent
  */
-function lineConnectionBehavior(connection, parent) {
+function lineConnectionBehavior(parent) {
     var line = null;
     var shouldPrepend = false;
 
@@ -719,16 +729,14 @@ function lineConnectionBehavior(connection, parent) {
     }
 
     if (line !== null) {
-        $(line).hover(function () {
-            connection.onHover();
-        });
-
         if (shouldPrepend) {
             line.addClass("centered");
             parent.prepend(line);
         } else
             parent.append(line);
     }
+
+    return line;
 }
 
 /**
@@ -767,6 +775,8 @@ function lineVerticalConnectionBehavior(parent) {
             parent.append(verticalLine);
         }
     }
+
+    return verticalLine;
 }
 
 /**

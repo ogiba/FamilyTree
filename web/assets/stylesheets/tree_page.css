@@ -155,6 +155,9 @@ body {
       background: black;
       margin-left: 50%;
       margin-bottom: -8px; }
+      .tree-playground .tree-container .connection-type-vertical:hover {
+        width: 4px;
+        background: darkgoldenrod; }
       .tree-playground .tree-container .connection-type-vertical.fill {
         height: 100%; }
 

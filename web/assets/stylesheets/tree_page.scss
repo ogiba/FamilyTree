@@ -233,6 +233,11 @@ body {
             margin-left: 50%;
             margin-bottom: -8px;
 
+            &:hover{
+                width: 4px;
+                background: darkgoldenrod;
+            }
+
             &.fill{
                 height: 100%;
             }
