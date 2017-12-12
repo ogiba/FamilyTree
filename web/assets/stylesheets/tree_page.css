@@ -139,6 +139,9 @@ body {
       width: 50%;
       height: 1px;
       background: black; }
+      .tree-playground .tree-container .connection-type-horizontal:hover {
+        height: 4px;
+        background: darkgoldenrod; }
       .tree-playground .tree-container .connection-type-horizontal.centered {
         margin-top: 50%; }
       .tree-playground .tree-container .connection-type-horizontal.fill {

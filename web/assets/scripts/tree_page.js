@@ -590,32 +590,25 @@ DraggableElement.prototype.onMouseDown = function (dot, e) {
 
 /**
  *
- * @param {TablePosition} tablePosition
- * @param {ConnectionType|Number} type
- * @constructor
- */
-var Connection = function (tablePosition, type) {
-    this.position = tablePosition;
-    this.type = type;
-};
-
-/**
- *
  * @param {Connection[]} connectionLines
  * @constructor
  */
 var ConnectionLine = function (connectionLines) {
     this.connectionLines = connectionLines;
+
+    this.onHover = null;
 };
 
 ConnectionLine.prototype.connectLines = function () {
     this.connectionLines.forEach(function (connection) {
         var cellContainer = $('tr:eq(' + connection.position.row + ') td:eq(' + connection.position.cell + ') .tree-container');
 
+        connection.onHover = function () {
+            console.log("hover_test");
+        };
         connection.drawConnection(cellContainer);
     });
 };
-
 
 /**
  * @param {Number} cell
@@ -641,6 +634,18 @@ var ConnectionType = {
 };
 
 /**
+ *
+ * @param {TablePosition} tablePosition
+ * @param {ConnectionType|Number} type
+ * @constructor
+ */
+var Connection = function (tablePosition, type) {
+    this.position = tablePosition;
+    this.type = type;
+    this.onHover = null;
+};
+
+/**
  * Responsible for drawing connections between selected items
  *
  * @param  parent
@@ -652,7 +657,7 @@ Connection.prototype.drawConnection = function (parent) {
 
     switch (this.type) {
         case ConnectionType.line:
-            lineConnectionBehavior(parent);
+            lineConnectionBehavior(this, parent);
             break;
         case ConnectionType.lineVertical:
             lineVerticalConnectionBehavior(parent);
@@ -669,8 +674,6 @@ Connection.prototype.drawConnection = function (parent) {
         case ConnectionType.upFinish:
             upFinishConnectionBehavior(parent);
             break;
-        case ConnectionType.cross:
-            break;
     }
 };
 
@@ -678,7 +681,7 @@ Connection.prototype.drawConnection = function (parent) {
  * Draws horizontal connection between two selected items
  * @param parent
  */
-function lineConnectionBehavior(parent) {
+function lineConnectionBehavior(connection, parent) {
     var line = null;
     var shouldPrepend = false;
 
@@ -716,6 +719,10 @@ function lineConnectionBehavior(parent) {
     }
 
     if (line !== null) {
+        $(line).hover(function () {
+            connection.onHover();
+        });
+
         if (shouldPrepend) {
             line.addClass("centered");
             parent.prepend(line);

@@ -207,6 +207,11 @@ body {
             height: 1px;
             background: black;
 
+            &:hover{
+                height: 4px;
+                background: darkgoldenrod;
+            }
+
             &.centered{
                 margin-top: 50%;
             }
