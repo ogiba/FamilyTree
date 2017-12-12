@@ -174,12 +174,11 @@ function detectConnections(item, dot) {
 
     var linesToDraw = lookForConnections(new TablePosition(startElemCellIndex, startElemRowIndex), new TablePosition(cellIndex, rowIndex));
 
-    var connectionLine = new ConnectionLine(linesToDraw);
-
     console.log("Number of found postions:" + linesToDraw.length);
 
     if (linesToDraw.length > 0) {
-        buildConnectionBetweenItems(connectionLine);
+        var connectionLine = new ConnectionLine(linesToDraw);
+        connectionLine.connectLines();
         addClass(item.element, "selected");
     }
 }
@@ -300,18 +299,6 @@ function lookForConnections(startPosition, endPosition) {
 
 function checkConnectionPossibility(cell) {
     return $(cell).find(".person-item").length === 0;
-}
-
-/**
- *
- * @param {ConnectionLine} connectionLine
- */
-function buildConnectionBetweenItems(connectionLine) {
-    connectionLine.connectionLines.forEach(function (connection) {
-        var cellContainer = $('tr:eq(' + connection.position.row + ') td:eq(' + connection.position.cell + ') .tree-container');
-
-        connection.drawConnection(cellContainer);
-    });
 }
 
 function rebuildConnectionItem(elem) {
@@ -620,6 +607,15 @@ var Connection = function (tablePosition, type) {
 var ConnectionLine = function (connectionLines) {
     this.connectionLines = connectionLines;
 };
+
+ConnectionLine.prototype.connectLines = function () {
+    this.connectionLines.forEach(function (connection) {
+        var cellContainer = $('tr:eq(' + connection.position.row + ') td:eq(' + connection.position.cell + ') .tree-container');
+
+        connection.drawConnection(cellContainer);
+    });
+};
+
 
 /**
  * @param {Number} cell
