@@ -212,6 +212,11 @@ body {
                 background: darkgoldenrod;
             }
 
+            &.hovered{
+                height: 4px;
+                background: darkgoldenrod;
+            }
+
             &.centered{
                 margin-top: 50%;
             }

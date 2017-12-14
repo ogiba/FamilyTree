@@ -600,12 +600,28 @@ var ConnectionLine = function (connectionLines) {
 };
 
 ConnectionLine.prototype.connectLines = function () {
-    this.connectionLines.forEach(function (connection) {
+    this.connectionLines.forEach(function (connection, index, connectionLines) {
         var cellContainer = $('tr:eq(' + connection.position.row + ') td:eq(' + connection.position.cell + ') .tree-container');
 
-        connection.onHover = function () {
-            console.log("hover_test");
-        };
+        connection.onHover = (function (lines) {
+            // console.log("hover_test");
+            return function () {
+                console.log("hover_test");
+                lines.forEach(function (line) {
+                    $(line.line).addClass("hovered");
+                })
+            }
+        })(connectionLines);
+
+        connection.onHoverLeft = (function (lines) {
+            // console.log("hover_test");
+            return function () {
+                console.log("unhover_test");
+                lines.forEach(function (line) {
+                    $(line.line).removeClass("hovered");
+                })
+            }
+        })(connectionLines);
         connection.drawConnection(cellContainer);
     });
 };
@@ -643,6 +659,8 @@ var Connection = function (tablePosition, type) {
     this.position = tablePosition;
     this.type = type;
     this.onHover = null;
+    this.onHoverLeft = null;
+    this.line = null;
 };
 
 /**
@@ -679,9 +697,14 @@ Connection.prototype.drawConnection = function (parent) {
     }
 
     if (drawnLine !== null) {
+        this.line = drawnLine;
         $(drawnLine).hover((function (item) {
             return function () {
                 item.onHover();
+            }
+        })(this), (function (item) {
+            return function () {
+                item.onHoverLeft();
             }
         })(this));
     }
