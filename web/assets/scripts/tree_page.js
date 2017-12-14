@@ -604,21 +604,19 @@ ConnectionLine.prototype.connectLines = function () {
         var cellContainer = $('tr:eq(' + connection.position.row + ') td:eq(' + connection.position.cell + ') .tree-container');
 
         connection.onHover = (function (lines) {
-            // console.log("hover_test");
             return function () {
                 console.log("hover_test");
                 lines.forEach(function (line) {
-                    $(line.line).addClass("hovered");
+                    line.highlight(true);
                 })
             }
         })(connectionLines);
 
         connection.onHoverLeft = (function (lines) {
-            // console.log("hover_test");
             return function () {
                 console.log("unhover_test");
                 lines.forEach(function (line) {
-                    $(line.line).removeClass("hovered");
+                    line.highlight(false);
                 })
             }
         })(connectionLines);
@@ -698,15 +696,15 @@ Connection.prototype.drawConnection = function (parent) {
 
     if (drawnLine !== null) {
         this.line = drawnLine;
-        $(drawnLine).hover((function (item) {
-            return function () {
-                item.onHover();
-            }
-        })(this), (function (item) {
-            return function () {
-                item.onHoverLeft();
-            }
-        })(this));
+        $(drawnLine).hover(this.onHover, this.onHoverLeft);
+    }
+};
+
+Connection.prototype.highlight = function (shouldHighlight) {
+    if (shouldHighlight) {
+        $(this.line).addClass("hovered");
+    } else {
+        $(this.line).removeClass("hovered");
     }
 };
 
