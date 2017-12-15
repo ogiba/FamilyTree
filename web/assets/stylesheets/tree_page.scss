@@ -243,6 +243,11 @@ body {
                 background: darkgoldenrod;
             }
 
+            &.hovered{
+                width: 4px;
+                background: darkgoldenrod;
+            }
+
             &.fill{
                 height: 100%;
             }

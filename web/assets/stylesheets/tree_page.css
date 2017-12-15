@@ -161,6 +161,9 @@ body {
       .tree-playground .tree-container .connection-type-vertical:hover {
         width: 4px;
         background: darkgoldenrod; }
+      .tree-playground .tree-container .connection-type-vertical.hovered {
+        width: 4px;
+        background: darkgoldenrod; }
       .tree-playground .tree-container .connection-type-vertical.fill {
         height: 100%; }
 
