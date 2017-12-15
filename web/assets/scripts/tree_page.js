@@ -671,33 +671,33 @@ Connection.prototype.drawConnection = function (parent) {
         parent.addClass("no-padding");
     }
 
-    var drawnLine = [];
+    var drawnLines = [];
 
     switch (this.type) {
         case ConnectionType.line:
-            drawnLine = lineConnectionBehavior(parent);
+            drawnLines = lineConnectionBehavior(parent);
             break;
         case ConnectionType.lineVertical:
-            drawnLine = lineVerticalConnectionBehavior(parent);
+            drawnLines = lineVerticalConnectionBehavior(parent);
             break;
         case ConnectionType.down:
-            drawnLine = downConnectionBehavior(parent);
+            drawnLines = downConnectionBehavior(parent);
             break;
         case ConnectionType.up:
-            upConnectionBehavior(parent);
+            drawnLines = upConnectionBehavior(parent);
             break;
         case ConnectionType.downFinish:
-            drawnLine = downFinishConnectionBehavior(parent);
+            drawnLines = downFinishConnectionBehavior(parent);
             break;
         case ConnectionType.upFinish:
-            upFinishConnectionBehavior(parent);
+            drawnLines = upFinishConnectionBehavior(parent);
             break;
     }
 
-    if (drawnLine.length > 0) {
-        this.line = drawnLine;
-        for (var i = 0; i < drawnLine.length; i++) {
-            $(drawnLine[i]).hover(this.onHover, this.onHoverLeft);
+    if (drawnLines.length > 0) {
+        this.line = drawnLines;
+        for (var i = 0; i < drawnLines.length; i++) {
+            $(drawnLines[i]).hover(this.onHover, this.onHoverLeft);
         }
     }
 };
@@ -863,12 +863,15 @@ function downConnectionBehavior(parent) {
  * @param parent
  */
 function upConnectionBehavior(parent) {
+    var linesToReturn = [];
+
     if (!parent.find(".connection-type-horizontal").length) {
         var line = $("<div/>", {
             "class": "connection-type-horizontal"
         });
 
         parent.append(line);
+        linesToReturn.push(line);
     } else if (parent.find(".connection-type-horizontal.centered").length) {
         parent.find(".connection-type-horizontal.centered").removeClass("centered");
     }
@@ -881,12 +884,14 @@ function upConnectionBehavior(parent) {
         });
 
         parent.prepend(upperLine);
+        linesToReturn.push(upperLine);
     } else if (verticalLine.hasClass("bottom") && !verticalLine.hasClass("top")) {
         var upperLine = $("<div/>", {
             "class": "connection-type-vertical top"
         });
 
         parent.prepend(upperLine);
+        linesToReturn.push(upperLine);
     } else if (verticalLine.hasClass("fill")) {
         verticalLine.remove();
 
@@ -900,7 +905,9 @@ function upConnectionBehavior(parent) {
 
         parent.prepend(upperLine);
         parent.append(lowerLine);
+        linesToReturn.push(upperLine, lowerLine);
     }
+    return linesToReturn;
 }
 
 /**
@@ -961,6 +968,7 @@ function downFinishConnectionBehavior(parent) {
  * @param parent
  */
 function upFinishConnectionBehavior(parent) {
+    var linesToReturn = [];
     var verticalLine = parent.find(".connection-type-vertical");
 
     if (!parent.find(".connection-type-horizontal").length) {
@@ -973,6 +981,7 @@ function upFinishConnectionBehavior(parent) {
         }
 
         parent.append(line);
+        linesToReturn.push(line);
     }
 
     if (!verticalLine.length) {
@@ -981,12 +990,14 @@ function upFinishConnectionBehavior(parent) {
         });
 
         parent.append(upperLine);
+        linesToReturn.push(upperLine);
     } else if (verticalLine.hasClass("top") && !verticalLine.hasClass("bottom")) {
         var upperLine = $("<div/>", {
             "class": "connection-type-vertical bottom"
         });
 
         parent.append(upperLine);
+        linesToReturn.push(upperLine);
     } else if (verticalLine.hasClass("fill")) {
         verticalLine.remove();
 
@@ -998,7 +1009,10 @@ function upFinishConnectionBehavior(parent) {
             "class": "connection-type-vertical top"
         });
 
-        parent.prepend(upperLine)
-        parent.append(lowerLine)
+        parent.prepend(upperLine);
+        parent.append(lowerLine);
+        linesToReturn.push(upperLine, lowerLine);
     }
+
+    return linesToReturn;
 }
