@@ -811,9 +811,10 @@ function lineVerticalConnectionBehavior(parent) {
  */
 function downConnectionBehavior(parent) {
     var verticalLine = parent.find(".connection-type-vertical");
+    var horizontalLine = parent.find(".connection-type-horizontal");
     var linesToReturn = [];
 
-    if (!parent.find(".connection-type-horizontal").length) {
+    if (!horizontalLine.length) {
         var line = $("<div/>", {
             "class": "connection-type-horizontal centered"
         });
@@ -824,6 +825,8 @@ function downConnectionBehavior(parent) {
 
         parent.append(line);
         linesToReturn.push(line);
+    } else {
+        linesToReturn.push(horizontalLine)
     }
 
     if (!verticalLine.length) {
