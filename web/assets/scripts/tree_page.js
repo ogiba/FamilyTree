@@ -16,34 +16,32 @@ function loadTree() {
 
         var basePosition = new TablePosition(1, 1);
 
-        $.get("/tree/rebuild?data=" + person.name + "&id=" + 1 + "&position=" + JSON.stringify(basePosition), function (itemResponse) {
-            var data = JSON.parse(itemResponse);
-            var parent = $('tr:eq(' + data.position.row + ') td:eq(' + data.position.cell + ') .tree-container');
-
-            console.log(data);
-
-            $("<div/>", {
-                "class": "person-item"
-            }).html(data.item).appendTo(parent);
-        });
-
-        if (person.children.length > 0) {
-            for (var i = 0; i < person.children.length; i++) {
-                var child = person.children[i];
-                var position = new TablePosition(basePosition.cell + 2, 1 + i);
-                $.get("/tree/rebuild?data=" + child.name + "&id=" + child.id + "&position=" + JSON.stringify(position), function (itemResponse) {
-                    var data = JSON.parse(itemResponse);
-                    var parent = $('tr:eq(' + data.position.row + ') td:eq(' + data.position.cell + ') .tree-container');
-
-                    console.log(data);
-
-                    $("<div/>", {
-                        "class": "person-item"
-                    }).html(data.item).appendTo(parent);
-                });
-            }
-        }
+        recursiveRebuilding(person, basePosition);
     })
+}
+
+function recursiveRebuilding(person, basePosition) {
+    $.get("/tree/rebuild?data=" + person.name + "&id=" + 1 + "&position=" + JSON.stringify(basePosition), function (itemResponse) {
+        var data = JSON.parse(itemResponse);
+        var parent = $('tr:eq(' + data.position.row + ') td:eq(' + data.position.cell + ') .tree-container');
+
+        console.log(data);
+
+        $("<div/>", {
+            "class": "person-item"
+        }).html(data.item).appendTo(parent);
+    });
+
+    if (person.children.length > 0) {
+        var fixedPosition = 0;
+        for (var i = 0; i < person.children.length; i++) {
+            var child = person.children[i];
+            var position = new TablePosition(basePosition.cell + 2, basePosition.row + i + fixedPosition);
+            fixedPosition += child.children.length > 0 ? child.children.length - 1 : 0;
+            
+            recursiveRebuilding(child, position);
+        }
+    }
 }
 
 function allowDrop(ev) {
