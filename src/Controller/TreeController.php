@@ -15,6 +15,8 @@ class TreeController extends BaseController
     {
         if ($action == "rebuild") {
             $this->rebuildItem($_REQUEST);
+        } elseif ($action == "load_tree") {
+            $this->loadTree($_REQUEST);
         } else {
             $this->indexAction();
         }
@@ -32,5 +34,12 @@ class TreeController extends BaseController
         } else {
             echo "";
         }
+    }
+
+    public function loadTree($request) {
+        $file = file_get_contents("./data/trees/tree.json");
+        $jsonFile = json_decode($file, true);
+
+        echo json_encode($jsonFile);
     }
 }
