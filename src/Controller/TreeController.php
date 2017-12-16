@@ -27,10 +27,12 @@ class TreeController extends BaseController
     }
 
     public function rebuildItem($request) {
-        if (isset($request["data"]) && isset($request["id"])) {
+        if (isset($request["data"]) && isset($request["id"]) && isset($request["position"])) {
+            $position = json_decode($request["position"]);
             $params = array("data" => $request["data"], "id" => $request["id"]);
+            $response = array("position" => $position, "item" => $this->render("tree/tree_node.html.twig", $params));
 
-            echo $this->render("tree/tree_node.html.twig", $params);
+            echo json_encode($response);
         } else {
             echo "";
         }

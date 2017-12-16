@@ -14,26 +14,32 @@ function loadTree() {
         var person = JSON.parse(response);
         console.log(person);
 
-        $.get("/tree/rebuild?data=" + person.name + "&id=" + 1, function (data) {
-            var parent = $('tr:eq(' + 1 + ') td:eq(' + 1 + ') .tree-container');
+        var basePosition = new TablePosition(1, 1);
+
+        $.get("/tree/rebuild?data=" + person.name + "&id=" + 1 + "&position=" + JSON.stringify(basePosition), function (itemResponse) {
+            var data = JSON.parse(itemResponse);
+            var parent = $('tr:eq(' + data.position.row + ') td:eq(' + data.position.cell + ') .tree-container');
 
             console.log(data);
 
-            $("<div/>",{
-                "class" : "person-item"
-            }).html(data).appendTo(parent);
+            $("<div/>", {
+                "class": "person-item"
+            }).html(data.item).appendTo(parent);
         });
 
         if (person.children.length > 0) {
-            for(var i = 0; i < person.children.length; i++) {
-                $.get("/tree/rebuild?data=" + person.name + "&id=" + person.id, function (data) {
-                    var parent = $('tr:eq(' + 2 + ') td:eq(' + 3 + ') .tree-container');
+            for (var i = 0; i < person.children.length; i++) {
+                var child = person.children[i];
+                var position = new TablePosition(basePosition.cell + 2, 1 + i);
+                $.get("/tree/rebuild?data=" + child.name + "&id=" + child.id + "&position=" + JSON.stringify(position), function (itemResponse) {
+                    var data = JSON.parse(itemResponse);
+                    var parent = $('tr:eq(' + data.position.row + ') td:eq(' + data.position.cell + ') .tree-container');
 
                     console.log(data);
 
                     $("<div/>", {
                         "class": "person-item"
-                    }).html(data).appendTo(parent);
+                    }).html(data.item).appendTo(parent);
                 });
             }
         }
