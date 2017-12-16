@@ -5,7 +5,40 @@ var treeItems = [];
 
 $(document).ready(function () {
     $("#playground").css("padding-top", "" + $(".nav-bar").height() + "px");
+
+    loadTree();
 });
+
+function loadTree() {
+    $.get("/tree/load_tree", function (response) {
+        var person = JSON.parse(response);
+        console.log(person);
+
+        $.get("/tree/rebuild?data=" + person.name + "&id=" + 1, function (data) {
+            var parent = $('tr:eq(' + 1 + ') td:eq(' + 1 + ') .tree-container');
+
+            console.log(data);
+
+            $("<div/>",{
+                "class" : "person-item"
+            }).html(data).appendTo(parent);
+        });
+
+        if (person.children.length > 0) {
+            for(var i = 0; i < person.children.length; i++) {
+                $.get("/tree/rebuild?data=" + person.name + "&id=" + person.id, function (data) {
+                    var parent = $('tr:eq(' + 2 + ') td:eq(' + 3 + ') .tree-container');
+
+                    console.log(data);
+
+                    $("<div/>", {
+                        "class": "person-item"
+                    }).html(data).appendTo(parent);
+                });
+            }
+        }
+    })
+}
 
 function allowDrop(ev) {
     ev.preventDefault();

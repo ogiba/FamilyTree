@@ -35,6 +35,7 @@ Cache
 /web/bundles/
 /web/uploads/
 /uploads/*
+/data/trees/*.json
 
 # PHPUnit
 /app/phpunit.xml
