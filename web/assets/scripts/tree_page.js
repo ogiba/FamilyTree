@@ -48,12 +48,25 @@ function recursiveRebuilding(person, basePosition) {
         for (var i = 0; i < person.children.length; i++) {
             var child = person.children[i];
             var position = new TablePosition(basePosition.cell + 2, basePosition.row + i + fixedPosition);
-            fixedPosition += child.children.length > 0 ? child.children.length - 1 : 0;
+            fixedPosition += child.children.length > 0 ? recursiveChildrenSize(child) : 0;
 
             loadConnections(basePosition, position);
             recursiveRebuilding(child, position);
         }
     }
+}
+
+function recursiveChildrenSize(person) {
+    var children = person.children;
+    var numberOfChildren = children.length > 0 ? children.length - 1 : 0;
+
+    if (children.length > 0) {
+        for (var i = 0; i < children.length; i++) {
+            numberOfChildren += recursiveChildrenSize(children[i]);
+        }
+    }
+
+    return numberOfChildren;
 }
 
 function allowDrop(ev) {
