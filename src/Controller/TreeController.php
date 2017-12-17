@@ -24,9 +24,10 @@ class TreeController extends BaseController
         }
     }
 
-    public function indexAction($request){
+    public function indexAction($request)
+    {
         $debugMode = false;
-        if (isset($request["mode"])){
+        if (isset($request["mode"])) {
             $debugMode = $request["mode"] == $this::MODE_DEBUG ? true : false;
         }
 
@@ -34,9 +35,15 @@ class TreeController extends BaseController
         echo $this->render("tree/tree.html.twig", $params);
     }
 
-    public function rebuildItem($request) {
-        if (isset($request["data"]) && isset($request["id"]) && isset($request["position"])) {
+    public function rebuildItem($request)
+    {
+        $position = null;
+
+        if (isset($request["position"])) {
             $position = json_decode($request["position"]);
+        }
+
+        if (isset($request["data"]) && isset($request["id"])) {
             $params = array("data" => $request["data"], "id" => $request["id"]);
             $response = array("position" => $position, "item" => $this->render("tree/tree_node.html.twig", $params));
 
@@ -47,7 +54,8 @@ class TreeController extends BaseController
         }
     }
 
-    public function loadTree($request) {
+    public function loadTree($request)
+    {
         $file = file_get_contents("./data/trees/tree.json");
         $jsonFile = json_decode($file, true);
 
