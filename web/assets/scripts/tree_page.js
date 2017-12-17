@@ -21,9 +21,20 @@ function loadTree() {
 }
 
 function recursiveRebuilding(person, basePosition) {
+    var parent = $('tr:eq(' + basePosition.row + ') td:eq(' + basePosition.cell + ')');
+
+    if (3 <= parent.parent().children().length - basePosition.cell) {
+        addNewColumn(false);
+    }
+
     $.get("/tree/rebuild?data=" + person.name + "&id=" + 1 + "&position=" + JSON.stringify(basePosition), function (itemResponse) {
         var data = JSON.parse(itemResponse);
+
         var parent = $('tr:eq(' + data.position.row + ') td:eq(' + data.position.cell + ') .tree-container');
+
+        // if (data.position.row >= parent.parent().parent().parent().children().length - 2) {
+        //     addNewRow(false);
+        // }
 
         console.log(data);
 
@@ -38,7 +49,7 @@ function recursiveRebuilding(person, basePosition) {
             var child = person.children[i];
             var position = new TablePosition(basePosition.cell + 2, basePosition.row + i + fixedPosition);
             fixedPosition += child.children.length > 0 ? child.children.length - 1 : 0;
-            
+
             recursiveRebuilding(child, position);
         }
     }
@@ -377,6 +388,7 @@ function addNewColumn(inFirstPlace) {
             if (inFirstPlace) {
                 clonedCell.prependTo(item);
             } else {
+                clonedCell.appendTo(item);
                 clonedCell.appendTo(item);
             }
         });
