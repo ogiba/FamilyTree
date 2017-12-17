@@ -21,7 +21,7 @@
 {% block body %}
     <section class="tree-playground">
         <div id="playground" class="row fill">
-            <div class="col-md-10" style="overflow: auto;">
+            <div class="{{ debug ? "col-md-10" : "col-md-12" }}" style="overflow: auto;">
                 <table class="table" style="table-layout: fixed;">
                     <tbody>
                     {% set items = 10 %}
@@ -29,7 +29,8 @@
                         <tr>
                             {% for j in 0..items %}
                                 <td>
-                                    <div class="tree-container" ondragover="allowDrop(event)" ondrop="drop(event,{{items}})">
+                                    <div class="tree-container" ondragover="allowDrop(event)"
+                                         ondrop="drop(event,{{ items }})">
                                     </div>
                                 </td>
                             {% endfor %}
@@ -38,22 +39,26 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-2 family-manager">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div>
-                            <label>Family persons</label>
-                        </div>
-                        <div class="person-container">
-                            <ul ondragover="allowDrop(event)" ondrop="drop(event)">
-                                {% for i in 0..30 %}
-                                    <li id="person{{ i }}" class="draggableTest person-item" draggable="true" ondragstart="drag(event)" ondragover="makePlace(event)">Test{{ i }} Testowy</li>
-                                {% endfor %}
-                            </ul>
+            {% if debug %}
+                <div class="col-md-2 family-manager">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div>
+                                <label>Family persons</label>
+                            </div>
+                            <div class="person-container">
+                                <ul ondragover="allowDrop(event)" ondrop="drop(event)">
+                                    {% for i in 0..30 %}
+                                        <li id="person{{ i }}" class="draggableTest person-item" draggable="true"
+                                            ondragstart="drag(event)" ondragover="makePlace(event)">Test{{ i }} Testowy
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
         </div>
     </section>
 {% endblock %}

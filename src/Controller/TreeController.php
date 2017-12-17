@@ -11,6 +11,8 @@ namespace Controller;
 
 class TreeController extends BaseController
 {
+    const MODE_DEBUG = "debug";
+
     public function action($name, $action, $params)
     {
         if ($action == "rebuild") {
@@ -18,12 +20,18 @@ class TreeController extends BaseController
         } elseif ($action == "load_tree") {
             $this->loadTree($_REQUEST);
         } else {
-            $this->indexAction();
+            $this->indexAction($_REQUEST);
         }
     }
 
-    public function indexAction(){
-        echo $this->render("tree/tree.html.twig");
+    public function indexAction($request){
+        $debugMode = false;
+        if (isset($request["mode"])){
+            $debugMode = $request["mode"] == $this::MODE_DEBUG ? true : false;
+        }
+
+        $params = array("debug" => $debugMode);
+        echo $this->render("tree/tree.html.twig", $params);
     }
 
     public function rebuildItem($request) {
