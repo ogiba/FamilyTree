@@ -49,7 +49,7 @@
                             <div class="person-container">
                                 <ul ondragover="allowDrop(event)" ondrop="drop(event)">
                                     {% for i in 0..30 %}
-                                        <li id="person{{ i }}" class="draggableTest person-item" draggable="true"
+                                        <li id="person{{ i }}" class="draggableTest person-item editable" draggable="true"
                                             ondragstart="drag(event)" ondragover="makePlace(event)">Test{{ i }} Testowy
                                         </li>
                                     {% endfor %}

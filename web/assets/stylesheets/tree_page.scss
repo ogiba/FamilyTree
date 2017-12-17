@@ -132,32 +132,34 @@ body {
             border-radius: 10px;
             position: relative;
 
-            &:hover > .left-dot {
-                display: inline-block;
-                background: orange;
-                border-radius: 20px;
-                padding: 10px;
-            }
+            &.editable {
+                &:hover > .left-dot {
+                    display: inline-block;
+                    background: orange;
+                    border-radius: 20px;
+                    padding: 10px;
+                }
 
-            &:hover > .top-dot {
-                display: inline-block;
-                background: orange;
-                border-radius: 20px;
-                padding: 10px;
-            }
+                &:hover > .top-dot {
+                    display: inline-block;
+                    background: orange;
+                    border-radius: 20px;
+                    padding: 10px;
+                }
 
-            &:hover > .bottom-dot {
-                display: inline-block;
-                background: orange;
-                border-radius: 20px;
-                padding: 10px;
-            }
+                &:hover > .bottom-dot {
+                    display: inline-block;
+                    background: orange;
+                    border-radius: 20px;
+                    padding: 10px;
+                }
 
-            &:hover > .right-dot {
-                display: inline-block;
-                background: orange;
-                border-radius: 20px;
-                padding: 10px;
+                &:hover > .right-dot {
+                    display: inline-block;
+                    background: orange;
+                    border-radius: 20px;
+                    padding: 10px;
+                }
             }
 
             &.selected{

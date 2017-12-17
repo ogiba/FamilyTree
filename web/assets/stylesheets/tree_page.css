@@ -88,22 +88,22 @@ body {
       padding: 10px;
       border-radius: 10px;
       position: relative; }
-      .tree-playground .tree-container .person-item:hover > .left-dot {
+      .tree-playground .tree-container .person-item.editable:hover > .left-dot {
         display: inline-block;
         background: orange;
         border-radius: 20px;
         padding: 10px; }
-      .tree-playground .tree-container .person-item:hover > .top-dot {
+      .tree-playground .tree-container .person-item.editable:hover > .top-dot {
         display: inline-block;
         background: orange;
         border-radius: 20px;
         padding: 10px; }
-      .tree-playground .tree-container .person-item:hover > .bottom-dot {
+      .tree-playground .tree-container .person-item.editable:hover > .bottom-dot {
         display: inline-block;
         background: orange;
         border-radius: 20px;
         padding: 10px; }
-      .tree-playground .tree-container .person-item:hover > .right-dot {
+      .tree-playground .tree-container .person-item.editable:hover > .right-dot {
         display: inline-block;
         background: orange;
         border-radius: 20px;

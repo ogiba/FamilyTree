@@ -26,9 +26,7 @@ function recursiveRebuilding(person, basePosition) {
     generateRequiredColumns(parent, basePosition);
     generateRequiredRows(parent, basePosition);
 
-    $.get("/tree/rebuild?data=" + person.name + "&id=" + 1 + "&position=" + JSON.stringify(basePosition), function (itemResponse) {
-        var data = JSON.parse(itemResponse);
-
+    $.get("/tree/rebuild?data=" + person.name + "&id=" + 1 + "&position=" + JSON.stringify(basePosition), function (data) {
         var parent = $('tr:eq(' + data.position.row + ') td:eq(' + data.position.cell + ') .tree-container');
 
         console.log(data);
@@ -192,10 +190,11 @@ function drop(ev) {
 function rebuildPersonItem(elem, parent) {
     var text = elem.childNodes[0];
     elem.innerHTML = "";
+    var droppedPosition = new TablePosition(parent.parentElement.cellIndex, parent.parentElement.parentElement.rowIndex);
 
     //TODO - Add placeholder while data is loading
-    $.get("/tree/rebuild?data=" + text.data + "&id=" + elem.id, function (data) {
-        elem.innerHTML = data;
+    $.get("/tree/rebuild?data=" + text.data + "&id=" + elem.id + "&position=" + JSON.stringify(droppedPosition), function (data) {
+        elem.innerHTML = data.item;
 
         var list = document.querySelector(".table");
         var draggableList = new DraggableList(list, elem);
