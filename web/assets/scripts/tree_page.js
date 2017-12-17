@@ -23,18 +23,13 @@ function loadTree() {
 function recursiveRebuilding(person, basePosition) {
     var parent = $('tr:eq(' + basePosition.row + ') td:eq(' + basePosition.cell + ')');
 
-    if (3 <= parent.parent().children().length - basePosition.cell) {
-        addNewColumn(false);
-    }
+    generateRequiredColumns(parent, basePosition);
+    generateRequiredRows(parent, basePosition);
 
     $.get("/tree/rebuild?data=" + person.name + "&id=" + 1 + "&position=" + JSON.stringify(basePosition), function (itemResponse) {
         var data = JSON.parse(itemResponse);
 
         var parent = $('tr:eq(' + data.position.row + ') td:eq(' + data.position.cell + ') .tree-container');
-
-        // if (data.position.row >= parent.parent().parent().parent().children().length - 2) {
-        //     addNewRow(false);
-        // }
 
         console.log(data);
 
@@ -50,8 +45,8 @@ function recursiveRebuilding(person, basePosition) {
             var position = new TablePosition(basePosition.cell + 2, basePosition.row + i + fixedPosition);
             fixedPosition += child.children.length > 0 ? recursiveChildrenSize(child) : 0;
 
-            loadConnections(basePosition, position);
             recursiveRebuilding(child, position);
+            loadConnections(basePosition, position);
         }
     }
 }
@@ -67,6 +62,24 @@ function recursiveChildrenSize(person) {
     }
 
     return numberOfChildren;
+}
+
+function generateRequiredColumns(parent, basePosition) {
+    if (basePosition.cell >= parent.parent().children().length - 2) {
+        var cellDifference = parent.parent().children().length - basePosition.cell;
+        for (var i = 0; i < cellDifference; i++) {
+            addNewColumn(false);
+        }
+    }
+}
+
+function generateRequiredRows(parent, basePosition) {
+    if (basePosition.row >= parent.parent().parent().children().length - 1) {
+        var rowDifference = parent.parent().parent().children().length - basePosition.row;
+        for (var i = 0; i < rowDifference; i++) {
+            addNewRow(false);
+        }
+    }
 }
 
 function allowDrop(ev) {
