@@ -50,6 +50,7 @@ function recursiveRebuilding(person, basePosition) {
             var position = new TablePosition(basePosition.cell + 2, basePosition.row + i + fixedPosition);
             fixedPosition += child.children.length > 0 ? child.children.length - 1 : 0;
 
+            loadConnections(basePosition, position);
             recursiveRebuilding(child, position);
         }
     }
@@ -205,6 +206,22 @@ function rebuildPersonItem(elem, parent) {
     // {
     //     addClass(item.element, "selected");
     // };
+}
+
+/**
+ *
+ * @param {TablePosition} parentPosition
+ * @param {TablePosition} childPosition
+ */
+function loadConnections(parentPosition, childPosition) {
+    var linesToDraw = lookForConnections(parentPosition, childPosition);
+
+    console.log("Number of found postions:" + linesToDraw.length);
+
+    if (linesToDraw.length > 0) {
+        var connectionLine = new ConnectionLine(linesToDraw);
+        connectionLine.connectLines();
+    }
 }
 
 /**
