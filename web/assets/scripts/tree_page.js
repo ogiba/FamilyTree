@@ -26,7 +26,7 @@ function recursiveRebuilding(person, basePosition) {
     generateRequiredColumns(parent, basePosition);
     generateRequiredRows(parent, basePosition);
 
-    $.get("/tree/rebuild?data=" + person.name + "&id=" + 1 + "&position=" + JSON.stringify(basePosition), function (data) {
+    $.get("/tree/rebuild?data=" + JSON.stringify(person) + "&id=" + 1 + "&position=" + JSON.stringify(basePosition), function (data) {
         var parent = $('tr:eq(' + data.position.row + ') td:eq(' + data.position.cell + ') .tree-container');
 
         console.log(data);

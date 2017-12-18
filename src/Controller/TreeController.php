@@ -44,7 +44,8 @@ class TreeController extends BaseController
         }
 
         if (isset($request["data"]) && isset($request["id"])) {
-            $params = array("data" => $request["data"], "id" => $request["id"]);
+            $personData = json_decode($request["data"]);
+            $params = array("person" => $personData, "id" => $request["id"]);
             $response = array("position" => $position, "item" => $this->render("tree/tree_node.html.twig", $params));
 
             header($this::HEADER_CONTENT_TYPE_JSON);
