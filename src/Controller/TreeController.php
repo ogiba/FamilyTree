@@ -40,11 +40,11 @@ class TreeController extends BaseController
         $position = null;
 
         if (isset($request["position"])) {
-            $position = json_decode($request["position"]);
+            $position = $request["position"];
         }
 
-        if (isset($request["data"]) && isset($request["id"])) {
-            $personData = json_decode($request["data"]);
+        if (isset($_POST["data"]) && isset($request["id"])) {
+            $personData = $_POST["data"];
             $params = array("person" => $personData, "id" => $request["id"]);
             $response = array("position" => $position, "item" => $this->render("tree/tree_node.html.twig", $params));
 

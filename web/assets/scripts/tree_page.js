@@ -26,7 +26,10 @@ function recursiveRebuilding(person, basePosition) {
     generateRequiredColumns(parent, basePosition);
     generateRequiredRows(parent, basePosition);
 
-    $.get("/tree/rebuild?data=" + JSON.stringify(person) + "&id=" + 1 + "&position=" + JSON.stringify(basePosition), function (data) {
+    $.post("/tree/rebuild?&id=" + 1, {
+        "data": person,
+        "position": basePosition
+    }, function (data) {
         var parent = $('tr:eq(' + data.position.row + ') td:eq(' + data.position.cell + ') .tree-container');
 
         console.log(data);
@@ -629,7 +632,7 @@ DraggableList.prototype.intersectsWithGhost = function (element) {
     var ghostRect = this.ghostElement.getBoundingClientRect();
 
     return (elementRect.left < ghostRect.right && elementRect.right > ghostRect.left &&
-    elementRect.top < ghostRect.bottom && elementRect.bottom > ghostRect.top );
+        elementRect.top < ghostRect.bottom && elementRect.bottom > ghostRect.top );
 };
 
 /**
@@ -640,7 +643,7 @@ DraggableList.prototype.intersectsWithPos = function (element, pos) {
     var elementRect = element.element.getBoundingClientRect();
 
     return (pos.x > elementRect.left && pos.x < elementRect.right &&
-    pos.y > elementRect.top && pos.y < elementRect.bottom);
+        pos.y > elementRect.top && pos.y < elementRect.bottom);
 };
 
 
