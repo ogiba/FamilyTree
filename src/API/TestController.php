@@ -15,10 +15,11 @@ use Database\PostsManager;
 
 class TestController extends BaseRestController
 {
-    public function test($request) {
+    public function action($name, $action, $params)
+    {
         //TODO: Allows to place test implementation of required methods and test it via restClient
-        $posts = new InformationManager();
-        $posts->loadAboutMe();
-        echo "Tested :D";
+        $posts = new FamilyManager();
+        $result = $posts->loadFamilyMembers(1);
+        echo json_encode($result);
     }
 }
