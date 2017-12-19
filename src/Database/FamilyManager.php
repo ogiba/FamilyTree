@@ -60,6 +60,29 @@ class FamilyManager extends BaseDatabaseManager
         return $result;
     }
 
+    public function test()
+    {
+
+    }
+
+    public function loadChildren($familyId, $parentId)
+    {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("SELECT * FROM family_members WHERE family = ? AND parent = ?");
+        $stmt->bind_param("ii", $familyId, $parentId);
+        $stmt->execute();
+
+        $data = $this->bindResult($stmt);
+        $result = array();
+
+        while ($stmt->fetch()) {
+            $familyMember = $this->arrayToObject($data, FamilyMember::class);
+            $result[] = $familyMember;
+        }
+
+        return $result;
+    }
+
     /**
      * Returns member from DB that match given id
      *
@@ -77,9 +100,58 @@ class FamilyManager extends BaseDatabaseManager
 
         if ($stmt->fetch()) {
             $familyMember = $this->arrayToObject($data, FamilyMember::class);
+            $connection->close();
+            $familyMember->children = $this->recursiveChildrenLoad($familyMember->id);
+            return $familyMember;
+        }
+
+        $connection->close();
+        return null;
+    }
+
+    private function recursiveChildrenLoad($parentId)
+    {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("SELECT * FROM family_members WHERE parent = ?");
+        $stmt->bind_param("i", $parentId);
+        $stmt->execute();
+
+        $data = $this->bindResult($stmt);
+        $result = array();
+
+        while ($stmt->fetch()) {
+            $familyMember = $this->arrayToObject($data, FamilyMember::class);
+            $result[] = $familyMember;
+        }
+
+        $connection->close();
+
+        $newResult = array();
+        foreach ($result as $key => $value) {
+            $value->children = $this->recursiveChildrenLoad($value->id);
+            $newResult[] = $value;
+        }
+
+        return $newResult;
+    }
+
+    public function getFamilyMemberDetails2($id)
+    {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("SELECT * FROM family_members AS cl
+                                              INNER JOIN family_members AS cat ON cat.id = cl.parent
+                                              WHERE cl.id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
+        $data = $this->bindResult($stmt);
+
+        if ($stmt->fetch()) {
+            $familyMember = $this->arrayToObject($data, FamilyMember::class);
             return $familyMember;
         }
 
         return null;
     }
+
 }
