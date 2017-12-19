@@ -45,19 +45,19 @@ class FamilyManager extends BaseDatabaseManager
     public function loadFamilyMembers($familyId)
     {
         $connection = $this->createConnection();
-        $stmt = $connection->prepare("SELECT * FROM family_members WHERE family = ?");
+        $stmt = $connection->prepare("SELECT * FROM family_members WHERE family = ? AND parent IS NULL ");
         $stmt->bind_param("i", $familyId);
         $stmt->execute();
 
         $data = $this->bindResult($stmt);
-        $result = array();
 
-        while ($stmt->fetch()) {
+        if ($stmt->fetch()) {
             $familyMember = $this->arrayToObject($data, FamilyMember::class);
-            $result[] = $familyMember;
+            $familyMember->children = $this->recursiveChildrenLoad($familyMember->id);
+            return $familyMember;
         }
 
-        return $result;
+        return null;
     }
 
     public function test()

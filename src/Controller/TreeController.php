@@ -9,6 +9,8 @@
 namespace Controller;
 
 
+use Database\FamilyManager;
+
 class TreeController extends BaseController
 {
     const MODE_DEBUG = "debug";
@@ -18,7 +20,8 @@ class TreeController extends BaseController
         if ($action == "rebuild") {
             $this->rebuildItem($_REQUEST);
         } elseif ($action == "load_tree") {
-            $this->loadTree($_REQUEST);
+//            $this->loadTree($_REQUEST);
+            $this->testLoadTree($_REQUEST);
         } else {
             $this->indexAction($_REQUEST);
         }
@@ -60,6 +63,19 @@ class TreeController extends BaseController
         $file = file_get_contents("./data/trees/tree.json");
         $jsonFile = json_decode($file, true);
 
+        header($this::HEADER_CONTENT_TYPE_JSON);
         echo json_encode($jsonFile);
+    }
+
+    private function testLoadTree($request)
+    {
+        if (!isset($request["family"])) {
+            return;
+        }
+
+        $familyManager = new FamilyManager();
+        $result = $familyManager->loadFamilyMembers($request["family"]);
+        header($this::HEADER_CONTENT_TYPE_JSON);
+        echo json_encode($result);
     }
 }
