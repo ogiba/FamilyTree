@@ -10,33 +10,43 @@ $(document).ready(function () {
 });
 
 function loadTree() {
-    $.get("/tree/load_tree?family=1", function (person) {
-        console.log(person);
+    $.get("/tree/load_tree?family=1", function (response) {
+        console.log(response);
 
         var basePosition = new TablePosition(1, 1);
+        var template = $.templates(response.template);
 
-        recursiveRebuilding(person, basePosition);
+        if (response.family !== null) {
+            recursiveRebuilding(response.family, basePosition, template);
+        }
     })
 }
 
-function recursiveRebuilding(person, basePosition) {
+function recursiveRebuilding(person, basePosition, template) {
     var parent = $('tr:eq(' + basePosition.row + ') td:eq(' + basePosition.cell + ')');
 
     generateRequiredColumns(parent, basePosition);
     generateRequiredRows(parent, basePosition);
 
-    $.post("/tree/rebuild?&id=" + 1, {
-        "data": person,
-        "position": basePosition
-    }, function (data) {
-        var parent = $('tr:eq(' + data.position.row + ') td:eq(' + data.position.cell + ') .tree-container');
+    var itemParent = parent.find(".tree-container");
+    var personItem = template.render(person);
 
-        console.log(data);
+    $("<div/>", {
+        "class": "person-item"
+    }).html(personItem).appendTo(itemParent);
 
-        $("<div/>", {
-            "class": "person-item"
-        }).html(data.item).appendTo(parent);
-    });
+    // $.post("/tree/rebuild?&id=" + 1, {
+    //     "data": person,
+    //     "position": basePosition
+    // }, function (data) {
+    //     var parent = $('tr:eq(' + data.position.row + ') td:eq(' + data.position.cell + ') .tree-container');
+    //
+    //     console.log(data);
+    //
+    //     $("<div/>", {
+    //         "class": "person-item"
+    //     }).html(data.item).appendTo(parent);
+    // });
 
     if (person.children.length > 0) {
         var fixedPosition = 0;
@@ -45,7 +55,7 @@ function recursiveRebuilding(person, basePosition) {
             var position = new TablePosition(basePosition.cell + 2, basePosition.row + i + fixedPosition);
             fixedPosition += child.children.length > 0 ? recursiveChildrenSize(child) : 0;
 
-            recursiveRebuilding(child, position);
+            recursiveRebuilding(child, position, template);
             loadConnections(basePosition, position);
         }
     }

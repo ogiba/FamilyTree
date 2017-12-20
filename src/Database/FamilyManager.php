@@ -69,7 +69,7 @@ class FamilyManager extends BaseDatabaseManager
         return $baseNode;
     }
 
-    public function recursiveChildrenFilter($parentId, $children)
+    private function recursiveChildrenFilter($parentId, $children)
     {
         $result = array();
 

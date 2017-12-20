@@ -75,7 +75,11 @@ class TreeController extends BaseController
 
         $familyManager = new FamilyManager();
         $result = $familyManager->loadFamilyMembers($request["family"]);
+
+        $template = file_get_contents("views/tree/tree_node_template.html");
+
+        $responseWithTemplate = array("family" => $result, "template" => $template);
         header($this::HEADER_CONTENT_TYPE_JSON);
-        echo json_encode($result);
+        echo json_encode($responseWithTemplate);
     }
 }
