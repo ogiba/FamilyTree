@@ -45,24 +45,42 @@ class FamilyManager extends BaseDatabaseManager
     public function loadFamilyMembers($familyId)
     {
         $connection = $this->createConnection();
-        $stmt = $connection->prepare("SELECT * FROM family_members WHERE family = ? AND parent IS NULL ");
+        $stmt = $connection->prepare("SELECT * FROM family_members WHERE family = ?");
         $stmt->bind_param("i", $familyId);
         $stmt->execute();
 
         $data = $this->bindResult($stmt);
+        $result = array();
 
-        if ($stmt->fetch()) {
+        while ($stmt->fetch()) {
             $familyMember = $this->arrayToObject($data, FamilyMember::class);
-            $familyMember->children = $this->recursiveChildrenLoad($familyMember->id);
-            return $familyMember;
+            $result[] = $familyMember;
         }
 
-        return null;
+        $baseNode = null;
+        foreach ($result as $key => $value) {
+            if ($value->parent == null) {
+                $value->children = $this->recursiveChildrenFilter($value->id, $result);
+                $baseNode = $value;
+                break;
+            }
+        }
+
+        return $baseNode;
     }
 
-    public function test()
+    public function recursiveChildrenFilter($parentId, $children)
     {
+        $result = array();
 
+        foreach ($children as $key => $value) {
+            if ($value->parent == $parentId) {
+                $value->children = $this->recursiveChildrenFilter($value->id, $children);
+                $result[] = $value;
+            }
+        }
+
+        return $result;
     }
 
     public function loadChildren($familyId, $parentId)
@@ -98,60 +116,12 @@ class FamilyManager extends BaseDatabaseManager
 
         $data = $this->bindResult($stmt);
 
+        $familyMember = null;
         if ($stmt->fetch()) {
             $familyMember = $this->arrayToObject($data, FamilyMember::class);
-            $connection->close();
-            $familyMember->children = $this->recursiveChildrenLoad($familyMember->id);
-            return $familyMember;
         }
 
         $connection->close();
-        return null;
+        return $familyMember;
     }
-
-    private function recursiveChildrenLoad($parentId)
-    {
-        $connection = $this->createConnection();
-        $stmt = $connection->prepare("SELECT * FROM family_members WHERE parent = ?");
-        $stmt->bind_param("i", $parentId);
-        $stmt->execute();
-
-        $data = $this->bindResult($stmt);
-        $result = array();
-
-        while ($stmt->fetch()) {
-            $familyMember = $this->arrayToObject($data, FamilyMember::class);
-            $result[] = $familyMember;
-        }
-
-        $connection->close();
-
-        $newResult = array();
-        foreach ($result as $key => $value) {
-            $value->children = $this->recursiveChildrenLoad($value->id);
-            $newResult[] = $value;
-        }
-
-        return $newResult;
-    }
-
-    public function getFamilyMemberDetails2($id)
-    {
-        $connection = $this->createConnection();
-        $stmt = $connection->prepare("SELECT * FROM family_members AS cl
-                                              INNER JOIN family_members AS cat ON cat.id = cl.parent
-                                              WHERE cl.id = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-
-        $data = $this->bindResult($stmt);
-
-        if ($stmt->fetch()) {
-            $familyMember = $this->arrayToObject($data, FamilyMember::class);
-            return $familyMember;
-        }
-
-        return null;
-    }
-
 }

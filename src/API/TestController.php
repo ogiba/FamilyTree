@@ -10,8 +10,6 @@ namespace API;
 
 
 use Database\FamilyManager;
-use Database\InformationManager;
-use Database\PostsManager;
 
 class TestController extends BaseRestController
 {
