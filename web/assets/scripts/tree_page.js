@@ -14,7 +14,7 @@ function loadTree() {
         console.log(response);
 
         var basePosition = new TablePosition(1, 1);
-        var template = $.templates(response.template);
+        var template = $.templates(response.memberTemplate);
 
         if (response.family !== null) {
             recursiveRebuilding(response.family, basePosition, template);

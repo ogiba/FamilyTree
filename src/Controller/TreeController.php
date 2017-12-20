@@ -10,6 +10,7 @@ namespace Controller;
 
 
 use Database\FamilyManager;
+use Model\TreeResponse;
 
 class TreeController extends BaseController
 {
@@ -76,10 +77,16 @@ class TreeController extends BaseController
         $familyManager = new FamilyManager();
         $result = $familyManager->loadFamilyMembers($request["family"]);
 
-        $template = file_get_contents("views/tree/tree_node_template.html");
+        $template = $this->readNodeTemplate("tree_node_member.html");
+        $pairTemplate = $this->readNodeTemplate("tree_node_family.html");
 
-        $responseWithTemplate = array("family" => $result, "template" => $template);
+        $response = new TreeResponse($result, $template, $pairTemplate);
         header($this::HEADER_CONTENT_TYPE_JSON);
-        echo json_encode($responseWithTemplate);
+        echo json_encode($response);
+    }
+
+    private function readNodeTemplate($templateName)
+    {
+        return file_get_contents("views/tree/templates/" . $templateName);
     }
 }
