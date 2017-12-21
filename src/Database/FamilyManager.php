@@ -78,7 +78,7 @@ class FamilyManager extends BaseDatabaseManager
 
         foreach ($children as $key => $value) {
             if ($value->parent == $parentId) {
-                $value->partner = $this->findPartner($value->id, $result);
+                $value->partner = $this->findPartner($value->id, $children);
                 $value->children = $this->recursiveChildrenFilter($value->id, $children);
                 $result[] = $value;
             }
@@ -87,11 +87,16 @@ class FamilyManager extends BaseDatabaseManager
         return $result;
     }
 
-    private function findPartner($memberId, $members){
+    private function findPartner($memberId, $members)
+    {
         $partner = null;
 
         foreach ($members as $key => $value) {
-            if($value->partner == $memberId) {
+            if ($value->partner == null || $value->partner instanceof FamilyMember) {
+                continue;
+            }
+
+            if ($value->partner == $memberId) {
                 $partner = $value;
                 break;
             }
