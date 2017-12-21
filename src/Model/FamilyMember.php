@@ -20,6 +20,7 @@ class FamilyMember implements JsonSerializable
     public $birthDate;
     public $deathDate;
     public $parent;
+    public $partner;
     public $children;
     public $image;
     public $family;
@@ -48,6 +49,7 @@ class FamilyMember implements JsonSerializable
             "birthDate" => $this->birthDate,
             "deathDate" => $this->deathDate,
             "parent" => $this->parent,
+            "partner" => $this->partner,
             "children" => $this->children,
             "image" => $this->image,
             "family" => $this->family,

@@ -45,7 +45,9 @@ class FamilyManager extends BaseDatabaseManager
     public function loadFamilyMembers($familyId)
     {
         $connection = $this->createConnection();
-        $stmt = $connection->prepare("SELECT * FROM family_members WHERE family = ?");
+        $stmt = $connection->prepare("SELECT * FROM tree_nodes tn 
+                                              INNER JOIN family_members AS fm ON tn.person = fm.id
+                                              WHERE tn.family = ?");
         $stmt->bind_param("i", $familyId);
         $stmt->execute();
 
@@ -60,6 +62,7 @@ class FamilyManager extends BaseDatabaseManager
         $baseNode = null;
         foreach ($result as $key => $value) {
             if ($value->parent == null) {
+                $value->partner = $this->findPartner($value->id, $result);
                 $value->children = $this->recursiveChildrenFilter($value->id, $result);
                 $baseNode = $value;
                 break;
@@ -81,6 +84,18 @@ class FamilyManager extends BaseDatabaseManager
         }
 
         return $result;
+    }
+
+    private function findPartner($memberId, $members){
+        $partner = null;
+
+        foreach ($members as $key => $value) {
+            if($value->partner == $memberId) {
+                $partner = $value;
+            }
+        }
+
+        return $partner;
     }
 
     public function loadChildren($familyId, $parentId)
