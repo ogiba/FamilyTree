@@ -14,39 +14,33 @@ function loadTree() {
         console.log(response);
 
         var basePosition = new TablePosition(1, 1);
-        var template = $.templates(response.memberTemplate);
+        var memberTemplate = $.templates(response.memberTemplate);
+        var pairTemplate = $.templates(response.pairTemplate);
 
         if (response.family !== null) {
-            recursiveRebuilding(response.family, basePosition, template);
+            recursiveRebuilding(response.family, basePosition, memberTemplate, pairTemplate);
         }
     })
 }
 
-function recursiveRebuilding(person, basePosition, template) {
+function recursiveRebuilding(person, basePosition, memberTemplate, pairTemplate) {
     var parent = $('tr:eq(' + basePosition.row + ') td:eq(' + basePosition.cell + ')');
 
     generateRequiredColumns(parent, basePosition);
     generateRequiredRows(parent, basePosition);
 
     var itemParent = parent.find(".tree-container");
-    var personItem = template.render(person);
+
+    var personItem;
+    if (person.partner !== null) {
+        personItem = pairTemplate.render(person);
+    } else {
+        personItem = memberTemplate.render(person);
+    }
 
     $("<div/>", {
         "class": "person-item"
     }).html(personItem).appendTo(itemParent);
-
-    // $.post("/tree/rebuild?&id=" + 1, {
-    //     "data": person,
-    //     "position": basePosition
-    // }, function (data) {
-    //     var parent = $('tr:eq(' + data.position.row + ') td:eq(' + data.position.cell + ') .tree-container');
-    //
-    //     console.log(data);
-    //
-    //     $("<div/>", {
-    //         "class": "person-item"
-    //     }).html(data.item).appendTo(parent);
-    // });
 
     if (person.children.length > 0) {
         var fixedPosition = 0;
@@ -55,7 +49,7 @@ function recursiveRebuilding(person, basePosition, template) {
             var position = new TablePosition(basePosition.cell + 2, basePosition.row + i + fixedPosition);
             fixedPosition += child.children.length > 0 ? recursiveChildrenSize(child) : 0;
 
-            recursiveRebuilding(child, position, template);
+            recursiveRebuilding(child, position, memberTemplate, pairTemplate);
             loadConnections(basePosition, position);
         }
     }

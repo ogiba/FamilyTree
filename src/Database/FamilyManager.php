@@ -78,6 +78,7 @@ class FamilyManager extends BaseDatabaseManager
 
         foreach ($children as $key => $value) {
             if ($value->parent == $parentId) {
+                $value->partner = $this->findPartner($value->id, $result);
                 $value->children = $this->recursiveChildrenFilter($value->id, $children);
                 $result[] = $value;
             }
@@ -92,6 +93,7 @@ class FamilyManager extends BaseDatabaseManager
         foreach ($members as $key => $value) {
             if($value->partner == $memberId) {
                 $partner = $value;
+                break;
             }
         }
 
