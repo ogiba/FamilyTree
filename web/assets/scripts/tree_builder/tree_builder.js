@@ -1,24 +1,42 @@
-function saveFamily() {
-    var name = $("#familyNameInput").val();
+$(document).ready(function () {
+    loadMembers();
+});
 
-    if (!name.trim()) {
-        console.log("Family name cannot be empty");
-        return;
+function loadMembers() {
+    $.get(window.location.href + "/getMembers", function (response) {
+        var members = new MemberList(response);
+
+        $("#membersContainer").append(members.generateList());
+    });
+}
+
+
+var MemberList = function (members) {
+    this.members = members;
+};
+
+MemberList.prototype.generateList = function () {
+    var ul = $("<ul>");
+
+    recursiveMemberElements(this.members).appendTo(ul);
+
+    return ul;
+};
+
+function recursiveMemberElements(members) {
+
+    var list = $("<ul>");
+
+    if (members.children.length > 0) {
+        for (var i = 0; i < members.children.length; i++) {
+            var child = members.children[i];
+            list.append(recursiveMemberElements(child));
+        }
     }
 
-    $.post(window.location.href + "/save", {
-        "familyName": name
-    }, function (response) {
-        console.log(response);
+    var li = $("<li>", {
+        html: members.firstName
+    }).append(list);
 
-        switch (response.statusCode) {
-            case 200:
-                window.location.href += "";
-                break;
-            case 422:
-                break;
-            default:
-                break;
-        }
-    });
+    return li;
 }
