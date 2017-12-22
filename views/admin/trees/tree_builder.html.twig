@@ -1,0 +1,36 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}
+    {#{{ trans("admin-view-scene-title") }}#}
+    Tree Builder
+{% endblock %}
+
+{% block body %}
+    <section class="post-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <h4 class="card-header">
+                            <div class="row">
+
+                            </div>
+                        </h4>
+                        <div class="card-body">
+
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% block customView %}
+            {% endblock %}
+        </div>
+    </section>
+{% endblock %}

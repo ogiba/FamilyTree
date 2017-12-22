@@ -29,14 +29,35 @@ class TreeBuildControler extends BaseAdminController
         parent::action($name, $action, $params);
 
         if ($action == null) {
-            $this->viewIndex();
+            if ($this->checkIsFamilyExisiting()) {
+                $this->viewInitialScreen();
+            } else {
+                $this->viewIndex();
+            }
         }
+    }
+
+    private function viewInitialScreen() {
+        echo $this->render("/admin/trees/tree_builder_init_scene.html.twig", [
+            "userLogged" => $this->userLogged
+        ]);
     }
 
     private function viewIndex()
     {
-        echo $this->render("/admin/trees/trees_view.html.twig",[
+        echo $this->render("/admin/trees/tree_builder.html.twig", [
             "userLogged" => $this->userLogged
         ]);
+    }
+
+    private function checkIsFamilyExisiting()
+    {
+        $families = $this->manager->loadFamilies();
+
+        if (count($families) > 0) {
+            return true;
+        }
+
+        return false;
     }
 }

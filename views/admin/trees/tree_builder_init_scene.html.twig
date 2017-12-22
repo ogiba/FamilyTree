@@ -1,0 +1,42 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset("scripts/tree_builder.js") }}" type="text/javascript"></script>
+{% endblock %}
+
+{% block title %}
+    {#{{ trans("admin-view-scene-title") }}#}
+    Tree Builder
+{% endblock %}
+
+{% block body %}
+    <section class="post-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <h4 class="card-header">
+                            <div class="row">
+                                <div class="col-md-12">Insert name of Family tree</div>
+                            </div>
+                        </h4>
+                        <div class="card-body">
+                            <input placeholder="Nazwa rodziny" type="text">
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="btn btn-success" onclick="saveFamily()">Add</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% block customView %}
+            {% endblock %}
+        </div>
+    </section>
+{% endblock %}
