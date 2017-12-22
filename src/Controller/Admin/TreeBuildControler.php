@@ -10,6 +10,7 @@ namespace Controller\Admin;
 
 
 use Database\FamilyManager;
+use Model\Response;
 
 class TreeBuildControler extends BaseAdminController
 {
@@ -30,9 +31,9 @@ class TreeBuildControler extends BaseAdminController
 
         if ($action == null) {
             if ($this->checkIsFamilyExisiting()) {
-                $this->viewInitialScreen();
-            } else {
                 $this->viewIndex();
+            } else {
+                $this->viewInitialScreen();
             }
         } elseif ($action == "save") {
             $this->saveFamilyToDB();
@@ -67,12 +68,18 @@ class TreeBuildControler extends BaseAdminController
     private function saveFamilyToDB()
     {
         if (!isset($_POST["familyName"])) {
-            echo "Family name is required";
+            $response = new Response("Required family name", 422);
+
+            header("Content-type: Application/json");
+            echo json_encode($response);
             return;
         }
 
         $familyTreeName = $_POST["familyName"];
         $this->manager->addFamily($familyTreeName);
-        echo "Saving succeed";
+
+        $response = new Response("Saving succeed", 200);
+        header("Content-type: Application/json");
+        echo json_encode($response);
     }
 }
