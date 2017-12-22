@@ -146,4 +146,17 @@ class FamilyManager extends BaseDatabaseManager
         $connection->close();
         return $familyMember;
     }
+
+    public function addFamily($familyName)
+    {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("INSERT INTO families (familyName) VALUES (?)");
+        $stmt->bind_param("s", $familyName);
+        $stmt->execute();
+
+        $isSucceed = $stmt->affected_rows > 0;
+        $connection->close();
+
+        return $isSucceed;
+    }
 }

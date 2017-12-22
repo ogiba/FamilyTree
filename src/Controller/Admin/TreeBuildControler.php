@@ -34,10 +34,13 @@ class TreeBuildControler extends BaseAdminController
             } else {
                 $this->viewIndex();
             }
+        } elseif ($action == "save") {
+            $this->saveFamilyToDB();
         }
     }
 
-    private function viewInitialScreen() {
+    private function viewInitialScreen()
+    {
         echo $this->render("/admin/trees/tree_builder_init_scene.html.twig", [
             "userLogged" => $this->userLogged
         ]);
@@ -59,5 +62,17 @@ class TreeBuildControler extends BaseAdminController
         }
 
         return false;
+    }
+
+    private function saveFamilyToDB()
+    {
+        if (!isset($_POST["familyName"])) {
+            echo "Family name is required";
+            return;
+        }
+
+        $familyTreeName = $_POST["familyName"];
+        $this->manager->addFamily($familyTreeName);
+        echo "Saving succeed";
     }
 }
