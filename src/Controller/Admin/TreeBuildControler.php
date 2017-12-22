@@ -38,7 +38,11 @@ class TreeBuildControler extends BaseAdminController
         } elseif ($action == "save") {
             $this->saveFamilyToDB();
         } elseif ($action == "getMembers") {
-            $this->loadFamilyMembers();
+            if (isset($_GET["id"])) {
+                $this->loadSelectedMember($_GET["id"]);
+            } else {
+                $this->loadFamilyMembers();
+            }
         }
     }
 
@@ -111,8 +115,6 @@ class TreeBuildControler extends BaseAdminController
     private function loadFamilyMembers()
     {
         if (!isset($_SESSION["selectedFamily"])) {
-
-            header("Content-type: Application/json");
             $this->sendJsonResponse("");
             return;
         }
@@ -122,6 +124,19 @@ class TreeBuildControler extends BaseAdminController
         $familyMembers = $this->manager->loadFamilyMembers($familyID);
 
         $this->sendJsonResponse($familyMembers);
+    }
+
+    private function loadSelectedMember($id)
+    {
+        $member = $this->manager->getFamilyMemberDetails($id);
+
+        if (is_null($member)) {
+            $response = new Response(400, "Member not found");
+            $this->sendJsonResponse($response);
+            return;
+        }
+
+        echo $this->sendJsonResponse($member);
     }
 
     private function sendJsonResponse($data)
