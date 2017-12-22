@@ -1,6 +1,6 @@
 {
   "app-name": "DrzewoGosi",
-  "about-me": "O mnie",
+  "about-me": "About me",
   "home-page": "Home",
   "tree-page": "Tree",
   "view-post": "View",
@@ -8,6 +8,7 @@
   "post-edited": "Edited:",
   "post-modified": "Modified by:",
   "admin-posts": "Posts",
+  "admin-tree-builder": "Tree builder",
   "admin-sections": "Sections",
   "admin-logout": "Logout",
   "admin-add-post": "Add new post",

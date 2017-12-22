@@ -77,7 +77,7 @@ class Application
                     "section" => function() { return new InformationManageController(); }
 
                 ],
-                "trees" => function (){
+                "tree_builder" => function (){
                     return new TreeBuildControler();
                 },
                 "login" => function () {

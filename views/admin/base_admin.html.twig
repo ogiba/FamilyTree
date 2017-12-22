@@ -16,7 +16,10 @@
                 {{ parent() }}
                 {% if userLogged %}
                     <div class="nav-btn" onclick='navigateToScene("/admin")'>{{ trans("admin-posts") }}</div>
-                    <div class="nav-btn" onclick='navigateToScene("/admin/sections")'>{{ trans("admin-sections") }}</div>
+                    <div class="nav-btn"
+                         onclick='navigateToScene("/admin/tree_builder")'>{{ trans("admin-tree-builder") }}</div>
+                    <div class="nav-btn"
+                         onclick='navigateToScene("/admin/sections")'>{{ trans("admin-sections") }}</div>
                     <div class="nav-btn" onclick='navigateToScene("/admin/logout")'>{{ trans("admin-logout") }}</div>
                 {% endif %}
             {% endblock %}

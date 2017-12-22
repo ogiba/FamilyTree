@@ -35,6 +35,8 @@ class TreeBuildControler extends BaseAdminController
 
     private function viewIndex()
     {
-        echo $this->render("/admin/trees/trees_view.html.twig");
+        echo $this->render("/admin/trees/trees_view.html.twig",[
+            "userLogged" => $this->userLogged
+        ]);
     }
 }
