@@ -1,0 +1,20 @@
+$primaryColor: #174732;
+$accentColor: #EBC0FF;
+$secondaryColor: #1f1b10;
+$secondaryAccentColor: #9C7BCC;
+$backgroundColor: #D2F8BF;
+
+body {
+    background: white;
+}
+
+header {
+    height: auto;
+    background: none;
+}
+
+.nav-bar {
+    position: fixed;
+    top: 0;
+    bottom: auto;
+}

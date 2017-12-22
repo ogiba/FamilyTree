@@ -108,7 +108,7 @@ class FamilyManager extends BaseDatabaseManager
     public function loadChildren($familyId, $parentId)
     {
         $connection = $this->createConnection();
-        $stmt = $connection->prepare("SELECT * FROM family_members WHERE family = ? AND parent = ?");
+        $stmt = $connection->prepare("SELECT * FROM family_members WHERE parent = ?");
         $stmt->bind_param("ii", $familyId, $parentId);
         $stmt->execute();
 

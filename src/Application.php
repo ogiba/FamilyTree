@@ -5,6 +5,7 @@ use API\TestController;
 use Controller\Admin\InformationManageController;
 use Controller\Admin\LoginController;
 use Controller\Admin\PanelController;
+use Controller\Admin\TreeBuildControler;
 use Controller\IndexController;
 use Controller\NotFoundController;
 use Controller\PostViewController;
@@ -76,6 +77,9 @@ class Application
                     "section" => function() { return new InformationManageController(); }
 
                 ],
+                "trees" => function (){
+                    return new TreeBuildControler();
+                },
                 "login" => function () {
                     return new LoginController();
                 },

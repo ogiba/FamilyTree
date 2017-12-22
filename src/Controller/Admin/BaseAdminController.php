@@ -13,13 +13,17 @@ use Controller\BaseController;
 
 abstract class BaseAdminController extends BaseController
 {
+    protected $userLogged = false;
+
     public function action($name, $action, $params)
     {
         $_SESSION['url'] = $_SERVER['REQUEST_URI'];
 
-        if(!isset($_SESSION['token']) || empty($_SESSION['token'])){
+        if (!isset($_SESSION['token']) || empty($_SESSION['token'])) {
             header("location: /admin/login");
             exit;
         }
+
+        $this->userLogged = true;
     }
 }

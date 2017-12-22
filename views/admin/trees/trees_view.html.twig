@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Trees
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset("stylesheets/trees_view.css") }}"
+{% endblock %}
+
+{% block header %}
+    <header>
+        {% embed 'default/nav_bar.html.twig' %}
+        {% endembed %}
+    </header>
+{% endblock %}
+
+{% block body %}
+    <section class="post-view-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <h4 class="card-header">
+                            <div class="row">
+                                <div class="col-md-8">{{ post.title }}</div>
+                                <div class="col-md-4">
+                                </div>
+                            </div>
+                        </h4>
+                        <div class="card-body">
+                            <div class="content">
+                                {{ post.content }}
+                            </div>
+                            <div>
+                                {% if post.images|length > 0 %}
+                                    {% for image in post.images %}
+                                        <img src="{{ image }}" class="img-thumbnail">
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <div class="row">
+                                <div class="col-md-6 date">
+                                    {{ trans("post-edited") }} <span>{{ post.timeStamp }}</span>
+                                </div>
+                                <div class="col-md-6 author">
+                                    {% if post.modifiedBy is null %}
+                                        {{ trans("post-created") }} {{ post.author }}
+                                    {% else %}
+                                        {{ trans("post-modified") }} {{ post.modifiedBy }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
