@@ -151,11 +151,14 @@ class TreeBuildControler extends BaseAdminController {
 
         $familyMember = $this->arrayToObject($_POST["member"], FamilyMember::class);
 
-        $members = $this->manager->loadFamily($_SESSION["selectedFamily"]);
+        $familyId = $_SESSION["selectedFamily"];
+        $members = $this->manager->loadFamily($familyId);
+        $possiblePartners = $this->manager->loadPossiblePartners($familyId, intval($familyMember->id), intval($familyMember->parent));
 
         $response = array("template" => $this->render("/admin/trees/tree_builder_edit_member.html.twig", [
             "selectedMember" => $familyMember,
-            "members" => $members
+            "members" => $members,
+            "partners" => $possiblePartners
         ]));
         $this->sendJsonResponse($response);
     }

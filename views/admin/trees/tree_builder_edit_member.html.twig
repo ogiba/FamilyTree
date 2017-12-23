@@ -33,7 +33,7 @@
                 </div>
                 <div>
                     <select title="Parent" id="memberParentSelect">
-                        <option {{ selectedMember.parent is null ? 'selected' : ''}}></option>
+                        <option {{ selectedMember.parent is null ? 'selected' : '' }}></option>
                         {% for member in members %}
                             <option {{ member.id == selectedMember.parent ? 'selected' : '' }}>{{ member.firstName }} {{ member.lastName }}</option>
                         {% endfor %}
@@ -66,7 +66,10 @@
                 </div>
                 <div>
                     <select id="memberPartnerSelect" title="Partner">
-
+                        <option {{ selectedMember.partner is null ? 'selected' : '' }}></option>
+                        {% for partner in partners %}
+                            <option {{ partner.id == selectedMember.partner.id ? 'selected' : '' }}>{{ partner.firstName }} {{ partner.lastName }}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>

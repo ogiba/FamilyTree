@@ -54,7 +54,14 @@ class FamilyManager extends BaseDatabaseManager {
         return $isSucceed;
     }
 
-    public function loadFamily($familyId) {
+    /**
+     * Returns array of familyMembers for given family ID
+     *
+     * @param $familyId
+     * @return array
+     */
+    public function loadFamily($familyId)
+    {
         $connection = $this->createConnection();
         $stmt = $connection->prepare("SELECT * FROM tree_nodes tn 
                                               INNER JOIN family_members AS fm ON tn.person = fm.id
@@ -70,11 +77,33 @@ class FamilyManager extends BaseDatabaseManager {
             $result[] = $familyMember;
         }
 
+        $stmt->close();
+        return $result;
+    }
+
+    public function loadPossiblePartners($familyId, $memberId, $parentId)
+    {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("SELECT * FROM tree_nodes tn 
+                                              INNER JOIN family_members AS fm ON tn.person = fm.id
+                                              WHERE tn.family = ? AND tn.person != ? AND tn.person != ?");
+        $stmt->bind_param("iii", $familyId, $memberId, $parentId);
+        $stmt->execute();
+
+        $data = $this->bindResult($stmt);
+        $result = array();
+
+        while ($stmt->fetch()) {
+            $familyMember = $this->arrayToObject($data, FamilyMember::class);
+            $result[] = $familyMember;
+        }
+
+        $stmt->close();
         return $result;
     }
 
     /**
-     * Returns array of familyMembers for given family ID
+     * Returns base node with children for given family ID
      *
      * @param $familyId
      * @return FamilyMember[] array
@@ -95,6 +124,8 @@ class FamilyManager extends BaseDatabaseManager {
             $familyMember = $this->arrayToObject($data, FamilyMember::class);
             $result[] = $familyMember;
         }
+
+        $stmt->close();
 
         $baseNode = null;
         foreach ($result as $key => $value) {
@@ -142,6 +173,12 @@ class FamilyManager extends BaseDatabaseManager {
         return $partner;
     }
 
+    /**
+     * Loads children for given family
+     * @param $familyId
+     * @param $parentId
+     * @return array
+     */
     public function loadChildren($familyId, $parentId)
     {
         $connection = $this->createConnection();
@@ -157,6 +194,7 @@ class FamilyManager extends BaseDatabaseManager {
             $result[] = $familyMember;
         }
 
+        $stmt->close();
         return $result;
     }
 
