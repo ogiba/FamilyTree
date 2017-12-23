@@ -123,6 +123,7 @@ function makeUpdateRequest(member) {
 
         switch (response.statusCode) {
             case 200:
+                $("#alertContainer").append(prepareAlert(AlertType.success, "Member updated"));
                 reloadMembers();
                 break;
             case 204:
@@ -137,3 +138,41 @@ function reloadMembers() {
     $("#membersContainer").html("");
     loadMembers();
 }
+
+/**
+ *
+ * @param {AlertType|String} type
+ * @param {String} message
+ * @returns {void|*|jQuery}
+ */
+function prepareAlert(type, message) {
+    var closeSpan = $("<span/>", {
+        "aria-hidden": "true",
+        html: "&times;"
+    });
+
+    var closeBtn = $("<button/>", {
+        "type": "button",
+        "class": "close",
+        "data-dismiss": "alert",
+        "aria-label": "Close",
+        "click": function () {
+            $(".alert").remove();
+        }
+    }).append(closeSpan);
+
+    return $("<div/>", {
+        text: message,
+        "class": "alert alert-" + type + " alert-dismissable",
+        "role": "alert"
+    }).append(closeBtn);
+}
+
+var AlertType = {
+    primary: "primary",
+    secondary: "secondary",
+    success: "success",
+    warning: "warning",
+    danger: "danger",
+    info: "info",
+};
