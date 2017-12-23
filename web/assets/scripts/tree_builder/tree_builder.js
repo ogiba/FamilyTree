@@ -116,6 +116,21 @@ function makeUpdateRequest(member) {
     $.post(window.location.href + "/update?id=" + member.id, {
         "member": member
     }, function (response) {
+        console.log(response);
 
+        switch (response.statusCode) {
+            case 200:
+                reloadMembers();
+                break;
+            case 204:
+                break;
+            default:
+                break;
+        }
     })
+}
+
+function reloadMembers() {
+    $("#membersContainer").html("");
+    loadMembers();
 }

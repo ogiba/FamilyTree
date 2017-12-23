@@ -12,8 +12,7 @@ namespace Database;
 use Model\Family;
 use Model\FamilyMember;
 
-class FamilyManager extends BaseDatabaseManager
-{
+class FamilyManager extends BaseDatabaseManager {
     /**
      * Return families from DB
      *
@@ -169,6 +168,7 @@ class FamilyManager extends BaseDatabaseManager
     /**
      * @param $id
      * @param FamilyMember $familyMember
+     * @return boolean
      */
     public function updateFamilyMember($id, $familyMember)
     {
@@ -184,5 +184,10 @@ class FamilyManager extends BaseDatabaseManager
             $familyMember->lastName, $familyMember->maidenName,
             $familyMember->birthDate, $familyMember->deathDate, $id);
         $stmt->execute();
+
+        $isSucceed = $stmt->affected_rows > 0;
+        $stmt->close();
+
+        return $isSucceed;
     }
 }

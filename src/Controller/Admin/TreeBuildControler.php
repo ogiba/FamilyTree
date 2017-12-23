@@ -13,8 +13,7 @@ use Database\FamilyManager;
 use Model\FamilyMember;
 use Model\Response;
 
-class TreeBuildControler extends BaseAdminController
-{
+class TreeBuildControler extends BaseAdminController {
 
     private $manager;
 
@@ -145,12 +144,23 @@ class TreeBuildControler extends BaseAdminController
     private function updateSelectedMember($id)
     {
         if (!isset($_POST["member"])) {
+            $response = new Response("Missing parameter member", 422);
+            $this->sendJsonResponse($response);
             return;
         }
 
         $familyMember = $this->arrayToObject($_POST["member"], FamilyMember::class);
 
-        $this->manager->updateFamilyMember($id, $familyMember);
+        $isUpdated = $this->manager->updateFamilyMember($id, $familyMember);
+
+        $response = null;
+        if ($isUpdated) {
+            $response = new Response("Member updated", 200);
+        } else {
+            $response = new Response("No changes", 204);
+        }
+
+        $this->sendJsonResponse($response);
     }
 
     private function sendJsonResponse($data)
