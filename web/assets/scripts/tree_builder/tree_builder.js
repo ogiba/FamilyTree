@@ -35,8 +35,32 @@ function recursiveMemberElements(members) {
     }
 
     var li = $("<li>", {
-        html: members.firstName
+        html: members.firstName + " " + members.lastName,
+        click: (function (item) {
+            return function (event) {
+                event.stopPropagation();
+                console.log(item);
+                loadSelectedMemberToView(item)
+            }
+        })(members)
     }).append(list);
 
     return li;
+}
+
+function loadSelectedMemberToView(member) {
+    $("#memberFirstNameInput").val(member.firstName);
+    $("#memberLastNameInput").val(member.lastName);
+    $("#memberMaidenNameInput").val(member.maidenName === null ? "-----" : member.maidenName);
+    $("#memberBirthDateInput").val(convertDateToProperValue(member.birthDate));
+    $("#memberDeathDateInput").val(convertDateToProperValue(member.deathDate));
+}
+
+function convertDateToProperValue(dateString) {
+    if (dateString === null) {
+        return null;
+    }
+
+    var date = new Date(dateString);
+    return date.toISOString().substring(0, 10)
 }
