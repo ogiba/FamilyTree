@@ -1,0 +1,95 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    First name
+                </div>
+                <div>
+                    <input id="memberFirstNameInput" title="First Name" value="{{ selectedMember.firstName }}">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div>
+                    Last name
+                </div>
+                <div>
+                    <input id="memberLastNameInput" title="Last Name" value="{{ selectedMember.lastName }}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    Maiden name
+                </div>
+                <div>
+                    <input id="memberMaidenNameInput" title="Maiden Name" value="{{ selectedMember.maidenName }}">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div>
+                    Parent
+                </div>
+                <div>
+                    <select title="Parent" id="memberParentSelect">
+                        <option {{ selectedMember.parent is null ? 'selected' : ''}}></option>
+                        {% for member in members %}
+                            <option {{ member.id == selectedMember.parent ? 'selected' : '' }}>{{ member.firstName }} {{ member.lastName }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    Birth date
+                </div>
+                <div>
+                    <input type="date" id="memberBirthDateInput" title="Birth Date">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div>
+                    Death date
+                </div>
+                <div>
+                    <input type="date" id="memberDeathDateInput" title="Death Date">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    Partner
+                </div>
+                <div>
+                    <select id="memberPartnerSelect" title="Partner">
+
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div>
+                    Image
+                </div>
+                <div>
+                    <input type="file">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="btn btn-warning">Cancel</div>
+            </div>
+            <div class="col-md-6">
+                <div class="btn btn-success" onclick="saveMemberChanges({{ selectedMember.id }})">
+                    Save
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

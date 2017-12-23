@@ -54,6 +54,25 @@ class FamilyManager extends BaseDatabaseManager {
         return $isSucceed;
     }
 
+    public function loadFamily($familyId) {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("SELECT * FROM tree_nodes tn 
+                                              INNER JOIN family_members AS fm ON tn.person = fm.id
+                                              WHERE tn.family = ?");
+        $stmt->bind_param("i", $familyId);
+        $stmt->execute();
+
+        $data = $this->bindResult($stmt);
+        $result = array();
+
+        while ($stmt->fetch()) {
+            $familyMember = $this->arrayToObject($data, FamilyMember::class);
+            $result[] = $familyMember;
+        }
+
+        return $result;
+    }
+
     /**
      * Returns array of familyMembers for given family ID
      *

@@ -37,6 +37,8 @@ class TreeBuildControler extends BaseAdminController {
             }
         } elseif ($action == "save") {
             $this->saveFamilyToDB();
+        } elseif ($action == "edit") {
+            $this->editSelectedMember();
         } elseif ($action == "update" && isset($_GET["id"])) {
             $this->updateSelectedMember($_GET["id"]);
         } elseif ($action == "getMembers") {
@@ -139,6 +141,23 @@ class TreeBuildControler extends BaseAdminController {
         }
 
         echo $this->sendJsonResponse($member);
+    }
+
+    private function editSelectedMember()
+    {
+        if (!isset($_POST["member"]) || !isset($_SESSION["selectedFamily"])) {
+            return;
+        }
+
+        $familyMember = $this->arrayToObject($_POST["member"], FamilyMember::class);
+
+        $members = $this->manager->loadFamily($_SESSION["selectedFamily"]);
+
+        $response = array("template" => $this->render("/admin/trees/tree_builder_edit_member.html.twig", [
+            "selectedMember" => $familyMember,
+            "members" => $members
+        ]));
+        $this->sendJsonResponse($response);
     }
 
     private function updateSelectedMember($id)
