@@ -51,7 +51,9 @@ function recursiveMemberElements(members) {
 function loadSelectedMemberToView(member) {
     $("#memberFirstNameInput").val(member.firstName).data("value", member.id);
     $("#memberLastNameInput").val(member.lastName);
-    $("#memberMaidenNameInput").val(member.maidenName === null ? "-----" : member.maidenName);
+
+    var maidenName = member.maidenName;
+    $("#memberMaidenNameInput").val(maidenName === null || maidenName === "" ? "-----" : member.maidenName);
     $("#memberBirthDateInput").val(convertDateToProperValue(member.birthDate));
     $("#memberDeathDateInput").val(convertDateToProperValue(member.deathDate));
 }
@@ -75,8 +77,39 @@ function saveMemberChanges() {
             member.firstName = firstName;
         }
 
+        var lastName = $("#memberLastNameInput").val();
+
+        if (member.lastName.trim() !== lastName.trim()) {
+            member.lastName = lastName;
+        }
+
+        var maidenName = $("#memberMaidenNameInput").val();
+
+        if (member.maidenName.trim() !== maidenName.trim()) {
+            member.maidenName = maidenName;
+        }
+
+        var birthDate = $("#memberBirthDateInput").val();
+
+        if (member.birthDate !== birthDate) {
+            member.birthDate = birthDate;
+        }
+
+        var deathDate = $("#memberDeathDateInput").val();
+
+        if (member.deathDate !== deathDate) {
+            member.deathDate = deathDate;
+        }
+
+        console.log(convertDate(birthDate));
+
         makeUpdateRequest(member);
     });
+}
+
+function convertDate(dateString) {
+    var date = new Date(dateString);
+    return date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear();
 }
 
 function makeUpdateRequest(member) {

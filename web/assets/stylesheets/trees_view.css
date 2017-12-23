@@ -6,6 +6,6 @@ header {
   background: none; }
 
 .nav-bar {
-  position: fixed;
+  position: relative;
   top: 0;
   bottom: auto; }
