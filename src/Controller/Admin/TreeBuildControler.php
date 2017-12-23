@@ -10,6 +10,7 @@ namespace Controller\Admin;
 
 
 use Database\FamilyManager;
+use Model\FamilyMember;
 use Model\Response;
 
 class TreeBuildControler extends BaseAdminController
@@ -37,6 +38,8 @@ class TreeBuildControler extends BaseAdminController
             }
         } elseif ($action == "save") {
             $this->saveFamilyToDB();
+        } elseif ($action == "update" && isset($_GET["id"])) {
+            $this->updateSelectedMember($_GET["id"]);
         } elseif ($action == "getMembers") {
             if (isset($_GET["id"])) {
                 $this->loadSelectedMember($_GET["id"]);
@@ -137,6 +140,17 @@ class TreeBuildControler extends BaseAdminController
         }
 
         echo $this->sendJsonResponse($member);
+    }
+
+    private function updateSelectedMember($id)
+    {
+        if (!isset($_POST["member"])) {
+            return;
+        }
+
+        $familyMember = $this->arrayToObject($_POST["member"], FamilyMember::class);
+
+        $this->manager->updateFamilyMember($id, $familyMember);
     }
 
     private function sendJsonResponse($data)

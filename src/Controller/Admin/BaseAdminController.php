@@ -26,4 +26,23 @@ abstract class BaseAdminController extends BaseController
 
         $this->userLogged = true;
     }
+
+    protected function arrayToObject(array $array, $className)
+    {
+        return unserialize(sprintf(
+            'O:%d:"%s"%s',
+            strlen($className),
+            $className,
+            strstr(serialize($array), ':')
+        ));
+    }
+
+    function objectToObject($instance, $className) {
+        return unserialize(sprintf(
+            'O:%d:"%s"%s',
+            strlen($className),
+            $className,
+            strstr(strstr(serialize($instance), '"'), ':')
+        ));
+    }
 }

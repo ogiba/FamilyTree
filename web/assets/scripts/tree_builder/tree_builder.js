@@ -49,7 +49,7 @@ function recursiveMemberElements(members) {
 }
 
 function loadSelectedMemberToView(member) {
-    $("#memberFirstNameInput").val(member.firstName);
+    $("#memberFirstNameInput").val(member.firstName).data("value", member.id);
     $("#memberLastNameInput").val(member.lastName);
     $("#memberMaidenNameInput").val(member.maidenName === null ? "-----" : member.maidenName);
     $("#memberBirthDateInput").val(convertDateToProperValue(member.birthDate));
@@ -57,10 +57,32 @@ function loadSelectedMemberToView(member) {
 }
 
 function convertDateToProperValue(dateString) {
-    if (dateString === null) {
+    if (dateString === null || dateString === "") {
         return null;
     }
 
     var date = new Date(dateString);
     return date.toISOString().substring(0, 10)
+}
+
+function saveMemberChanges() {
+    var firstNameInput = $("#memberFirstNameInput");
+    var memberId = firstNameInput.data("value");
+    $.get(window.location.href + "/getMembers?id=" + memberId, function (member) {
+        var firstName = $("#memberFirstNameInput").val();
+
+        if (member.firstName.trim() !== firstName.trim()) {
+            member.firstName = firstName;
+        }
+
+        makeUpdateRequest(member);
+    });
+}
+
+function makeUpdateRequest(member) {
+    $.post(window.location.href + "/update?id=" + member.id, {
+        "member": member
+    }, function (response) {
+
+    })
 }

@@ -37,6 +37,25 @@ class FamilyManager extends BaseDatabaseManager
     }
 
     /**
+     * Add new family to DB
+     *
+     * @param $familyName
+     * @return bool
+     */
+    public function addFamily($familyName)
+    {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("INSERT INTO families (familyName) VALUES (?)");
+        $stmt->bind_param("s", $familyName);
+        $stmt->execute();
+
+        $isSucceed = $stmt->affected_rows > 0;
+        $connection->close();
+
+        return $isSucceed;
+    }
+
+    /**
      * Returns array of familyMembers for given family ID
      *
      * @param $familyId
@@ -147,16 +166,23 @@ class FamilyManager extends BaseDatabaseManager
         return $familyMember;
     }
 
-    public function addFamily($familyName)
+    /**
+     * @param $id
+     * @param FamilyMember $familyMember
+     */
+    public function updateFamilyMember($id, $familyMember)
     {
         $connection = $this->createConnection();
-        $stmt = $connection->prepare("INSERT INTO families (familyName) VALUES (?)");
-        $stmt->bind_param("s", $familyName);
+        $stmt = $connection->prepare("UPDATE family_members 
+                                              SET firstName = ?,
+                                                  lastName = ?,
+                                                  maidenName = ?,
+                                                  birthDate = ?,
+                                                  deathDate = ?
+                                              WHERE id = ?");
+        $stmt->bind_param("sssssi", $familyMember->firstName,
+            $familyMember->lastName, $familyMember->maidenName,
+            $familyMember->birthDate, $familyMember->deathDate, $id);
         $stmt->execute();
-
-        $isSucceed = $stmt->affected_rows > 0;
-        $connection->close();
-
-        return $isSucceed;
     }
 }
