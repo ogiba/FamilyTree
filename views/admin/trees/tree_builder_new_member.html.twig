@@ -7,6 +7,8 @@
 
 {% block javascripts %}
     {{ parent() }}
+
+    <script src="{{ asset("scripts/tree_builder/new_member.js") }}" rel="script" type="text/javascript"></script>
 {% endblock %}
 
 {% block stylesheets %}
@@ -16,5 +18,73 @@
 {% endblock %}
 
 {% block body %}
-    Test
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Adding new member
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div>First Name</div>
+                                    <input type="text">
+                                </div>
+                                <div class="col-md-6">
+                                    <div>Last Name</div>
+                                    <input type="text">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div>Maiden Name</div>
+                                    <input type="text">
+                                </div>
+                                <div class="col-md-6">
+                                    <div>Parent</div>
+                                    <select>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div>Birth Date</div>
+                                    <input type="date">
+                                </div>
+                                <div class="col-md-6">
+                                    <div>Death Date</div>
+                                    <input type="date">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div>Partner</div>
+                                    <select></select>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>Image</div>
+                                    <input type="file">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="btn btn-warning" onclick="window.history.back()">Cancel</div>
+                                    <div class="btn btn-success" onclick="saveMember()">Save</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

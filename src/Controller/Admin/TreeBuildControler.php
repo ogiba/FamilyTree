@@ -35,7 +35,7 @@ class TreeBuildControler extends BaseAdminController {
             } else {
                 $this->viewInitialScreen();
             }
-        } elseif ($action == "save") {
+        } elseif ($action == "save_family") {
             $this->saveFamilyToDB();
         } elseif ($action == "new_member") {
             $this->viewAddNewMember();
@@ -192,6 +192,11 @@ class TreeBuildControler extends BaseAdminController {
         }
 
         $this->sendJsonResponse($response);
+    }
+
+    private function addNewUserToDB()
+    {
+
     }
 
     private function sendJsonResponse($data)

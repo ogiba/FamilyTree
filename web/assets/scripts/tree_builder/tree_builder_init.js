@@ -6,7 +6,7 @@ function saveFamily() {
         return;
     }
 
-    $.post(window.location.href + "/save", {
+    $.post(window.location.href + "/save_family", {
         "familyName": name
     }, function (response) {
         console.log(response);
