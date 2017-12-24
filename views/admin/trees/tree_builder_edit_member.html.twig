@@ -33,9 +33,9 @@
                 </div>
                 <div>
                     <select title="Parent" id="memberParentSelect">
-                        <option {{ selectedMember.parent is null ? 'selected' : '' }}></option>
+                        <option value="null" {{ selectedMember.parent is null ? 'selected' : '' }}></option>
                         {% for member in members %}
-                            <option {{ member.id == selectedMember.parent ? 'selected' : '' }}>{{ member.firstName }} {{ member.lastName }}</option>
+                            <option value="{{ member.id }}" {{ member.id == selectedMember.parent ? 'selected' : '' }}>{{ member.firstName }} {{ member.lastName }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -66,9 +66,9 @@
                 </div>
                 <div>
                     <select id="memberPartnerSelect" title="Partner">
-                        <option {{ selectedMember.partner is null ? 'selected' : '' }}></option>
+                        <option value="" {{ selectedMember.partner is null ? 'selected' : '' }}></option>
                         {% for partner in partners %}
-                            <option {{ partner.id == selectedMember.partner.id ? 'selected' : '' }}>{{ partner.firstName }} {{ partner.lastName }}</option>
+                            <option value="{{ partner.id }}" {{ partner.id == selectedMember.partner.id ? 'selected' : '' }}>{{ partner.firstName }} {{ partner.lastName }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -86,7 +86,7 @@
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-6">
-                <div class="btn btn-warning">Cancel</div>
+                <div class="btn btn-warning" onclick="cancelEditing()">Cancel</div>
             </div>
             <div class="col-md-6">
                 <div class="btn btn-success" onclick="saveMemberChanges({{ selectedMember.id }})">

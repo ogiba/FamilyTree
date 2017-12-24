@@ -104,10 +104,26 @@ function saveMemberChanges(memberId) {
             member.deathDate = deathDate;
         }
 
+        var newParent = $("#memberParentSelect").find("option:selected").val();
+
+        if (newParent !== member.parent) {
+            member.parent = newParent;
+        }
+
+        var newPartner = $("#memberPartnerSelect").find("option:selected").val();
+
+        if (member.partner === null || newPartner !== member.partner.id) {
+            member.partner = newPartner;
+        }
+
         console.log(convertDate(birthDate));
 
         makeUpdateRequest(member);
     });
+}
+
+function cancelEditing() {
+    $("#rightContainer").html("");
 }
 
 function convertDate(dateString) {
@@ -127,7 +143,10 @@ function makeUpdateRequest(member) {
                 reloadMembers();
                 break;
             case 204:
+                $("#alertContainer").append(prepareAlert(AlertType.info, "No changes to save"));
                 break;
+            case 422:
+                $("#alertContainer").append(prepareAlert(AlertType.warning, "Failed updating member"));
             default:
                 break;
         }

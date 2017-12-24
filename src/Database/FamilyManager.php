@@ -65,7 +65,8 @@ class FamilyManager extends BaseDatabaseManager {
         $connection = $this->createConnection();
         $stmt = $connection->prepare("SELECT * FROM tree_nodes tn 
                                               INNER JOIN family_members AS fm ON tn.person = fm.id
-                                              WHERE tn.family = ?");
+                                              WHERE tn.family = ? 
+                                              ORDER BY fm.firstName ASC");
         $stmt->bind_param("i", $familyId);
         $stmt->execute();
 
@@ -86,7 +87,8 @@ class FamilyManager extends BaseDatabaseManager {
         $connection = $this->createConnection();
         $stmt = $connection->prepare("SELECT * FROM tree_nodes tn 
                                               INNER JOIN family_members AS fm ON tn.person = fm.id
-                                              WHERE tn.family = ? AND tn.person != ? AND tn.person != ?");
+                                              WHERE tn.family = ? AND tn.person != ? AND tn.person != ?
+                                              ORDER BY fm.firstName ASC");
         $stmt->bind_param("iii", $familyId, $memberId, $parentId);
         $stmt->execute();
 
@@ -130,7 +132,7 @@ class FamilyManager extends BaseDatabaseManager {
         $baseNode = null;
         foreach ($result as $key => $value) {
             if ($value->parent == null) {
-                $value->partner = $this->findPartner($value->id, $result);
+                $value->partner = $this->findPartner($value->partner, $result);
                 $value->children = $this->recursiveChildrenFilter($value->id, $result);
                 $baseNode = $value;
                 break;
@@ -146,7 +148,7 @@ class FamilyManager extends BaseDatabaseManager {
 
         foreach ($children as $key => $value) {
             if ($value->parent == $parentId) {
-                $value->partner = $this->findPartner($value->id, $children);
+                $value->partner = $this->findPartner($value->partner, $children);
                 $value->children = $this->recursiveChildrenFilter($value->id, $children);
                 $result[] = $value;
             }
@@ -164,7 +166,7 @@ class FamilyManager extends BaseDatabaseManager {
                 continue;
             }
 
-            if ($value->partner == $memberId) {
+            if ($value->id == $memberId) {
                 $partner = $value;
                 break;
             }
@@ -230,16 +232,21 @@ class FamilyManager extends BaseDatabaseManager {
     public function updateFamilyMember($id, $familyMember)
     {
         $connection = $this->createConnection();
-        $stmt = $connection->prepare("UPDATE family_members 
-                                              SET firstName = ?,
-                                                  lastName = ?,
-                                                  maidenName = ?,
-                                                  birthDate = ?,
-                                                  deathDate = ?
-                                              WHERE id = ?");
-        $stmt->bind_param("sssssi", $familyMember->firstName,
+        $stmt = $connection->prepare("UPDATE family_members fm1 JOIN family_members fm2
+                                              SET fm1.firstName = ?,
+                                                  fm1.lastName = ?,
+                                                  fm1.maidenName = ?,
+                                                  fm1.birthDate = ?,
+                                                  fm1.deathDate = ?,
+                                                  fm1.parent = ?,
+                                                  fm1.partner = ?,
+                                                  fm2.partner = fm1.id
+                                              WHERE fm1.id = ? AND fm2.id = ?");
+        $stmt->bind_param("sssssiiii", $familyMember->firstName,
             $familyMember->lastName, $familyMember->maidenName,
-            $familyMember->birthDate, $familyMember->deathDate, $id);
+            $familyMember->birthDate, $familyMember->deathDate,
+            $familyMember->parent, intval($familyMember->partner),
+            $id, intval($familyMember->partner));
         $stmt->execute();
 
         $isSucceed = $stmt->affected_rows > 0;
