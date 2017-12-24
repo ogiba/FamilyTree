@@ -32,6 +32,7 @@ class FamilyManager extends BaseDatabaseManager {
             $result[] = $family;
         }
 
+        $connection->close();
         return $result;
     }
 
@@ -79,6 +80,7 @@ class FamilyManager extends BaseDatabaseManager {
         }
 
         $stmt->close();
+        $connection->close();
         return $result;
     }
 
@@ -100,7 +102,7 @@ class FamilyManager extends BaseDatabaseManager {
             $result[] = $familyMember;
         }
 
-        $stmt->close();
+        $connection->close();
         return $result;
     }
 
@@ -127,7 +129,7 @@ class FamilyManager extends BaseDatabaseManager {
             $result[] = $familyMember;
         }
 
-        $stmt->close();
+        $connection->close();
 
         $baseNode = null;
         foreach ($result as $key => $value) {
@@ -196,7 +198,7 @@ class FamilyManager extends BaseDatabaseManager {
             $result[] = $familyMember;
         }
 
-        $stmt->close();
+        $connection->close();
         return $result;
     }
 
@@ -250,8 +252,44 @@ class FamilyManager extends BaseDatabaseManager {
         $stmt->execute();
 
         $isSucceed = $stmt->affected_rows > 0;
+        $connection->close();
+
+        return $isSucceed;
+    }
+
+    /**
+     * @param $familyId
+     * @param FamilyMember $familyMember
+     * @return boolean
+     */
+    public function insertNewMember($familyId, $familyMember)
+    {
+        //TODO: Not testest yet
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("INSERT INTO family_members (firstName, lastName, maidenName, 
+                                                                          deathDate, birthDate, parent, partner) 
+                                            VALUES (?,?,?,?,?,?,?)");
+        $stmt->bind_param("sssssii", $familyMember->firstName, $familyMember->lastName,
+            $familyMember->maidenName, $familyMember->deathDate, $familyMember->birthDate,
+            $familyMember->parent, $familyMember->partner);
+        $stmt->execute();
+
+        $addedMember = $stmt->affected_rows > 0;
         $stmt->close();
 
+        $isSucceed = false;
+        if ($addedMember) {
+            $newMemberId = $stmt->insert_id;
+
+            $stmt = $connection->prepare("INSERT INTO tree_nodes (family, person) VALUES (?,?)");
+            $stmt->bind_param("ii", $familyId, $newMemberId);
+            $stmt->execute();
+
+            $isSucceed = $stmt->affected_rows > 0;
+            $stmt->close();
+        }
+
+        $connection->close();
         return $isSucceed;
     }
 }

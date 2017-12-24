@@ -8,7 +8,6 @@
 
 namespace Controller\Admin;
 
-
 use Database\FamilyManager;
 use Model\FamilyMember;
 use Model\Response;
@@ -39,6 +38,8 @@ class TreeBuildControler extends BaseAdminController {
             $this->saveFamilyToDB();
         } elseif ($action == "new_member") {
             $this->viewAddNewMember();
+        } elseif ($action == "add_member") {
+            $this->addMemberToDB();
         } elseif ($action == "edit") {
             $this->editSelectedMember();
         } elseif ($action == "update" && isset($_GET["id"])) {
@@ -194,9 +195,18 @@ class TreeBuildControler extends BaseAdminController {
         $this->sendJsonResponse($response);
     }
 
-    private function addNewUserToDB()
+    //TODO: Not tested
+    public function addMemberToDB()
     {
+        if (!isset($_POST["member"]) || !isset($_SESSION["selectedFamily"])) {
+            $response = new Response("Missing required parameter", 422);
+            $this->sendJsonResponse($response);
+            return;
+        }
 
+        $newMember = $this->arrayToObject($_POST["member"], FamilyMember::class);
+        $familyId = $_SESSION["selectedFamily"];
+        $this->manager->insertNewMember($familyId, $newMember);
     }
 
     private function sendJsonResponse($data)
