@@ -49,13 +49,6 @@ function recursiveMemberElements(members) {
 }
 
 function loadSelectedMemberToView(member) {
-    // $("#memberFirstNameInput").val(member.firstName).data("value", member.id);
-    // $("#memberLastNameInput").val(member.lastName);
-    //
-    // var maidenName = member.maidenName;
-    // $("#memberMaidenNameInput").val(maidenName === null || maidenName === "" ? "-----" : member.maidenName);
-    // $("#memberBirthDateInput").val(convertDateToProperValue(member.birthDate));
-    // $("#memberDeathDateInput").val(convertDateToProperValue(member.deathDate));
     $.post(window.location.href + "/edit", {
         "member": member
     }, function (response) {
@@ -137,18 +130,23 @@ function makeUpdateRequest(member) {
     }, function (response) {
         console.log(response);
 
+        var alertToShow = null;
         switch (response.statusCode) {
             case 200:
-                $("#alertContainer").append(prepareAlert(AlertType.success, "Member updated"));
+                alertToShow = prepareAlert(AlertType.success, "Member updated");
                 reloadMembers();
                 break;
             case 204:
-                $("#alertContainer").append(prepareAlert(AlertType.info, "No changes to save"));
+                alertToShow = prepareAlert(AlertType.info, "No changes to save");
                 break;
             case 422:
-                $("#alertContainer").append(prepareAlert(AlertType.warning, "Failed updating member"));
+                alertToShow = prepareAlert(AlertType.warning, "Failed updating member");
             default:
                 break;
+        }
+
+        if (alertToShow !== null) {
+            $("#alertContainer").append(alertToShow);
         }
     })
 }

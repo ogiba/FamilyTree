@@ -86,8 +86,16 @@ class TreeBuildControler extends BaseAdminController {
 
     private function viewAddNewMember()
     {
+        if (!isset($_SESSION["selectedFamily"])) {
+            return;
+        }
+
+        $familyId = $_SESSION["selectedFamily"];
+        $members = $this->manager->loadFamily($familyId);
+
         echo $this->render("/admin/trees/tree_builder_new_member.html.twig", [
-            "userLogged" => $this->userLogged
+            "userLogged" => $this->userLogged,
+            "familyMembers" => $members
         ]);
     }
 

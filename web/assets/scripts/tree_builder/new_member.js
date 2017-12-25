@@ -1,5 +1,8 @@
 function saveMember() {
-    var member = new FamilyMember("Bob", "Test");
+    var firstName = $("#firstName").val();
+    var lastName = $("#lastName").val();
+
+    var member = new FamilyMember(firstName, lastName);
 
     alert(member.firstName)
 }

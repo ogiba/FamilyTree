@@ -34,43 +34,51 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div>First Name</div>
-                                    <input type="text">
+                                    <input id="firstName" title="First Name" type="text">
                                 </div>
                                 <div class="col-md-6">
                                     <div>Last Name</div>
-                                    <input type="text">
+                                    <input id="lastName" title="Last Name" type="text">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div>Maiden Name</div>
-                                    <input type="text">
+                                    <input id="maidenName" title="Maiden Name" type="text">
                                 </div>
                                 <div class="col-md-6">
                                     <div>Parent</div>
-                                    <select>
-
+                                    <select id="parent" title="Parent">
+                                        <option selected></option>
+                                        {% for familyMember in familyMembers %}
+                                            <option value="{{ familyMember.id }}">{{ familyMember.firstName }} {{ familyMember.lastName }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div>Birth Date</div>
-                                    <input type="date">
+                                    <input id="birthDate" title="Birth Date" type="date">
                                 </div>
                                 <div class="col-md-6">
                                     <div>Death Date</div>
-                                    <input type="date">
+                                    <input id="deathDate" title="Death Date" type="date">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div>Partner</div>
-                                    <select></select>
+                                    <select id="partner" title="Partner">
+                                        <option selected></option>
+                                        {% for familyMember in familyMembers %}
+                                            <option value="{{ familyMember.id }}">{{ familyMember.firstName }} {{ familyMember.lastName }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                                 <div class="col-md-6">
                                     <div>Image</div>
-                                    <input type="file">
+                                    <input id="memberImage" type="file">
                                 </div>
                             </div>
                         </div>
