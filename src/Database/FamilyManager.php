@@ -233,25 +233,36 @@ class FamilyManager extends BaseDatabaseManager {
      */
     public function updateFamilyMember($id, $familyMember)
     {
+        $partnerId = $familyMember->partner == '' ? null : intval($familyMember->partner);
+
         $connection = $this->createConnection();
-        $stmt = $connection->prepare("UPDATE family_members fm1 JOIN family_members fm2
-                                              SET fm1.firstName = ?,
-                                                  fm1.lastName = ?,
-                                                  fm1.maidenName = ?,
-                                                  fm1.birthDate = ?,
-                                                  fm1.deathDate = ?,
-                                                  fm1.parent = ?,
-                                                  fm1.partner = ?,
-                                                  fm2.partner = fm1.id
-                                              WHERE fm1.id = ? AND fm2.id = ?");
-        $stmt->bind_param("sssssiiii", $familyMember->firstName,
+        $stmt = $connection->prepare("UPDATE family_members
+                                              SET firstName = ?,
+                                                  lastName = ?,
+                                                  maidenName = ?,
+                                                  birthDate = ?,
+                                                  deathDate = ?,
+                                                  parent = ?,
+                                                  partner = ?
+                                              WHERE id = ?");
+        $stmt->bind_param("sssssiii", $familyMember->firstName,
             $familyMember->lastName, $familyMember->maidenName,
             $familyMember->birthDate, $familyMember->deathDate,
-            $familyMember->parent, intval($familyMember->partner),
-            $id, intval($familyMember->partner));
+            intval($familyMember->parent), $partnerId,
+            $id);
         $stmt->execute();
 
         $isSucceed = $stmt->affected_rows > 0;
+
+        if ($isSucceed && $partnerId != null) {
+            $stmt->close();
+            $stmt = $connection->prepare("UPDATE family_members 
+                                                SET partner = ?
+                                                WHERE id = ?");
+            $stmt->bind_param("ii", $id, $partnerId);
+            $stmt->execute();
+        }
+
         $connection->close();
 
         return $isSucceed;
