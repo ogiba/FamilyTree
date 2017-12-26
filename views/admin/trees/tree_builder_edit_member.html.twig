@@ -47,7 +47,8 @@
                     Birth date
                 </div>
                 <div>
-                    <input type="date" id="memberBirthDateInput" title="Birth Date">
+                    <input value="{{ selectedMember.birthDate }}" type="date"
+                           id="memberBirthDateInput" title="Birth Date">
                 </div>
             </div>
             <div class="col-md-6">
@@ -55,7 +56,8 @@
                     Death date
                 </div>
                 <div>
-                    <input type="date" id="memberDeathDateInput" title="Death Date">
+                    <input value="{{ selectedMember.deathDate }}" type="date" id="memberDeathDateInput"
+                           title="Death Date">
                 </div>
             </div>
         </div>

@@ -1,8 +1,14 @@
 function saveMember() {
     var firstName = $("#firstName").val();
     var lastName = $("#lastName").val();
+    var maidenName = $("#maidenName").val();
+    var birthDate = $("#birthDate").val();
+    var deathDate = $("#deathDate").val();
 
     var member = new FamilyMember(firstName, lastName);
+    member.setMaidenName(maidenName)
+        .setBirthDate(birthDate)
+        .setDeathDate(deathDate);
 
     alert(member.firstName)
 }
