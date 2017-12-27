@@ -19,7 +19,7 @@ function saveMember() {
  * @param {FamilyMember} member
  */
 function sendSaveRequest(member) {
-    $.post(window.location.href + "/add_member", {
+    $.post(window.location.href + "/save", {
         "member": member
     }, function (response) {
         alert(response);

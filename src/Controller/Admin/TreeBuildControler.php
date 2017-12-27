@@ -36,10 +36,6 @@ class TreeBuildControler extends BaseAdminController {
             }
         } elseif ($action == "save_family") {
             $this->saveFamilyToDB();
-        } elseif ($action == "new_member") {
-            $this->viewAddNewMember();
-        } elseif ($action == "add_member") {
-            $this->addMemberToDB();
         } elseif ($action == "edit") {
             $this->editSelectedMember();
         } elseif ($action == "update" && isset($_GET["id"])) {
@@ -82,21 +78,6 @@ class TreeBuildControler extends BaseAdminController {
         }
 
         return false;
-    }
-
-    private function viewAddNewMember()
-    {
-        if (!isset($_SESSION["selectedFamily"])) {
-            return;
-        }
-
-        $familyId = $_SESSION["selectedFamily"];
-        $members = $this->manager->loadFamily($familyId);
-
-        echo $this->render("/admin/trees/tree_builder_new_member.html.twig", [
-            "userLogged" => $this->userLogged,
-            "familyMembers" => $members
-        ]);
     }
 
     private function saveFamilyToDB()
