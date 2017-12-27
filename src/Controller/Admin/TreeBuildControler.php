@@ -202,7 +202,7 @@ class TreeBuildControler extends BaseAdminController {
 
         $this->sendJsonResponse($response);
     }
-    
+
     public function addMemberToDB()
     {
         if (!isset($_POST["member"]) || !isset($_SESSION["selectedFamily"])) {

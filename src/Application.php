@@ -6,6 +6,7 @@ use Controller\Admin\InformationManageController;
 use Controller\Admin\LoginController;
 use Controller\Admin\PanelController;
 use Controller\Admin\TreeBuildControler;
+use Controller\Admin\TreeBuilder\NewMemberController;
 use Controller\IndexController;
 use Controller\NotFoundController;
 use Controller\PostViewController;
@@ -20,8 +21,7 @@ use Controller\TreeController;
 
 session_start();
 
-class Application
-{
+class Application {
 
     public function run()
     {
@@ -73,13 +73,30 @@ class Application
                     return new \Controller\Admin\PostController();
                 },
                 "sections" => [
-                    "" => function() { return new InformationManageController(); },
-                    "section" => function() { return new InformationManageController(); }
+                    "" => function () {
+                        return new InformationManageController();
+                    },
+                    "section" => function () {
+                        return new InformationManageController();
+                    }
 
                 ],
-                "tree_builder" => function (){
-                    return new TreeBuildControler();
-                },
+                "tree_builder" => [
+                    "" => [
+                        "" => function () {
+                            return new TreeBuildControler();
+                        },
+                        "actions" => [
+                            "save_family",
+                            "getMembers",
+                            "edit",
+                            "update"
+                        ]
+                    ],
+                    "new_member" => function () {
+                        return new NewMemberController();
+                    }
+                ],
                 "login" => function () {
                     return new LoginController();
                 },
@@ -96,6 +113,7 @@ class Application
         ];
 
         $currentRouting = $routing;
+        $lastPath = "";
 
         while (count($path) > 0) {
             $pathItem = $path[0];
@@ -104,6 +122,7 @@ class Application
                 // jesli aktualny obiekt jest tablica pobierz go i powtorz petle
                 if (is_array($currentRouting[$pathItem])) {
                     $currentRouting = $currentRouting[$pathItem];
+                    $lastPath = $path;
                     array_shift($path);
                     continue;
                 }
@@ -112,12 +131,32 @@ class Application
                 return $currentRouting[$pathItem]();
             }
 
+            //TODO: In tests
+            if (isset($currentRouting[""]) && is_array($currentRouting[""]) && count($path) > 0) {
+                $indexArray = $currentRouting[""];
+                if (isset($indexArray["actions"]) && is_array($indexArray["actions"])) {
+                    $actionRouting = $indexArray["actions"];
+                    if (in_array($pathItem, $actionRouting)) {
+                        $path = $lastPath;
+                        return $indexArray[""]();
+                    }
+                }
+            }
+
             return new NotFoundController();
         }
 
         // domyslny routing
-        if (isset($currentRouting[""]))
-            return $currentRouting[""]();
+        if (isset($currentRouting[""])) {
+            if (is_array($currentRouting[""])) {
+                $indexArray = $currentRouting[""];
+                if (isset($indexArray[""])) {
+                    return $indexArray[""]();
+                }
+            } else {
+                return $currentRouting[""]();
+            }
+        }
 
         return new NotFoundController();
     }
