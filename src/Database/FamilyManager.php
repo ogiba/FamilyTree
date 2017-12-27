@@ -276,29 +276,32 @@ class FamilyManager extends BaseDatabaseManager {
     public function insertNewMember($familyId, $familyMember)
     {
         //TODO: Not testest yet
+        $partnerId = $familyMember->partner == '' ? null : intval($familyMember->partner);
+        $parentId = $familyMember->parent == '' ? null : intval($familyMember->parent);
+
         $connection = $this->createConnection();
         $stmt = $connection->prepare("INSERT INTO family_members (firstName, lastName, maidenName, 
                                                                           deathDate, birthDate, parent, partner) 
                                             VALUES (?,?,?,?,?,?,?)");
         $stmt->bind_param("sssssii", $familyMember->firstName, $familyMember->lastName,
             $familyMember->maidenName, $familyMember->deathDate, $familyMember->birthDate,
-            $familyMember->parent, $familyMember->partner);
+            $parentId, $partnerId);
         $stmt->execute();
 
         $addedMember = $stmt->affected_rows > 0;
-        $stmt->close();
 
         $isSucceed = false;
         if ($addedMember) {
             $newMemberId = $stmt->insert_id;
+            $stmt->close();
 
             $stmt = $connection->prepare("INSERT INTO tree_nodes (family, person) VALUES (?,?)");
             $stmt->bind_param("ii", $familyId, $newMemberId);
             $stmt->execute();
 
             $isSucceed = $stmt->affected_rows > 0;
-            $stmt->close();
         }
+        $stmt->close();
 
         $connection->close();
         return $isSucceed;

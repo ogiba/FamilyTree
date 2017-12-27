@@ -10,7 +10,20 @@ function saveMember() {
         .setBirthDate(birthDate)
         .setDeathDate(deathDate);
 
-    alert(member.firstName)
+    sendSaveRequest(member)
+}
+
+/**
+ * Make http request to server to insert new member in to DB
+ *
+ * @param {FamilyMember} member
+ */
+function sendSaveRequest(member) {
+    $.post(window.location.href + "/add_member", {
+        "member": member
+    }, function (response) {
+        alert(response);
+    })
 }
 
 /**
