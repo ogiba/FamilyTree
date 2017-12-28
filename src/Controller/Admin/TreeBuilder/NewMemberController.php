@@ -13,7 +13,6 @@ use Database\FamilyManager;
 use Model\FamilyMember;
 use Model\Response;
 
-//TODO: Move code responsible for managing new member scene in to this controller
 class NewMemberController extends BaseAdminController {
     private $manager;
 

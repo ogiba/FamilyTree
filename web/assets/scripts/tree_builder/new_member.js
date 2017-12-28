@@ -4,13 +4,35 @@ function saveMember() {
     var maidenName = $("#maidenName").val();
     var birthDate = $("#birthDate").val();
     var deathDate = $("#deathDate").val();
+    var parent = $("#parent").find("option:selected").val();
+    var partner = $("#partner").find("option:selected").val();
+
+    if (!checkBasicInfo(firstName, lastName)) {
+        return;
+    }
 
     var member = new FamilyMember(firstName, lastName);
     member.setMaidenName(maidenName)
         .setBirthDate(birthDate)
-        .setDeathDate(deathDate);
+        .setDeathDate(deathDate)
+        .setParent(parent)
+        .setPartner(partner);
 
     sendSaveRequest(member)
+}
+
+function checkBasicInfo(firstName, lastName) {
+    var alertToShow = null;
+    if (firstName === "" || lastName === "") {
+        alertToShow = prepareAlert(AlertType.warning, "Fields cannot be empty")
+    }
+
+    if (alertToShow !== null) {
+        $("#alertContainer").append(alertToShow);
+        return false;
+    }
+
+    return true;
 }
 
 /**
@@ -22,9 +44,64 @@ function sendSaveRequest(member) {
     $.post(window.location.href + "/save", {
         "member": member
     }, function (response) {
-        alert(response);
+
+        var alertToShow = null;
+        switch (response.statusCode) {
+            case 200:
+                break;
+            case 422:
+                alertToShow = prepareAlert(AlertType.warning, response.message);
+                break;
+            case 500:
+                alertToShow = prepareAlert(AlertType.danger, response.message);
+                break;
+            default:
+                break;
+        }
+
+        if (alertToShow !== null) {
+            $("#alertContainer").append(alertToShow);
+        }
     })
 }
+
+/**
+ *
+ * @param {AlertType|String} type
+ * @param {String} message
+ * @returns {void|*|jQuery}
+ */
+function prepareAlert(type, message) {
+    var closeSpan = $("<span/>", {
+        "aria-hidden": "true",
+        html: "&times;"
+    });
+
+    var closeBtn = $("<button/>", {
+        "type": "button",
+        "class": "close",
+        "data-dismiss": "alert",
+        "aria-label": "Close",
+        "click": function () {
+            $(".alert").remove();
+        }
+    }).append(closeSpan);
+
+    return $("<div/>", {
+        text: message,
+        "class": "alert alert-" + type + " alert-dismissable",
+        "role": "alert"
+    }).append(closeBtn);
+}
+
+var AlertType = {
+    primary: "primary",
+    secondary: "secondary",
+    success: "success",
+    warning: "warning",
+    danger: "danger",
+    info: "info",
+};
 
 /**
  * JS representation of family member object
