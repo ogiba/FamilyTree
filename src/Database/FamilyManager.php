@@ -275,7 +275,6 @@ class FamilyManager extends BaseDatabaseManager {
      */
     public function insertNewMember($familyId, $familyMember)
     {
-        //TODO: Not testest yet
         $partnerId = $familyMember->partner == '' ? null : intval($familyMember->partner);
         $parentId = $familyMember->parent == '' ? null : intval($familyMember->parent);
 

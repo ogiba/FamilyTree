@@ -48,6 +48,7 @@ function sendSaveRequest(member) {
         var alertToShow = null;
         switch (response.statusCode) {
             case 200:
+                window.location.href = "/admin/tree_builder";
                 break;
             case 422:
                 alertToShow = prepareAlert(AlertType.warning, response.message);

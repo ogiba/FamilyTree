@@ -1,0 +1,62 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}
+    {#{{ trans("admin-view-scene-title") }}#}
+    Tree Builder - Members list
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="{{ asset("stylesheets/trees_view.css") }}" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+    <section class="post-page">
+        <h3>Members of family: {{ family.familyName }}</h3>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="actions">
+                            <button class="btn btn-primary" onclick="window.location.href += '/new_member'">Add new
+                                member
+                            </button>
+                        </div>
+                        <h4 class="card-header">
+                            <div class="row">
+                                <div class="col-md-12"></div>
+                            </div>
+                        </h4>
+                        <div class="card-body">
+                            <div class="row">
+                                <div id="alertContainer" class="col-md-12">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div id="membersContainer">
+                                    </div>
+                                </div>
+                                <div id="rightContainer" class="col-md-6">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% block customView %}
+            {% endblock %}
+        </div>
+    </section>
+{% endblock %}

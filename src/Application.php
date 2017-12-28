@@ -5,8 +5,9 @@ use API\TestController;
 use Controller\Admin\InformationManageController;
 use Controller\Admin\LoginController;
 use Controller\Admin\PanelController;
-use Controller\Admin\TreeBuildControler;
+use Controller\Admin\TreeBuilder\MemberListController;
 use Controller\Admin\TreeBuilder\NewMemberController;
+use Controller\Admin\TreeBuilder\TreeStructureController;
 use Controller\IndexController;
 use Controller\NotFoundController;
 use Controller\PostViewController;
@@ -84,7 +85,7 @@ class Application {
                 "tree_builder" => [
                     "" => [
                         "" => function () {
-                            return new TreeBuildControler();
+                            return new TreeStructureController();
                         },
                         "actions" => [
                             "save_family",
@@ -95,6 +96,9 @@ class Application {
                     ],
                     "new_member" => function () {
                         return new NewMemberController();
+                    },
+                    "members" => function () {
+                        return new MemberListController();
                     }
                 ],
                 "login" => function () {

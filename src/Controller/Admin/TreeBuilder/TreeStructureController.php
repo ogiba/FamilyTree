@@ -6,18 +6,19 @@
  * Time: 20:14
  */
 
-namespace Controller\Admin;
+namespace Controller\Admin\TreeBuilder;
 
+use Controller\Admin\BaseAdminController;
 use Database\FamilyManager;
 use Model\FamilyMember;
 use Model\Response;
 
-class TreeBuildControler extends BaseAdminController {
+class TreeStructureController extends BaseAdminController {
 
     private $manager;
 
     /**
-     * TreeBuildControler constructor.
+     * TreeStructureController constructor.
      */
     public function __construct()
     {
