@@ -12,6 +12,7 @@ namespace Controller\Admin\TreeBuilder;
 use Controller\Admin\BaseAdminController;
 use Database\FamilyManager;
 use Model\FamilyMember;
+use Model\Response;
 
 class MemberListController extends BaseAdminController {
     private $manager;
@@ -32,6 +33,17 @@ class MemberListController extends BaseAdminController {
         switch ($action) {
             case "edit":
                 $this->editSelectedMember();
+                break;
+            case "getMembers":
+                if (isset($_GET["id"])) {
+                    $this->loadSelectedMember($_GET["id"]);
+                }
+                break;
+            case "update":
+                if (isset($_GET["id"])) {
+
+                    $this->updateSelectedMember($_GET["id"]);
+                }
                 break;
             default:
                 $this->viewIndex();
@@ -77,7 +89,8 @@ class MemberListController extends BaseAdminController {
             return;
         }
 
-        $familyMember = $this->arrayToObject($_POST["member"], FamilyMember::class);
+//        $familyMember = $this->arrayToObject($_POST["member"], FamilyMember::class);
+        $familyMember = $this->manager->getFamilyMemberDetails($_POST["member"]);
 
         $familyId = $_SESSION["selectedFamily"];
         $members = $this->manager->loadFamily($familyId);
@@ -88,6 +101,41 @@ class MemberListController extends BaseAdminController {
             "members" => $members,
             "partners" => $possiblePartners
         ]));
+        $this->sendJsonResponse($response);
+    }
+
+    private function loadSelectedMember($id)
+    {
+        $member = $this->manager->getFamilyMemberDetails($id);
+
+        if (is_null($member)) {
+            $response = new Response(400, "Member not found");
+            $this->sendJsonResponse($response);
+            return;
+        }
+
+        echo $this->sendJsonResponse($member);
+    }
+
+    private function updateSelectedMember($id)
+    {
+        if (!isset($_POST["member"])) {
+            $response = new Response("Missing parameter member", 422);
+            $this->sendJsonResponse($response);
+            return;
+        }
+
+        $familyMember = $this->arrayToObject($_POST["member"], FamilyMember::class);
+
+        $isUpdated = $this->manager->updateFamilyMember($id, $familyMember);
+
+        $response = null;
+        if ($isUpdated) {
+            $response = new Response("Member updated", 200);
+        } else {
+            $response = new Response("No changes", 204);
+        }
+
         $this->sendJsonResponse($response);
     }
 
