@@ -7,6 +7,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset("scripts/tree_builder/members_list.js") }}" type="text/javascript"></script>
 {% endblock %}
 
 {% block stylesheets %}
@@ -40,6 +41,11 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div id="membersContainer">
+                                        <ul>
+                                            {% for familyMember in familyMembers %}
+                                                <li onclick="loadSelectedMemberToView({{ familyMember|json_encode() }})">{{ familyMember.firstName }} {{ familyMember.lastName }}</li>
+                                            {% endfor %}
+                                        </ul>
                                     </div>
                                 </div>
                                 <div id="rightContainer" class="col-md-6">
