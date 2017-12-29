@@ -16,6 +16,8 @@ use Model\Response;
 class NewMemberController extends BaseAdminController {
     private $manager;
 
+    const userAddMemberImagesActions = "user_add_member_images";
+
     /**
      * NewMemberController constructor.
      */
@@ -33,6 +35,8 @@ class NewMemberController extends BaseAdminController {
             $this->viewAddNewMember();
         } elseif ($action == "save") {
             $this->addMemberToDB();
+        } elseif ($action == "upload") {
+            $this->uploadFiles();
         }
 
     }
@@ -76,6 +80,29 @@ class NewMemberController extends BaseAdminController {
 
         $response = new Response($message, $statusCode);
         $this->sendJsonResponse($response);
+    }
+
+    private function uploadFiles()
+    {
+        if (!empty($_FILES)) {
+            $tempFile = $_FILES['file']['tmp_name'];
+            $storeFolder = 'uploads/temp';   //2
+            $destFolder = $storeFolder . "/";
+            $targetFile = $destFolder . uniqid("member_image_");
+
+            if (!file_exists($destFolder))
+                mkdir($destFolder, 0x0777, true);
+
+            if (move_uploaded_file($tempFile, $targetFile)) {
+                $action = new \stdClass();
+                $action->action = "add";
+                $action->data = $targetFile;
+
+                $_SESSION[self::userAddMemberImagesActions][] = $action;
+            } else {
+                echo "Error occurred\n";
+            }
+        }
     }
 
     private function sendJsonResponse($data)

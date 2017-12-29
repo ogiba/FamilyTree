@@ -9,11 +9,13 @@
     {{ parent() }}
 
     <script src="{{ asset("scripts/tree_builder/new_member.js") }}" rel="script" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset("scripts/plugins/dropzone.js") }}"></script>
 {% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
 
+    <link type="text/css" rel="stylesheet" href="{{ asset("stylesheets/dropzone.min.css") }}">
     <link href="{{ asset("stylesheets/trees_view.css") }}" type="text/css" rel="stylesheet"/>
 {% endblock %}
 
@@ -82,7 +84,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div>Image</div>
-                                    <input id="memberImage" type="file">
+                                    <form action="/admin/tree_builder/new_member/upload" class="dropzone"></form>
                                 </div>
                             </div>
                         </div>
