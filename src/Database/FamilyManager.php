@@ -97,7 +97,15 @@ class FamilyManager extends BaseDatabaseManager {
     public function loadPossiblePartners($familyId, $memberId, $parentId)
     {
         $connection = $this->createConnection();
-        $stmt = $connection->prepare("SELECT * FROM tree_nodes tn 
+        $stmt = $connection->prepare("SELECT fm.id,
+                                                    fm.firstName,
+                                                    fm.lastName,
+                                                    fm.maidenName,
+                                                    fm.birthDate,
+                                                    fm.deathDate,
+                                                    fm.parent,
+                                                    fm.image
+                                              FROM tree_nodes tn 
                                               INNER JOIN family_members AS fm ON tn.person = fm.id
                                               WHERE tn.family = ? AND tn.person != ? AND tn.person != ?
                                               ORDER BY fm.firstName ASC");
@@ -198,6 +206,7 @@ class FamilyManager extends BaseDatabaseManager {
     }
 
     /**
+     * @deprecated
      * Loads children for given family
      * @param $familyId
      * @param $parentId
@@ -265,6 +274,7 @@ class FamilyManager extends BaseDatabaseManager {
     public function updateFamilyMember($id, $familyMember)
     {
         $partnerId = $familyMember->partner == '' ? null : intval($familyMember->partner);
+        $parentId = $familyMember->parent == '' ? null : intval($familyMember->parent);
 
         $connection = $this->createConnection();
         $stmt = $connection->prepare("UPDATE family_members
@@ -273,27 +283,25 @@ class FamilyManager extends BaseDatabaseManager {
                                                   maidenName = ?,
                                                   birthDate = ?,
                                                   deathDate = ?,
-                                                  parent = ?,
-                                                  partner = ?
+                                                  parent = ?
                                               WHERE id = ?");
-        $stmt->bind_param("sssssiii", $familyMember->firstName,
+        $stmt->bind_param("sssssii", $familyMember->firstName,
             $familyMember->lastName, $familyMember->maidenName,
             $familyMember->birthDate, $familyMember->deathDate,
-            intval($familyMember->parent), $partnerId,
-            $id);
+            $parentId, $id);
         $stmt->execute();
 
-        $isSucceed = $stmt->affected_rows > 0;
-
-        if ($isSucceed && $partnerId != null) {
+        if ($partnerId != null) {
             $stmt->close();
-            $stmt = $connection->prepare("UPDATE family_members 
-                                                SET partner = ?
-                                                WHERE id = ?");
-            $stmt->bind_param("ii", $id, $partnerId);
+            $stmt = $connection->prepare("UPDATE family_partners fm, family_partners fm1 
+                                                SET fm.partner = ?, fm1.partner = ?
+                                                WHERE fm.base = ? AND fm1.base = ?");
+            $stmt->bind_param("iiii", $partnerId, $id, $id, $partnerId);
             $stmt->execute();
         }
 
+        $isSucceed = $stmt->affected_rows > 0;
+        $stmt->close();
         $connection->close();
 
         return $isSucceed;
