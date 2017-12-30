@@ -64,8 +64,18 @@ class FamilyManager extends BaseDatabaseManager {
     public function loadFamily($familyId)
     {
         $connection = $this->createConnection();
-        $stmt = $connection->prepare("SELECT * FROM tree_nodes tn 
+        $stmt = $connection->prepare("SELECT fm.id,
+                                                    fm.firstName,
+                                                    fm.lastName,
+                                                    fm.maidenName,
+                                                    fm.birthDate,
+                                                    fm.deathDate,
+                                                    fm.parent,
+                                                    fm.image,
+                                                    fp.partner AS partner
+                                              FROM tree_nodes tn 
                                               INNER JOIN family_members AS fm ON tn.person = fm.id
+                                              INNER JOIN family_partners AS fp ON fm.id = fp.base
                                               WHERE tn.family = ? 
                                               ORDER BY fm.firstName ASC");
         $stmt->bind_param("i", $familyId);
@@ -115,8 +125,18 @@ class FamilyManager extends BaseDatabaseManager {
     public function loadFamilyMembers($familyId)
     {
         $connection = $this->createConnection();
-        $stmt = $connection->prepare("SELECT * FROM tree_nodes tn 
+        $stmt = $connection->prepare("SELECT fm.id,
+                                                    fm.firstName,
+                                                    fm.lastName,
+                                                    fm.maidenName,
+                                                    fm.birthDate,
+                                                    fm.deathDate,
+                                                    fm.parent,
+                                                    fm.image,
+                                                    fp.partner AS partner
+                                              FROM tree_nodes tn 
                                               INNER JOIN family_members AS fm ON tn.person = fm.id
+                                              INNER JOIN family_partners AS fp ON fm.id = fp.base
                                               WHERE tn.family = ?");
         $stmt->bind_param("i", $familyId);
         $stmt->execute();
@@ -291,11 +311,11 @@ class FamilyManager extends BaseDatabaseManager {
 
         $connection = $this->createConnection();
         $stmt = $connection->prepare("INSERT INTO family_members (firstName, lastName, maidenName, 
-                                                                          deathDate, birthDate, parent, partner) 
-                                            VALUES (?,?,?,?,?,?,?)");
-        $stmt->bind_param("sssssii", $familyMember->firstName, $familyMember->lastName,
+                                                                          deathDate, birthDate, parent) 
+                                            VALUES (?,?,?,?,?,?)");
+        $stmt->bind_param("sssssi", $familyMember->firstName, $familyMember->lastName,
             $familyMember->maidenName, $familyMember->deathDate, $familyMember->birthDate,
-            $parentId, $partnerId);
+            $parentId);
         $stmt->execute();
 
         $addedMember = $stmt->affected_rows > 0;
