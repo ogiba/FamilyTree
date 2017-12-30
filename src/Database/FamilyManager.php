@@ -178,7 +178,7 @@ class FamilyManager extends BaseDatabaseManager {
 
         foreach ($children as $key => $value) {
             if ($value->parent == $parentId) {
-                $value->partner = $this->findPartner($value->partner, $children);
+                $value->partner = $this->findPartner($value->partner, $childrenCopy);
                 $value->children = $this->recursiveChildrenFilter($value->id, $children);
                 $result[] = $value;
             }
@@ -187,6 +187,8 @@ class FamilyManager extends BaseDatabaseManager {
         return $result;
     }
 
+
+    //TODO: Improve parent finding
     private function findPartner($memberId, $members)
     {
         $partner = null;
@@ -262,6 +264,19 @@ class FamilyManager extends BaseDatabaseManager {
             $familyMember = $this->arrayToObject($data, FamilyMember::class);
         }
 
+        if (!is_null($familyMember)) {
+            $stmt->prepare("SELECT * FROM family_members WHERE id = ?");
+            $stmt->bind_param("i", $familyMember->partner);
+            $stmt->execute();
+
+            $partnerData = $this->bindResult($stmt);
+
+            if ($stmt->fetch()) {
+                $familyMember->partner = $this->arrayToObject($partnerData, FamilyMember::class);
+            }
+        }
+
+        $stmt->close();
         $connection->close();
         return $familyMember;
     }
