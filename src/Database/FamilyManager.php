@@ -211,7 +211,18 @@ class FamilyManager extends BaseDatabaseManager {
     public function getFamilyMemberDetails($id)
     {
         $connection = $this->createConnection();
-        $stmt = $connection->prepare("SELECT * FROM family_members WHERE id = ?");
+        $stmt = $connection->prepare("SELECT fm.id,
+                                                    fm.firstName,
+                                                    fm.lastName,
+                                                    fm.maidenName,
+                                                    fm.birthDate,
+                                                    fm.deathDate,
+                                                    fm.image,
+                                                    fm.parent,
+                                                    fp.partner AS partner
+                                              FROM family_members fm
+                                              INNER JOIN family_partners fp ON fm.id = fp.base
+                                              WHERE fm.id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
 
@@ -298,7 +309,21 @@ class FamilyManager extends BaseDatabaseManager {
             $stmt->bind_param("ii", $familyId, $newMemberId);
             $stmt->execute();
 
+            $stmt->close();
+            $stmt = $connection->prepare("INSERT INTO family_partners(base, partner) VALUES (?,?)");
+            $stmt->bind_param("ii", $newMemberId, $partnerId);
+            $stmt->execute();
+
             $isSucceed = $stmt->affected_rows > 0;
+
+            if ($isSucceed && !is_null($partnerId)) {
+                $stmt->close();
+                $stmt = $connection->prepare("INSERT INTO family_partners(base, partner) 
+                                                      VALUES (?,?)
+                                                      ON DUPLICATE  KEY UPDATE partner = VALUES(partner)");
+                $stmt->bind_param("ii", $partnerId, $newMemberId);
+                $stmt->execute();
+            }
         }
         $stmt->close();
 
