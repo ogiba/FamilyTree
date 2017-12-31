@@ -178,7 +178,7 @@ class FamilyManager extends BaseDatabaseManager {
 
         foreach ($children as $key => $value) {
             if ($value->parent == $parentId) {
-                $value->partner = $this->findPartner($value->partner, $childrenCopy);
+                $value->partner = $this->findPartner($value->partner, $children);
                 $value->children = $this->recursiveChildrenFilter($value->id, $children);
                 $result[] = $value;
             }
@@ -186,20 +186,26 @@ class FamilyManager extends BaseDatabaseManager {
 
         return $result;
     }
-
-
-    //TODO: Improve parent finding
+    
     private function findPartner($memberId, $members)
     {
         $partner = null;
 
         foreach ($members as $key => $value) {
-            if ($value->partner == null || $value->partner instanceof FamilyMember) {
+            if ($value->partner == null) {
                 continue;
             }
 
-            if ($value->id == $memberId) {
-                $partner = $value;
+            $newValue = null;
+            if ($value->partner instanceof FamilyMember) {
+                $newValue = clone $value;
+                $newValue->partner = $value->partner->id;
+            } else {
+                $newValue = $value;
+            }
+
+            if ($newValue->id == $memberId) {
+                $partner = $newValue;
                 break;
             }
         }
