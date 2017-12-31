@@ -9,6 +9,7 @@
 namespace Database;
 
 
+use Model\ChildParentPair;
 use Model\Family;
 use Model\FamilyMember;
 
@@ -90,8 +91,37 @@ class FamilyManager extends BaseDatabaseManager {
         }
 
         $stmt->close();
+
+//        foreach ($result as $key => $value) {
+//            $value->parent = $this->loadParents($connection, $value->id);
+//        }
+
         $connection->close();
         return $result;
+    }
+
+    /**
+     * Experimental method that allows to store parent in separated table
+     *
+     * @param \mysqli $connection
+     * @param $parentId
+     * @return array|ChildParentPair
+     */
+    private function loadParents($connection, $parentId)
+    {
+        $stmt = $connection->prepare("SELECT * FROM family_parents WHERE child = ?");
+        $stmt->bind_param("i", $parentId);
+        $stmt->execute();
+
+        $parentsData = $this->bindResult($stmt);
+        $parentsResult = array();
+
+        while ($stmt->fetch()) {
+            $parentsResult[] = $this->arrayToObject($parentsData, ChildParentPair::class);
+        }
+
+        $stmt->close();
+        return $parentsResult;
     }
 
     public function loadPossiblePartners($familyId, $memberId, $parentId)
@@ -186,7 +216,7 @@ class FamilyManager extends BaseDatabaseManager {
 
         return $result;
     }
-    
+
     private function findPartner($memberId, $members)
     {
         $partner = null;
