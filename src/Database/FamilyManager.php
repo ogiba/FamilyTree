@@ -202,6 +202,18 @@ class FamilyManager extends BaseDatabaseManager {
             $result[] = $familyMember;
         }
 
+        foreach ($result as $key => $value) {
+            $parents = $this->loadParents($stmt, $value->id);
+
+            if (count($parents) > 0 && count($parents) < 2) {
+                $value->firstParent = $parents[0]->parent;
+                $value->secondParent = null;
+            } elseif (count($parents) > 0 && count($parents) == 2) {
+                $value->firstParent = $parents[0]->parent;
+                $value->secondParent = $parents[1]->parent;
+            }
+        }
+
         $connection->close();
 
         $baseNode = null;
@@ -222,7 +234,7 @@ class FamilyManager extends BaseDatabaseManager {
         $result = array();
 
         foreach ($children as $key => $value) {
-            if ($value->parent == $parentId) {
+            if ($value->firstParent == $parentId || $value->secondParent == $parentId) {
                 $value->partner = $this->findPartner($value->partner, $children);
                 $value->children = $this->recursiveChildrenFilter($value->id, $children);
                 $result[] = $value;
@@ -391,7 +403,9 @@ class FamilyManager extends BaseDatabaseManager {
     public function insertNewMember($familyId, $familyMember)
     {
         $partnerId = $familyMember->partner == '' ? null : intval($familyMember->partner);
-        $parentId = $familyMember->parent == '' ? null : intval($familyMember->parent);
+        $parentId = $familyMember->parent == '' || is_null($familyMember->parent) ? null : intval($familyMember->parent);
+        $firstParentId = $familyMember->firstParent == '' || is_null($familyMember->firstParent) ? null : intval($familyMember->firstParent);
+        $secondParentId = $familyMember->secondParent == '' || is_null($familyMember->secondParent) ? null : intval($familyMember->secondParent);
 
         $connection = $this->createConnection();
         $stmt = $connection->prepare("INSERT INTO family_members (firstName, lastName, maidenName, 
@@ -413,6 +427,9 @@ class FamilyManager extends BaseDatabaseManager {
             $stmt->bind_param("ii", $familyId, $newMemberId);
             $stmt->execute();
 
+            $this->addParentForMember($stmt, $newMemberId, $firstParentId);
+            $this->addParentForMember($stmt, $newMemberId, $secondParentId);
+
             $stmt->close();
             $stmt = $connection->prepare("INSERT INTO family_partners(base, partner) VALUES (?,?)");
             $stmt->bind_param("ii", $newMemberId, $partnerId);
@@ -433,5 +450,18 @@ class FamilyManager extends BaseDatabaseManager {
 
         $connection->close();
         return $isSucceed;
+    }
+
+    /**
+     * @param \mysqli_stmt $stmt
+     * @param int $id
+     * @param int | null $parentId
+     */
+    private function addParentForMember($stmt, $id, $parentId)
+    {
+        $stmt->prepare("INSERT INTO family_parents(child, parent) 
+                              VALUES (?,?)");
+        $stmt->bind_param("ii", $id, $parentId);
+        $stmt->execute();
     }
 }

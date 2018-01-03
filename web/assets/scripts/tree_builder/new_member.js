@@ -4,7 +4,8 @@ function saveMember() {
     var maidenName = $("#maidenName").val();
     var birthDate = $("#birthDate").val();
     var deathDate = $("#deathDate").val();
-    var parent = $("#parent").find("option:selected").val();
+    var firstParent = $("#firstParent").find("option:selected").val();
+    var secondParent = $("#secondParent").find("option:selected").val();
     var partner = $("#partner").find("option:selected").val();
 
     if (!checkBasicInfo(firstName, lastName)) {
@@ -15,7 +16,8 @@ function saveMember() {
     member.setMaidenName(maidenName)
         .setBirthDate(birthDate)
         .setDeathDate(deathDate)
-        .setParent(parent)
+        .setFirstParent(firstParent)
+        .setSecondParent(secondParent)
         .setPartner(partner);
 
     sendSaveRequest(member)
@@ -118,6 +120,8 @@ var FamilyMember = function (firstName, lastName) {
     this.birthDate = null;
     this.deathDate = null;
     this.parent = null;
+    this.firstParent = null;
+    this.secondParent = null;
     this.partner = null;
 
     this.setMaidenName = function (name) {
@@ -138,7 +142,17 @@ var FamilyMember = function (firstName, lastName) {
     this.setParent = function (parentId) {
         this.parent = parentId;
         return this;
-    }
+    };
+
+    this.setFirstParent = function (parentId) {
+        this.firstParent = parentId;
+        return this;
+    };
+
+    this.setSecondParent = function (parentId) {
+        this.secondParent = parentId;
+        return this;
+    };
 
     this.setPartner = function (partnerId) {
         this.partner = partnerId;

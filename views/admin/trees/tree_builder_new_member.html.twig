@@ -52,9 +52,20 @@
                                     <div>Maiden Name</div>
                                     <input id="maidenName" title="Maiden Name" type="text">
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
-                                    <div>Parent</div>
-                                    <select id="parent" title="Parent">
+                                    <div>First parent</div>
+                                    <select id="firstParent" title="First parent">
+                                        <option selected></option>
+                                        {% for familyMember in familyMembers %}
+                                            <option value="{{ familyMember.id }}">{{ familyMember.firstName }} {{ familyMember.lastName }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>Second parent</div>
+                                    <select id="secondParent" title="Second parent">
                                         <option selected></option>
                                         {% for familyMember in familyMembers %}
                                             <option value="{{ familyMember.id }}">{{ familyMember.firstName }} {{ familyMember.lastName }}</option>
