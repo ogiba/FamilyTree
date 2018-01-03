@@ -19,6 +19,7 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-md-6"></div>
             <div class="col-md-6">
                 <div>
                     Maiden name
@@ -27,15 +28,30 @@
                     <input id="memberMaidenNameInput" title="Maiden Name" value="{{ selectedMember.maidenName }}">
                 </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col-md-6">
                 <div>
-                    Parent
+                    First Parent
                 </div>
                 <div>
                     <select title="Parent" id="memberParentSelect">
-                        <option value="null" {{ selectedMember.parent is null ? 'selected' : '' }}></option>
+                        <option value="null" {{ selectedMember.firstParent is null ? 'selected' : '' }}></option>
                         {% for member in members %}
-                            <option value="{{ member.id }}" {{ member.id == selectedMember.parent ? 'selected' : '' }}>{{ member.firstName }} {{ member.lastName }}</option>
+                            <option value="{{ member.id }}" {{ member.id == selectedMember.firstParent ? 'selected' : '' }}>{{ member.firstName }} {{ member.lastName }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div>
+                    Second Parent
+                </div>
+                <div>
+                    <select title="Parent" id="memberParentSelect">
+                        <option value="null" {{ selectedMember.secondParent is null ? 'selected' : '' }}></option>
+                        {% for member in members %}
+                            <option value="{{ member.id }}" {{ member.id == selectedMember.secondParent ? 'selected' : '' }}>{{ member.firstName }} {{ member.lastName }}</option>
                         {% endfor %}
                     </select>
                 </div>

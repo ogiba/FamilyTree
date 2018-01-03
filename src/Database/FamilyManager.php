@@ -90,12 +90,20 @@ class FamilyManager extends BaseDatabaseManager {
             $result[] = $familyMember;
         }
 
-        $stmt->close();
-
-//        foreach ($result as $key => $value) {
+        foreach ($result as $key => $value) {
 //            $value->parent = $this->loadParents($connection, $value->id);
-//        }
+            $parents = $this->loadParents($stmt, $value->id);
 
+            if (count($parents) > 0 && count($parents) < 2) {
+                $value->firstParent = $parents[0]->parent;
+                $value->secondParent = null;
+            } elseif (count($parents) > 0 && count($parents) == 2) {
+                $value->firstParent = $parents[0]->parent;
+                $value->secondParent = $parents[1]->parent;
+            }
+        }
+
+        $stmt->close();
         $connection->close();
         return $result;
     }
@@ -103,24 +111,31 @@ class FamilyManager extends BaseDatabaseManager {
     /**
      * Experimental method that allows to store parent in separated table
      *
-     * @param \mysqli $connection
+     * @param \mysqli_stmt $stmt
      * @param $parentId
      * @return array|ChildParentPair
      */
-    private function loadParents($connection, $parentId)
+    private function loadParents($stmt, $parentId)
     {
-        $stmt = $connection->prepare("SELECT * FROM family_parents WHERE child = ?");
+        $stmt->prepare("SELECT * FROM family_parents WHERE child = ?");
         $stmt->bind_param("i", $parentId);
         $stmt->execute();
 
         $parentsData = $this->bindResult($stmt);
         $parentsResult = array();
 
-        while ($stmt->fetch()) {
-            $parentsResult[] = $this->arrayToObject($parentsData, ChildParentPair::class);
+        $resultFetched = $stmt->fetch();
+
+        if (is_null($resultFetched)) {
+            return $parentsResult;
         }
 
-        $stmt->close();
+
+        while ($resultFetched) {
+            $parentsResult[] = $this->arrayToObject($parentsData, ChildParentPair::class);
+            $resultFetched = $stmt->fetch();
+        }
+//        $stmt->close();
         return $parentsResult;
     }
 
@@ -309,6 +324,16 @@ class FamilyManager extends BaseDatabaseManager {
 
             if ($stmt->fetch()) {
                 $familyMember->partner = $this->arrayToObject($partnerData, FamilyMember::class);
+            }
+
+            $parents = $this->loadParents($stmt, $familyMember->id);
+
+            if (count($parents) > 0 && count($parents) < 2) {
+                $familyMember->firstParent = $parents[0]->parent;
+                $familyMember->secondParent = null;
+            } elseif (count($parents) > 0 && count($parents) == 2) {
+                $familyMember->firstParent = $parents[0]->parent;
+                $familyMember->secondParent = $parents[1]->parent;
             }
         }
 

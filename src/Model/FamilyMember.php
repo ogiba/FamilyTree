@@ -11,8 +11,7 @@ namespace Model;
 
 use JsonSerializable;
 
-class FamilyMember implements JsonSerializable
-{
+class FamilyMember implements JsonSerializable {
     public $id;
     public $firstName;
     public $lastName;
@@ -20,6 +19,8 @@ class FamilyMember implements JsonSerializable
     public $birthDate;
     public $deathDate;
     public $parent;
+    public $firstParent;
+    public $secondParent;
     public $partner;
     public $children;
     public $image;
@@ -49,6 +50,8 @@ class FamilyMember implements JsonSerializable
             "birthDate" => $this->birthDate,
             "deathDate" => $this->deathDate,
             "parent" => $this->parent,
+            "firstParent" => $this->firstParent,
+            "secondParent" => $this->secondParent,
             "partner" => $this->partner,
             "children" => $this->children,
             "image" => $this->image,
