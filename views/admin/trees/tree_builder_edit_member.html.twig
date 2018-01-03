@@ -35,7 +35,7 @@
                     First Parent
                 </div>
                 <div>
-                    <select title="Parent" id="memberParentSelect">
+                    <select title="Parent" id="memberFirstParentSelect">
                         <option value="null" {{ selectedMember.firstParent is null ? 'selected' : '' }}></option>
                         {% for member in members %}
                             <option value="{{ member.id }}" {{ member.id == selectedMember.firstParent ? 'selected' : '' }}>{{ member.firstName }} {{ member.lastName }}</option>
@@ -48,7 +48,7 @@
                     Second Parent
                 </div>
                 <div>
-                    <select title="Parent" id="memberParentSelect">
+                    <select title="Parent" id="memberSecondParentSelect">
                         <option value="null" {{ selectedMember.secondParent is null ? 'selected' : '' }}></option>
                         {% for member in members %}
                             <option value="{{ member.id }}" {{ member.id == selectedMember.secondParent ? 'selected' : '' }}>{{ member.firstName }} {{ member.lastName }}</option>

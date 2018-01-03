@@ -93,14 +93,7 @@ class FamilyManager extends BaseDatabaseManager {
         foreach ($result as $key => $value) {
 //            $value->parent = $this->loadParents($connection, $value->id);
             $parents = $this->loadParents($stmt, $value->id);
-
-            if (count($parents) > 0 && count($parents) < 2) {
-                $value->firstParent = $parents[0]->parent;
-                $value->secondParent = null;
-            } elseif (count($parents) > 0 && count($parents) == 2) {
-                $value->firstParent = $parents[0]->parent;
-                $value->secondParent = $parents[1]->parent;
-            }
+            $this->bindParentsToMember($value, $parents);
         }
 
         $stmt->close();
@@ -137,6 +130,21 @@ class FamilyManager extends BaseDatabaseManager {
         }
 //        $stmt->close();
         return $parentsResult;
+    }
+
+    /**
+     * @param FamilyMember $member
+     * @param ChildParentPair[] $parents
+     */
+    private function bindParentsToMember($member, $parents)
+    {
+        if (count($parents) > 0 && count($parents) < 2) {
+            $member->firstParent = $parents[0]->parent;
+            $member->secondParent = null;
+        } elseif (count($parents) > 0 && count($parents) == 2) {
+            $member->firstParent = $parents[0]->parent;
+            $member->secondParent = $parents[1]->parent;
+        }
     }
 
     public function loadPossiblePartners($familyId, $memberId, $parentId)
@@ -204,14 +212,7 @@ class FamilyManager extends BaseDatabaseManager {
 
         foreach ($result as $key => $value) {
             $parents = $this->loadParents($stmt, $value->id);
-
-            if (count($parents) > 0 && count($parents) < 2) {
-                $value->firstParent = $parents[0]->parent;
-                $value->secondParent = null;
-            } elseif (count($parents) > 0 && count($parents) == 2) {
-                $value->firstParent = $parents[0]->parent;
-                $value->secondParent = $parents[1]->parent;
-            }
+            $this->bindParentsToMember($value, $parents);
         }
 
         $connection->close();
@@ -339,14 +340,7 @@ class FamilyManager extends BaseDatabaseManager {
             }
 
             $parents = $this->loadParents($stmt, $familyMember->id);
-
-            if (count($parents) > 0 && count($parents) < 2) {
-                $familyMember->firstParent = $parents[0]->parent;
-                $familyMember->secondParent = null;
-            } elseif (count($parents) > 0 && count($parents) == 2) {
-                $familyMember->firstParent = $parents[0]->parent;
-                $familyMember->secondParent = $parents[1]->parent;
-            }
+            $this->bindParentsToMember($familyMember, $parents);
         }
 
         $stmt->close();
@@ -363,6 +357,8 @@ class FamilyManager extends BaseDatabaseManager {
     {
         $partnerId = $familyMember->partner == '' ? null : intval($familyMember->partner);
         $parentId = $familyMember->parent == '' ? null : intval($familyMember->parent);
+        $firstParentId = $familyMember->firstParent == '' || is_null($familyMember->firstParent) ? null : intval($familyMember->firstParent);
+        $secondParentId = $familyMember->secondParent == '' || is_null($familyMember->secondParent) ? null : intval($familyMember->secondParent);
 
         $connection = $this->createConnection();
         $stmt = $connection->prepare("UPDATE family_members
@@ -378,6 +374,9 @@ class FamilyManager extends BaseDatabaseManager {
             $familyMember->birthDate, $familyMember->deathDate,
             $parentId, $id);
         $stmt->execute();
+
+        $this->updateParentForMember($stmt, $familyMember->id, $firstParentId);
+        $this->updateParentForMember($stmt, $familyMember->id, $secondParentId);
 
         if ($partnerId != null) {
             $stmt->close();
@@ -463,5 +462,31 @@ class FamilyManager extends BaseDatabaseManager {
                               VALUES (?,?)");
         $stmt->bind_param("ii", $id, $parentId);
         $stmt->execute();
+    }
+
+    /**
+     * @param \mysqli_stmt $stmt
+     * @param int $id
+     * @param int | null $parent
+     */
+    private function updateParentForMember($stmt, $id, $parent)
+    {
+        //TODO: Need to improve this method to look for old parent and then update (or maybe antoher way...)
+        $stmt->prepare("SELECT * FROM family_parents WHERE child = ? AND parent = ?");
+        $stmt->bind_param("i", $id, $parent);
+        $stmt->execute();
+
+        $data = $this->bindResult($stmt);
+
+        $result = null;
+        if ($stmt->fetch()) {
+            $result = $this->arrayToObject($data, ChildParentPair::class);
+        }
+
+        if (!is_null($result)) {
+            $stmt->prepare("UPDATE family_parents SET parent = ? WHERE id = ?");
+            $stmt->bind_param("ii", $parent, $result->id);
+            $stmt->execute();
+        }
     }
 }

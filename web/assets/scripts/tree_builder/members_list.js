@@ -38,10 +38,16 @@ function saveMemberChanges(memberId) {
             member.deathDate = deathDate;
         }
 
-        var newParent = $("#memberParentSelect").find("option:selected").val();
+        var firstParent = $("#memberFirstParentSelect").find("option:selected").val();
 
-        if (newParent !== member.parent) {
-            member.parent = newParent;
+        if (firstParent !== member.firstParent) {
+            member.firstParent = firstParent;
+        }
+
+        var secondParent = $("#memberSecondParentSelect").find("option:selected").val();
+
+        if (secondParent !== member.secondParent) {
+            member.secondParent = secondParent;
         }
 
         var newPartner = $("#memberPartnerSelect").find("option:selected").val();
