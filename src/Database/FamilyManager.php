@@ -71,7 +71,6 @@ class FamilyManager extends BaseDatabaseManager {
                                                     fm.maidenName,
                                                     fm.birthDate,
                                                     fm.deathDate,
-                                                    fm.parent,
                                                     fm.image,
                                                     fp.partner AS partner
                                               FROM tree_nodes tn 
@@ -91,7 +90,6 @@ class FamilyManager extends BaseDatabaseManager {
         }
 
         foreach ($result as $key => $value) {
-//            $value->parent = $this->loadParents($connection, $value->id);
             $parents = $this->loadParents($stmt, $value->id);
             $this->bindParentsToMember($value, $parents);
         }
@@ -105,13 +103,13 @@ class FamilyManager extends BaseDatabaseManager {
      * Experimental method that allows to store parent in separated table
      *
      * @param \mysqli_stmt $stmt
-     * @param $parentId
+     * @param int $childId
      * @return array|ChildParentPair
      */
-    private function loadParents($stmt, $parentId)
+    private function loadParents($stmt, $childId)
     {
         $stmt->prepare("SELECT * FROM family_parents WHERE child = ?");
-        $stmt->bind_param("i", $parentId);
+        $stmt->bind_param("i", $childId);
         $stmt->execute();
 
         $parentsData = $this->bindResult($stmt);
@@ -147,7 +145,7 @@ class FamilyManager extends BaseDatabaseManager {
         }
     }
 
-    public function loadPossiblePartners($familyId, $memberId, $parentId)
+    public function loadPossiblePartners($familyId, $memberId)
     {
         $connection = $this->createConnection();
         $stmt = $connection->prepare("SELECT fm.id,
@@ -156,13 +154,12 @@ class FamilyManager extends BaseDatabaseManager {
                                                     fm.maidenName,
                                                     fm.birthDate,
                                                     fm.deathDate,
-                                                    fm.parent,
                                                     fm.image
                                               FROM tree_nodes tn 
                                               INNER JOIN family_members AS fm ON tn.person = fm.id
-                                              WHERE tn.family = ? AND tn.person != ? AND tn.person != ?
+                                              WHERE tn.family = ? AND tn.person != ?
                                               ORDER BY fm.firstName ASC");
-        $stmt->bind_param("iii", $familyId, $memberId, $parentId);
+        $stmt->bind_param("ii", $familyId, $memberId);
         $stmt->execute();
 
         $data = $this->bindResult($stmt);
@@ -192,7 +189,6 @@ class FamilyManager extends BaseDatabaseManager {
                                                     fm.maidenName,
                                                     fm.birthDate,
                                                     fm.deathDate,
-                                                    fm.parent,
                                                     fm.image,
                                                     fp.partner AS partner
                                               FROM tree_nodes tn 
@@ -219,7 +215,7 @@ class FamilyManager extends BaseDatabaseManager {
 
         $baseNode = null;
         foreach ($result as $key => $value) {
-            if ($value->parent == null) {
+            if ($value->firstParent == null) {
                 $value->partner = $this->findPartner($value->partner, $result);
                 $value->children = $this->recursiveChildrenFilter($value->id, $result);
                 $baseNode = $value;
@@ -272,32 +268,6 @@ class FamilyManager extends BaseDatabaseManager {
     }
 
     /**
-     * @deprecated
-     * Loads children for given family
-     * @param $familyId
-     * @param $parentId
-     * @return array
-     */
-    public function loadChildren($familyId, $parentId)
-    {
-        $connection = $this->createConnection();
-        $stmt = $connection->prepare("SELECT * FROM family_members WHERE parent = ?");
-        $stmt->bind_param("ii", $familyId, $parentId);
-        $stmt->execute();
-
-        $data = $this->bindResult($stmt);
-        $result = array();
-
-        while ($stmt->fetch()) {
-            $familyMember = $this->arrayToObject($data, FamilyMember::class);
-            $result[] = $familyMember;
-        }
-
-        $connection->close();
-        return $result;
-    }
-
-    /**
      * Returns member from DB that match given id
      *
      * @param $id
@@ -313,7 +283,6 @@ class FamilyManager extends BaseDatabaseManager {
                                                     fm.birthDate,
                                                     fm.deathDate,
                                                     fm.image,
-                                                    fm.parent,
                                                     fp.partner AS partner
                                               FROM family_members fm
                                               INNER JOIN family_partners fp ON fm.id = fp.base
@@ -356,7 +325,6 @@ class FamilyManager extends BaseDatabaseManager {
     public function updateFamilyMember($id, $familyMember)
     {
         $partnerId = $familyMember->partner == '' ? null : intval($familyMember->partner);
-        $parentId = $familyMember->parent == '' ? null : intval($familyMember->parent);
         $firstParentId = $familyMember->firstParent == '' || is_null($familyMember->firstParent) ? null : intval($familyMember->firstParent);
         $secondParentId = $familyMember->secondParent == '' || is_null($familyMember->secondParent) ? null : intval($familyMember->secondParent);
 
@@ -366,17 +334,16 @@ class FamilyManager extends BaseDatabaseManager {
                                                   lastName = ?,
                                                   maidenName = ?,
                                                   birthDate = ?,
-                                                  deathDate = ?,
-                                                  parent = ?
+                                                  deathDate = ?
                                               WHERE id = ?");
-        $stmt->bind_param("sssssii", $familyMember->firstName,
+        $stmt->bind_param("sssssi", $familyMember->firstName,
             $familyMember->lastName, $familyMember->maidenName,
             $familyMember->birthDate, $familyMember->deathDate,
-            $parentId, $id);
+            $id);
         $stmt->execute();
 
-        $this->updateParentForMember($stmt, $familyMember->id, $firstParentId);
-        $this->updateParentForMember($stmt, $familyMember->id, $secondParentId);
+        $this->updateSelectedParentForMember($stmt, $familyMember->id, $firstParentId, 0);
+        $this->updateSelectedParentForMember($stmt, $familyMember->id, $secondParentId, 1);
 
         if ($partnerId != null) {
             $stmt->close();
@@ -402,17 +369,15 @@ class FamilyManager extends BaseDatabaseManager {
     public function insertNewMember($familyId, $familyMember)
     {
         $partnerId = $familyMember->partner == '' ? null : intval($familyMember->partner);
-        $parentId = $familyMember->parent == '' || is_null($familyMember->parent) ? null : intval($familyMember->parent);
         $firstParentId = $familyMember->firstParent == '' || is_null($familyMember->firstParent) ? null : intval($familyMember->firstParent);
         $secondParentId = $familyMember->secondParent == '' || is_null($familyMember->secondParent) ? null : intval($familyMember->secondParent);
 
         $connection = $this->createConnection();
         $stmt = $connection->prepare("INSERT INTO family_members (firstName, lastName, maidenName, 
-                                                                          deathDate, birthDate, parent) 
-                                            VALUES (?,?,?,?,?,?)");
-        $stmt->bind_param("sssssi", $familyMember->firstName, $familyMember->lastName,
-            $familyMember->maidenName, $familyMember->deathDate, $familyMember->birthDate,
-            $parentId);
+                                                                          deathDate, birthDate) 
+                                            VALUES (?,?,?,?,?)");
+        $stmt->bind_param("sssss", $familyMember->firstName, $familyMember->lastName,
+            $familyMember->maidenName, $familyMember->deathDate, $familyMember->birthDate);
         $stmt->execute();
 
         $addedMember = $stmt->affected_rows > 0;
@@ -467,25 +432,27 @@ class FamilyManager extends BaseDatabaseManager {
     /**
      * @param \mysqli_stmt $stmt
      * @param int $id
-     * @param int | null $parent
+     * @param int | null $newParent
+     * @param int $parentNumber
      */
-    private function updateParentForMember($stmt, $id, $parent)
+    //TODO: Look for better solution in case of free time
+    private function updateSelectedParentForMember($stmt, $id, $newParent, $parentNumber)
     {
-        //TODO: Need to improve this method to look for old parent and then update (or maybe antoher way...)
-        $stmt->prepare("SELECT * FROM family_parents WHERE child = ? AND parent = ?");
-        $stmt->bind_param("i", $id, $parent);
+        $stmt->prepare("SELECT * FROM family_parents WHERE child = ? ORDER BY id ASC");
+        $stmt->bind_param("i", $id);
         $stmt->execute();
 
         $data = $this->bindResult($stmt);
 
-        $result = null;
-        if ($stmt->fetch()) {
-            $result = $this->arrayToObject($data, ChildParentPair::class);
+        $result = array();
+        while ($stmt->fetch()) {
+            $result[] = $this->arrayToObject($data, ChildParentPair::class);
         }
 
-        if (!is_null($result)) {
+        $parentToUpdate = $result[$parentNumber];
+        if (!is_null($parentToUpdate)) {
             $stmt->prepare("UPDATE family_parents SET parent = ? WHERE id = ?");
-            $stmt->bind_param("ii", $parent, $result->id);
+            $stmt->bind_param("ii", $newParent, $parentToUpdate->id);
             $stmt->execute();
         }
     }

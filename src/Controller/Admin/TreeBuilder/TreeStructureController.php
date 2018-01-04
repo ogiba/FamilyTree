@@ -153,7 +153,7 @@ class TreeStructureController extends BaseAdminController {
 
         $familyId = $_SESSION["selectedFamily"];
         $members = $this->manager->loadFamily($familyId);
-        $possiblePartners = $this->manager->loadPossiblePartners($familyId, intval($familyMember->id), intval($familyMember->parent));
+        $possiblePartners = $this->manager->loadPossiblePartners($familyId, intval($familyMember->id));
 
         $response = array("template" => $this->render("/admin/trees/tree_builder_edit_member.html.twig", [
             "selectedMember" => $familyMember,
