@@ -10,10 +10,10 @@ namespace Controller;
 
 
 use Database\FamilyManager;
+use Model\TreeMemberResponse;
 use Model\TreeResponse;
 
-class TreeController extends BaseController
-{
+class TreeController extends BaseController {
     const MODE_DEBUG = "debug";
 
     public function action($name, $action, $params)
@@ -21,8 +21,9 @@ class TreeController extends BaseController
         if ($action == "rebuild") {
             $this->rebuildItem($_REQUEST);
         } elseif ($action == "load_tree") {
-//            $this->loadTree($_REQUEST);
-            $this->testLoadTree($_REQUEST);
+            $this->loadTree($_REQUEST);
+        } elseif ($action == "getDetails") {
+            $this->retriveMemberDetails($_REQUEST);
         } else {
             $this->indexAction($_REQUEST);
         }
@@ -59,7 +60,7 @@ class TreeController extends BaseController
         }
     }
 
-    public function loadTree($request)
+    public function testLoadTree($request)
     {
         $file = file_get_contents("./data/trees/tree.json");
         $jsonFile = json_decode($file, true);
@@ -68,9 +69,10 @@ class TreeController extends BaseController
         echo json_encode($jsonFile);
     }
 
-    private function testLoadTree($request)
+    private function loadTree($request)
     {
-        if (!isset($request["family"])) {
+        if (!isset($request["family"]))
+        {
             return;
         }
 
@@ -83,6 +85,24 @@ class TreeController extends BaseController
         $response = new TreeResponse($result, $template, $pairTemplate);
         header($this::HEADER_CONTENT_TYPE_JSON);
         echo json_encode($response);
+    }
+
+    private function retriveMemberDetails($request)
+    {
+        if (!isset($request["id"])) {
+            echo "Required parameter not set";
+            return;
+        }
+
+        $memberId = $request["id"];
+        $familyManager = new FamilyManager();
+
+        $result = $familyManager->getFamilyMemberDetails($memberId);
+
+//        $response = new TreeMemberResponse($result, null);
+        $params = array("selectedMember" => $result);
+        echo $this->render("tree/templates/tree_member_details.html.twig", $params);
+
     }
 
     private function readNodeTemplate($templateName)
