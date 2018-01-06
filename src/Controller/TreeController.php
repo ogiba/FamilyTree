@@ -10,6 +10,7 @@ namespace Controller;
 
 
 use Database\FamilyManager;
+use Model\FamilyMember;
 use Model\TreeMemberResponse;
 use Model\TreeResponse;
 
@@ -71,8 +72,7 @@ class TreeController extends BaseController {
 
     private function loadTree($request)
     {
-        if (!isset($request["family"]))
-        {
+        if (!isset($request["family"])) {
             return;
         }
 
@@ -97,14 +97,35 @@ class TreeController extends BaseController {
         $memberId = $request["id"];
         $familyManager = new FamilyManager();
 
-        $result = $familyManager->getFamilyMemberDetails($memberId);
+        $selectedMember = $familyManager->getFamilyMemberDetails($memberId);
+        $selectedMember->firstParent = $this->loadParentDataForId($familyManager, $selectedMember->firstParent);
+        $selectedMember->secondParent = $this->loadParentDataForId($familyManager, $selectedMember->secondParent);
 
-//        $response = new TreeMemberResponse($result, null);
-        $params = array("selectedMember" => $result);
+        $params = array("selectedMember" => $selectedMember);
         echo $this->render("tree/templates/tree_member_details.html.twig", $params);
 
     }
 
+    /**
+     * @param int|null $parentId
+     * @param FamilyManager $familyManager
+     * @return FamilyMember | null
+     */
+    private function loadParentDataForId($familyManager, $parentId)
+    {
+        if (is_null($parentId)) {
+            return null;
+        }
+
+        return $familyManager->getFamilyMemberDetails($parentId);
+    }
+
+    /**
+     * Get content of file that is stored at server with given templateName
+     *
+     * @param $templateName
+     * @return bool|string
+     */
     private function readNodeTemplate($templateName)
     {
         return file_get_contents("views/tree/templates/" . $templateName);

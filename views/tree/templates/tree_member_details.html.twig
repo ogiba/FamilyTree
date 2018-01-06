@@ -7,6 +7,13 @@
     </div>
     <div class="modal-body">
         <div class="row">
+            <div class="col-md-12">
+                <div style="text-align: center;">
+                    <img src="" alt="memberImage">
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-6">
                 <div>First name</div>
                 <div>{{ selectedMember.firstName }}</div>
@@ -23,7 +30,32 @@
             </div>
             <div class="col-md-6">
                 <div>Partner</div>
-                <div>{{ selectedMember.partner is null ? "None" : selectedMember.partner.firstName}}</div>
+                {% set partner = selectedMember.partner %}
+                <div>{{ partner is null ? "None" : partner.firstName ~" "~ partner.lastName }}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div>Birth date</div>
+                {% set birthDate = selectedMember.birthDate %}
+                <div>{{ birthDate is null or birthDate is empty ? "---" : birthDate }}</div>
+            </div>
+            <div class="col-md-6">
+                <div>Death date</div>
+                {% set deathDate = selectedMember.deathDate %}
+                <div>{{ deathDate is null or deatDate is empty ? "---" : deathDate }}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div>First parent</div>
+                {% set firstParent = selectedMember.firstParent %}
+                <div>{{ firstParent is null or firstParent is empty ? "---" : firstParent.firstName ~" "~ firstParent.lastName}}</div>
+            </div>
+            <div class="col-md-6">
+                <div>Second parent</div>
+                {% set secondParent = selectedMember.secondParent %}
+                <div>{{ secondParent is null or secondParent is empty ? "---" : secondParent.firstName ~" "~ secondParent.lastName}}</div>
             </div>
         </div>
     </div>
