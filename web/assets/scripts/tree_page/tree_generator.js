@@ -635,7 +635,7 @@ DraggableList.prototype.intersectsWithGhost = function (element) {
     var ghostRect = this.ghostElement.getBoundingClientRect();
 
     return (elementRect.left < ghostRect.right && elementRect.right > ghostRect.left &&
-    elementRect.top < ghostRect.bottom && elementRect.bottom > ghostRect.top );
+        elementRect.top < ghostRect.bottom && elementRect.bottom > ghostRect.top );
 };
 
 /**
@@ -646,7 +646,7 @@ DraggableList.prototype.intersectsWithPos = function (element, pos) {
     var elementRect = element.element.getBoundingClientRect();
 
     return (pos.x > elementRect.left && pos.x < elementRect.right &&
-    pos.y > elementRect.top && pos.y < elementRect.bottom);
+        pos.y > elementRect.top && pos.y < elementRect.bottom);
 };
 
 
@@ -1115,4 +1115,11 @@ function upFinishConnectionBehavior(parent) {
     }
 
     return linesToReturn;
+}
+
+/**
+ * Allow to add custom action called at onClick event
+ */
+function nodeAction(id, isPair) {
+    showMember(id, isPair);
 }
