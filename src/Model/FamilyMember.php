@@ -18,12 +18,12 @@ class FamilyMember implements JsonSerializable {
     public $maidenName;
     public $birthDate;
     public $deathDate;
-    public $parent;
     public $firstParent;
     public $secondParent;
     public $partner;
     public $children;
     public $image;
+    public $description;
     public $family;
     public $timeStamp;
 
@@ -49,12 +49,12 @@ class FamilyMember implements JsonSerializable {
             "maidenName" => $this->maidenName,
             "birthDate" => $this->birthDate,
             "deathDate" => $this->deathDate,
-            "parent" => $this->parent,
             "firstParent" => $this->firstParent,
             "secondParent" => $this->secondParent,
             "partner" => $this->partner,
             "children" => $this->children,
             "image" => $this->image,
+            "description" => $this->description,
             "family" => $this->family,
             "timeStamp" => $this->timeStamp
         ];

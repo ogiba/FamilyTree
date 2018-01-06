@@ -72,6 +72,7 @@ class FamilyManager extends BaseDatabaseManager {
                                                     fm.birthDate,
                                                     fm.deathDate,
                                                     fm.image,
+                                                    fm.description,
                                                     fp.partner AS partner
                                               FROM tree_nodes tn 
                                               INNER JOIN family_members AS fm ON tn.person = fm.id
@@ -154,7 +155,8 @@ class FamilyManager extends BaseDatabaseManager {
                                                     fm.maidenName,
                                                     fm.birthDate,
                                                     fm.deathDate,
-                                                    fm.image
+                                                    fm.image,
+                                                    fm.description
                                               FROM tree_nodes tn 
                                               INNER JOIN family_members AS fm ON tn.person = fm.id
                                               WHERE tn.family = ? AND tn.person != ?
@@ -190,6 +192,7 @@ class FamilyManager extends BaseDatabaseManager {
                                                     fm.birthDate,
                                                     fm.deathDate,
                                                     fm.image,
+                                                    fm.description,
                                                     fp.partner AS partner
                                               FROM tree_nodes tn 
                                               INNER JOIN family_members AS fm ON tn.person = fm.id
@@ -283,6 +286,7 @@ class FamilyManager extends BaseDatabaseManager {
                                                     fm.birthDate,
                                                     fm.deathDate,
                                                     fm.image,
+                                                    fm.description,
                                                     fp.partner AS partner
                                               FROM family_members fm
                                               INNER JOIN family_partners fp ON fm.id = fp.base
@@ -334,13 +338,16 @@ class FamilyManager extends BaseDatabaseManager {
                                                   lastName = ?,
                                                   maidenName = ?,
                                                   birthDate = ?,
-                                                  deathDate = ?
+                                                  deathDate = ?,
+                                                  description = ?
                                               WHERE id = ?");
-        $stmt->bind_param("sssssi", $familyMember->firstName,
+        $stmt->bind_param("ssssssi", $familyMember->firstName,
             $familyMember->lastName, $familyMember->maidenName,
             $familyMember->birthDate, $familyMember->deathDate,
-            $id);
+            $familyMember->description, $id);
         $stmt->execute();
+
+        $isSucceed = $stmt->affected_rows > 0;
 
         $this->updateSelectedParentForMember($stmt, $familyMember->id, $firstParentId, 0);
         $this->updateSelectedParentForMember($stmt, $familyMember->id, $secondParentId, 1);
@@ -354,7 +361,6 @@ class FamilyManager extends BaseDatabaseManager {
             $stmt->execute();
         }
 
-        $isSucceed = $stmt->affected_rows > 0;
         $stmt->close();
         $connection->close();
 
@@ -374,10 +380,11 @@ class FamilyManager extends BaseDatabaseManager {
 
         $connection = $this->createConnection();
         $stmt = $connection->prepare("INSERT INTO family_members (firstName, lastName, maidenName, 
-                                                                          deathDate, birthDate) 
-                                            VALUES (?,?,?,?,?)");
-        $stmt->bind_param("sssss", $familyMember->firstName, $familyMember->lastName,
-            $familyMember->maidenName, $familyMember->deathDate, $familyMember->birthDate);
+                                                                          deathDate, birthDate, description) 
+                                            VALUES (?,?,?,?,?,?)");
+        $stmt->bind_param("ssssss", $familyMember->firstName, $familyMember->lastName,
+            $familyMember->maidenName, $familyMember->deathDate,
+            $familyMember->birthDate, $familyMember->description);
         $stmt->execute();
 
         $addedMember = $stmt->affected_rows > 0;

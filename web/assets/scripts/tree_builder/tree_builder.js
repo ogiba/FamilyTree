@@ -115,6 +115,8 @@ function saveMemberChanges(memberId) {
             member.partner = newPartner;
         }
 
+        member.description = $("#memberDescriptionArea").val();
+
         console.log(convertDate(birthDate));
 
         makeUpdateRequest(member);

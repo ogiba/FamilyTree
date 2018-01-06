@@ -7,6 +7,7 @@ function saveMember() {
     var firstParent = $("#firstParent").find("option:selected").val();
     var secondParent = $("#secondParent").find("option:selected").val();
     var partner = $("#partner").find("option:selected").val();
+    var description = $("#descriptionArea").val();
 
     if (!checkBasicInfo(firstName, lastName)) {
         return;
@@ -18,7 +19,8 @@ function saveMember() {
         .setDeathDate(deathDate)
         .setFirstParent(firstParent)
         .setSecondParent(secondParent)
-        .setPartner(partner);
+        .setPartner(partner)
+        .setDescription(description);
 
     sendSaveRequest(member)
 }
@@ -119,10 +121,10 @@ var FamilyMember = function (firstName, lastName) {
     this.maidenName = null;
     this.birthDate = null;
     this.deathDate = null;
-    this.parent = null;
     this.firstParent = null;
     this.secondParent = null;
     this.partner = null;
+    this.description = null;
 
     this.setMaidenName = function (name) {
         this.maidenName = name;
@@ -139,11 +141,6 @@ var FamilyMember = function (firstName, lastName) {
         return this;
     };
 
-    this.setParent = function (parentId) {
-        this.parent = parentId;
-        return this;
-    };
-
     this.setFirstParent = function (parentId) {
         this.firstParent = parentId;
         return this;
@@ -156,6 +153,11 @@ var FamilyMember = function (firstName, lastName) {
 
     this.setPartner = function (partnerId) {
         this.partner = partnerId;
+        return this;
+    };
+
+    this.setDescription = function (content) {
+        this.description = content;
         return this;
     }
 };
