@@ -62,6 +62,10 @@ function saveMemberChanges(memberId) {
     });
 }
 
+/**
+ * Call method responsible or updating member in DB
+ * @param member
+ */
 function makeUpdateRequest(member) {
     $.post(window.location.href + "/update?id=" + member.id, {
         "member": member
@@ -86,6 +90,13 @@ function makeUpdateRequest(member) {
             $("#alertContainer").append(alertToShow);
         }
     })
+}
+
+/**
+ * Remove edit member view from DOM
+ */
+function cancelEditing() {
+    $("#rightContainer").html("");
 }
 
 /**

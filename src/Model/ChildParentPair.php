@@ -12,6 +12,7 @@ namespace Model;
 use JsonSerializable;
 
 class ChildParentPair implements JsonSerializable {
+    public $id;
     public $child;
     public $parent;
 

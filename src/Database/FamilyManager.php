@@ -350,7 +350,12 @@ class FamilyManager extends BaseDatabaseManager {
         $isSucceed = $stmt->affected_rows > 0;
 
         $this->updateSelectedParentForMember($stmt, $familyMember->id, $firstParentId, 0);
+
+        $isSucceed = !$isSucceed ? $stmt->affected_rows > 0 : $isSucceed;
+
         $this->updateSelectedParentForMember($stmt, $familyMember->id, $secondParentId, 1);
+
+        $isSucceed = !$isSucceed ? $stmt->affected_rows > 0 : $isSucceed;
 
         if ($partnerId != null) {
             $stmt->close();
@@ -359,6 +364,8 @@ class FamilyManager extends BaseDatabaseManager {
                                                 WHERE fm.base = ? AND fm1.base = ?");
             $stmt->bind_param("iiii", $partnerId, $id, $id, $partnerId);
             $stmt->execute();
+
+            $isSucceed = !$isSucceed ? $stmt->affected_rows > 0 : $isSucceed;
         }
 
         $stmt->close();
@@ -445,8 +452,23 @@ class FamilyManager extends BaseDatabaseManager {
     //TODO: Look for better solution in case of free time
     private function updateSelectedParentForMember($stmt, $id, $newParent, $parentNumber)
     {
+        $result = $this->loadParentsForChildOrderedAsc($stmt, $id);
+
+        $parentToUpdate = $result[$parentNumber];
+        if (!is_null($parentToUpdate)) {
+            $this->updateParentAtGivenId($stmt, $newParent, $parentToUpdate->id);
+        }
+    }
+
+    /**
+     * @param \mysqli_stmt $stmt
+     * @param int $childId
+     * @return ChildParentPair[]
+     */
+    private function loadParentsForChildOrderedAsc($stmt, $childId)
+    {
         $stmt->prepare("SELECT * FROM family_parents WHERE child = ? ORDER BY id ASC");
-        $stmt->bind_param("i", $id);
+        $stmt->bind_param("i", $childId);
         $stmt->execute();
 
         $data = $this->bindResult($stmt);
@@ -456,11 +478,18 @@ class FamilyManager extends BaseDatabaseManager {
             $result[] = $this->arrayToObject($data, ChildParentPair::class);
         }
 
-        $parentToUpdate = $result[$parentNumber];
-        if (!is_null($parentToUpdate)) {
-            $stmt->prepare("UPDATE family_parents SET parent = ? WHERE id = ?");
-            $stmt->bind_param("ii", $newParent, $parentToUpdate->id);
-            $stmt->execute();
-        }
+        return $result;
+    }
+
+    /**
+     * @param \mysqli_stmt $stmt
+     * @param int $newParent
+     * @param int $id
+     */
+    private function updateParentAtGivenId($stmt, $newParent, $id)
+    {
+        $stmt->prepare("UPDATE family_parents SET parent = ? WHERE id = ?");
+        $stmt->bind_param("ii", $newParent, $id);
+        $stmt->execute();
     }
 }
