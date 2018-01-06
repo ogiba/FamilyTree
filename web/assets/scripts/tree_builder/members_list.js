@@ -56,6 +56,8 @@ function saveMemberChanges(memberId) {
             member.partner = newPartner;
         }
 
+        member.description = $("#memberDescriptionArea").val();
+
         makeUpdateRequest(member);
     });
 }
