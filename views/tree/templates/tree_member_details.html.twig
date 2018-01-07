@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Member details</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -8,12 +8,12 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-md-12">
-                {% set partner = selectedMember.partner %}
+                {% set partner = member.partner %}
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
                            aria-controls="pills-home"
-                           aria-selected="true">{{ selectedMember.firstName ~" "~ selectedMember.lastName }}</a>
+                           aria-selected="true">{{ member.firstName ~" "~ member.lastName }}</a>
                     </li>
                     {% if partner is not null %}
                         <li class="nav-item">
@@ -26,114 +26,12 @@
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                          aria-labelledby="pills-home-tab">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div style="text-align: center;">
-                                    <img src="{{ selectedMember.image }}" alt="memberImage">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div>First name</div>
-                                <div>{{ selectedMember.firstName }}</div>
-                            </div>
-                            <div class="col-md-6">
-                                <div>Last name</div>
-                                <div>{{ selectedMember.lastName }}</div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div>Maiden name</div>
-                                {% set maidenName = selectedMember.maidenName %}
-                                <div>{{ maidenName is null or maidenName is empty ? "---" : maidenName }}</div>
-                            </div>
-                            <div class="col-md-6">
-                                <div>Partner</div>
-                                <div>{{ partner is null ? "None" : partner.firstName ~" "~ partner.lastName }}</div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div>Birth date</div>
-                                {% set birthDate = selectedMember.birthDate %}
-                                <div>{{ birthDate is null or birthDate is empty ? "---" : birthDate }}</div>
-                            </div>
-                            <div class="col-md-6">
-                                <div>Death date</div>
-                                {% set deathDate = selectedMember.deathDate %}
-                                <div>{{ deathDate is null or deatDate is empty ? "---" : deathDate }}</div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div>First parent</div>
-                                {% set firstParent = selectedMember.firstParent %}
-                                <div>{{ firstParent is null or firstParent is empty ? "---" : firstParent.firstName ~" "~ firstParent.lastName }}</div>
-                            </div>
-                            <div class="col-md-6">
-                                <div>Second parent</div>
-                                {% set secondParent = selectedMember.secondParent %}
-                                <div>{{ secondParent is null or secondParent is empty ? "---" : secondParent.firstName ~" "~ secondParent.lastName }}</div>
-                            </div>
-                        </div>
+                        {{ include('tree/templates/member_modal_details_template.html.twig', {selectedMember: member, memberPartner: null}) }}
                     </div>
                     {% if partner is not null %}
                         <div class="tab-pane fade" id="pills-profile" role="tabpanel"
                              aria-labelledby="pills-profile-tab">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div style="text-align: center;">
-                                        <img src="{{ partner.image }}" alt="memberImage">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div>First name</div>
-                                    <div>{{ partner.firstName }}</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div>Last name</div>
-                                    <div>{{ partner.lastName }}</div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div>Maiden name</div>
-                                    {% set maidenName = selectedMember.maidenName %}
-                                    <div>{{ maidenName is null or maidenName is empty ? "---" : maidenName }}</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div>Partner</div>
-                                    <div>{{ selectedMember.firstName ~" "~selectedMember.lastName }}</div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div>Birth date</div>
-                                    {% set birthDate = partner.birthDate %}
-                                    <div>{{ birthDate is null or birthDate is empty ? "---" : birthDate }}</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div>Death date</div>
-                                    {% set deathDate = partner.deathDate %}
-                                    <div>{{ deathDate is null or deatDate is empty ? "---" : deathDate }}</div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div>First parent</div>
-                                    {% set firstParent = partner.firstParent %}
-                                    <div>{{ firstParent is null or firstParent is empty ? "---" : firstParent.firstName ~" "~ firstParent.lastName }}</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div>Second parent</div>
-                                    {% set secondParent = partner.secondParent %}
-                                    <div>{{ secondParent is null or secondParent is empty ? "---" : secondParent.firstName ~" "~ secondParent.lastName }}</div>
-                                </div>
-                            </div>
+                            {{ include('tree/templates/member_modal_details_template.html.twig', {selectedMember: partner, memberPartner: member}) }}
                         </div>
                     {% endif %}
                 </div>

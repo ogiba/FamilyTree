@@ -107,7 +107,7 @@ class TreeController extends BaseController {
             $memberPartner->secondParent = $this->loadParentDataForId($familyManager, $memberPartner->secondParent);
         }
 
-        $params = array("selectedMember" => $selectedMember);
+        $params = array("member" => $selectedMember);
         echo $this->render("tree/templates/tree_member_details.html.twig", $params);
 
     }
