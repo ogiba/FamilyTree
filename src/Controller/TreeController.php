@@ -101,6 +101,12 @@ class TreeController extends BaseController {
         $selectedMember->firstParent = $this->loadParentDataForId($familyManager, $selectedMember->firstParent);
         $selectedMember->secondParent = $this->loadParentDataForId($familyManager, $selectedMember->secondParent);
 
+        $memberPartner = $selectedMember->partner;
+        if (!is_null($memberPartner) && $memberPartner instanceof FamilyMember) {
+            $memberPartner->firstParent = $this->loadParentDataForId($familyManager, $memberPartner->firstParent);
+            $memberPartner->secondParent = $this->loadParentDataForId($familyManager, $memberPartner->secondParent);
+        }
+
         $params = array("selectedMember" => $selectedMember);
         echo $this->render("tree/templates/tree_member_details.html.twig", $params);
 
