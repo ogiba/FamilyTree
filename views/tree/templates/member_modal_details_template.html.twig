@@ -55,3 +55,16 @@
         <div>{{ secondParent is null or secondParent is empty ? "---" : secondParent.firstName ~" "~ secondParent.lastName }}</div>
     </div>
 </div>
+{% set description = selectedMember.description %}
+{% if description is not null and description is not empty %}
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            Description
+        </div>
+        <div>
+            {{ selectedMember.description }}
+        </div>
+    </div>
+</div>
+{% endif %}
