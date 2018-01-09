@@ -2,22 +2,22 @@
 <div class="right-dot"></div>
 <div class="top-dot"></div>
 <div class="bottom-dot"></div>
-<div style="height: 100%;" onclick="nodeAction({{:id}}, true)">
-    <div style="width: 48%; display: inline-block">
+<div class="content" onclick="nodeAction({{:id}}, true)">
+    <div>
         <div style="height: 50%; text-align: center;">
             <img>
         </div>
-        <div style="height: 50%; line-height: 1;">
+        <div style="height: 50%; line-height: 1; margin-top: 5%;">
             <label style="margin-bottom: 0;">{{:firstName}} {{:lastName}}</label>
             <div style="font-size: 14px; margin-bottom: 0;">{{:birthDate}}</div>
             <div style="font-size: 14px; margin-bottom: 0;">{{:deathDate}}</div>
         </div>
     </div>
-    <div style="width: 48%; display: inline-block">
+    <div style="margin-top: 5%;">
         <div style="height: 50%; text-align: center;">
             <img>
         </div>
-        <div style="height: 50%; line-height: 1;">
+        <div style="height: 50%; line-height: 1; margin-top: 5%;">
             <label style="margin-bottom: 0;">{{:partner.firstName}} {{:partner.lastName}}</label>
             <div style="font-size: 14px; margin-bottom: 0;">{{:partner.birthDate}}</div>
             <div style="font-size: 14px; margin-bottom: 0;">{{:partner.deathDate}}</div>

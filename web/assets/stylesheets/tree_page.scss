@@ -1,10 +1,13 @@
+$primaryColor: #174732;
+$nodeColor: #D2F8BF;
+
 header {
     height: auto;
     background: none;
 }
 
 body {
-    background-color: #727b84;
+    background-color: beige;
 }
 
 .nav-bar {
@@ -24,9 +27,10 @@ body {
 
                 & td {
                     word-wrap: break-word;
-                    width: 150px;
-                    height: 150px;
-                    padding: 0!important;
+                    width: 170px;
+                    height: 170px;
+                    padding: 0 !important;
+                    border-top: none;
                 }
             }
         }
@@ -41,11 +45,11 @@ body {
         padding: 10px;
         list-style-type: none;
 
-        img{
-          width: 50px;
-          height: 50px;
-          border-radius: 30px;
-          background: blue
+        img {
+            width: 40px;
+            height: 40px;
+            border-radius: 30px;
+            background: blue
         }
     }
 
@@ -125,12 +129,17 @@ body {
 
         .person-item {
             display: inline-block;
-            background: beige;
+            background: $nodeColor;
             width: 100%;
             height: 100%;
             padding: 10px;
             border-radius: 10px;
             position: relative;
+
+            .content {
+                font-size: 14px;
+                text-align: center;
+            }
 
             &.editable {
                 &:hover > .left-dot {
@@ -162,11 +171,11 @@ body {
                 }
             }
 
-            &.selected{
+            &.selected {
                 background: olive;
             }
 
-            &:not(.selected).ghost-over{
+            &:not(.selected).ghost-over {
                 background: skyblue;
             }
 
@@ -209,21 +218,21 @@ body {
             height: 1px;
             background: black;
 
-            &:hover{
+            &:hover {
                 height: 4px;
                 background: darkgoldenrod;
             }
 
-            &.hovered{
+            &.hovered {
                 height: 4px;
                 background: darkgoldenrod;
             }
 
-            &.centered{
+            &.centered {
                 margin-top: 50%;
             }
 
-            &.fill{
+            &.fill {
                 width: 100%;
             }
 
@@ -240,17 +249,17 @@ body {
             margin-left: 50%;
             margin-bottom: -8px;
 
-            &:hover{
+            &:hover {
                 width: 4px;
                 background: darkgoldenrod;
             }
 
-            &.hovered{
+            &.hovered {
                 width: 4px;
                 background: darkgoldenrod;
             }
 
-            &.fill{
+            &.fill {
                 height: 100%;
             }
         }
