@@ -13,6 +13,7 @@ use Controller\Admin\BaseAdminController;
 use Database\FamilyManager;
 use Model\FamilyMember;
 use Model\Response;
+use Utils\StatusCode;
 
 class MemberListController extends BaseAdminController {
     private $manager;
@@ -109,7 +110,7 @@ class MemberListController extends BaseAdminController {
         $member = $this->manager->getFamilyMemberDetails($id);
 
         if (is_null($member)) {
-            $response = new Response(400, "Member not found");
+            $response = new Response(StatusCode::NOT_FOUND, "Member not found");
             $this->sendJsonResponse($response);
             return;
         }
@@ -120,7 +121,7 @@ class MemberListController extends BaseAdminController {
     private function updateSelectedMember($id)
     {
         if (!isset($_POST["member"])) {
-            $response = new Response("Missing parameter member", 422);
+            $response = new Response("Missing parameter member", StatusCode::UNPROCESSED_ENTITY);
             $this->sendJsonResponse($response);
             return;
         }
@@ -131,9 +132,9 @@ class MemberListController extends BaseAdminController {
 
         $response = null;
         if ($isUpdated) {
-            $response = new Response("Member updated", 200);
+            $response = new Response("Member updated", StatusCode::OK);
         } else {
-            $response = new Response("No changes", 204);
+            $response = new Response("No changes", StatusCode::NO_CONTENT);
         }
 
         $this->sendJsonResponse($response);

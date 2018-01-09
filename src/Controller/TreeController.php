@@ -13,6 +13,7 @@ use Database\FamilyManager;
 use Model\FamilyMember;
 use Model\TreeMemberResponse;
 use Model\TreeResponse;
+use Utils\ResponseHeaders;
 
 class TreeController extends BaseController {
     const MODE_DEBUG = "debug";
@@ -54,7 +55,7 @@ class TreeController extends BaseController {
             $params = array("person" => $personData, "id" => $request["id"]);
             $response = array("position" => $position, "item" => $this->render("tree/tree_node.html.twig", $params));
 
-            header($this::HEADER_CONTENT_TYPE_JSON);
+            header(ResponseHeaders::CONTENT_TYPE_JSON);
             echo json_encode($response);
         } else {
             echo "";
@@ -66,7 +67,7 @@ class TreeController extends BaseController {
         $file = file_get_contents("./data/trees/tree.json");
         $jsonFile = json_decode($file, true);
 
-        header($this::HEADER_CONTENT_TYPE_JSON);
+        header(ResponseHeaders::CONTENT_TYPE_JSON);
         echo json_encode($jsonFile);
     }
 
@@ -83,7 +84,7 @@ class TreeController extends BaseController {
         $pairTemplate = $this->readNodeTemplate("tree_node_family.html");
 
         $response = new TreeResponse($result, $template, $pairTemplate);
-        header($this::HEADER_CONTENT_TYPE_JSON);
+        header(ResponseHeaders::CONTENT_TYPE_JSON);
         echo json_encode($response);
     }
 

@@ -12,6 +12,7 @@ use Controller\Admin\BaseAdminController;
 use Database\FamilyManager;
 use Model\FamilyMember;
 use Model\Response;
+use Utils\StatusCode;
 
 class NewMemberController extends BaseAdminController {
     private $manager;
@@ -59,7 +60,7 @@ class NewMemberController extends BaseAdminController {
     public function addMemberToDB()
     {
         if (!isset($_POST["member"]) || !isset($_SESSION["selectedFamily"])) {
-            $response = new Response("Missing required parameter", 422);
+            $response = new Response("Missing required parameter", StatusCode::UNPROCESSED_ENTITY);
             $this->sendJsonResponse($response);
             return;
         }
@@ -72,10 +73,10 @@ class NewMemberController extends BaseAdminController {
         $statusCode = null;
         if ($isSucceed) {
             $message = "New member inserted";
-            $statusCode = 200;
+            $statusCode = StatusCode::OK;
         } else {
             $message = "Adding new member failed";
-            $statusCode = 500;
+            $statusCode = StatusCode::INTERNAL_SERVER_ERROR;
         }
 
         $response = new Response($message, $statusCode);

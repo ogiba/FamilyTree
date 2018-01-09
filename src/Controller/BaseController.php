@@ -15,7 +15,6 @@ use Twig_SimpleFunction;
 
 abstract class BaseController
 {
-    const HEADER_CONTENT_TYPE_JSON = "Content-Type: application/json";
     /**
      * @param string|null $name
      * @param string|null $action

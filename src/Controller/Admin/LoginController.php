@@ -13,6 +13,7 @@ use Controller\BaseController;
 use Database\LoginManager;
 use Model\Response;
 use Utils\SerializeManager;
+use Utils\StatusCode;
 
 class LoginController extends BaseController
 {
@@ -40,7 +41,7 @@ class LoginController extends BaseController
     {
         $serializer = new SerializeManager();
         if (!isset($data["username"])) {
-            $response = new Response("Required username", 422);
+            $response = new Response("Required username", StatusCode::UNPROCESSED_ENTITY);
             $jsonResponse = $serializer->serializeJson($response);
             header("HTTP/1.1 422 Missed required parameter");
             echo $jsonResponse;
@@ -48,7 +49,7 @@ class LoginController extends BaseController
         }
 
         if (!isset($data["password"])) {
-            $response = new Response("Required password", 422);
+            $response = new Response("Required password", StatusCode::UNPROCESSED_ENTITY);
             $jsonResponse = $serializer->serializeJson($response);
             header("HTTP/1.1 422 Missed required parameter");
             echo $jsonResponse;
@@ -62,7 +63,7 @@ class LoginController extends BaseController
         $userLogged = $manager->loginUser($username, $pw);
 
         if (is_null($userLogged)) {
-            $response = new Response("Login user failed", 422);
+            $response = new Response("Login user failed", StatusCode::UNPROCESSED_ENTITY);
             $jsonResponse = $serializer->serializeJson($response);
             echo $jsonResponse;
             header("HTTP/1.1 401 Unauthorized");
@@ -92,7 +93,7 @@ class LoginController extends BaseController
         $isLoggedOut = $manager->logoutUser();
 
         if ($isLoggedOut) {
-            $response = new Response("User logged out", 200);
+            $response = new Response("User logged out", StatusCode::OK);
             header("HTTP/1.1 200 OK");
             header("Content-Type: application/json");
             echo $serializer->serializeJson($response);
