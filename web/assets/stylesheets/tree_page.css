@@ -30,8 +30,8 @@ body {
       box-shadow: 0 0 4px;
       width: 40px;
       height: 40px;
-      border-radius: 30px;
-      background: blue; }
+      border-radius: 10px;
+      background: white; }
   .tree-playground .family-manager {
     position: fixed;
     right: 0;
@@ -92,6 +92,7 @@ body {
       border-radius: 10px;
       position: relative; }
       .tree-playground .tree-container .person-item .content {
+        color: #423322;
         font-size: 14px;
         text-align: center; }
       .tree-playground .tree-container .person-item.editable:hover > .left-dot {
@@ -143,7 +144,8 @@ body {
     .tree-playground .tree-container .connection-type-horizontal {
       display: inline-block;
       width: 50%;
-      height: 2px;
+      height: 3px;
+      border-radius: 4px;
       background: #423322; }
       .tree-playground .tree-container .connection-type-horizontal:hover {
         height: 4px;
@@ -160,7 +162,8 @@ body {
         margin-bottom: 15px; }
     .tree-playground .tree-container .connection-type-vertical {
       display: inline-block;
-      width: 2px;
+      width: 3px;
+      border-radius: 10px;
       height: 55%;
       background: #423322;
       margin-left: 50%;
@@ -178,7 +181,8 @@ body {
 
 .modal .modal-dialog .modal-content {
   background-color: beige;
-  border: none;
+  border: 1px solid #423322;
+  box-shadow: 0 0 4px;
   transition: 0.5s all; }
   .modal .modal-dialog .modal-content .modal-header {
     color: whitesmoke;

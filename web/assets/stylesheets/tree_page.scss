@@ -1,6 +1,7 @@
 $primaryColor: #174732;
 $nodeColor: #D2F8BF;
-$connectionColor: #423322;
+$primaryDarkColor: #423322;
+$lineSize: 3px;
 
 header {
     height: auto;
@@ -27,9 +28,11 @@ body {
             & tr {
 
                 & td {
+                    $cellSize: 170px;
+
                     word-wrap: break-word;
-                    width: 170px;
-                    height: 170px;
+                    width: $cellSize;
+                    height: $cellSize;
                     padding: 0 !important;
                     border-top: none;
                 }
@@ -46,12 +49,14 @@ body {
         padding: 10px;
         list-style-type: none;
 
+        $imgSize: 40px;
+
         img {
             box-shadow: 0 0 4px;
-            width: 40px;
-            height: 40px;
-            border-radius: 30px;
-            background: blue
+            width: $imgSize;
+            height: $imgSize;
+            border-radius: 10px;
+            background: white;
         }
     }
 
@@ -140,6 +145,7 @@ body {
             position: relative;
 
             .content {
+                color: $primaryDarkColor;
                 font-size: 14px;
                 text-align: center;
             }
@@ -218,8 +224,9 @@ body {
         .connection-type-horizontal {
             display: inline-block;
             width: 50%;
-            height: 2px;
-            background: $connectionColor;
+            height: $lineSize;
+            border-radius: 4px;
+            background: $primaryDarkColor;
 
             &:hover {
                 height: 4px;
@@ -247,9 +254,10 @@ body {
 
         .connection-type-vertical {
             display: inline-block;
-            width: 2px;
+            width: $lineSize;
+            border-radius: 10px;
             height: 55%;
-            background: $connectionColor;
+            background: $primaryDarkColor;
             margin-left: 50%;
             line-height: 0;
             margin-bottom: -8px;
@@ -276,7 +284,8 @@ body {
     .modal-dialog {
         .modal-content {
             background-color: beige;
-            border: none;
+            border: 1px solid $primaryDarkColor;
+            box-shadow: 0 0 4px;
             transition: 0.5s all;
 
             .modal-header {
@@ -286,13 +295,13 @@ body {
                 }
 
                 color: whitesmoke;
-                background-color: $connectionColor;
+                background-color: $primaryDarkColor;
             }
 
             .modal-body {
                 .nav-pills {
                     .nav-link {
-                        color: $connectionColor;
+                        color: $primaryDarkColor;
                         transition: .5s all;
 
                         &:hover {
@@ -302,7 +311,7 @@ body {
                         }
 
                         &.active {
-                            color: $connectionColor;
+                            color: $primaryDarkColor;
                             background-color: #D2F8BF;
                         }
                     }
@@ -316,7 +325,7 @@ body {
                 right: 0;
                 bottom: 0;
                 top: 0;
-                background-color: $connectionColor;
+                background-color: $primaryDarkColor;
             }
         }
     }
