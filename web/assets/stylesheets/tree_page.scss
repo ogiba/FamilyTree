@@ -1,5 +1,6 @@
 $primaryColor: #174732;
 $nodeColor: #D2F8BF;
+$connectionColor: #423322;
 
 header {
     height: auto;
@@ -46,6 +47,7 @@ body {
         list-style-type: none;
 
         img {
+            box-shadow: 0 0 4px;
             width: 40px;
             height: 40px;
             border-radius: 30px;
@@ -130,6 +132,7 @@ body {
         .person-item {
             display: inline-block;
             background: $nodeColor;
+            box-shadow: 1px 1px 4px;
             width: 100%;
             height: 100%;
             padding: 10px;
@@ -215,8 +218,8 @@ body {
         .connection-type-horizontal {
             display: inline-block;
             width: 50%;
-            height: 1px;
-            background: black;
+            height: 2px;
+            background: $connectionColor;
 
             &:hover {
                 height: 4px;
@@ -229,7 +232,7 @@ body {
             }
 
             &.centered {
-                margin-top: 50%;
+                margin-top: 55%;
             }
 
             &.fill {
@@ -238,16 +241,19 @@ body {
 
             &.righted {
                 margin-left: 50%;
+                margin-bottom: 15px;
             }
         }
 
         .connection-type-vertical {
             display: inline-block;
-            width: 1px;
-            height: 50%;
-            background: black;
+            width: 2px;
+            height: 55%;
+            background: $connectionColor;
             margin-left: 50%;
+            line-height: 0;
             margin-bottom: -8px;
+            margin-top: -8px;
 
             &:hover {
                 width: 4px;
