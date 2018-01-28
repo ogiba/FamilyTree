@@ -272,6 +272,56 @@ body {
     }
 }
 
+.modal {
+    .modal-dialog {
+        .modal-content {
+            background-color: beige;
+            border: none;
+            transition: 0.5s all;
+
+            .modal-header {
+                h5 {
+                    text-align: center;
+                    width: 100%;
+                }
+
+                color: whitesmoke;
+                background-color: $connectionColor;
+            }
+
+            .modal-body {
+                .nav-pills {
+                    .nav-link {
+                        color: $connectionColor;
+                        transition: .5s all;
+
+                        &:hover {
+                            margin-left: 10px;
+                            opacity: 0.8;
+                            background-color: #D2F8BF;
+                        }
+
+                        &.active {
+                            color: $connectionColor;
+                            background-color: #D2F8BF;
+                        }
+                    }
+                }
+            }
+
+            .modal-progress {
+                transition: 0.5s all;
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                top: 0;
+                background-color: $connectionColor;
+            }
+        }
+    }
+}
+
 .fill {
     height: 100%;
 }
