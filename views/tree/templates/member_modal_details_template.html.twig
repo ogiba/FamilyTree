@@ -19,40 +19,53 @@
                 </div>
             </div>
         {% endif %}
-        <div class="row">
-            <div class="col-md-12">
-                <div>Partner</div>
-                {% if memberPartner is null %}
-                    {% set partner = selectedMember.partner %}
-                {% else %}
-                    {% set partner = memberPartner %}
-                {% endif %}
-                <div>{{ partner is null ? "None" : partner.firstName ~" "~ partner.lastName }}</div>
+        
+        {% if memberPartner is null %}
+            {% set partner = selectedMember.partner %}
+        {% else %}
+            {% set partner = memberPartner %}
+        {% endif %}
+        {% if partner is not null %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div>Partner</div>
+                    <div>{{ partner.firstName ~" "~ partner.lastName }}</div>
+                </div>
             </div>
+        {% endif %}
+        <div class="row">
+            {% set birthDate = selectedMember.birthDate %}
+            {% if birthDate is not null and birthDate is not empty %}
+                <div class="col-md-12">
+                    <div>Birth date</div>
+                    <div>{{ birthDate }}</div>
+                </div>
+            {% endif %}
+
+            {% set deathDate = selectedMember.deathDate %}
+            {% if deathDate is not null and deathDate is not empty %}
+                <div class="col-md-12">
+                    <div>Death date</div>
+                    <div>{{ deathDate }}</div>
+                </div>
+            {% endif %}
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <div>Birth date</div>
-                {% set birthDate = selectedMember.birthDate %}
-                <div>{{ birthDate is null or birthDate is empty ? "---" : birthDate }}</div>
-            </div>
-            <div class="col-md-12">
-                <div>Death date</div>
-                {% set deathDate = selectedMember.deathDate %}
-                <div>{{ deathDate is null or deatDate is empty ? "---" : deathDate }}</div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div>First parent</div>
-                {% set firstParent = selectedMember.firstParent %}
-                <div>{{ firstParent is null or firstParent is empty ? "---" : firstParent.firstName ~" "~ firstParent.lastName }}</div>
-            </div>
-            <div class="col-md-12">
-                <div>Second parent</div>
-                {% set secondParent = selectedMember.secondParent %}
-                <div>{{ secondParent is null or secondParent is empty ? "---" : secondParent.firstName ~" "~ secondParent.lastName }}</div>
-            </div>
+            {% set firstParent = selectedMember.firstParent %}
+            {% if firstParent is not null and firstParent is not empty %}
+                <div class="col-md-12">
+                    <div>First parent</div>
+                    <div>{{ firstParent.firstName ~" "~ firstParent.lastName }}</div>
+                </div>
+            {% endif %}
+
+            {% set secondParent = selectedMember.secondParent %}
+            {% if secondParent is not null and secondParent is not empty %}
+                <div class="col-md-12">
+                    <div>Second parent</div>
+                    <div>{{ secondParent.firstName ~" "~ secondParent.lastName }}</div>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
