@@ -5,13 +5,11 @@ $secondaryAccentColor: #F2F2E3;
 //$backgroundColor: #D0E88B;
 $backgroundColor: #D2F8BF;
 
-
-
 .nav-bar {
     display: block;
 }
 
-header{
+header {
     height: 100vh;
     .img {
         position: absolute;
@@ -31,7 +29,7 @@ header{
             right: 0;
             bottom: 50%;
             color: white;
-            background: rgba(0,0,0,.4);
+            background: rgba(0, 0, 0, .4);
             font-size: 6em;
             transition: 0.5s all;
             font-family: 'Dancing Script', cursive;
@@ -48,7 +46,7 @@ header{
                 line-height: 2em;
             }
 
-            @media screen and  (max-width: 370px){
+            @media screen and (max-width: 370px) {
                 font-size: 2em;
                 line-height: 4em;
             }
@@ -58,6 +56,7 @@ header{
 
 section {
     &.about {
+        color: #423322;
         margin: 0 auto;
         min-height: 100%;
         padding-top: 10%;
@@ -114,7 +113,7 @@ section {
     .index {
         margin: 0 auto;
         max-width: 60%;
-        min-height: 100vh;
+        min-height: 100%;
         padding-top: 10%;
 
         @media screen and (max-width: 767px) {
@@ -133,10 +132,9 @@ section {
 
             .post {
                 border: none;
-                color: black;
+                color: #423322;
                 background: $secondaryAccentColor;
                 margin-bottom: 20px;
-                border-color: $accentColor;
                 border-radius: 10px;
 
                 .content {
@@ -212,7 +210,19 @@ section {
     }
 
     &.posts {
+        min-height: 60vh;
         background: $secondaryAccentColor;
+
+        .transition {
+            background: $backgroundColor;
+
+            .triangle-bottomleft {
+                width: 100%;
+                height: 0;
+                border-bottom: 150px solid $secondaryAccentColor;
+                border-right: 100vh solid transparent;
+            }
+        }
         //box-shadow: inset 0 2px 5px 0 rgba(0, 0, 0, 0.5), inset 0 -2px 5px 0 rgba(0, 0, 0, 0.5);
         //border-top: 2px solid rgba(0, 0, 0, 0.5);
         //border-bottom: 2px solid rgba(0, 0, 0, 0.5);

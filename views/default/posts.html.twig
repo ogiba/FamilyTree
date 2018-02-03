@@ -1,28 +1,35 @@
 {% block posts %}
     <div class="posts" id="postsContainer">
-        {% for post in postsPage.posts %}
-            {% include 'default/post.html.twig' %}
-        {% endfor %}
-        {% if postsPage.numberOfPages > 1 %}
-        <div class="paging">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    {% if postsPage.currentPage > 1 %}
-                        <li class="page-item"><a class="page-link" onclick="selectPage({{ (postsPage.currentPage -1) - 1 }})">Previous</a></li>
-                    {% endif %}
-                    {% set pages = postsPage.numberOfPages %}
-                    {% for page in 1..pages %}
-                        <li class="page-item {% if postsPage.currentPage == page %} active {% endif %}"><a class="page-link"
-                                                 onclick="selectPage({{ page -1 }})">{{ page }}</a></li>
-                    {% endfor %}
-                    {% if postsPage.currentPage < postsPage.numberOfPages %}
-                        <li class="page-item"><a class="page-link"
-                                                 onclick="selectPage({{ (postsPage.currentPage -1) + 1 }})">Next</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </nav>
+        <div class="row">
+            {% for post in postsPage.posts %}
+                <div class="col-md-6">
+                    {% include 'default/post.html.twig' %}
+                </div>
+            {% endfor %}
         </div>
+        {% if postsPage.numberOfPages > 1 %}
+            <div class="paging">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        {% if postsPage.currentPage > 1 %}
+                            <li class="page-item"><a class="page-link"
+                                                     onclick="selectPage({{ (postsPage.currentPage -1) - 1 }})">Previous</a>
+                            </li>
+                        {% endif %}
+                        {% set pages = postsPage.numberOfPages %}
+                        {% for page in 1..pages %}
+                            <li class="page-item {% if postsPage.currentPage == page %} active {% endif %}"><a
+                                        class="page-link"
+                                        onclick="selectPage({{ page -1 }})">{{ page }}</a></li>
+                        {% endfor %}
+                        {% if postsPage.currentPage < postsPage.numberOfPages %}
+                            <li class="page-item"><a class="page-link"
+                                                     onclick="selectPage({{ (postsPage.currentPage -1) + 1 }})">Next</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
         {% endif %}
     </div>
 {% endblock %}

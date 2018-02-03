@@ -39,6 +39,7 @@ header {
           line-height: 4em; } }
 
 section.about {
+  color: #423322;
   margin: 0 auto;
   min-height: 100%;
   padding-top: 10%;
@@ -80,7 +81,7 @@ section.about {
 section .index {
   margin: 0 auto;
   max-width: 60%;
-  min-height: 100vh;
+  min-height: 100%;
   padding-top: 10%; }
   @media screen and (max-width: 767px) {
     section .index {
@@ -93,10 +94,9 @@ section .index {
     padding-bottom: 50px; }
     section .index .posts .post {
       border: none;
-      color: black;
+      color: #423322;
       background: #F2F2E3;
       margin-bottom: 20px;
-      border-color: #775B3D;
       border-radius: 10px; }
       section .index .posts .post .content {
         display: block;
@@ -139,7 +139,15 @@ section.intro {
   background: cadetblue; }
 
 section.posts {
+  min-height: 60vh;
   background: #F2F2E3; }
+  section.posts .transition {
+    background: #D2F8BF; }
+    section.posts .transition .triangle-bottomleft {
+      width: 100%;
+      height: 0;
+      border-bottom: 150px solid #F2F2E3;
+      border-right: 100vh solid transparent; }
 
 section.info {
   background: cornflowerblue; }
