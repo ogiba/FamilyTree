@@ -4,7 +4,8 @@ $secondaryColor: #1f1b10;
 $secondaryAccentColor: #F2F2E3;
 //$backgroundColor: #D0E88B;
 $backgroundColor: #D2F8BF;
-$asdasd: #D2F8BF;
+
+
 
 .nav-bar {
     display: block;
@@ -56,11 +57,12 @@ header{
 }
 
 section {
-    .index {
+    &.about {
         margin: 0 auto;
-        max-width: 60%;
-        min-height: 100vh;
+        min-height: 100%;
         padding-top: 10%;
+        background: $backgroundColor;
+        padding-bottom: 10%;
 
         @media screen and (max-width: 767px) {
             max-width: 100%;
@@ -69,14 +71,15 @@ section {
             padding-right: 10px;
         }
 
-
         .about-me {
+            margin: auto;
+            max-width: 60%;
             min-height: 50%;
             border-radius: 5px;
             padding: 5px;
 
             .title {
-                font-size: 18px;
+                font-size: 26px;
                 text-align: center;
             }
 
@@ -95,17 +98,30 @@ section {
                         background-color: lightgray;
                         height: 200px;
                         width: 200px;
-                        box-shadow: 0 1px 10px black;
                     }
                 }
             }
 
             .desc {
                 text-align: center;
-                margin: 10px;
+                margin: 20px 10px;
                 min-height: 30px;
                 font-size: 14px;
             }
+        }
+    }
+
+    .index {
+        margin: 0 auto;
+        max-width: 60%;
+        min-height: 100vh;
+        padding-top: 10%;
+
+        @media screen and (max-width: 767px) {
+            max-width: 100%;
+            width: 100%;
+            padding-left: 10px;
+            padding-right: 10px;
         }
 
         .posts {
@@ -116,16 +132,12 @@ section {
             //max-height: $max-container-size+$paging-size;
 
             .post {
+                border: none;
                 color: black;
                 background: $secondaryAccentColor;
-                //margin: 5px;
-                //border-radius: 6px;
-                //padding: 10px;
-                //min-height: 200px;
-                margin-bottom: 10px;
+                margin-bottom: 20px;
                 border-color: $accentColor;
-                border-radius: 30px;
-                box-shadow: 0px 1px 8px $accentColor;
+                border-radius: 10px;
 
                 .content {
                     $font-size: 14px;
@@ -161,8 +173,7 @@ section {
                         .btn {
                             &.btn-light {
                                 border-color: $accentColor;
-                                border-radius: 30px;
-                                box-shadow: 0 1px 2px $accentColor;
+                                border-radius: 10px;
 
                                 &:hover {
                                     color: white;
@@ -201,10 +212,10 @@ section {
     }
 
     &.posts {
-        background: $backgroundColor;
-        box-shadow: inset 0 2px 5px 0 rgba(0, 0, 0, 0.5), inset 0 -2px 5px 0 rgba(0, 0, 0, 0.5);
-        border-top: 2px solid rgba(0, 0, 0, 0.5);
-        border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+        background: $secondaryAccentColor;
+        //box-shadow: inset 0 2px 5px 0 rgba(0, 0, 0, 0.5), inset 0 -2px 5px 0 rgba(0, 0, 0, 0.5);
+        //border-top: 2px solid rgba(0, 0, 0, 0.5);
+        //border-bottom: 2px solid rgba(0, 0, 0, 0.5);
     }
 
     &.info {

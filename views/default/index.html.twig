@@ -10,13 +10,16 @@
 {% endblock %}
 
 {% block body %}
-    <section class="posts">
-        <div class="row index">
-            <aside class="col-md-4">
+    <section class="about">
+        <div class="row">
+            <div class="col-md-12">
                 <div class="about-me">
                     <div class="title">
                         {#{{ 'about.me'| trans }}#}
                         {{ aboutInfo.section }}
+                    </div>
+                    <div class="desc">
+                        {{ aboutInfo.content }}
                     </div>
                     {% if aboutInfo.image is not null %}
                         <div class="image">
@@ -24,12 +27,14 @@
                             </div>
                         </div>
                     {% endif %}
-                    <div class="desc">
-                        {{ aboutInfo.content }}
-                    </div>
                 </div>
-            </aside>
-            <div class="col-md-8">
+            </div>
+        </div>
+    </section>
+
+    <section class="posts">
+        <div class="row index">
+            <div class="col-md-12">
                 {% include 'default/posts.html.twig' %}
             </div>
         </div>
