@@ -44,7 +44,7 @@ section.about {
   min-height: 100%;
   padding-top: 10%;
   background: #D2F8BF;
-  padding-bottom: 10%; }
+  padding-bottom: 5%; }
   @media screen and (max-width: 767px) {
     section.about {
       max-width: 100%;
@@ -81,8 +81,7 @@ section.about {
 section .index {
   margin: 0 auto;
   max-width: 60%;
-  min-height: 100%;
-  padding-top: 10%; }
+  min-height: 100%; }
   @media screen and (max-width: 767px) {
     section .index {
       max-width: 100%;
@@ -142,12 +141,29 @@ section.posts {
   min-height: 60vh;
   background: #F2F2E3; }
   section.posts .transition {
+    margin-right: 0;
     background: #D2F8BF; }
     section.posts .transition .triangle-bottomleft {
       width: 100%;
       height: 0;
       border-bottom: 150px solid #F2F2E3;
       border-right: 100vh solid transparent; }
+    section.posts .transition .triangle {
+      position: relative;
+      height: 100px;
+      margin-right: -15px; }
+      section.posts .transition .triangle div {
+        background: #F2F2E3;
+        height: 200px;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        top: 0;
+        display: block;
+        -webkit-clip-path: polygon(0 50%, 100% 50%, 0 0);
+        transition: all 1s ease; }
 
 section.info {
   background: cornflowerblue; }
