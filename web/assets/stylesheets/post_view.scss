@@ -8,15 +8,62 @@ body {
     background: $backgroundColor;
 }
 
+//header {
+//    height: auto;
+//    background: none;
+//}
 header {
-    height: auto;
-    background: none;
+    position: relative;
+    height: 30vh;
+    .img {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background-color: #535a17;
+        background-repeat: no-repeat;
+        background-image: url(../images/background.JPG);
+
+        .app-title {
+            text-align: center;
+            top: 0;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            color: white;
+            background: rgba(0, 0, 0, .4);
+            font-size: 6em;
+            transition: 0.5s all;
+            font-family: 'Dancing Script', cursive;
+            box-shadow: 0px 1px 30px black;
+
+            &.attach-top {
+                position: fixed;
+                top: 0;
+                bottom: auto;
+            }
+
+            @media screen and (max-width: 767px) {
+                font-size: 4em;
+                line-height: 2em;
+            }
+
+            @media screen and (max-width: 370px) {
+                font-size: 2em;
+                line-height: 4em;
+            }
+        }
+    }
 }
 
-.nav-bar {
-    position: fixed;
-    top: 0;
-    bottom: auto;
+.nav-bar{
+    &.fixed {
+        position: fixed;
+        top: 0;
+        bottom: auto;
+    }
 }
 
 section {
