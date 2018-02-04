@@ -37,7 +37,6 @@ header {
             font-size: 6em;
             transition: 0.5s all;
             font-family: 'Dancing Script', cursive;
-            box-shadow: 0px 1px 30px black;
 
             &.attach-top {
                 position: fixed;
@@ -67,18 +66,17 @@ header {
 }
 
 section {
-    box-shadow: inset 0 2px 5px 0 rgba(0, 0, 0, 0.5), inset 0 -2px 5px 0 rgba(0, 0, 0, 0.5);
-    border-top: 2px solid rgba(0, 0, 0, 0.5);
-    border-bottom: 2px solid rgba(0, 0, 0, 0.5);
 
     &.post-view-page {
+        $cardRadius: 10px;
+
         .card {
-            border-radius: 2rem;
-            background: #F2F2E3;
+            border-radius: $cardRadius;
+            background: whitesmoke;
             margin-top: 15%;
             margin-bottom: 10%;
-            border-color: #775B3D;
-            box-shadow: 0 1px 8px #775B3D;
+            border: none;
+            box-shadow: none;
 
             @media screen and (max-width: 767px) {
                 margin-top: 30%;
@@ -86,7 +84,7 @@ section {
 
             .card-header {
                 &:first-child {
-                    border-radius: calc(2rem - 1px) calc(2rem - 1px) 0 0;
+                    border-radius: calc(#{$cardRadius} - 1px) calc(#{$cardRadius} - 1px) 0 0;
                 }
             }
 
@@ -99,7 +97,7 @@ section {
             .card-footer {
 
                 &:last-child {
-                    border-radius: 0 0 calc(2rem - 1px) calc(2rem - 1px);
+                    border-radius: 0 0 calc(#{$cardRadius} - 1px) calc(#{$cardRadius} - 1px);
                 }
 
                 .author {
