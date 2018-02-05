@@ -24,6 +24,7 @@ header {
         background-color: #535a17;
         background-repeat: no-repeat;
         background-image: url(../images/background.JPG);
+        box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5);
 
         .app-title {
             text-align: center;
@@ -66,49 +67,55 @@ header {
 }
 
 section {
-
-    .container {
-        min-height: 100vh;
-        background: whitesmoke;
-    }
-
     &.post-view-page {
-        $cardRadius: 10px;
 
-        .card {
-            border-radius: $cardRadius;
-            background: none;
-            margin-top: 15%;
-            margin-bottom: 10%;
-            border: none;
-            box-shadow: none;
+        .container {
+            min-height: 100vh;
+            background: whitesmoke;
 
-            @media screen and (max-width: 767px) {
-                margin-top: 30%;
-            }
+            .content {
+                margin: 2rem 0;
 
-            .card-header {
-                &:first-child {
-                    border-radius: calc(#{$cardRadius} - 1px) calc(#{$cardRadius} - 1px) 0 0;
-                }
-            }
-
-            .card-body {
-                .content {
-                    min-height: 50vh;
-                }
-            }
-
-            .card-footer {
-
-                &:last-child {
-                    border-radius: 0 0 calc(#{$cardRadius} - 1px) calc(#{$cardRadius} - 1px);
-                }
-
-                .author {
-                    text-align: right;
+                .timestamp-user {
+                    color: #6c757d;
                 }
             }
         }
+
+        //.card {
+        //    border-radius: $cardRadius;
+        //    background: none;
+        //    margin-top: 15%;
+        //    margin-bottom: 10%;
+        //    border: none;
+        //    box-shadow: none;
+        //
+        //    @media screen and (max-width: 767px) {
+        //        margin-top: 30%;
+        //    }
+        //
+        //    .card-header {
+        //        &:first-child {
+        //            border-radius: calc(#{$cardRadius} - 1px) calc(#{$cardRadius} - 1px) 0 0;
+        //        }
+        //    }
+        //
+        //    .card-body {
+        //        .content {
+        //            min-height: 50vh;
+        //        }
+        //    }
+        //
+        //    .card-footer {
+        //
+        //        &:last-child {
+        //            border-radius: 0 0 calc(#{$cardRadius} - 1px) calc(#{$cardRadius} - 1px);
+        //        }
+        //
+        //        .author {
+        //            text-align: right;
+        //        }
+        //    }
+        //}
     }
 }
