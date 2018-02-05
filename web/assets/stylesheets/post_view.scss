@@ -67,12 +67,17 @@ header {
 
 section {
 
+    .container {
+        min-height: 100vh;
+        background: whitesmoke;
+    }
+
     &.post-view-page {
         $cardRadius: 10px;
 
         .card {
             border-radius: $cardRadius;
-            background: whitesmoke;
+            background: none;
             margin-top: 15%;
             margin-bottom: 10%;
             border: none;

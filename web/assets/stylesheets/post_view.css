@@ -43,9 +43,13 @@ header {
   top: 0;
   bottom: auto; }
 
+section .container {
+  min-height: 100vh;
+  background: whitesmoke; }
+
 section.post-view-page .card {
   border-radius: 10px;
-  background: whitesmoke;
+  background: none;
   margin-top: 15%;
   margin-bottom: 10%;
   border: none;
