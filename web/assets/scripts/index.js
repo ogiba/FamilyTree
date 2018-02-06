@@ -18,12 +18,6 @@ function setupScrollListener() {
         } else {
             navBar.removeClass("attach-top");
         }
-
-        // if ( $(this).scrollTop() >= titleBarDistane ) {
-        //     titleBar.addClass('attach-top');
-        // } else {
-        //     titleBar.removeClass("attach-top");
-        // }
     });
 }
 

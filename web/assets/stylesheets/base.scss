@@ -9,12 +9,6 @@ body {
     margin: 0;
 }
 
-//header{
-//    height: 100vh;
-//    background-repeat: no-repeat;
-//    background-image: url(../images/background.JPG);
-//}
-
 section {
     min-height: 100vh;
 
@@ -48,7 +42,6 @@ section {
         .nav-btn {
             min-width: 50px;
             display: inline-block;
-            //line-height: 50px;
             padding: 20px 30px;
             vertical-align: middle;
             transition: 0.5s all;
@@ -56,8 +49,8 @@ section {
 
         .nav-btn:hover {
             cursor: pointer;
-            background: rgba(0,0,0,0.5);
-            border-radius: 30px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
         }
     }
 }
