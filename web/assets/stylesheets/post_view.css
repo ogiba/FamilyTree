@@ -22,10 +22,11 @@ header {
       right: 0;
       bottom: 0;
       color: white;
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.3);
       font-size: 6em;
       transition: 0.5s all;
-      font-family: 'Dancing Script', cursive; }
+      font-family: 'Tangerine', cursive;
+      text-shadow: 5px 1px 10px black; }
       header .img .app-title.attach-top {
         position: fixed;
         top: 0;
