@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ post.title }}
+    {{ post.title }} | {{ parent() }}
 {% endblock %}
 
 {% block stylesheets %}
