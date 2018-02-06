@@ -46,8 +46,11 @@ header {
 
 section.post-view-page .container {
   min-height: 100vh;
-  background: whitesmoke; }
+  background: #F2F2E3; }
   section.post-view-page .container .content {
     margin: 2rem 0; }
     section.post-view-page .container .content .timestamp-user {
       color: #6c757d; }
+    section.post-view-page .container .content p:not(:first-child):not(.timestamp-user) {
+      margin: 20px;
+      font-size: 15px; }

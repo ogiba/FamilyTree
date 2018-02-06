@@ -1,7 +1,7 @@
 $primaryColor: #174732;
-$accentColor: #EBC0FF;
+$accentColor: #775B3D;
 $secondaryColor: #1f1b10;
-$secondaryAccentColor: #9C7BCC;
+$secondaryAccentColor: #F2F2E3;
 $backgroundColor: #D2F8BF;
 
 body {
@@ -71,13 +71,20 @@ section {
 
         .container {
             min-height: 100vh;
-            background: whitesmoke;
+            background: $secondaryAccentColor;
 
             .content {
                 margin: 2rem 0;
 
                 .timestamp-user {
                     color: #6c757d;
+                }
+
+                p{
+                    &:not(:first-child):not(.timestamp-user) {
+                        margin: 20px;
+                        font-size: 15px;
+                    }
                 }
             }
         }
