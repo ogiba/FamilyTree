@@ -137,6 +137,13 @@ section {
                 margin-bottom: 20px;
                 border-radius: 10px;
 
+                .date {
+                    color: rgba(0, 0, 0, 0.6) !important;
+                    vertical-align: middle;
+                    font-size: 14px;
+                    margin-bottom: 0.5rem;
+                }
+
                 .content {
                     $font-size: 14px;
                     $line-height: 1.4;
@@ -157,12 +164,6 @@ section {
 
                 .footer {
                     margin-top: 10px;
-
-                    .date {
-                        //color: #868e96!important;
-                        color: rgba(0, 0, 0, 0.6) !important;
-                        vertical-align: middle;
-                    }
 
                     .actions {
                         vertical-align: middle;

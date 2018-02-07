@@ -4,13 +4,13 @@
             <h4 class="card-title">
                 {{ post.title }}
             </h4>
+            <p class="date">{{ post.dateTime }}</p>
             <p class="card-text content">
                 {{ post.content }}
             </p>
             <div class="footer">
                 <div class="row">
-                    <div class="col-md-6 date">
-                        {{ post.dateTime }}
+                    <div class="col-md-6">
                     </div>
                     <div class="col-md-6 actions">
                         <a href="/post?id={{ post.id }}" class="btn btn-light">{{ trans("view-post") }}</a>
