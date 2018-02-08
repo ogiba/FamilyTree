@@ -35,7 +35,7 @@ section {
         bottom: auto;
     }
 
-    .container{
+    .container {
         position: relative;
         transition: 0.5s all;
 
@@ -49,9 +49,24 @@ section {
 
         .nav-btn:hover {
             cursor: pointer;
-            background: rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.2);
             border-radius: 10px;
         }
+    }
+}
+
+.customized-nav {
+    background-color: $secondaryColor;
+    color: whitesmoke;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    &.fixed-top {
+        position: fixed;
+        top: 0;
+        bottom: auto;
     }
 }
 
@@ -78,7 +93,7 @@ footer {
 }
 
 // Setting
-$LOADER_S_Tail:   5deg;  // less than (360deg - $LOADER_S_Body) / 2
+$LOADER_S_Tail: 5deg; // less than (360deg - $LOADER_S_Body) / 2
 $LOADER_S_Body: 270deg;
 $LOADER_SPEED: 1333ms;
 $LOADER_TIMEING_FUNCTION: cubic-bezier(0.4, 0.0, 0.2, 1);
@@ -96,93 +111,146 @@ $LOADER_CIRCLE_ROTATE_SPEED: 360deg / ($LOADER_FOOT + $LOADER_S_AIR) * $LOADER_S
 
 // Loader Stroke Rotate Step
 @function GCD($a, $b) {
-    @if $b == 0 { @return $a; }
-    @else { @return GCD($b, $a % $b); }
+    @if $b == 0 {
+        @return $a;
+    } @else {
+        @return GCD($b, $a % $b);
+    }
 }
+
 @function LCM($a, $b) {
     @return $a * $b / GCD($a, $b);
 }
+
 $LOADER_STROKE_ROTATE_STEP: LCM(360, $LOADER_S_Body / 1deg) / ($LOADER_S_Body / 1deg);
 
 // Keyframes
 @keyframes L_circle_rotate {
-    0%   { transform: rotate(  0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
+
 @keyframes L_stroke_rotate {
-    0%   { transform: rotate(0deg); }
-    100% { transform: rotate($LOADER_S_Body * $LOADER_STROKE_ROTATE_STEP); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate($LOADER_S_Body * $LOADER_STROKE_ROTATE_STEP);
+    }
 }
+
 @keyframes L_stroke_fix {
-    0%   { transform: rotate(0deg); }
-    50%  { transform: rotate($LOADER_S_Body / 2); }
-    100% { transform: rotate($LOADER_S_Body); }
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate($LOADER_S_Body / 2);
+    }
+    100% {
+        transform: rotate($LOADER_S_Body);
+    }
 }
+
 @keyframes L_stroke_left_grow {
-    0%   { transform: rotate(0deg - $LOADER_S_S / 2); }
-    50%  { transform: rotate(0deg - $LOADER_S_L / 2); }
-    100% { transform: rotate(0deg - $LOADER_S_S / 2); }
+    0% {
+        transform: rotate(0deg - $LOADER_S_S / 2);
+    }
+    50% {
+        transform: rotate(0deg - $LOADER_S_L / 2);
+    }
+    100% {
+        transform: rotate(0deg - $LOADER_S_S / 2);
+    }
 }
+
 @keyframes L_stroke_right_grow {
-    0%   { transform: rotate($LOADER_S_S / 2); }
-    50%  { transform: rotate($LOADER_S_L / 2); }
-    100% { transform: rotate($LOADER_S_S / 2); }
+    0% {
+        transform: rotate($LOADER_S_S / 2);
+    }
+    50% {
+        transform: rotate($LOADER_S_L / 2);
+    }
+    100% {
+        transform: rotate($LOADER_S_S / 2);
+    }
 }
 
 // Animation Function
-@function L_circle_rotate_F($speed){
+@function L_circle_rotate_F($speed) {
     @return (
-        /* animation-name:            */ L_circle_rotate
-                /* animation-duration:        */ $speed
-                /* animation-timing-function: */ linear
-                /* animation-iteration-count: */ infinite
-                /* animation-fill-mode:       */ both
+        /* animation-name:            */
+            L_circle_rotate /* animation-duration:        */
+            $speed /* animation-timing-function: */
+            linear /* animation-iteration-count: */
+            infinite /* animation-fill-mode:       */
+            both
     );
 }
-@function L_stroke_rotate_F(){
+
+@function L_stroke_rotate_F() {
     @return (
-        /* animation-name:            */ L_stroke_rotate
-                /* animation-duration:        */ $LOADER_SPEED * $LOADER_STROKE_ROTATE_STEP
-                /* animation-timing-function: */ steps($LOADER_STROKE_ROTATE_STEP)
-                /* animation-iteration-count: */ infinite
-                /* animation-fill-mode:       */ both
+        /* animation-name:            */
+            L_stroke_rotate /* animation-duration:        */
+            $LOADER_SPEED * $LOADER_STROKE_ROTATE_STEP /* animation-timing-function: */
+            steps($LOADER_STROKE_ROTATE_STEP) /* animation-iteration-count: */
+            infinite /* animation-fill-mode:       */
+            both
     );
 }
-@function L_stroke_fix_F(){
+
+@function L_stroke_fix_F() {
     @return (
-        /* animation-name:            */ L_stroke_fix
-                /* animation-duration:        */ $LOADER_SPEED
-                /* animation-timing-function: */ $LOADER_TIMEING_FUNCTION
-                /* animation-iteration-count: */ infinite
-                /* animation-fill-mode:       */ both
+        /* animation-name:            */
+            L_stroke_fix /* animation-duration:        */
+            $LOADER_SPEED /* animation-timing-function: */
+            $LOADER_TIMEING_FUNCTION /* animation-iteration-count: */
+            infinite /* animation-fill-mode:       */
+            both
     );
 }
-@function L_stroke_side_grow_F($side){
+
+@function L_stroke_side_grow_F($side) {
     @return (
-        /* animation-name:            */ L_stroke_#{$side}_grow
-                /* animation-duration:        */ $LOADER_SPEED
-                /* animation-timing-function: */ $LOADER_TIMEING_FUNCTION
-                /* animation-iteration-count: */ infinite
-                /* animation-fill-mode:       */ both
+        /* animation-name:            */
+            L_stroke_#{$side}_grow /* animation-duration:        */
+            $LOADER_SPEED /* animation-timing-function: */
+            $LOADER_TIMEING_FUNCTION /* animation-iteration-count: */
+            infinite /* animation-fill-mode:       */
+            both
     );
 }
 
 // Style Extend
 @function other_side($side) {
-    @if $side == right    { @return left; }
-    @elseif $side == left { @return right; }
+    @if $side == right {
+        @return left;
+    } @else if $side == left {
+        @return right;
+    }
 }
-%before { content: ""; display: block; }
+
+%before {
+    content: "";
+    display: block;
+}
+
 %loader_size {
-    width: $LOADER_SIZE; height: $LOADER_SIZE;
+    width: $LOADER_SIZE;
+    height: $LOADER_SIZE;
     box-sizing: border-box;
     border-radius: 50%;
 }
+
 %loader_stroke {
     border-style: solid;
     border-width: $LOADER_STROKE_WIDTH;
     border-color: currentColor;
 }
+
 %loader_stroke_clip {
     &_right {
         position: absolute;
@@ -208,20 +276,27 @@ $LOADER_STROKE_ROTATE_STEP: LCM(360, $LOADER_S_Body / 1deg) / ($LOADER_S_Body / 
             @for $i from 1 through $stroke_color_step {
                 $begin: $step_long * ($i - 1);
                 $end: $begin + $step_long * (3 / 5);
-                #{$begin}, #{$end} { border-color: nth($colors_list, $i); }
+                #{$begin}, #{$end} {
+                    border-color: nth($colors_list, $i);
+                }
             }
-            100% { border-color: nth($colors_list, 1);}
+            100% {
+                border-color: nth($colors_list, 1);
+            }
         }
     }
 }
+
 @mixin loader_stroke_colors_animation($animation_list, $keyframes_name, $colors_list) {
     $stroke_color_step: length($colors_list);
     $colors_animation: (
-        /* animation-name:            */ #{$keyframes_name}
-                /* animation-duration:        */ $LOADER_SPEED * $stroke_color_step
-                /* animation-timing-function: */ linear
-                /* animation-iteration-count: */ infinite
-                /* animation-fill-mode:       */ both
+        /* animation-name:            */
+            #{$keyframes_name}
+                /* animation-duration:        */
+            $LOADER_SPEED * $stroke_color_step /* animation-timing-function: */
+            linear /* animation-iteration-count: */
+            infinite /* animation-fill-mode:       */
+            both
     );
     $animation_list: append($animation_list, $colors_animation);
     animation: $animation_list;
@@ -233,7 +308,9 @@ $LOADER_STROKE_ROTATE_STEP: LCM(360, $LOADER_S_Body / 1deg) / ($LOADER_S_Body / 
     animation: L_circle_rotate_F($LOADER_CIRCLE_ROTATE_SPEED);
 
     .#{$stroke_name}::before,
-    .#{$stroke_name}-right, .#{$stroke_name}-left { animation: L_stroke_fix_F(); }
+    .#{$stroke_name}-right, .#{$stroke_name}-left {
+        animation: L_stroke_fix_F();
+    }
 
     .#{$stroke_name} {
         @extend %loader_size;
@@ -264,7 +341,9 @@ $LOADER_STROKE_ROTATE_STEP: LCM(360, $LOADER_S_Body / 1deg) / ($LOADER_S_Body / 
 @mixin loader_stroke_width($stroke_name, $class_name, $width) {
     &.#{$class_name} {
         .#{$stroke_name}::before,
-        .#{$stroke_name}-right::before, .#{$stroke_name}-left::before { border-width: $width; }
+        .#{$stroke_name}-right::before, .#{$stroke_name}-left::before {
+            border-width: $width;
+        }
     }
 }
 
@@ -289,7 +368,9 @@ $LOADER_STROKE_ROTATE_STEP: LCM(360, $LOADER_S_Body / 1deg) / ($LOADER_S_Body / 
 @mixin loader_stroke_rotate_step($class_name, $step) {
     $foot: 360deg * $step;
     $speed: 360deg / ($foot + $LOADER_S_AIR) * $LOADER_SPEED;
-    &.#{$class_name} { animation: L_circle_rotate_F($speed); }
+    &.#{$class_name} {
+        animation: L_circle_rotate_F($speed);
+    }
 }
 
 //--------------------------------------------------

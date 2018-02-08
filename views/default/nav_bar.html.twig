@@ -1,10 +1,37 @@
 {%  block navbar %}
-    <div id="nav-bar" class="nav-bar">
-        <div class="container">
-            {% block nav_items %}
-                <div class="nav-btn" onclick='navigateToScene("/")'>{{ trans("home-page") }}</div>
-                <div class="nav-btn" onclick='navigateToScene("/tree")'>{{ trans("tree-page") }}</div>
-            {% endblock %}
+    {#<div id="nav-bar" class="nav-bar">#}
+        {#<div class="container">#}
+            {#{% block nav_items %}#}
+                {#<div class="nav-btn" onclick='navigateToScene("/")'>{{ trans("home-page") }}</div>#}
+                {#<div class="nav-btn" onclick='navigateToScene("/tree")'>{{ trans("tree-page") }}</div>#}
+            {#{% endblock %}#}
+        {#</div>#}
+    {#</div>#}
+    <nav id="nav-bar" class="navbar navbar-expand-lg navbar-dark customized-nav">
+        <a class="navbar-brand" href="/">{{ trans("app-name") }}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                {% block nav_items %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">{{ trans("home-page") }}<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/tree">{{ trans("tree-page") }}</a>
+                    </li>
+                    {#<div class="nav-btn" onclick='navigateToScene("/")'>{{ trans("home-page") }}</div>#}
+                    {#<div class="nav-btn" onclick='navigateToScene("/tree")'>{{ trans("tree-page") }}</div>#}
+                {% endblock %}
+                {#<li class="nav-item active">#}
+                    {#<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>#}
+                {#</li>#}
+                {#<li class="nav-item">#}
+                    {#<a class="nav-link" href="#">Link</a>#}
+                {#</li>#}
+            </ul>
         </div>
-    </div>
+    </nav>
 {% endblock %}

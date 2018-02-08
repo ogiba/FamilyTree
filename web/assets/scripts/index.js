@@ -7,16 +7,16 @@ window.addEventListener("DOMContentLoaded", function () {
 });
 
 function setupScrollListener() {
-    var navBar =  $('.nav-bar');
+    var navBar =  $('#nav-bar');
     var titleBar = $('.app-title');
     var distance = navBar.offset().top;
     var titleBarDistane = titleBar.offset().top;
 
     $(window).scroll(function() {
         if ( $(this).scrollTop() >= distance ) {
-            navBar.addClass('attach-top');
+            navBar.addClass("fixed-top");
         } else {
-            navBar.removeClass("attach-top");
+            navBar.removeClass("fixed-top");
         }
     });
 }
