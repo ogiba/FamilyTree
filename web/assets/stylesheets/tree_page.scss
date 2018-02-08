@@ -22,7 +22,11 @@ body {
     position: fixed;
     top: 0;
     bottom: auto;
-    z-index: 1060;
+    z-index: 100;
+
+    .navbar-brand {
+        opacity: 1;
+    }
 }
 
 .tree-playground {

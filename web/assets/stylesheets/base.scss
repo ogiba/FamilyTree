@@ -62,11 +62,20 @@ section {
     bottom: 0;
     left: 0;
     right: 0;
+    transition: 0.5s all;
 
     &.fixed-top {
         position: fixed;
         top: 0;
         bottom: auto;
+
+        .navbar-brand {
+            opacity: 1;
+        }
+    }
+
+    .navbar-brand {
+        opacity: 0;
     }
 }
 

@@ -14,7 +14,9 @@ body {
   position: fixed;
   top: 0;
   bottom: auto;
-  z-index: 1060; }
+  z-index: 100; }
+  .customized-nav .navbar-brand {
+    opacity: 1; }
 
 .tree-playground {
   height: 100vh; }

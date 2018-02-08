@@ -41,11 +41,16 @@ section {
   position: absolute;
   bottom: 0;
   left: 0;
-  right: 0; }
+  right: 0;
+  transition: 0.5s all; }
   .customized-nav.fixed-top {
     position: fixed;
     top: 0;
     bottom: auto; }
+    .customized-nav.fixed-top .navbar-brand {
+      opacity: 1; }
+  .customized-nav .navbar-brand {
+    opacity: 0; }
 
 footer {
   background-color: #423322;
