@@ -18,6 +18,13 @@ body {
     bottom: auto;
 }
 
+.customized-nav {
+    position: fixed;
+    top: 0;
+    bottom: auto;
+    z-index: 1060;
+}
+
 .tree-playground {
     height: 100vh;
 
