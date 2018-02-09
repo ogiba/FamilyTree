@@ -75,11 +75,14 @@ section {
     }
 
     .navbar-brand {
+        transition: 0.5s all;
         opacity: 0;
     }
 }
 
 footer {
+    color: white;
+    position: relative;
     background-color: $secondaryColor;
     height: 200px;
 
@@ -89,6 +92,36 @@ footer {
         border-bottom: 300px solid $secondaryColor;
         border-left: 100vw solid transparent;
     }
+
+    $firstChildHeight: 90%;
+
+    & > div:first-of-type {
+        max-width: 70vw;
+        margin: 20px auto 0 auto;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        height: $firstChildHeight;
+
+        a {
+            padding: 1rem;
+            color: whitesmoke;
+        }
+    }
+
+    & > div:last-of-type {
+        text-align: center;
+        vertical-align: bottom;
+        font-size: 12px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100% - $firstChildHeight;
+    }
+
 }
 
 .col-2 {

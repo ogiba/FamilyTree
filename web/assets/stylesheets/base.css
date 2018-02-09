@@ -50,9 +50,12 @@ section {
     .customized-nav.fixed-top .navbar-brand {
       opacity: 1; }
   .customized-nav .navbar-brand {
+    transition: 0.5s all;
     opacity: 0; }
 
 footer {
+  color: white;
+  position: relative;
   background-color: #423322;
   height: 200px; }
   footer .triangle-bottomright {
@@ -60,6 +63,27 @@ footer {
     height: 0;
     border-bottom: 300px solid #423322;
     border-left: 100vw solid transparent; }
+  footer > div:first-of-type {
+    max-width: 70vw;
+    margin: 20px auto 0 auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    height: 90%; }
+    footer > div:first-of-type a {
+      padding: 1rem;
+      color: whitesmoke; }
+  footer > div:last-of-type {
+    text-align: center;
+    vertical-align: bottom;
+    font-size: 12px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 10%; }
 
 .col-2 {
   display: inline-block;
