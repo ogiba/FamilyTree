@@ -13,8 +13,65 @@ header {
     background: none;
 }
 
-.post-page  {
+.trees-page {
+    h3:first-of-type {
+        margin-top: 5%;
+        text-align: center;
+    }
 
+    & .container {
+        transition: .5s all;
+
+        @media screen and (min-width: 1200px) {
+            max-width: 95%;
+        }
+
+        .card {
+            margin-top: 5%;
+            margin-bottom: 5%;
+
+            .date {
+                text-align: right;
+                margin-right: 10px;
+                font-size: 16px;
+            }
+
+            .actions {
+                padding: 5px;
+                text-align: right;
+                display: inline-block;
+                background-color: rgba(0, 0, 0, .03);
+            }
+
+            .card-body {
+                input {
+                    border: none;
+                    width: 100%;
+
+                    &:focus {
+                        outline-color: rgba(0, 0, 0, 0.1);
+                    }
+                }
+
+                .dropzone {
+                    border: none;
+                }
+            }
+            .description {
+                min-height: 400px;
+
+                textarea {
+                    width: 100%;
+                    border: none;
+
+                    &:focus {
+                        border: none;
+                        outline-color: rgba(0, 0, 0, 0.1);
+                    }
+                }
+            }
+        }
+    }
 }
 
 .nav-bar {
@@ -24,6 +81,15 @@ header {
 }
 
 #membersContainer {
+    height: 100%;
+    min-height: 400px;
+    overflow: auto;
+    max-height: 500px;
+
+    @media screen and (min-width: 767px) {
+        border-right: 1px dashed rgba(0, 0, 0, 0.2);
+    }
+
     ul {
         padding-left: 1rem;
         li {
@@ -37,6 +103,37 @@ header {
                     background-color: rgba(0, 0, 0, .5);
                 }
             }
+        }
+    }
+}
+
+#rightContainer {
+    input {
+        border: 1px solid rgba(0,0,0,.5);
+        border-radius: 4px;
+        padding: 0 5px;
+    }
+
+    select {
+        width: 100%;
+    }
+
+    .description-container {
+        width: 100%;
+
+        textarea {
+            min-height: 50px;
+            width: 100%;
+        }
+    }
+
+    .bottom-actions {
+        div:first-of-type {
+            text-align: left;
+        }
+
+        div:last-of-type {
+            text-align: right;
         }
     }
 }

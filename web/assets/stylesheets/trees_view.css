@@ -5,18 +5,83 @@ header {
   height: auto;
   background: none; }
 
+.trees-page h3:first-of-type {
+  margin-top: 5%;
+  text-align: center; }
+
+.trees-page .container {
+  transition: .5s all; }
+  @media screen and (min-width: 1200px) {
+    .trees-page .container {
+      max-width: 95%; } }
+  .trees-page .container .card {
+    margin-top: 5%;
+    margin-bottom: 5%; }
+    .trees-page .container .card .date {
+      text-align: right;
+      margin-right: 10px;
+      font-size: 16px; }
+    .trees-page .container .card .actions {
+      padding: 5px;
+      text-align: right;
+      display: inline-block;
+      background-color: rgba(0, 0, 0, 0.03); }
+    .trees-page .container .card .card-body input {
+      border: none;
+      width: 100%; }
+      .trees-page .container .card .card-body input:focus {
+        outline-color: rgba(0, 0, 0, 0.1); }
+    .trees-page .container .card .card-body .dropzone {
+      border: none; }
+    .trees-page .container .card .description {
+      min-height: 400px; }
+      .trees-page .container .card .description textarea {
+        width: 100%;
+        border: none; }
+        .trees-page .container .card .description textarea:focus {
+          border: none;
+          outline-color: rgba(0, 0, 0, 0.1); }
+
 .nav-bar {
   position: relative;
   top: 0;
   bottom: auto; }
 
-#membersContainer ul {
-  padding-left: 1rem; }
-  #membersContainer ul li {
-    cursor: pointer; }
-    #membersContainer ul li span {
-      transition: .3s all; }
-      #membersContainer ul li span:hover {
-        padding: 5px;
-        border-radius: .5rem;
-        background-color: rgba(0, 0, 0, 0.5); }
+#membersContainer {
+  height: 100%;
+  min-height: 400px;
+  overflow: auto;
+  max-height: 500px; }
+  @media screen and (min-width: 767px) {
+    #membersContainer {
+      border-right: 1px dashed rgba(0, 0, 0, 0.2); } }
+  #membersContainer ul {
+    padding-left: 1rem; }
+    #membersContainer ul li {
+      cursor: pointer; }
+      #membersContainer ul li span {
+        transition: .3s all; }
+        #membersContainer ul li span:hover {
+          padding: 5px;
+          border-radius: .5rem;
+          background-color: rgba(0, 0, 0, 0.5); }
+
+#rightContainer input {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  padding: 0 5px; }
+
+#rightContainer select {
+  width: 100%; }
+
+#rightContainer .description-container {
+  width: 100%; }
+  #rightContainer .description-container textarea {
+    min-height: 50px;
+    width: 100%; }
+
+#rightContainer .bottom-actions div:first-of-type {
+  text-align: left; }
+
+#rightContainer .bottom-actions div:last-of-type {
+  text-align: right; }
