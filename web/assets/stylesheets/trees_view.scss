@@ -13,8 +13,30 @@ header {
     background: none;
 }
 
+.post-page  {
+
+}
+
 .nav-bar {
     position: relative;
     top: 0;
     bottom: auto;
+}
+
+#membersContainer {
+    ul {
+        padding-left: 1rem;
+        li {
+            cursor: pointer;
+
+            span {
+                transition: .3s all;
+                &:hover {
+                    padding: 5px;
+                    border-radius: .5rem;
+                    background-color: rgba(0, 0, 0, .5);
+                }
+            }
+        }
+    }
 }

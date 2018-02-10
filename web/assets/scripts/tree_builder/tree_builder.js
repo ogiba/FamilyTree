@@ -35,7 +35,7 @@ function recursiveMemberElements(members) {
     }
 
     var li = $("<li>", {
-        html: members.firstName + " " + members.lastName,
+        html: "<span>" + members.firstName + " " + members.lastName + "</span>",
         click: (function (item) {
             return function (event) {
                 event.stopPropagation();

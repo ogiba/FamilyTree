@@ -9,3 +9,14 @@ header {
   position: relative;
   top: 0;
   bottom: auto; }
+
+#membersContainer ul {
+  padding-left: 1rem; }
+  #membersContainer ul li {
+    cursor: pointer; }
+    #membersContainer ul li span {
+      transition: .3s all; }
+      #membersContainer ul li span:hover {
+        padding: 5px;
+        border-radius: .5rem;
+        background-color: rgba(0, 0, 0, 0.5); }
