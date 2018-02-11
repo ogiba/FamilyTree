@@ -25,11 +25,22 @@
   "admin-post-image-drop": "Drop files here to upload",
   "admin-post-title-info": "Insert title here",
   "admin-post-content-info": "Inser content here",
+  "admin-new-member-title": "Adding new member",
   "edit": "Edit",
   "save": "Save",
   "cancel": "Cancel",
   "sections-name": "Section name",
   "section-title": "Title",
   "section-content": "Content",
-  "sections-images": "Images"
+  "sections-images": "Images",
+  "user-first-name": "First Name",
+  "user-last-name": "Last Name",
+  "user-maiden-name": "Maiden Name",
+  "user-first-parent": "First parent",
+  "user-second-parent": "Second parent",
+  "user-birth-date": "Birth date",
+  "user-death-date": "Death date",
+  "user-partner" : "Partner",
+  "user-images": "Images",
+  "user-desc": "Optional information"
 }

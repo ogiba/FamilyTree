@@ -28,7 +28,7 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-12">
-                                    Adding new member
+                                    {{ trans("admin-new-member-title") }}
                                 </div>
                             </div>
                         </div>
@@ -39,23 +39,23 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div>First Name</div>
+                                    <div>{{ trans("user-first-name") }}</div>
                                     <input id="firstName" title="First Name" type="text">
                                 </div>
                                 <div class="col-md-6">
-                                    <div>Last Name</div>
+                                    <div>{{ trans("user-last-name") }}</div>
                                     <input id="lastName" title="Last Name" type="text">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div>Maiden Name</div>
+                                    <div>{{ trans("user-maiden-name") }}</div>
                                     <input id="maidenName" title="Maiden Name" type="text">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div>First parent</div>
+                                    <div>{{ trans("user-first-parent") }}</div>
                                     <select id="firstParent" title="First parent">
                                         <option selected></option>
                                         {% for familyMember in familyMembers %}
@@ -64,7 +64,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <div>Second parent</div>
+                                    <div>{{ trans("user-second-parent") }}</div>
                                     <select id="secondParent" title="Second parent">
                                         <option selected></option>
                                         {% for familyMember in familyMembers %}
@@ -75,17 +75,17 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div>Birth Date</div>
+                                    <div>{{ trans("user-birth-date") }}</div>
                                     <input id="birthDate" title="Birth Date" type="date">
                                 </div>
                                 <div class="col-md-6">
-                                    <div>Death Date</div>
+                                    <div>{{ trans("user-death-date") }}</div>
                                     <input id="deathDate" title="Death Date" type="date">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div>Partner</div>
+                                    <div>{{ trans("user-partner") }}</div>
                                     <select id="partner" title="Partner">
                                         <option selected></option>
                                         {% for familyMember in familyMembers %}
@@ -94,14 +94,14 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <div>Image</div>
+                                    <div>{{ trans("user-images") }}</div>
                                     <form action="/admin/tree_builder/new_member/upload" class="dropzone"></form>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div>
-                                        Description
+                                        {{ trans("user-desc") }}
                                     </div>
                                     <div>
                                         <textarea id="descriptionArea" title="Description"></textarea>
@@ -112,8 +112,8 @@
                         <div class="card-footer">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="btn btn-warning" onclick="window.history.back()">Cancel</div>
-                                    <div class="btn btn-success" onclick="saveMember()">Save</div>
+                                    <div class="btn btn-warning" onclick="window.history.back()">{{ trans("cancel") }}</div>
+                                    <div class="btn btn-success" onclick="saveMember()">{{ trans("save") }}</div>
                                 </div>
                             </div>
                         </div>

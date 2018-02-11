@@ -25,11 +25,22 @@
   "admin-post-image-drop": "Upuść pliki tutaj by dodać je do postu",
   "admin-post-title-info": "Wpisz tytuł postu",
   "admin-post-content-info": "Wpisz zawartość postu",
+  "admin-new-member-title": "Dodawanie nowego członka rodziny",
   "edit": "Edytuj",
   "save": "Zapisz",
   "cancel": "Anuluj",
   "sections-name": "Nazwa sekcji",
   "section-title": "Tytuł",
   "section-content": "Zawartość",
-  "sections-images": "Obrazki"
+  "sections-images": "Obrazki",
+  "user-first-name": "Imię",
+  "user-last-name": "Nazwisko",
+  "user-maiden-name": "Nazwisko panieńskie",
+  "user-first-parent": "Pierwszy rodzic",
+  "user-second-parent": "Drugi rodzic",
+  "user-birth-date": "Data urodzenia",
+  "user-death-date": "Data śmierci",
+  "user-partner" : "Partner",
+  "user-images": "Zdjęcia",
+  "user-desc": "Informacje dodatkowe"
 }
