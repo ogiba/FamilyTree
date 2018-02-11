@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div>
-                    First name
+                    {{ trans("user-first-name") }}
                 </div>
                 <div>
                     <input type="text" id="memberFirstNameInput" title="First Name" value="{{ selectedMember.firstName }}">
@@ -11,7 +11,7 @@
             </div>
             <div class="col-md-6">
                 <div>
-                    Last name
+                    {{ trans("user-last-name") }}
                 </div>
                 <div>
                     <input type="text" id="memberLastNameInput" title="Last Name" value="{{ selectedMember.lastName }}">
@@ -22,7 +22,7 @@
             <div class="col-md-6"></div>
             <div class="col-md-6">
                 <div>
-                    Maiden name
+                    {{ trans("user-maiden-name") }}
                 </div>
                 <div>
                     <input type="text" id="memberMaidenNameInput" title="Maiden Name" value="{{ selectedMember.maidenName }}">
@@ -32,7 +32,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div>
-                    First Parent
+                    {{ trans("user-first-parent") }}
                 </div>
                 <div>
                     <select title="Parent" id="memberFirstParentSelect">
@@ -45,7 +45,7 @@
             </div>
             <div class="col-md-6">
                 <div>
-                    Second Parent
+                    {{ trans("user-second-parent") }}
                 </div>
                 <div>
                     <select title="Parent" id="memberSecondParentSelect">
@@ -60,7 +60,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div>
-                    Birth date
+                    {{ trans("user-birth-date") }}
                 </div>
                 <div>
                     <input value="{{ selectedMember.birthDate }}" type="date"
@@ -69,7 +69,7 @@
             </div>
             <div class="col-md-6">
                 <div>
-                    Death date
+                    {{ trans("user-death-date") }}
                 </div>
                 <div>
                     <input value="{{ selectedMember.deathDate }}" type="date" id="memberDeathDateInput"
@@ -80,7 +80,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div>
-                    Partner
+                    {{ trans("user-partner") }}
                 </div>
                 <div>
                     <select id="memberPartnerSelect" title="Partner">
@@ -93,7 +93,7 @@
             </div>
             <div class="col-md-6">
                 <div>
-                    Image
+                    {{ trans("user-images") }}
                 </div>
                 <div>
                     <input type="file">
@@ -103,7 +103,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div>
-                    Description
+                    {{ trans("user-desc") }}
                 </div>
                 <div class="description-container">
                     <textarea id="memberDescriptionArea" title="Description">{{ selectedMember.description }}</textarea>
@@ -114,11 +114,11 @@
     <div class="col-md-12">
         <div class="row bottom-actions">
             <div class="col-md-6">
-                <div class="btn btn-warning" onclick="cancelEditing()">Cancel</div>
+                <div class="btn btn-warning" onclick="cancelEditing()">{{ trans("cancel") }}</div>
             </div>
             <div class="col-md-6 save-container">
                 <div class="btn btn-success" onclick="saveMemberChanges({{ selectedMember.id }})">
-                    Save
+                    {{ trans("save") }}
                 </div>
             </div>
         </div>

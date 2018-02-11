@@ -19,17 +19,16 @@
 
 {% block body %}
     <section class="trees-page">
-        <h3>Tree of family: {{ family.familyName }}</h3>
+        <h3>{{ trans("admin-tree-builder-title") }}: {{ family.familyName }}</h3>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="actions">
                             <button class="btn btn-success"
-                                    onclick="window.location.href = '/admin/tree_builder/members'"> View all members
+                                    onclick="window.location.href = '/admin/tree_builder/members'"> {{ trans("admin-action-view-all-members") }}
                             </button>
-                            <button class="btn btn-primary" onclick="window.location.href += '/new_member'">Add new
-                                member
+                            <button class="btn btn-primary" onclick="window.location.href += '/new_member'">{{ trans('admin-action-add-new-member') }}
                             </button>
                         </div>
                         <h4 class="card-header">

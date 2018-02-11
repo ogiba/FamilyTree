@@ -2,7 +2,7 @@
 
 {% block title %}
     {#{{ trans("admin-view-scene-title") }}#}
-    Tree Builder - Members list
+    Tree Builder - Members list | {{ trans("app-name") }}
 {% endblock %}
 
 {% block javascripts %}
@@ -18,19 +18,17 @@
 
 {% block body %}
     <section class="trees-page">
-        <h3>Members of family: {{ family.familyName }}</h3>
+        <h3>{{ trans("admin-member-list-title") }}: {{ family.familyName }}</h3>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="actions">
                             <button class="btn btn-success"
-                                    onclick="window.location.href = '/admin/tree_builder/'">Edit tree
-                                structure
+                                    onclick="window.location.href = '/admin/tree_builder/'">{{ trans("admin-action-edit-tree-structure") }}
                             </button>
                             <button class="btn btn-primary"
-                                    onclick="window.location.href = '/admin/tree_builder/new_member'">Add new
-                                member
+                                    onclick="window.location.href = '/admin/tree_builder/new_member'">{{ trans("admin-action-add-new-member") }}
                             </button>
                         </div>
                         <h4 class="card-header">
