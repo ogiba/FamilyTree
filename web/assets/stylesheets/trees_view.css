@@ -42,6 +42,28 @@ header {
           border: none;
           outline-color: rgba(0, 0, 0, 0.1); }
 
+.new-member-page .container {
+  transition: .5s all; }
+  @media screen and (min-width: 1200px) {
+    .new-member-page .container {
+      max-width: 95%; } }
+  .new-member-page .container .card {
+    margin-top: 5%;
+    margin-bottom: 5%; }
+    .new-member-page .container .card .card-body input[type=text], .new-member-page .container .card .card-body input[type=date] {
+      width: 100%;
+      border-radius: 5px;
+      border: 1px inset rgba(0, 0, 0, 0.2);
+      padding-left: .5rem;
+      padding-right: .5rem; }
+    .new-member-page .container .card .card-body select {
+      width: 100%; }
+    .new-member-page .container .card .card-body textarea {
+      width: 100%;
+      min-height: 200px; }
+    .new-member-page .container .card .card-footer {
+      text-align: right; }
+
 .nav-bar {
   position: relative;
   top: 0;
