@@ -14,17 +14,31 @@ header {
 }
 
 $red: #b30015;
-$accent: blue;
+$accent: #4CAF50;
+
+.customized-nav {
+    position: fixed;
+    top: 0;
+    bottom: auto;
+    z-index: 100;
+
+    .navbar-brand {
+        opacity: 1;
+    }
+}
 
 .login-page {
     padding-bottom: 100px;
-    padding-top: 100px;
-    background-color: #999999;
-    margin-top: 10%;
+    padding-top: 10%;
+    background-color: #F2F2E3;
     transition: 0.5s all;
+    align-items: center;
+    display: -webkit-box;
+    display: flex;
 
     .container {
         //margin-top: 10%;
+        margin: 0 auto;
 
         .row {
             .col-md-4 {
@@ -32,6 +46,11 @@ $accent: blue;
                     padding: 10px;
                     //background-color: #999999;
                     border-radius: 10px;
+
+                    h1 {
+                        width: 100%;
+                        text-align: center;
+                    }
 
                     .login-info {
                         transition: 0.5s all;
@@ -59,6 +78,7 @@ $accent: blue;
 
                     input {
                         width: 100%;
+                        margin: .2rem auto;
                     }
 
                     label, button {

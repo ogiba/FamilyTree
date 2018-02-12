@@ -9,37 +9,53 @@ header {
     top: 0;
     bottom: auto; }
 
+.customized-nav {
+  position: fixed;
+  top: 0;
+  bottom: auto;
+  z-index: 100; }
+  .customized-nav .navbar-brand {
+    opacity: 1; }
+
 .login-page {
   padding-bottom: 100px;
-  padding-top: 100px;
-  background-color: #999999;
-  margin-top: 10%;
-  transition: 0.5s all; }
-  .login-page .container .row .col-md-4 .form {
-    padding: 10px;
-    border-radius: 10px; }
-    .login-page .container .row .col-md-4 .form .login-info {
-      transition: 0.5s all;
-      text-align: center;
-      font-size: 14px;
-      color: #b30015;
-      font-weight: 600; }
-      .login-page .container .row .col-md-4 .form .login-info #loginInfo {
-        display: none; }
-        .login-page .container .row .col-md-4 .form .login-info #loginInfo.shown {
-          display: block; }
-      .login-page .container .row .col-md-4 .form .login-info .progress {
-        display: none; }
-        .login-page .container .row .col-md-4 .form .login-info .progress.shown {
-          display: block; }
-    .login-page .container .row .col-md-4 .form input {
-      width: 100%; }
-    .login-page .container .row .col-md-4 .form label, .login-page .container .row .col-md-4 .form button {
-      margin-top: 10px; }
-    .login-page .container .row .col-md-4 .form .form-check {
-      text-align: center; }
-    .login-page .container .row .col-md-4 .form button {
-      width: 100%; }
+  padding-top: 10%;
+  background-color: #F2F2E3;
+  transition: 0.5s all;
+  align-items: center;
+  display: -webkit-box;
+  display: flex; }
+  .login-page .container {
+    margin: 0 auto; }
+    .login-page .container .row .col-md-4 .form {
+      padding: 10px;
+      border-radius: 10px; }
+      .login-page .container .row .col-md-4 .form h1 {
+        width: 100%;
+        text-align: center; }
+      .login-page .container .row .col-md-4 .form .login-info {
+        transition: 0.5s all;
+        text-align: center;
+        font-size: 14px;
+        color: #b30015;
+        font-weight: 600; }
+        .login-page .container .row .col-md-4 .form .login-info #loginInfo {
+          display: none; }
+          .login-page .container .row .col-md-4 .form .login-info #loginInfo.shown {
+            display: block; }
+        .login-page .container .row .col-md-4 .form .login-info .progress {
+          display: none; }
+          .login-page .container .row .col-md-4 .form .login-info .progress.shown {
+            display: block; }
+      .login-page .container .row .col-md-4 .form input {
+        width: 100%;
+        margin: .2rem auto; }
+      .login-page .container .row .col-md-4 .form label, .login-page .container .row .col-md-4 .form button {
+        margin-top: 10px; }
+      .login-page .container .row .col-md-4 .form .form-check {
+        text-align: center; }
+      .login-page .container .row .col-md-4 .form button {
+        width: 100%; }
 
 /* Progress Bar */
 .progress {
@@ -56,10 +72,10 @@ header {
     position: absolute;
     top: 0;
     bottom: 0;
-    background-color: blue;
+    background-color: #4CAF50;
     transition: width .3s linear; }
   .progress .indeterminate {
-    background-color: blue; }
+    background-color: #4CAF50; }
     .progress .indeterminate:before {
       content: '';
       position: absolute;
