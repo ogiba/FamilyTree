@@ -1,6 +1,6 @@
-function loadSelectedMemberToView(member) {
+function loadSelectedMemberToView(id) {
     $.post(window.location.href + "/edit", {
-        "member": member.id
+        "member": id
     }, function (response) {
         $("#rightContainer").html(response.template);
     })

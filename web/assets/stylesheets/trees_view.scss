@@ -131,9 +131,9 @@ header {
     ul {
         padding-left: 1rem;
         li {
-            cursor: pointer;
-
             span {
+                cursor: pointer;
+
                 transition: .3s all;
                 &:hover {
                     padding: 5px;

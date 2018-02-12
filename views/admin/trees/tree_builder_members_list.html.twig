@@ -46,7 +46,9 @@
                                     <div id="membersContainer">
                                         <ul>
                                             {% for familyMember in familyMembers %}
-                                                <li onclick="loadSelectedMemberToView({{ familyMember|json_encode() }})">{{ familyMember.firstName }} {{ familyMember.lastName }}</li>
+                                                <li>
+                                                    <span onclick="loadSelectedMemberToView({{ familyMember.id }})">{{ familyMember.firstName }} {{ familyMember.lastName }}</span>
+                                                </li>
                                             {% endfor %}
                                         </ul>
                                     </div>

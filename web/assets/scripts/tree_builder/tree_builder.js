@@ -34,8 +34,8 @@ function recursiveMemberElements(members) {
         }
     }
 
-    var li = $("<li>", {
-        html: "<span>" + members.firstName + " " + members.lastName + "</span>",
+    var userLabelSpan = $("<span/>", {
+        html: members.firstName + " " + members.lastName,
         click: (function (item) {
             return function (event) {
                 event.stopPropagation();
@@ -43,8 +43,11 @@ function recursiveMemberElements(members) {
                 loadSelectedMemberToView(item)
             }
         })(members)
-    }).append(list);
+    });
 
+    var li = $("<li>", {
+        html: userLabelSpan
+    }).append(list);
     return li;
 }
 

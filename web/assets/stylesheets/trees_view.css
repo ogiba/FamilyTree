@@ -79,14 +79,13 @@ header {
       border-right: 1px dashed rgba(0, 0, 0, 0.2); } }
   #membersContainer ul {
     padding-left: 1rem; }
-    #membersContainer ul li {
-      cursor: pointer; }
-      #membersContainer ul li span {
-        transition: .3s all; }
-        #membersContainer ul li span:hover {
-          padding: 5px;
-          border-radius: .5rem;
-          background-color: rgba(0, 0, 0, 0.5); }
+    #membersContainer ul li span {
+      cursor: pointer;
+      transition: .3s all; }
+      #membersContainer ul li span:hover {
+        padding: 5px;
+        border-radius: .5rem;
+        background-color: rgba(0, 0, 0, 0.5); }
 
 #rightContainer input[type=text], #rightContainer input[type=date] {
   border: 1px solid rgba(0, 0, 0, 0.5);
