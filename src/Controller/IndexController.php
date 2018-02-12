@@ -15,7 +15,7 @@ use Model\About;
 use Model\PostPage;
 
 class IndexController extends BaseController {
-    const NUMBER_OF_ITEMS = 5;
+    const NUMBER_OF_ITEMS = 4;
     const STARTING_PAGE = 0;
 
     public function action($name, $action, $params)

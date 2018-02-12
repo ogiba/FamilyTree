@@ -51,7 +51,10 @@ section {
       opacity: 1; }
   .customized-nav .navbar-brand {
     transition: 0.5s all;
-    opacity: 0; }
+    opacity: 0;
+    font-family: 'Tangerine', cursive;
+    padding: 0;
+    font-size: 27px; }
 
 footer {
   color: white;

@@ -27,7 +27,7 @@
                     <div class="content">
                         <h2>{{ post.title }}</h2>
                         {% set author = post.modifiedBy is null ? post.author : post.modifiedBy %}
-                        <p class="timestamp-user">{{ post.timeStamp }} by {{ author }}</p>
+                        <p class="timestamp-user">{{ post.timeStamp }} {{ trans("modified-by") }} {{ author }}</p>
                         <hr>
                         <p>{{ post.content }}</p>
                         {% if post.images|length > 0 %}
@@ -39,41 +39,6 @@
                             </div>
                         {% endif %}
                     </div>
-                    {#<div class="card">#}
-                        {#<h4 class="card-header">#}
-                            {#<div class="row">#}
-                                {#<div class="col-md-8">{{ post.title }}</div>#}
-                                {#<div class="col-md-4">#}
-                                {#</div>#}
-                            {#</div>#}
-                        {#</h4>#}
-                        {#<div class="card-body">#}
-                            {#<div class="content">#}
-                                {#{{ post.content }}#}
-                            {#</div>#}
-                            {#<div>#}
-                                {#{% if post.images|length > 0 %}#}
-                                    {#{% for image in post.images %}#}
-                                        {#<img src="{{ image }}" class="img-thumbnail">#}
-                                    {#{% endfor %}#}
-                                {#{% endif %}#}
-                            {#</div>#}
-                        {#</div>#}
-                        {#<div class="card-footer text-muted">#}
-                            {#<div class="row">#}
-                                {#<div class="col-md-6 date">#}
-                                    {#{{ trans("post-edited") }} <span>{{ post.timeStamp }}</span>#}
-                                {#</div>#}
-                                {#<div class="col-md-6 author">#}
-                                    {#{% if post.modifiedBy is null %}#}
-                                        {#{{ trans("post-created") }} {{ post.author }}#}
-                                    {#{% else %}#}
-                                        {#{{ trans("post-modified") }} {{ post.modifiedBy }}#}
-                                    {#{% endif %}#}
-                                {#</div>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
                 </div>
             </div>
         </div>

@@ -49,5 +49,6 @@
   "user-death-date": "Death date",
   "user-partner": "Partner",
   "user-images": "Images",
-  "user-desc": "Optional information"
+  "user-desc": "Optional information",
+  "modified-by": "by"
 }
