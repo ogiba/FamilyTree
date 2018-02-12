@@ -11,6 +11,9 @@ $(document).ready(function () {
 
 function loadTree() {
     $.get("/tree/load_tree?family=1", function (response) {
+        $(".playground-progress").on("transitionend", function () {
+            $(".playground-progress").css("display", "none");
+        }).css("opacity", "0");
         console.log(response);
 
         var basePosition = new TablePosition(1, 1);

@@ -190,6 +190,27 @@ body {
         background: darkgoldenrod; }
       .tree-playground .tree-container .connection-type-vertical.fill {
         height: 100%; }
+  .tree-playground .playground-progress {
+    transition: 0.3s all;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: beige;
+    z-index: 50;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-align: center;
+    -ms-flex-pack: center;
+    -webkit-box-align: center;
+    align-items: center; }
+    .tree-playground .playground-progress .progress {
+      max-width: 30%;
+      margin: auto;
+      background-color: white; }
+      .tree-playground .playground-progress .progress .indeterminate {
+        background-color: #174732; }
 
 .modal .modal-dialog .modal-content {
   background-color: beige;
