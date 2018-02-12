@@ -14,8 +14,7 @@ use Database\PostsManager;
 use Model\About;
 use Model\PostPage;
 
-class IndexController extends BaseController
-{
+class IndexController extends BaseController {
     const NUMBER_OF_ITEMS = 5;
     const STARTING_PAGE = 0;
 
@@ -30,18 +29,19 @@ class IndexController extends BaseController
 
     public function indexAction()
     {
-        $postsPage = $this->getPosts(self::NUMBER_OF_ITEMS, self::STARTING_PAGE,  true);
+        $postsPage = $this->getPosts(self::NUMBER_OF_ITEMS, self::STARTING_PAGE, true);
         $aboutInfo = $this->getAbout();
 
         echo $this->render("default/index.html.twig", array(
             "postsPage" => $postsPage,
-            "aboutInfo" => $aboutInfo
+            "aboutInfo" => $aboutInfo,
+            "userLogged" => $this->checkIfUserLogged()
         ));
     }
 
     public function postPageAction($page = self::STARTING_PAGE)
     {
-        $postsPage = $this->getPosts(self::NUMBER_OF_ITEMS, $page,  true);
+        $postsPage = $this->getPosts(self::NUMBER_OF_ITEMS, $page, true);
 
         echo $this->render("default/posts.html.twig", array(
             "postsPage" => $postsPage
@@ -65,7 +65,8 @@ class IndexController extends BaseController
     /**
      * @return About|null
      */
-    private function getAbout() {
+    private function getAbout()
+    {
         $informationManager = new InformationManager();
         return $informationManager->loadAboutMe();
     }

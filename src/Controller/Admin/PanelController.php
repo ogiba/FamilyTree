@@ -16,15 +16,10 @@ class PanelController extends BaseAdminController
     {
         parent::action($name, $action, $params);
 
-        $userLogged = false;
-        if (isset($_SESSION["token"])) {
-            $userLogged = true;
-        }
-
         $postPage = $this->loadPostsFromDb();
 
         echo $this->render("/admin/panel/panel.html.twig", [
-            "userLogged" => $userLogged,
+            "userLogged" => $this->checkIfUserLogged(),
             "postsPage" => $postPage
         ]);
     }

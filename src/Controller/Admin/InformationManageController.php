@@ -28,10 +28,7 @@ class InformationManageController extends BaseAdminController {
     {
         parent::action($name, $action, $params);
 
-        $userLogged = false;
-        if (isset($_SESSION["token"])) {
-            $userLogged = true;
-        }
+        $userLogged = $this->checkIfUserLogged();
 
         if (is_null($name)) {
             $this->prepareSectionsList($userLogged);

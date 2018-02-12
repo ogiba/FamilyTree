@@ -38,7 +38,7 @@ class TreeController extends BaseController {
             $debugMode = $request["mode"] == $this::MODE_DEBUG ? true : false;
         }
 
-        $params = array("debug" => $debugMode);
+        $params = array("debug" => $debugMode, "userLogged" => $this->checkIfUserLogged());
         echo $this->render("tree/tree.html.twig", $params);
     }
 

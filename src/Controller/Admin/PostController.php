@@ -50,11 +50,6 @@ class PostController extends BaseAdminController
 
     private function viewPostBehavior()
     {
-        $userLogged = false;
-        if (isset($_SESSION["token"])) {
-            $userLogged = true;
-        }
-
         if (!isset($_GET["id"]) || empty($_GET["id"])) {
             header("location: /not_found");
             exit;
@@ -64,18 +59,13 @@ class PostController extends BaseAdminController
         $postToView = $this->manager->loadPost($postId);
 
         echo $this->render("/admin/post/post_view.html.twig", [
-            "userLogged" => $userLogged,
+            "userLogged" => $this->checkIfUserLogged(),
             "post" => $postToView
         ]);
     }
 
     private function editPostBehavior($pathArray)
     {
-        $userLogged = false;
-        if (isset($_SESSION["token"])) {
-            $userLogged = true;
-        }
-
         if (count($pathArray) > 0 && $pathArray[0] == "update") {
             $this->updateEditedPost();
         } else {
@@ -93,7 +83,7 @@ class PostController extends BaseAdminController
             $_SESSION[self::userAddPostImagesActions] = [];
 
             echo $this->render("/admin/post/post_edit.html.twig", [
-                "userLogged" => $userLogged,
+                "userLogged" => $this->checkIfUserLogged(),
                 "post" => $post,
                 "action" => $saveAction
             ]);
@@ -107,17 +97,12 @@ class PostController extends BaseAdminController
         } else if (count($pathArray) > 0 && $pathArray[0] == "save") {
             $this->saveNewPost();
         } else {
-            $userLogged = false;
-            if (isset($_SESSION["token"])) {
-                $userLogged = true;
-            }
-
             $saveAction = "savePost()";
 
             $_SESSION[self::userAddPostImagesActions] = [];
 
             echo $this->render("/admin/post/post_edit.html.twig", [
-                "userLogged" => $userLogged,
+                "userLogged" => $this->checkIfUserLogged(),
                 "action" => $saveAction
             ]);
         }

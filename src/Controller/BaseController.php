@@ -13,8 +13,7 @@ use Twig_Environment;
 use Twig_Loader_Filesystem;
 use Twig_SimpleFunction;
 
-abstract class BaseController
-{
+abstract class BaseController {
     /**
      * @param string|null $name
      * @param string|null $action
@@ -64,5 +63,15 @@ abstract class BaseController
             return $translatedString;
         }));
         return $twig->render($viewName, $properties);
+    }
+
+    protected function checkIfUserLogged()
+    {
+        $userLogged = false;
+        if (isset($_SESSION["token"])) {
+            $userLogged = true;
+        }
+
+        return $userLogged;
     }
 }
