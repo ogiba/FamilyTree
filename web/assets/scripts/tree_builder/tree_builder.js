@@ -4,6 +4,9 @@ $(document).ready(function () {
 
 function loadMembers() {
     $.get(window.location.href + "/getMembers", function (response) {
+        $(".member-progress").on("transitionend", function () {
+            $(".member-progress").css("display", "none");
+        }).css("opacity", "0");
         var members = new MemberList(response);
 
         $("#membersContainer").append(members.generateList());

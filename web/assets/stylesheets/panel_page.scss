@@ -33,6 +33,8 @@ header {
             table {
                 tbody {
                     tr {
+                        cursor: pointer;
+
                         th, td {
                             vertical-align: middle;
                         }

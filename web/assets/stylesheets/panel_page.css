@@ -21,8 +21,10 @@ header {
   margin-top: 5%; }
   .panel-page .posts-container .posts-list {
     overflow: auto; }
-    .panel-page .posts-container .posts-list table tbody tr th, .panel-page .posts-container .posts-list table tbody tr td {
-      vertical-align: middle; }
+    .panel-page .posts-container .posts-list table tbody tr {
+      cursor: pointer; }
+      .panel-page .posts-container .posts-list table tbody tr th, .panel-page .posts-container .posts-list table tbody tr td {
+        vertical-align: middle; }
 
 .post-page .posts-container {
   margin-top: 5%; }
