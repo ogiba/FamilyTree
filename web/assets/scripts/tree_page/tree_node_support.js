@@ -3,7 +3,7 @@ function showMember(id, isPair) {
         show: true
     }).one("show.bs.modal", function () {
         $(".modal-progress")
-            .css("display", "block")
+            .css("display", "flex")
             .css("opacity", "100")
     }).one("shown.bs.modal", function () {
         loadMeberDetails(id);

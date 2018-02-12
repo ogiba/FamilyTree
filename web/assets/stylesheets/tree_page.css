@@ -241,7 +241,19 @@ body {
     right: 0;
     bottom: 0;
     top: 0;
-    background-color: #423322; }
+    background-color: #423322;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-align: center;
+    -ms-flex-pack: center;
+    -webkit-box-align: center;
+    align-items: center; }
+    .modal .modal-dialog .modal-content .modal-progress .progress {
+      max-width: 50%;
+      margin: auto;
+      background-color: white; }
+      .modal .modal-dialog .modal-content .modal-progress .progress .indeterminate {
+        background-color: #174732; }
 
 .fill {
   height: 100%; }
