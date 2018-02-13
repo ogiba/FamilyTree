@@ -64,6 +64,10 @@ header {
 .section-page .container .sections-container {
   margin-top: 5%;
   overflow: auto; }
+  .section-page .container .sections-container table tbody tr {
+    cursor: pointer; }
+    .section-page .container .sections-container table tbody tr th, .section-page .container .sections-container table tbody tr td {
+      vertical-align: middle; }
 
 .section-view .card {
   margin-top: 5%;

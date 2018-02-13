@@ -55,11 +55,32 @@ function recursiveMemberElements(members) {
 }
 
 function loadSelectedMemberToView(member) {
+    var progress = prepareProgressView();
+
+    $("#rightContainer").html(progress);
+
     $.post(window.location.href + "/edit", {
         "member": member
     }, function (response) {
-        $("#rightContainer").html(response.template);
+        $(".details-progress").on("transitionend", function () {
+            $("#rightContainer").html(response.template);
+        }).css("opacity", "0");
     })
+}
+
+function prepareProgressView() {
+    var progress = $("<div>", {
+        "class": "progress"
+    });
+
+    $("<div>", {
+        "class": "indeterminate"
+    }).appendTo(progress);
+
+    return $("<div>", {
+        "class": "details-progress",
+        html: progress
+    });
 }
 
 function convertDateToProperValue(dateString) {

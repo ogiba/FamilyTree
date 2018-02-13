@@ -129,3 +129,26 @@ header {
 
 #rightContainer .bottom-actions div:last-of-type {
   text-align: right; }
+
+#rightContainer .details-progress {
+  transition: 0.3s all;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: white;
+  z-index: 50;
+  display: -webkit-box;
+  display: flex;
+  -ms-flex-align: center;
+  -ms-flex-pack: center;
+  -webkit-box-align: center;
+  align-items: center;
+  border-right: 1px dashed rgba(0, 0, 0, 0.2); }
+  #rightContainer .details-progress .progress {
+    max-width: 50%;
+    margin: auto;
+    background-color: lightgray; }
+    #rightContainer .details-progress .progress .indeterminate {
+      background-color: #174732; }

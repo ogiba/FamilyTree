@@ -107,6 +107,18 @@ header {
         .sections-container {
             margin-top: 5%;
             overflow: auto;
+
+            table {
+                tbody {
+                    tr {
+                        cursor: pointer;
+
+                        th, td {
+                            vertical-align: middle;
+                        }
+                    }
+                }
+            }
         }
     }
 }
