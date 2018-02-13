@@ -36,7 +36,8 @@ class PostViewController extends BaseController
         $selectedPost = $this->getSelectedPost($postID);
 
         echo $this->render("/post/post_view.html.twig", [
-            "post" => $selectedPost
+            "post" => $selectedPost,
+            "userLogged" => $this->checkIfUserLogged()
         ]);
     }
 
