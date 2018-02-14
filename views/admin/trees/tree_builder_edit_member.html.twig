@@ -6,7 +6,8 @@
                     {{ trans("user-first-name") }}
                 </div>
                 <div>
-                    <input type="text" id="memberFirstNameInput" title="First Name" value="{{ selectedMember.firstName }}">
+                    <input type="text" id="memberFirstNameInput" title="First Name"
+                           value="{{ selectedMember.firstName }}">
                 </div>
             </div>
             <div class="col-md-6">
@@ -25,7 +26,8 @@
                     {{ trans("user-maiden-name") }}
                 </div>
                 <div>
-                    <input type="text" id="memberMaidenNameInput" title="Maiden Name" value="{{ selectedMember.maidenName }}">
+                    <input type="text" id="memberMaidenNameInput" title="Maiden Name"
+                           value="{{ selectedMember.maidenName }}">
                 </div>
             </div>
         </div>
@@ -95,12 +97,7 @@
                 <div>
                     {{ trans("user-images") }}
                 </div>
-                {#<div>#}
-                    {#<input action="/admin/tree_builder/new_member/upload" type="file">#}
-                    <form  id="imageForm" action="/admin/tree_builder/members/upload" class="dropzone">
-                        <input id="memberImage" type="file">
-                    </form>
-                {#</div>#}
+                <form id="imageForm" action="/admin/tree_builder/members/upload" class="dropzone"></form>
             </div>
         </div>
         <div class="row">

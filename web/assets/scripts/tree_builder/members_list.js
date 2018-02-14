@@ -8,6 +8,8 @@ function loadSelectedMemberToView(id) {
     }, function (response) {
         $(".details-progress").on("transitionend", function () {
             $("#rightContainer").html(response.template);
+
+            $("#imageForm").dropzone();
         }).css("opacity", "0");
     })
 }
