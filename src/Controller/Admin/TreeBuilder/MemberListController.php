@@ -141,7 +141,35 @@ class MemberListController extends BaseAdminController {
             $response = new Response("No changes", StatusCode::NO_CONTENT);
         }
 
+        $this->checkIfImagesChange($id);
+
         $this->sendJsonResponse($response);
+    }
+
+    private function checkIfImagesChange($id)
+    {
+        $uploadedFiles = [];
+        $removedFiles = [];
+        $storeFolder = 'uploads';   //2
+        $destFolder = $storeFolder . "/";
+
+        foreach ($_SESSION[self::userUpdateMemberImagesActions] as $action) {
+            if ($action->action == "add") {
+                $targetFile = $destFolder . uniqid("member_iamge_") . ".ssjpg";
+
+                if (rename($action->data, $targetFile)) {
+                    $uploadedFiles[] = $targetFile;
+                } else {
+                    echo "Error occurred\n";
+                }
+            } else if ($action->action == "remove") {
+                $removedFiles[] = $action->data;
+
+                // TODO: remove image file from disk
+            }
+        }
+
+        $this->manager->insertMemberImage($id, $uploadedFiles);
     }
 
     private function uploadFiles()
