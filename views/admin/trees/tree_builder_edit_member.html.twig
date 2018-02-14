@@ -95,9 +95,12 @@
                 <div>
                     {{ trans("user-images") }}
                 </div>
-                <div>
-                    <input type="file">
-                </div>
+                {#<div>#}
+                    {#<input action="/admin/tree_builder/new_member/upload" type="file">#}
+                    <form  id="imageForm" action="/admin/tree_builder/members/upload" class="dropzone">
+                        <input id="memberImage" type="file">
+                    </form>
+                {#</div>#}
             </div>
         </div>
         <div class="row">

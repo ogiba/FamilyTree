@@ -430,6 +430,23 @@ class FamilyManager extends BaseDatabaseManager {
         return $isSucceed;
     }
 
+    public function insertMemberImage($memberId, $files)
+    {
+        if (!isset($_SESSION["token"])) {
+            exit;
+        }
+
+        $token = $_SESSION["token"];
+
+        foreach ($files as $file) {
+            $database = $this->createConnection();
+            $stmt = $database->prepare("INSERT INTO member_images (image, memberId) VALUES(?, ?)");
+            $stmt->bind_param("si", $file, $memberId);
+            $stmt->execute();
+            $stmt->fetch();
+        }
+    }
+
     /**
      * @param \mysqli_stmt $stmt
      * @param int $id

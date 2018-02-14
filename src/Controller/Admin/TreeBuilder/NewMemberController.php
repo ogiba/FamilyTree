@@ -89,7 +89,7 @@ class NewMemberController extends BaseAdminController {
             $tempFile = $_FILES['file']['tmp_name'];
             $storeFolder = 'uploads/temp';   //2
             $destFolder = $storeFolder . "/";
-            $targetFile = $destFolder . uniqid("member_image_");
+            $targetFile = $destFolder . uniqid("member_image_") . ".jpg";
 
             if (!file_exists($destFolder))
                 mkdir($destFolder, 0x0777, true);

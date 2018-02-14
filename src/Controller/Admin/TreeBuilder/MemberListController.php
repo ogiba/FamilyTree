@@ -16,6 +16,8 @@ use Model\Response;
 use Utils\StatusCode;
 
 class MemberListController extends BaseAdminController {
+    const userUpdateMemberImagesActions = "user_update_member_images";
+
     private $manager;
 
     /**
@@ -42,9 +44,11 @@ class MemberListController extends BaseAdminController {
                 break;
             case "update":
                 if (isset($_GET["id"])) {
-
                     $this->updateSelectedMember($_GET["id"]);
                 }
+                break;
+            case "upload":
+                $this->uploadFiles();
                 break;
             default:
                 $this->viewIndex();
@@ -138,6 +142,29 @@ class MemberListController extends BaseAdminController {
         }
 
         $this->sendJsonResponse($response);
+    }
+
+    private function uploadFiles()
+    {
+        if (!empty($_FILES)) {
+            $tempFile = $_FILES['file']['tmp_name'];
+            $storeFolder = 'uploads/temp';   //2
+            $destFolder = $storeFolder . "/";
+            $targetFile = $destFolder . uniqid("member_image_") . ".jpg";
+
+            if (!file_exists($destFolder))
+                mkdir($destFolder, 0x0777, true);
+
+            if (move_uploaded_file($tempFile, $targetFile)) {
+                $action = new \stdClass();
+                $action->action = "add";
+                $action->data = $targetFile;
+
+                $_SESSION[self::userUpdateMemberImagesActions][] = $action;
+            } else {
+                echo "Error occurred\n";
+            }
+        }
     }
 
     private function sendJsonResponse($data)
