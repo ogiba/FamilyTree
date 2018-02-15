@@ -164,7 +164,16 @@ class FamilyManager extends BaseDatabaseManager {
         $result = array();
 
         while ($stmt->fetch()) {
-            $result[] = $this->arrayToObject($data, MemberImage::class);
+            $memberImage = $this->arrayToObject($data, MemberImage::class);
+
+            $imageSize = filesize($memberImage->image);
+
+            if (is_bool($imageSize) && !$imageSize) {
+                $imageSize = 0;
+            }
+
+            $memberImage->size = $imageSize;
+            $result[] = $memberImage;
         }
 
         return $result;

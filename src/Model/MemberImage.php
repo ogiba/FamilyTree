@@ -15,12 +15,14 @@ class MemberImage implements JsonSerializable {
 
     public $image;
     public $memberId;
+    public $size;
 
     public function jsonSerialize()
     {
         return [
             "image" => $this->image,
-            "memberId" => $this->memberId
+            "memberId" => $this->memberId,
+            "size" => $this->size
         ];
     }
 
