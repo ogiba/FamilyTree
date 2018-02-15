@@ -12,6 +12,7 @@ namespace Database;
 use Model\ChildParentPair;
 use Model\Family;
 use Model\FamilyMember;
+use Model\MemberImage;
 
 class FamilyManager extends BaseDatabaseManager {
     /**
@@ -144,6 +145,29 @@ class FamilyManager extends BaseDatabaseManager {
             $member->firstParent = $parents[0]->parent;
             $member->secondParent = $parents[1]->parent;
         }
+    }
+
+    /**
+     * @param \mysqli_stmt $stmt
+     * @param $memberId
+     *
+     * @return array
+     */
+    private function loadMemberImage($stmt, $memberId)
+    {
+        $stmt->prepare("SELECT * FROM member_images WHERE memberId = ?");
+        $stmt->bind_param("i", $memberId);
+        $stmt->execute();
+
+        $data = $this->bindResult($stmt);
+
+        $result = array();
+
+        while ($stmt->fetch()) {
+            $result[] = $this->arrayToObject($data, MemberImage::class);
+        }
+
+        return $result;
     }
 
     public function loadPossiblePartners($familyId, $memberId)
@@ -314,6 +338,9 @@ class FamilyManager extends BaseDatabaseManager {
 
             $parents = $this->loadParents($stmt, $familyMember->id);
             $this->bindParentsToMember($familyMember, $parents);
+
+            $images = $this->loadMemberImage($stmt, $familyMember->id);
+            $familyMember->image = $images;
         }
 
         $stmt->close();
