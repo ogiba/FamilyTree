@@ -134,14 +134,18 @@ class MemberListController extends BaseAdminController {
 
         $isUpdated = $this->manager->updateFamilyMember($id, $familyMember);
 
+        $imagesChanged = $this->checkIfImagesChange($id);
+
+        if (!$isUpdated && $imagesChanged) {
+            $isUpdated = $imagesChanged;
+        }
+
         $response = null;
         if ($isUpdated) {
             $response = new Response("Member updated", StatusCode::OK);
         } else {
             $response = new Response("No changes", StatusCode::NO_CONTENT);
         }
-
-        $this->checkIfImagesChange($id);
 
         $this->sendJsonResponse($response);
     }
@@ -155,7 +159,7 @@ class MemberListController extends BaseAdminController {
 
         foreach ($_SESSION[self::userUpdateMemberImagesActions] as $action) {
             if ($action->action == "add") {
-                $targetFile = $destFolder . uniqid("member_iamge_") . ".ssjpg";
+                $targetFile = $destFolder . uniqid("member_iamge_") . ".jpg";
 
                 if (rename($action->data, $targetFile)) {
                     $uploadedFiles[] = $targetFile;
@@ -169,11 +173,20 @@ class MemberListController extends BaseAdminController {
             }
         }
 
-        $this->manager->insertMemberImage($id, $uploadedFiles);
+        if (count($uploadedFiles) > 0) {
+            $this->manager->insertMemberImage($id, $uploadedFiles);
+
+            $_SESSION[self::userUpdateMemberImagesActions] = [];
+            return true;
+        }
+
+        return false;
     }
 
     private function uploadFiles()
     {
+        $_SESSION[self::userUpdateMemberImagesActions] = [];
+
         if (!empty($_FILES)) {
             $tempFile = $_FILES['file']['tmp_name'];
             $storeFolder = 'uploads/temp';   //2

@@ -9,7 +9,9 @@ function loadSelectedMemberToView(id) {
         $(".details-progress").on("transitionend", function () {
             $("#rightContainer").html(response.template);
 
-            $("#imageForm").dropzone();
+            $("#imageForm").dropzone({
+                maxFiles: 1
+            });
         }).css("opacity", "0");
     })
 }
