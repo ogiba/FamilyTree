@@ -10,7 +10,32 @@ function loadSelectedMemberToView(id) {
             $("#rightContainer").html(response.template);
 
             $("#imageForm").dropzone({
-                maxFiles: 1
+                maxFiles: 1,
+                addRemoveLinks: true,
+                init: (function (selectedMember) {
+                    return function () {
+
+                        for (var i = 0; i < selectedMember.image.length; i++) {
+                            var imageModel = selectedMember.image[i];
+
+                            var mockFile = {name: "image.jpg", size: imageModel.size, type: 'image/jpeg', dataURL: "/" + imageModel.image};
+                            // this.addFile.call(this, mockFile);
+                            // this.createThumbnailFromUrl(mockFile);
+                            this.files.push(mockFile);
+                            // this.options.thumbnail.call(this, mockFile, "/" + imageModel.image);
+                            this.emit('addedfile', mockFile);
+                            this.emit("thumbnail", mockFile, mockFile.dataURL);
+                            this.emit("success",mockFile);
+                            this.emit('complete', mockFile);
+                        }
+
+                    }
+                })(response.selectedMember),
+                maxfilesexceeded: function (file) {
+                    this.removeFile(file);
+
+                    alert("Cannot upload more than one")
+                }
             });
         }).css("opacity", "0");
     })
