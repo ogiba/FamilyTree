@@ -97,15 +97,22 @@
                 <div>
                     {{ trans("user-images") }}
                 </div>
-                <form id="imageForm" action="/admin/tree_builder/members/upload" class="dropzone"></form>
-                {% set images = selectedMember.image %}
-                {% if images is not null and images|length > 0 %}
-                    <div class="uploaded-file-container">
-                        {% for imageModel in images %}
-                            <img src="{{ "/" ~ imageModel.image }}" class="img-fluid" alt="Responsive image">
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <div class="image-operation-container">
+                    <form id="imageForm" action="/admin/tree_builder/members/upload" class="dropzone"></form>
+                    {% set images = selectedMember.image %}
+                    {% if images is not null and images|length > 0 %}
+                        <div class="uploaded-file-container">
+                            {% for imageModel in images %}
+                                <div class="img-item">
+                                    <img src="{{ "/" ~ imageModel.image }}" class="img-fluid" alt="Responsive image">
+                                    <div>
+                                        <a>Remove image</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
         <div class="row">
