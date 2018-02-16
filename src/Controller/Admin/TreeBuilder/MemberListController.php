@@ -105,7 +105,7 @@ class MemberListController extends BaseAdminController {
             "selectedMember" => $familyMember,
             "members" => $members,
             "partners" => $possiblePartners
-        ]), "selectedMember" => $familyMember);
+        ]));
         $this->sendJsonResponse($response);
     }
 

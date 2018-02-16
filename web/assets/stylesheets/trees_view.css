@@ -130,6 +130,18 @@ header {
 #rightContainer .bottom-actions div:last-of-type {
   text-align: right; }
 
+#rightContainer .uploaded-file-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: white;
+  overflow: hidden;
+  padding: 2rem; }
+  #rightContainer .uploaded-file-container img {
+    border-radius: 1rem; }
+
 #rightContainer .details-progress {
   transition: 0.3s all;
   position: absolute;
