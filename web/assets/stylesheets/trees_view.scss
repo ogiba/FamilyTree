@@ -209,11 +209,6 @@ header {
         min-height: 200px;
 
         .uploaded-file-container {
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
             background: white;
             overflow: hidden;
 
@@ -229,6 +224,14 @@ header {
 
                 div {
                     text-align: center;
+                    transition: .3s all;
+
+                    a {
+                        &:hover {
+                            cursor: pointer;
+                            text-decoration: underline;
+                        }
+                    }
                 }
 
                 img {
@@ -238,13 +241,14 @@ header {
         }
     }
 
+    .dropzone {
+        &.dropzone-hide {
+            display: none;
+        }
+    }
+
     .details-progress {
         transition: 0.3s all;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
         background: white;
         z-index: 50;
         display: -webkit-box;

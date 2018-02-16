@@ -134,11 +134,6 @@ header {
   position: relative;
   min-height: 200px; }
   #rightContainer .image-operation-container .uploaded-file-container {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
     background: white;
     overflow: hidden; }
     #rightContainer .image-operation-container .uploaded-file-container .img-item {
@@ -149,17 +144,19 @@ header {
         position: absolute;
         right: 0; }
       #rightContainer .image-operation-container .uploaded-file-container .img-item div {
-        text-align: center; }
+        text-align: center;
+        transition: .3s all; }
+        #rightContainer .image-operation-container .uploaded-file-container .img-item div a:hover {
+          cursor: pointer;
+          text-decoration: underline; }
       #rightContainer .image-operation-container .uploaded-file-container .img-item img {
         border-radius: 1rem; }
 
+#rightContainer .dropzone.dropzone-hide {
+  display: none; }
+
 #rightContainer .details-progress {
   transition: 0.3s all;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
   background: white;
   z-index: 50;
   display: -webkit-box;
