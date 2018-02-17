@@ -131,8 +131,7 @@ header {
   text-align: right; }
 
 #rightContainer .image-operation-container {
-  position: relative;
-  min-height: 200px; }
+  position: relative; }
   #rightContainer .image-operation-container .uploaded-file-container {
     background: white;
     overflow: hidden; }
@@ -156,6 +155,11 @@ header {
   display: none; }
 
 #rightContainer .details-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   transition: 0.3s all;
   background: white;
   z-index: 50;

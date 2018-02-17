@@ -50,6 +50,9 @@ class MemberListController extends BaseAdminController {
             case "upload":
                 $this->uploadFiles();
                 break;
+            case "removeImage":
+                $this->sendJsonResponse("Removing image for:");
+                break;
             default:
                 $this->viewIndex();
                 break;

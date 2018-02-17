@@ -107,7 +107,7 @@
                                 <div class="img-item">
                                     <img src="{{ "/" ~ imageModel.image }}" class="img-fluid" alt="Responsive image">
                                     <div>
-                                        <a>Remove image</a>
+                                        <a onclick="removeImage({{ selectedMember.id }})">Remove image</a>
                                     </div>
                                 </div>
                             {% endfor %}

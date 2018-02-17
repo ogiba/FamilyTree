@@ -125,6 +125,14 @@ function makeUpdateRequest(member) {
     })
 }
 
+function removeImage(id) {
+    $.post(window.location.href + "/removeImage", {
+        "member": id
+    }, function (response) {
+        alert(response);
+    });
+}
+
 /**
  * Remove edit member view from DOM
  */
