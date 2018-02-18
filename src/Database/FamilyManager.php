@@ -480,7 +480,44 @@ class FamilyManager extends BaseDatabaseManager {
             $stmt->bind_param("si", $file, $memberId);
             $stmt->execute();
             $stmt->fetch();
+            $database->close();
         }
+    }
+
+    public function retrieveMemberImage($memberId)
+    {
+        if (!isset($_SESSION["token"])) {
+            exit;
+        }
+
+        $database = $this->createConnection();
+        $stmt = $database->prepare("SELECT * FROM member_images WHERE memberId = ?");
+        $stmt->bind_param("i", $memberId);
+        $stmt->execute();
+
+        $data = $this->bindResult($stmt);
+        $result = null;
+
+        if ($stmt->fetch()) {
+            $result = $this->arrayToObject($data, MemberImage::class);
+        }
+
+        $database->close();
+        return $result;
+    }
+
+    public function removeMemberImage($memberId)
+    {
+        if (!isset($_SESSION["token"])) {
+            exit;
+        }
+
+        $database = $this->createConnection();
+        $stmt = $database->prepare("DELETE FROM member_images WHERE memberId = ?");
+        $stmt->bind_param("i", $memberId);
+        $stmt->execute();
+        $stmt->fetch();
+        $database->close();
     }
 
     /**

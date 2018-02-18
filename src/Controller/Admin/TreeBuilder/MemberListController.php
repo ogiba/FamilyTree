@@ -52,6 +52,7 @@ class MemberListController extends BaseAdminController {
                 break;
             case "removeImage":
                 $memberId = $_POST["memberId"];
+                $this->removeUploadedFile($memberId);
                 $this->sendJsonResponse("Removing image for: $memberId");
                 break;
             default:
@@ -178,14 +179,22 @@ class MemberListController extends BaseAdminController {
             }
         }
 
+        $isSucceed = false;
+
         if (count($uploadedFiles) > 0) {
             $this->manager->insertMemberImage($id, $uploadedFiles);
 
-            $_SESSION[self::userUpdateMemberImagesActions] = [];
-            return true;
+//            $_SESSION[self::userUpdateMemberImagesActions] = [];
+
+            $isSucceed = true;
         }
 
-        return false;
+        if (count($removedFiles) > 0) {
+            $this->manager->removeMemberImage($id);
+        }
+
+        $_SESSION[self::userUpdateMemberImagesActions] = [];
+        return $isSucceed;
     }
 
     private function uploadFiles()
@@ -210,6 +219,19 @@ class MemberListController extends BaseAdminController {
             } else {
                 echo "Error occurred\n";
             }
+        }
+    }
+
+    private function removeUploadedFile($id)
+    {
+        $image = $this->manager->retrieveMemberImage($id);
+
+        if (!is_null($image)) {
+            $action = new \stdClass();
+            $action->action = "remove";
+            $action->data = $image->image;
+
+            $_SESSION[self::userUpdateMemberImagesActions][] = $action;
         }
     }
 
