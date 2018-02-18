@@ -206,7 +206,8 @@ class MemberListController extends BaseAdminController {
             if (!file_exists($destFolder))
                 mkdir($destFolder, 0x0777, true);
 
-            if (move_uploaded_file($tempFile, $targetFile)) {
+//            if (move_uploaded_file($tempFile, $targetFile)) {
+            if ($this->changeImageQuality($tempFile, $targetFile, 90)) {
                 $action = new \stdClass();
                 $action->action = "add";
                 $action->data = $targetFile;
@@ -216,6 +217,28 @@ class MemberListController extends BaseAdminController {
                 echo "Error occurred\n";
             }
         }
+    }
+
+    private function changeImageQuality($tempFile, $targetFile, $restrainedQuality)
+    {
+        //open a stream for the uploaded image
+        $streamHandle = @fopen($tempFile, 'r');
+        //create a image resource from the contents of the uploaded image
+        $resource = imagecreatefromstring(stream_get_contents($streamHandle));
+
+        $isDone = false;
+
+        if (!$resource)
+            return $isDone;
+
+        //close our file stream
+        @fclose($streamHandle);
+
+        //move the uploaded file with a lesser quality
+        $isDone = imagejpeg($resource, $targetFile, $restrainedQuality);
+        //delete the temporary upload
+        @unlink($tempFile['tmp_name']);
+        return $isDone;
     }
 
     private function removeUploadedFile($id)
