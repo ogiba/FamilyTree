@@ -53,7 +53,6 @@ class MemberListController extends BaseAdminController {
             case "removeImage":
                 $memberId = $_POST["memberId"];
                 $this->removeUploadedFile($memberId);
-                $this->sendJsonResponse("Removing image for: $memberId");
                 break;
             default:
                 $this->viewIndex();
@@ -187,6 +186,12 @@ class MemberListController extends BaseAdminController {
 
         if (count($removedFiles) > 0) {
             $isSucceed = $this->manager->removeMemberImage($id);
+
+            if ($isSucceed) {
+                foreach ($removedFiles as $file) {
+                    unlink($file);
+                }
+            }
         }
 
         $_SESSION[self::userUpdateMemberImagesActions] = [];
@@ -250,6 +255,9 @@ class MemberListController extends BaseAdminController {
 
             $_SESSION[self::userUpdateMemberImagesActions][] = $action;
         }
+
+        $response = new Response("Removing image for: $id", StatusCode::OK);
+        $this->sendJsonResponse($response);
     }
 
     private function sendJsonResponse($data)
