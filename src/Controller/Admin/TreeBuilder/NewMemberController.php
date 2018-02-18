@@ -67,11 +67,13 @@ class NewMemberController extends BaseAdminController {
 
         $newMember = $this->arrayToObject($_POST["member"], FamilyMember::class);
         $familyId = $_SESSION["selectedFamily"];
-        $isSucceed = $this->manager->insertNewMember($familyId, $newMember);
+        $insertResult = $this->manager->insertNewMember($familyId, $newMember);
+
+        $imagesChanged = $this->checkIfImagesChange($insertResult->memberId);
 
         $message = null;
         $statusCode = null;
-        if ($isSucceed) {
+        if ($insertResult->isSucceed) {
             $message = "New member inserted";
             $statusCode = StatusCode::OK;
         } else {
@@ -81,6 +83,39 @@ class NewMemberController extends BaseAdminController {
 
         $response = new Response($message, $statusCode);
         $this->sendJsonResponse($response);
+    }
+
+    private function checkIfImagesChange($id)
+    {
+        $uploadedFiles = [];
+        $removedFiles = [];
+        $storeFolder = 'uploads';   //2
+        $destFolder = $storeFolder . "/";
+
+        foreach ($_SESSION[self::userAddMemberImagesActions] as $action) {
+            if ($action->action == "add") {
+                $targetFile = $destFolder . uniqid("member_iamge_") . ".jpg";
+
+                if (rename($action->data, $targetFile)) {
+                    $uploadedFiles[] = $targetFile;
+                } else {
+                    echo "Error occurred\n";
+                }
+            } else if ($action->action == "remove") {
+                $removedFiles[] = $action->data;
+
+                // TODO: remove image file from disk
+            }
+        }
+
+        $isSucceed = false;
+
+        if (count($uploadedFiles) > 0) {
+            $isSucceed = $this->manager->insertMemberImage($id, $uploadedFiles);
+        }
+
+        $_SESSION[self::userAddMemberImagesActions] = [];
+        return $isSucceed;
     }
 
     private function uploadFiles()
@@ -94,7 +129,8 @@ class NewMemberController extends BaseAdminController {
             if (!file_exists($destFolder))
                 mkdir($destFolder, 0x0777, true);
 
-            if (move_uploaded_file($tempFile, $targetFile)) {
+//            if (move_uploaded_file($tempFile, $targetFile)) {
+            if ($this->changeImageQuality($tempFile, $targetFile, 90)) {
                 $action = new \stdClass();
                 $action->action = "add";
                 $action->data = $targetFile;
@@ -104,6 +140,28 @@ class NewMemberController extends BaseAdminController {
                 echo "Error occurred\n";
             }
         }
+    }
+
+    private function changeImageQuality($tempFile, $targetFile, $restrainedQuality)
+    {
+        //open a stream for the uploaded image
+        $streamHandle = @fopen($tempFile, 'r');
+        //create a image resource from the contents of the uploaded image
+        $resource = imagecreatefromstring(stream_get_contents($streamHandle));
+
+        $isDone = false;
+
+        if (!$resource)
+            return $isDone;
+
+        //close our file stream
+        @fclose($streamHandle);
+
+        //move the uploaded file with a lesser quality
+        $isDone = imagejpeg($resource, $targetFile, $restrainedQuality);
+        //delete the temporary upload
+        @unlink($tempFile['tmp_name']);
+        return $isDone;
     }
 
     private function sendJsonResponse($data)

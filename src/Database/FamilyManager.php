@@ -413,7 +413,7 @@ class FamilyManager extends BaseDatabaseManager {
     /**
      * @param $familyId
      * @param FamilyMember $familyMember
-     * @return boolean
+     * @return \stdClass
      */
     public function insertNewMember($familyId, $familyMember)
     {
@@ -431,6 +431,7 @@ class FamilyManager extends BaseDatabaseManager {
         $stmt->execute();
 
         $addedMember = $stmt->affected_rows > 0;
+        $addedMemberId = $stmt->insert_id;
 
         $isSucceed = false;
         if ($addedMember) {
@@ -463,7 +464,12 @@ class FamilyManager extends BaseDatabaseManager {
         $stmt->close();
 
         $connection->close();
-        return $isSucceed;
+
+        $insertResult = new \stdClass;
+        $insertResult->memberId = $addedMemberId;
+        $insertResult->isSucceed = $isSucceed;
+
+        return $insertResult;
     }
 
     /**

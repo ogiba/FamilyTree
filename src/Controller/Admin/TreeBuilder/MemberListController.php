@@ -195,8 +195,6 @@ class MemberListController extends BaseAdminController {
 
     private function uploadFiles()
     {
-        $_SESSION[self::userUpdateMemberImagesActions] = [];
-
         if (!empty($_FILES)) {
             $tempFile = $_FILES['file']['tmp_name'];
             $storeFolder = 'uploads/temp';   //2

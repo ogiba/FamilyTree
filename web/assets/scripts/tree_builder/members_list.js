@@ -129,9 +129,15 @@ function removeImage(id) {
     $.post(window.location.href + "/removeImage", {
         "memberId": id
     }, function (response) {
-        $(".uploaded-file-container").remove();
-        $(".dropzone").removeClass("dropzone-hide");
-        alert(response);
+        switch (response.statusCode) {
+            case 200: {
+                $(".uploaded-file-container").remove();
+                $(".dropzone").removeClass("dropzone-hide");
+                break;
+            }
+            default:
+                break;
+        }
     });
 }
 
