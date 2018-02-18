@@ -127,8 +127,10 @@ function makeUpdateRequest(member) {
 
 function removeImage(id) {
     $.post(window.location.href + "/removeImage", {
-        "member": id
+        "memberId": id
     }, function (response) {
+        $(".uploaded-file-container").remove();
+        $(".dropzone").removeClass("dropzone-hide");
         alert(response);
     });
 }

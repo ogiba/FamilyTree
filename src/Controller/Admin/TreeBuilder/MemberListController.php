@@ -51,7 +51,8 @@ class MemberListController extends BaseAdminController {
                 $this->uploadFiles();
                 break;
             case "removeImage":
-                $this->sendJsonResponse("Removing image for:");
+                $memberId = $_POST["memberId"];
+                $this->sendJsonResponse("Removing image for: $memberId");
                 break;
             default:
                 $this->viewIndex();
@@ -107,7 +108,8 @@ class MemberListController extends BaseAdminController {
         $response = array("template" => $this->render("/admin/trees/tree_builder_edit_member.html.twig", [
             "selectedMember" => $familyMember,
             "members" => $members,
-            "partners" => $possiblePartners
+            "partners" => $possiblePartners,
+            "imageAction" => "/admin/tree_builder/members/upload"
         ]));
         $this->sendJsonResponse($response);
     }

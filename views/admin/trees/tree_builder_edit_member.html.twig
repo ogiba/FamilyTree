@@ -99,7 +99,7 @@
                 </div>
                 <div class="image-operation-container">
                     {% set images = selectedMember.image %}
-                    <form id="imageForm" action="/admin/tree_builder/members/upload"
+                    <form id="imageForm" action="{{ imageAction }}"
                           class="dropzone {{ images|length > 0 ? 'dropzone-hide' : '' }}"></form>
                     {% if images is not null and images|length > 0 %}
                         <div class="uploaded-file-container">
@@ -129,10 +129,10 @@
     </div>
     <div class="col-md-12">
         <div class="row bottom-actions">
-            <div class="col-md-6">
+            <div class="col-6">
                 <div class="btn btn-warning" onclick="cancelEditing()">{{ trans("cancel") }}</div>
             </div>
-            <div class="col-md-6 save-container">
+            <div class="col-6 save-container">
                 <div class="btn btn-success" onclick="saveMemberChanges({{ selectedMember.id }})">
                     {{ trans("save") }}
                 </div>
