@@ -466,6 +466,13 @@ class FamilyManager extends BaseDatabaseManager {
         return $isSucceed;
     }
 
+    /**
+     * Add uploaded images to db at given user id
+     *
+     * @param integer $memberId
+     * @param string[] $files
+     * @return bool
+     */
     public function insertMemberImage($memberId, $files)
     {
         if (!isset($_SESSION["token"])) {
@@ -473,6 +480,7 @@ class FamilyManager extends BaseDatabaseManager {
         }
 
         $token = $_SESSION["token"];
+        $isSuccees = false;
 
         foreach ($files as $file) {
             $database = $this->createConnection();
@@ -480,10 +488,21 @@ class FamilyManager extends BaseDatabaseManager {
             $stmt->bind_param("si", $file, $memberId);
             $stmt->execute();
             $stmt->fetch();
+
+            $isSuccees = $stmt->affected_rows > 0;
+
             $database->close();
         }
+
+        return $isSuccees;
     }
 
+    /**
+     * Retrieves image from member_images table for given member id
+     *
+     * @param integer $memberId
+     * @return MemberImage|null
+     */
     public function retrieveMemberImage($memberId)
     {
         if (!isset($_SESSION["token"])) {
@@ -506,6 +525,12 @@ class FamilyManager extends BaseDatabaseManager {
         return $result;
     }
 
+    /**
+     * Allows to remove image from db for given user id.
+     *
+     * @param integer $memberId
+     * @return bool - value that informs wheter record was successfuly removed from DB
+     */
     public function removeMemberImage($memberId)
     {
         if (!isset($_SESSION["token"])) {
@@ -517,7 +542,9 @@ class FamilyManager extends BaseDatabaseManager {
         $stmt->bind_param("i", $memberId);
         $stmt->execute();
         $stmt->fetch();
+        $isSuccess = $stmt->affected_rows > 0;
         $database->close();
+        return $isSuccess;
     }
 
     /**

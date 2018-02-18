@@ -182,15 +182,11 @@ class MemberListController extends BaseAdminController {
         $isSucceed = false;
 
         if (count($uploadedFiles) > 0) {
-            $this->manager->insertMemberImage($id, $uploadedFiles);
-
-//            $_SESSION[self::userUpdateMemberImagesActions] = [];
-
-            $isSucceed = true;
+            $isSucceed = $this->manager->insertMemberImage($id, $uploadedFiles);
         }
 
         if (count($removedFiles) > 0) {
-            $this->manager->removeMemberImage($id);
+            $isSucceed = $this->manager->removeMemberImage($id);
         }
 
         $_SESSION[self::userUpdateMemberImagesActions] = [];
