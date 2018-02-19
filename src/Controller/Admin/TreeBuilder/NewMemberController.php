@@ -12,10 +12,12 @@ use Controller\Admin\BaseAdminController;
 use Database\FamilyManager;
 use Model\FamilyMember;
 use Model\Response;
+use Utils\ImageFileHelper;
 use Utils\StatusCode;
 
 class NewMemberController extends BaseAdminController {
     private $manager;
+    private $imageFileHelper;
 
     const userAddMemberImagesActions = "user_add_member_images";
 
@@ -25,6 +27,7 @@ class NewMemberController extends BaseAdminController {
     public function __construct()
     {
         $this->manager = new FamilyManager();
+        $this->imageFileHelper = new ImageFileHelper();
     }
 
 
@@ -87,31 +90,12 @@ class NewMemberController extends BaseAdminController {
 
     private function checkIfImagesChange($id)
     {
-        $uploadedFiles = [];
-        $removedFiles = [];
-        $storeFolder = 'uploads';   //2
-        $destFolder = $storeFolder . "/";
-
-        foreach ($_SESSION[self::userAddMemberImagesActions] as $action) {
-            if ($action->action == "add") {
-                $targetFile = $destFolder . uniqid("member_iamge_") . ".jpg";
-
-                if (rename($action->data, $targetFile)) {
-                    $uploadedFiles[] = $targetFile;
-                } else {
-                    echo "Error occurred\n";
-                }
-            } else if ($action->action == "remove") {
-                $removedFiles[] = $action->data;
-
-                // TODO: remove image file from disk
-            }
-        }
+        $filteredAction = $this->imageFileHelper->checkAction($_SESSION[self::userAddMemberImagesActions], "uploads", "member_iamge_");
 
         $isSucceed = false;
 
-        if (count($uploadedFiles) > 0) {
-            $isSucceed = $this->manager->insertMemberImage($id, $uploadedFiles);
+        if (count($filteredAction->uploaded) > 0) {
+            $isSucceed = $this->manager->insertMemberImage($id, $filteredAction->uploaded);
         }
 
         $_SESSION[self::userAddMemberImagesActions] = [];
@@ -120,48 +104,11 @@ class NewMemberController extends BaseAdminController {
 
     private function uploadFiles()
     {
-        if (!empty($_FILES)) {
-            $tempFile = $_FILES['file']['tmp_name'];
-            $storeFolder = 'uploads/temp';   //2
-            $destFolder = $storeFolder . "/";
-            $targetFile = $destFolder . uniqid("member_image_") . ".jpg";
+        $resolvedAction = $this->imageFileHelper->uploadFiles($_FILES, "uploads/temp", "member_image_", 90);
 
-            if (!file_exists($destFolder))
-                mkdir($destFolder, 0x0777, true);
-
-//            if (move_uploaded_file($tempFile, $targetFile)) {
-            if ($this->changeImageQuality($tempFile, $targetFile, 90)) {
-                $action = new \stdClass();
-                $action->action = "add";
-                $action->data = $targetFile;
-
-                $_SESSION[self::userAddMemberImagesActions][] = $action;
-            } else {
-                echo "Error occurred\n";
-            }
+        if (!is_null($resolvedAction)) {
+            $_SESSION[self::userAddMemberImagesActions][] = $resolvedAction;
         }
-    }
-
-    private function changeImageQuality($tempFile, $targetFile, $restrainedQuality)
-    {
-        //open a stream for the uploaded image
-        $streamHandle = @fopen($tempFile, 'r');
-        //create a image resource from the contents of the uploaded image
-        $resource = imagecreatefromstring(stream_get_contents($streamHandle));
-
-        $isDone = false;
-
-        if (!$resource)
-            return $isDone;
-
-        //close our file stream
-        @fclose($streamHandle);
-
-        //move the uploaded file with a lesser quality
-        $isDone = imagejpeg($resource, $targetFile, $restrainedQuality);
-        //delete the temporary upload
-        @unlink($tempFile['tmp_name']);
-        return $isDone;
     }
 
     private function sendJsonResponse($data)
