@@ -9,7 +9,17 @@
 namespace Utils;
 
 
+use Model\FileAction;
+
 class ImageFileHelper {
+
+    /**
+     * @param $files
+     * @param string $storeFolder
+     * @param string $filePrefix
+     * @param integer $quality
+     * @return FileAction|null
+     */
     public function uploadFiles($files, $storeFolder, $filePrefix, $quality)
     {
         if (!empty($files)) {
@@ -21,11 +31,7 @@ class ImageFileHelper {
                 mkdir($destFolder, 0x0777, true);
 
             if ($this->changeImageQuality($tempFile, $targetFile, $quality)) {
-                $action = new \stdClass();
-                $action->action = "add";
-                $action->data = $targetFile;
-
-                return $action;
+                return new FileAction("add", $targetFile);
             } else {
                 echo "Error occurred\n";
                 return null;
@@ -107,12 +113,14 @@ class ImageFileHelper {
         }
     }
 
+    /**
+     * @param string $filePath
+     * @param string $actionType
+     * @return FileAction
+     */
     public function prepareAction($filePath, $actionType)
     {
-        $action = new \stdClass();
-        $action->action = $actionType;
-        $action->data = $filePath;
-        return $action;
+        return new FileAction($actionType, $filePath);
     }
 
 }

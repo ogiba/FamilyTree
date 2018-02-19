@@ -137,7 +137,8 @@ header {
     overflow: hidden; }
     #rightContainer .image-operation-container .uploaded-file-container .img-item {
       margin: 2rem;
-      position: relative; }
+      position: relative;
+      max-width: 120px; }
       #rightContainer .image-operation-container .uploaded-file-container .img-item .close-item {
         color: whitesmoke;
         position: absolute;
