@@ -13,12 +13,14 @@ use Controller\Admin\BaseAdminController;
 use Database\FamilyManager;
 use Model\FamilyMember;
 use Model\Response;
+use Utils\ImageFileHelper;
 use Utils\StatusCode;
 
 class MemberListController extends BaseAdminController {
     const userUpdateMemberImagesActions = "user_update_member_images";
 
     private $manager;
+    private $imageFileHelper;
 
     /**
      * MemberListController constructor.
@@ -26,6 +28,7 @@ class MemberListController extends BaseAdminController {
     public function __construct()
     {
         $this->manager = new FamilyManager();
+        $this->imageFileHelper = new ImageFileHelper();
     }
 
 
@@ -200,48 +203,12 @@ class MemberListController extends BaseAdminController {
 
     private function uploadFiles()
     {
-        if (!empty($_FILES)) {
-            $tempFile = $_FILES['file']['tmp_name'];
-            $storeFolder = 'uploads/temp';   //2
-            $destFolder = $storeFolder . "/";
-            $targetFile = $destFolder . uniqid("member_image_") . ".jpg";
+        $receivedAction = $this->imageFileHelper->uploadFiles($_FILES, "uploads/temp",
+            "member_image_", 90);
 
-            if (!file_exists($destFolder))
-                mkdir($destFolder, 0x0777, true);
-
-//            if (move_uploaded_file($tempFile, $targetFile)) {
-            if ($this->changeImageQuality($tempFile, $targetFile, 90)) {
-                $action = new \stdClass();
-                $action->action = "add";
-                $action->data = $targetFile;
-
-                $_SESSION[self::userUpdateMemberImagesActions][] = $action;
-            } else {
-                echo "Error occurred\n";
-            }
+        if (!is_null($receivedAction)) {
+            $_SESSION[self::userUpdateMemberImagesActions][] = $receivedAction;
         }
-    }
-
-    private function changeImageQuality($tempFile, $targetFile, $restrainedQuality)
-    {
-        //open a stream for the uploaded image
-        $streamHandle = @fopen($tempFile, 'r');
-        //create a image resource from the contents of the uploaded image
-        $resource = imagecreatefromstring(stream_get_contents($streamHandle));
-
-        $isDone = false;
-
-        if (!$resource)
-            return $isDone;
-
-        //close our file stream
-        @fclose($streamHandle);
-
-        //move the uploaded file with a lesser quality
-        $isDone = imagejpeg($resource, $targetFile, $restrainedQuality);
-        //delete the temporary upload
-        @unlink($tempFile['tmp_name']);
-        return $isDone;
     }
 
     private function removeUploadedFile($id)

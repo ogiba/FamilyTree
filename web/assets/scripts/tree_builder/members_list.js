@@ -19,6 +19,14 @@ function loadSelectedMemberToView(id) {
 
                     $("#alertContainer").append(alertToShow);
                 }
+                // removedfile: function (file) {
+                //     var ref;
+                //     if (file.previewElement) {
+                //         if ((ref = file.previewElement) != null) {
+                //             ref.parentNode.removeChild(file.previewElement);
+                //         }
+                //     }
+                // }
             });
         }).css("opacity", "0");
     })
