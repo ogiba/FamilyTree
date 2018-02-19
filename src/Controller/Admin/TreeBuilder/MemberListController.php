@@ -160,40 +160,20 @@ class MemberListController extends BaseAdminController {
 
     private function checkIfImagesChange($id)
     {
-        $uploadedFiles = [];
-        $removedFiles = [];
-        $storeFolder = 'uploads';   //2
-        $destFolder = $storeFolder . "/";
-
-        foreach ($_SESSION[self::userUpdateMemberImagesActions] as $action) {
-            if ($action->action == "add") {
-                $targetFile = $destFolder . uniqid("member_iamge_") . ".jpg";
-
-                if (rename($action->data, $targetFile)) {
-                    $uploadedFiles[] = $targetFile;
-                } else {
-                    echo "Error occurred\n";
-                }
-            } else if ($action->action == "remove") {
-                $removedFiles[] = $action->data;
-
-                // TODO: remove image file from disk
-            }
-        }
+        $filteredFiles = $this->imageFileHelper->checkAction($_SESSION[self::userUpdateMemberImagesActions],
+            "uploads", "member_image_");
 
         $isSucceed = false;
 
-        if (count($uploadedFiles) > 0) {
-            $isSucceed = $this->manager->insertMemberImage($id, $uploadedFiles);
+        if (count($filteredFiles->uploaded) > 0) {
+            $isSucceed = $this->manager->insertMemberImage($id, $filteredFiles->uploaded);
         }
 
-        if (count($removedFiles) > 0) {
+        if (count($filteredFiles->removed) > 0) {
             $isSucceed = $this->manager->removeMemberImage($id);
 
             if ($isSucceed) {
-                foreach ($removedFiles as $file) {
-                    unlink($file);
-                }
+                $this->imageFileHelper->removeFiles($filteredFiles->removed);
             }
         }
 
@@ -216,11 +196,9 @@ class MemberListController extends BaseAdminController {
         $image = $this->manager->retrieveMemberImage($id);
 
         if (!is_null($image)) {
-            $action = new \stdClass();
-            $action->action = "remove";
-            $action->data = $image->image;
+            $preparedAction = $this->imageFileHelper->prepareAction($image->image, "remove");
 
-            $_SESSION[self::userUpdateMemberImagesActions][] = $action;
+            $_SESSION[self::userUpdateMemberImagesActions][] = $preparedAction;
         }
 
         $response = new Response("Removing image for: $id", StatusCode::OK);
