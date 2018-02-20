@@ -9,25 +9,7 @@ function loadSelectedMemberToView(id) {
         $(".details-progress").on("transitionend", function () {
             $("#rightContainer").html(response.template);
 
-            $("#imageForm").dropzone({
-                maxFiles: 1,
-                addRemoveLinks: true,
-                maxfilesexceeded: function (file) {
-                    this.removeFile(file);
-
-                    var alertToShow = prepareAlert(AlertType.warning, "Cannot upload more than one image");
-
-                    $("#alertContainer").append(alertToShow);
-                }
-                // removedfile: function (file) {
-                //     var ref;
-                //     if (file.previewElement) {
-                //         if ((ref = file.previewElement) != null) {
-                //             ref.parentNode.removeChild(file.previewElement);
-                //         }
-                //     }
-                // }
-            });
+            initDropzone();
         }).css("opacity", "0");
     })
 }
@@ -44,6 +26,45 @@ function prepareProgressView() {
     return $("<div>", {
         "class": "details-progress",
         html: progress
+    });
+}
+
+function initDropzone() {
+    $("#imageForm").dropzone({
+        maxFiles: 1,
+        addRemoveLinks: true,
+        maxfilesexceeded: function (file) {
+            this.removeFile(file);
+
+            var alertToShow = prepareAlert(AlertType.warning, "Cannot upload more than one image");
+
+            $("#alertContainer").append(alertToShow);
+        },
+        removedfile: function (file) {
+            var ref;
+            if (file.previewElement) {
+                if ((ref = file.previewElement) !== null) {
+                    ref.parentNode.removeChild(file.previewElement);
+                }
+            }
+
+            removeTemporaryUploadedFile();
+            return this._updateMaxFilesReachedClass();
+        }
+    });
+}
+
+function removeTemporaryUploadedFile() {
+    $.get(window.location.href + "/removeTempImage", function (response) {
+        switch (response.statusCode) {
+            case 200:
+                console.log(response.message);
+                break;
+            case 422:
+                var preparedAlert = prepareAlert(AlertType.warning, response.message);
+                $("#alertContainer").append(preparedAlert);
+                break;
+        }
     });
 }
 

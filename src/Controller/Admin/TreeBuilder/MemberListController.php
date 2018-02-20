@@ -57,6 +57,9 @@ class MemberListController extends BaseAdminController {
                 $memberId = $_POST["memberId"];
                 $this->removeUploadedFile($memberId);
                 break;
+            case "removeTempImage":
+                $this->removeTemporaryUploadedFile();
+                break;
             default:
                 $this->viewIndex();
                 break;
@@ -202,6 +205,32 @@ class MemberListController extends BaseAdminController {
         }
 
         $response = new Response("Removing image for: $id", StatusCode::OK);
+        $this->sendJsonResponse($response);
+    }
+
+    private function removeTemporaryUploadedFile()
+    {
+        $isSucceed = true;
+
+        foreach ($_SESSION[self::userUpdateMemberImagesActions] as $key => $action) {
+            if ($action->action === "remove") {
+                continue;
+            }
+
+            if (!unlink($action->data)) {
+                $isSucceed = false;
+                break;
+            } else {
+                unset($_SESSION[self::userUpdateMemberImagesActions][$key]);
+            }
+        }
+
+        $response = null;
+        if ($isSucceed)
+            $response = new Response("Uploaded image removed", StatusCode::OK);
+        else
+            $response = new Response("Cannot remove image", StatusCode::UNPROCESSED_ENTITY);
+
         $this->sendJsonResponse($response);
     }
 
