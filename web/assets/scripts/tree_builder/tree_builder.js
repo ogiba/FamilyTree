@@ -64,6 +64,26 @@ function loadSelectedMemberToView(member) {
     }, function (response) {
         $(".details-progress").on("transitionend", function () {
             $("#rightContainer").html(response.template);
+
+            $("#imageForm").dropzone({
+                maxFiles: 1,
+                addRemoveLinks: true,
+                maxfilesexceeded: function (file) {
+                    this.removeFile(file);
+
+                    var alertToShow = prepareAlert(AlertType.warning, "Cannot upload more than one image");
+
+                    $("#alertContainer").append(alertToShow);
+                }
+                // removedfile: function (file) {
+                //     var ref;
+                //     if (file.previewElement) {
+                //         if ((ref = file.previewElement) != null) {
+                //             ref.parentNode.removeChild(file.previewElement);
+                //         }
+                //     }
+                // }
+            });
         }).css("opacity", "0");
     })
 }

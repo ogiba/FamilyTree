@@ -91,7 +91,9 @@ class Application {
                             "save_family",
                             "getMembers",
                             "edit",
-                            "update"
+                            "update",
+                            "upload",
+                            "removeImage"
                         ]
                     ],
                     "new_member" => function () {

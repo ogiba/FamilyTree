@@ -12,11 +12,15 @@ use Controller\Admin\BaseAdminController;
 use Database\FamilyManager;
 use Model\FamilyMember;
 use Model\Response;
+use Utils\ImageFileHelper;
 use Utils\StatusCode;
 
 class TreeStructureController extends BaseAdminController {
 
+    const userEditMemberImageActions = "user_edit_member_images";
+
     private $manager;
+    private $imageFileHelper;
 
     /**
      * TreeStructureController constructor.
@@ -24,6 +28,7 @@ class TreeStructureController extends BaseAdminController {
     public function __construct()
     {
         $this->manager = new FamilyManager();
+        $this->imageFileHelper = new ImageFileHelper();
     }
 
     public function action($name, $action, $params)
@@ -48,6 +53,10 @@ class TreeStructureController extends BaseAdminController {
             } else {
                 $this->loadFamilyMembers();
             }
+        } elseif ($action == "upload") {
+            $this->uploadFiles();
+        } elseif ($action == "removeImage" && isset($_GET["memberId"])) {
+            $this->removeUploadedFile($_GET["memberId"]);
         }
     }
 
@@ -159,7 +168,8 @@ class TreeStructureController extends BaseAdminController {
         $response = array("template" => $this->render("/admin/trees/tree_builder_edit_member.html.twig", [
             "selectedMember" => $familyMember,
             "members" => $members,
-            "partners" => $possiblePartners
+            "partners" => $possiblePartners,
+            "imageAction" => "/admin/tree_builder/upload"
         ]));
         $this->sendJsonResponse($response);
     }
@@ -183,6 +193,52 @@ class TreeStructureController extends BaseAdminController {
             $response = new Response("No changes", StatusCode::NO_CONTENT);
         }
 
+        $this->sendJsonResponse($response);
+    }
+
+    private function checkIfImagesChange($id)
+    {
+        $filteredFiles = $this->imageFileHelper->checkAction($_SESSION[self::userEditMemberImageActions],
+            "uploads", "member_image_");
+
+        $isSucceed = false;
+
+        if (count($filteredFiles->uploaded) > 0) {
+            $isSucceed = $this->manager->insertMemberImage($id, $filteredFiles->uploaded);
+        }
+
+        if (count($filteredFiles->removed) > 0) {
+            $isSucceed = $this->manager->removeMemberImage($id);
+
+            if ($isSucceed) {
+                $this->imageFileHelper->removeFiles($filteredFiles->removed);
+            }
+        }
+
+        $_SESSION[self::userEditMemberImageActions] = [];
+        return $isSucceed;
+    }
+
+    private function uploadFiles()
+    {
+        $resolvedAction = $this->imageFileHelper->uploadFiles($_FILES, "uploads/temp", "member_image_", 90);
+
+        if (!is_null($resolvedAction)) {
+            $_SESSION[self::userEditMemberImageActions][] = $resolvedAction;
+        }
+    }
+
+    private function removeUploadedFile($id)
+    {
+        $image = $this->manager->retrieveMemberImage($id);
+
+        if (!is_null($image)) {
+            $preparedAction = $this->imageFileHelper->prepareAction($image->image, "remove");
+
+            $_SESSION[self::userEditMemberImageActions][] = $preparedAction;
+        }
+
+        $response = new Response("Removing image for: $id", StatusCode::OK);
         $this->sendJsonResponse($response);
     }
 
