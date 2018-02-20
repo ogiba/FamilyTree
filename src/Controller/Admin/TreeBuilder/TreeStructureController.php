@@ -55,8 +55,12 @@ class TreeStructureController extends BaseAdminController {
             }
         } elseif ($action == "upload") {
             $this->uploadFiles();
-        } elseif ($action == "removeImage" && isset($_GET["memberId"])) {
-            $this->removeUploadedFile($_GET["memberId"]);
+        } elseif ($action == "removeImage" && isset($_POST["memberId"])) {
+            $this->removeUploadedFile($_POST["memberId"]);
+        } else {
+            $statusCode = StatusCode::NOT_FOUND;
+            $response = new Response(StatusCode::getMessageForCode($statusCode), $statusCode);
+            $this->sendJsonResponse($response);
         }
     }
 
@@ -158,7 +162,7 @@ class TreeStructureController extends BaseAdminController {
         if (!isset($_POST["member"]) || !isset($_SESSION["selectedFamily"])) {
             return;
         }
-        
+
         $familyMember = $this->manager->getFamilyMemberDetails($_POST["member"]);
 
         $familyId = $_SESSION["selectedFamily"];
