@@ -158,8 +158,8 @@ class TreeStructureController extends BaseAdminController {
         if (!isset($_POST["member"]) || !isset($_SESSION["selectedFamily"])) {
             return;
         }
-
-        $familyMember = $this->arrayToObject($_POST["member"], FamilyMember::class);
+        
+        $familyMember = $this->manager->getFamilyMemberDetails($_POST["member"]);
 
         $familyId = $_SESSION["selectedFamily"];
         $members = $this->manager->loadFamily($familyId);
@@ -185,6 +185,12 @@ class TreeStructureController extends BaseAdminController {
         $familyMember = $this->arrayToObject($_POST["member"], FamilyMember::class);
 
         $isUpdated = $this->manager->updateFamilyMember($id, $familyMember);
+
+        $imagesChanged = $this->checkIfImagesChange($id);
+
+        if (!$isUpdated && $imagesChanged) {
+            $isUpdated = $imagesChanged;
+        }
 
         $response = null;
         if ($isUpdated) {

@@ -43,7 +43,7 @@ function recursiveMemberElements(members) {
             return function (event) {
                 event.stopPropagation();
                 console.log(item);
-                loadSelectedMemberToView(item)
+                loadSelectedMemberToView(item.id)
             }
         })(members)
     });
@@ -54,13 +54,13 @@ function recursiveMemberElements(members) {
     return li;
 }
 
-function loadSelectedMemberToView(member) {
+function loadSelectedMemberToView(memberID) {
     var progress = prepareProgressView();
 
     $("#rightContainer").html(progress);
 
     $.post(window.location.href + "/edit", {
-        "member": member
+        "member": memberID
     }, function (response) {
         $(".details-progress").on("transitionend", function () {
             $("#rightContainer").html(response.template);
@@ -172,6 +172,22 @@ function saveMemberChanges(memberId) {
 
 function cancelEditing() {
     $("#rightContainer").html("");
+}
+
+function removeImage(id) {
+    $.post(window.location.href + "/removeImage", {
+        "memberId": id
+    }, function (response) {
+        switch (response.statusCode) {
+            case 200: {
+                $(".uploaded-file-container").remove();
+                $(".dropzone").removeClass("dropzone-hide");
+                break;
+            }
+            default:
+                break;
+        }
+    });
 }
 
 function convertDate(dateString) {
