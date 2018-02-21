@@ -8,8 +8,8 @@
 {% block javascripts %}
     {{ parent() }}
 
-    <script src="{{ asset("scripts/tree_builder/new_member.js") }}" rel="script" type="text/javascript"></script>
     <script type="text/javascript" src="{{ asset("scripts/plugins/dropzone.js") }}"></script>
+    <script src="{{ asset("scripts/tree_builder/new_member.js") }}" rel="script" type="text/javascript"></script>
 {% endblock %}
 
 {% block stylesheets %}
@@ -95,7 +95,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div>{{ trans("user-images") }}</div>
-                                    <form action="/admin/tree_builder/new_member/upload" class="dropzone"></form>
+                                    <form id="imageForm" action="/admin/tree_builder/new_member/upload"
+                                          class="dropzone"></form>
                                 </div>
                             </div>
                             <div class="row">
@@ -112,7 +113,8 @@
                         <div class="card-footer">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="btn btn-warning" onclick="window.history.back()">{{ trans("cancel") }}</div>
+                                    <div class="btn btn-warning"
+                                         onclick="window.history.back()">{{ trans("cancel") }}</div>
                                     <div class="btn btn-success" onclick="saveMember()">{{ trans("save") }}</div>
                                 </div>
                             </div>

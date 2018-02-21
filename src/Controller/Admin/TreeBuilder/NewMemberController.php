@@ -41,6 +41,8 @@ class NewMemberController extends BaseAdminController {
             $this->addMemberToDB();
         } elseif ($action == "upload") {
             $this->uploadFiles();
+        } elseif ($action == "removeTempImage") {
+            $this->removeTemporaryUploadedFile();
         }
 
     }
@@ -109,6 +111,19 @@ class NewMemberController extends BaseAdminController {
         if (!is_null($resolvedAction)) {
             $_SESSION[self::userAddMemberImagesActions][] = $resolvedAction;
         }
+    }
+
+    private function removeTemporaryUploadedFile()
+    {
+        $isSucceed = $this->imageFileHelper->removeTempFiles($_SESSION[self::userAddMemberImagesActions]);
+
+        $response = null;
+        if ($isSucceed)
+            $response = new Response("Uploaded image removed", StatusCode::OK);
+        else
+            $response = new Response("Cannot remove image", StatusCode::UNPROCESSED_ENTITY);
+
+        $this->sendJsonResponse($response);
     }
 
     private function sendJsonResponse($data)
