@@ -113,6 +113,26 @@ class ImageFileHelper {
         }
     }
 
+    public function removeTempFiles(&$fileActions)
+    {
+        $isSucceed = true;
+
+        foreach ($fileActions as $key => $action) {
+            if ($action->action === "remove") {
+                continue;
+            }
+
+            if (!unlink($action->data)) {
+                $isSucceed = false;
+                break;
+            } else {
+                unset($fileActions[$key]);
+            }
+        }
+
+        return $isSucceed;
+    }
+
     /**
      * @param string $filePath
      * @param string $actionType

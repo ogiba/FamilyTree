@@ -210,20 +210,22 @@ class MemberListController extends BaseAdminController {
 
     private function removeTemporaryUploadedFile()
     {
-        $isSucceed = true;
+        $isSucceed = $this->imageFileHelper->removeTempFiles($_SESSION[self::userUpdateMemberImagesActions]);
 
-        foreach ($_SESSION[self::userUpdateMemberImagesActions] as $key => $action) {
-            if ($action->action === "remove") {
-                continue;
-            }
-
-            if (!unlink($action->data)) {
-                $isSucceed = false;
-                break;
-            } else {
-                unset($_SESSION[self::userUpdateMemberImagesActions][$key]);
-            }
-        }
+//            true;
+//
+//        foreach ($_SESSION[self::userUpdateMemberImagesActions] as $key => $action) {
+//            if ($action->action === "remove") {
+//                continue;
+//            }
+//
+//            if (!unlink($action->data)) {
+//                $isSucceed = false;
+//                break;
+//            } else {
+//                unset($_SESSION[self::userUpdateMemberImagesActions][$key]);
+//            }
+//        }
 
         $response = null;
         if ($isSucceed)
