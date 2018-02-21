@@ -212,21 +212,6 @@ class MemberListController extends BaseAdminController {
     {
         $isSucceed = $this->imageFileHelper->removeTempFiles($_SESSION[self::userUpdateMemberImagesActions]);
 
-//            true;
-//
-//        foreach ($_SESSION[self::userUpdateMemberImagesActions] as $key => $action) {
-//            if ($action->action === "remove") {
-//                continue;
-//            }
-//
-//            if (!unlink($action->data)) {
-//                $isSucceed = false;
-//                break;
-//            } else {
-//                unset($_SESSION[self::userUpdateMemberImagesActions][$key]);
-//            }
-//        }
-
         $response = null;
         if ($isSucceed)
             $response = new Response("Uploaded image removed", StatusCode::OK);

@@ -57,6 +57,8 @@ class TreeStructureController extends BaseAdminController {
             $this->uploadFiles();
         } elseif ($action == "removeImage" && isset($_POST["memberId"])) {
             $this->removeUploadedFile($_POST["memberId"]);
+        } elseif ($action == "removeTempImage") {
+            $this->removeTemporaryUploadedFile();
         } else {
             $statusCode = StatusCode::NOT_FOUND;
             $response = new Response(StatusCode::getMessageForCode($statusCode), $statusCode);
@@ -249,6 +251,19 @@ class TreeStructureController extends BaseAdminController {
         }
 
         $response = new Response("Removing image for: $id", StatusCode::OK);
+        $this->sendJsonResponse($response);
+    }
+
+    private function removeTemporaryUploadedFile()
+    {
+        $isSucceed = $this->imageFileHelper->removeTempFiles($_SESSION[self::userEditMemberImageActions]);
+
+        $response = null;
+        if ($isSucceed)
+            $response = new Response("Uploaded image removed", StatusCode::OK);
+        else
+            $response = new Response("Cannot remove image", StatusCode::UNPROCESSED_ENTITY);
+
         $this->sendJsonResponse($response);
     }
 

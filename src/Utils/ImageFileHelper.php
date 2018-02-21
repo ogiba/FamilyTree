@@ -113,6 +113,10 @@ class ImageFileHelper {
         }
     }
 
+    /**
+     * @param FileAction[] $fileActions
+     * @return bool
+     */
     public function removeTempFiles(&$fileActions)
     {
         $isSucceed = true;

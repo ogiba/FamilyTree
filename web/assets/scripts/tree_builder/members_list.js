@@ -47,7 +47,7 @@ function initDropzone() {
                     ref.parentNode.removeChild(file.previewElement);
                 }
             }
-
+            
             removeTemporaryUploadedFile();
             return this._updateMaxFilesReachedClass();
         }

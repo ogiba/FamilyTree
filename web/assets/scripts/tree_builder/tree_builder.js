@@ -74,18 +74,35 @@ function loadSelectedMemberToView(memberID) {
                     var alertToShow = prepareAlert(AlertType.warning, "Cannot upload more than one image");
 
                     $("#alertContainer").append(alertToShow);
+                },
+                removedfile: function (file) {
+                    var ref;
+                    if (file.previewElement) {
+                        if ((ref = file.previewElement) !== null) {
+                            ref.parentNode.removeChild(file.previewElement);
+                        }
+                    }
+
+                    removeTemporaryUploadedFile();
+                    return this._updateMaxFilesReachedClass();
                 }
-                // removedfile: function (file) {
-                //     var ref;
-                //     if (file.previewElement) {
-                //         if ((ref = file.previewElement) != null) {
-                //             ref.parentNode.removeChild(file.previewElement);
-                //         }
-                //     }
-                // }
             });
         }).css("opacity", "0");
     })
+}
+
+function removeTemporaryUploadedFile() {
+    $.get(window.location.href + "/removeTempImage", function (response) {
+        switch (response.statusCode) {
+            case 200:
+                console.log(response.message);
+                break;
+            case 422:
+                var preparedAlert = prepareAlert(AlertType.warning, response.message);
+                $("#alertContainer").append(preparedAlert);
+                break;
+        }
+    });
 }
 
 function prepareProgressView() {

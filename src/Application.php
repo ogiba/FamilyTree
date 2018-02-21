@@ -93,7 +93,8 @@ class Application {
                             "edit",
                             "update",
                             "upload",
-                            "removeImage"
+                            "removeImage",
+                            "removeTempImage"
                         ]
                     ],
                     "new_member" => function () {
