@@ -4,7 +4,11 @@
 <div class="bottom-dot"></div>
 <div class="content" onclick="nodeAction({{:id}}, false)">
     <div style="text-align: center; margin-top: 25%">
-        <img>
+        {{if image.length > 0}}
+        <img src="{{:image[0].image}}">
+        {{else}}
+        <img src="web/assets/images/avatar-placeholder.png">
+        {{/else}}
     </div>
     <div style="height: 50%; line-height: 1; margin-top: 10%;">
         <label style="margin-bottom: 0;">{{:firstName}} {{:lastName}}</label>
