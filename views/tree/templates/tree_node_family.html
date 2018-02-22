@@ -5,7 +5,11 @@
 <div class="content" onclick="nodeAction({{:id}}, true)">
     <div>
         <div style="height: 50%; text-align: center;">
+            {{if image.length > 0}}
+            <img src="{{:image[0].image}}">
+            {{else}}
             <img>
+            {{/else}}
         </div>
         <div style="height: 50%; line-height: 1; margin-top: 5%;">
             <label style="margin-bottom: 0;">{{:firstName}} {{:lastName}}</label>
@@ -15,7 +19,11 @@
     </div>
     <div style="margin-top: 5%;">
         <div style="height: 50%; text-align: center;">
+            {{if partner.image.length > 0}}
+            <img src="{{:partner.image[0].image}}">
+            {{else}}
             <img>
+            {{/else}}
         </div>
         <div style="height: 50%; line-height: 1; margin-top: 5%;">
             <label style="margin-bottom: 0;">{{:partner.firstName}} {{:partner.lastName}}</label>

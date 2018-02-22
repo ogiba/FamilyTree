@@ -245,6 +245,7 @@ class FamilyManager extends BaseDatabaseManager {
         foreach ($result as $key => $value) {
             $parents = $this->loadParents($stmt, $value->id);
             $this->bindParentsToMember($value, $parents);
+            $value->image = $this->loadMemberImage($stmt, $value->id);
         }
 
         $connection->close();
