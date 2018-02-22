@@ -343,7 +343,9 @@ class FamilyManager extends BaseDatabaseManager {
             $partnerData = $this->bindResult($stmt);
 
             if ($stmt->fetch()) {
-                $familyMember->partner = $this->arrayToObject($partnerData, FamilyMember::class);
+                $partner = $this->arrayToObject($partnerData, FamilyMember::class);
+                $partner->image = $this->loadMemberImage($stmt, $partner->id);
+                $familyMember->partner = $partner;
             }
 
             $parents = $this->loadParents($stmt, $familyMember->id);
