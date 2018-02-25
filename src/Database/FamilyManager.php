@@ -476,6 +476,28 @@ class FamilyManager extends BaseDatabaseManager {
     }
 
     /**
+     * Remove user from DB
+     *
+     * @param integer $memberId
+     * @return bool
+     */
+    public function removeMember($memberId)
+    {
+        if (!isset($_SESSION["token"])) {
+            exit;
+        }
+
+        $database = $this->createConnection();
+        $stmt = $database->prepare("DELETE FROM member_images WHERE memberId = ?");
+        $stmt->bind_param("i", $memberId);
+        $stmt->execute();
+        $stmt->fetch();
+        $isSuccess = $stmt->affected_rows > 0;
+        $database->close();
+        return $isSuccess;
+    }
+
+    /**
      * Add uploaded images to db at given user id
      *
      * @param integer $memberId
