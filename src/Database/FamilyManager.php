@@ -494,6 +494,34 @@ class FamilyManager extends BaseDatabaseManager {
         $stmt->fetch();
         $isSuccess = $stmt->affected_rows > 0;
         $database->close();
+
+        $this->removeMemberPartner($memberId);
+        $this->removeMembertParents($memberId);
+
+        return $isSuccess;
+    }
+
+    private function removeMemberPartner($memberId)
+    {
+        $database = $this->createConnection();
+        $stmt = $database->prepare("DELETE FROM family_partners WHERE base = ?");
+        $stmt->bind_param("i", $memberId);
+        $stmt->execute();
+        $stmt->fetch();
+        $isSuccess = $stmt->affected_rows > 0;
+        $database->close();
+        return $isSuccess;
+    }
+
+    private function removeMembertParents($memberId)
+    {
+        $database = $this->createConnection();
+        $stmt = $database->prepare("DELETE FROM family_parents WHERE child = ?");
+        $stmt->bind_param("i", $memberId);
+        $stmt->execute();
+        $stmt->fetch();
+        $isSuccess = $stmt->affected_rows > 0;
+        $database->close();
         return $isSuccess;
     }
 
