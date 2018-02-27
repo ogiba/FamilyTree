@@ -488,7 +488,7 @@ class FamilyManager extends BaseDatabaseManager {
         }
 
         $database = $this->createConnection();
-        $stmt = $database->prepare("DELETE FROM member_images WHERE memberId = ?");
+        $stmt = $database->prepare("DELETE FROM family_members WHERE id = ?");
         $stmt->bind_param("i", $memberId);
         $stmt->execute();
         $stmt->fetch();

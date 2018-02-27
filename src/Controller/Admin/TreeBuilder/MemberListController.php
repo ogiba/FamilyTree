@@ -60,6 +60,9 @@ class MemberListController extends BaseAdminController {
             case "removeTempImage":
                 $this->removeTemporaryUploadedFile();
                 break;
+            case "removeMember":
+                $this->removeMember();
+                break;
             default:
                 $this->viewIndex();
                 break;
@@ -217,6 +220,24 @@ class MemberListController extends BaseAdminController {
             $response = new Response("Uploaded image removed", StatusCode::OK);
         else
             $response = new Response("Cannot remove image", StatusCode::UNPROCESSED_ENTITY);
+
+        $this->sendJsonResponse($response);
+    }
+
+    private function removeMember()
+    {
+        if (!isset($_POST["memberId"])) {
+            exit();
+        }
+
+        $memberId = $_POST["memberId"];
+
+        $isSucceed = $this->manager->removeMember($memberId);
+
+        if ($isSucceed)
+            $response = new Response("Member removed", StatusCode::OK);
+        else
+            $response = new Response("Cannot remove member", StatusCode::UNPROCESSED_ENTITY);
 
         $this->sendJsonResponse($response);
     }

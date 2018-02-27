@@ -144,6 +144,7 @@ function makeUpdateRequest(member) {
                 break;
             case 422:
                 alertToShow = prepareAlert(AlertType.warning, "Failed updating member");
+                break;
             default:
                 break;
         }
@@ -175,6 +176,23 @@ function removeImage(id) {
  */
 function cancelEditing() {
     $("#rightContainer").html("");
+}
+
+function removeUser(id) {
+    $.post(window.location.href + "/removeMember", {
+        "memberId": id
+    }, function (response) {
+        switch (response.statusCode) {
+            case 200:
+                $("#rightContainer").html("");
+                break;
+            case 422:
+                $("#alertContainer").append(prepareAlert(AlertType.warning, response.message));
+                break;
+            default:
+                break;
+        }
+    })
 }
 
 /**
