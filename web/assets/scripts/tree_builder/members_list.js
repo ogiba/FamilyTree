@@ -205,6 +205,7 @@ function sendRemoveUserRequest(id) {
         switch (response.statusCode) {
             case 200:
                 $("#rightContainer").html("");
+                reloadMembers();
                 break;
             case 422:
                 $("#alertContainer").append(prepareAlert(AlertType.warning, response.message));
@@ -213,6 +214,11 @@ function sendRemoveUserRequest(id) {
                 break;
         }
     })
+}
+
+function reloadMembers() {
+    //TODO: Need to implement reloading list of members
+    $("#membersContainer").html("");
 }
 
 /**

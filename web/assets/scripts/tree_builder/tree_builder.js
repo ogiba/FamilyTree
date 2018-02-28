@@ -229,6 +229,7 @@ function makeUpdateRequest(member) {
                 break;
             case 422:
                 alertToShow = prepareAlert(AlertType.warning, "Failed updating member");
+                break;
             default:
                 break;
         }
