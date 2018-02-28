@@ -107,7 +107,6 @@ class MemberListController extends BaseAdminController {
             return;
         }
 
-//        $familyMember = $this->arrayToObject($_POST["member"], FamilyMember::class);
         $familyMember = $this->manager->getFamilyMemberDetails($_POST["member"]);
 
         $familyId = $_SESSION["selectedFamily"];
@@ -118,6 +117,7 @@ class MemberListController extends BaseAdminController {
             "selectedMember" => $familyMember,
             "members" => $members,
             "partners" => $possiblePartners,
+            "removingEnabled" => true,
             "imageAction" => "/admin/tree_builder/members/upload"
         ]));
         $this->sendJsonResponse($response);
@@ -232,7 +232,7 @@ class MemberListController extends BaseAdminController {
 
         $memberId = $_POST["memberId"];
 
-        $isSucceed = $this->manager->removeMember($memberId);
+        $isSucceed = $this->manager->removeMember(intval($memberId));
 
         if ($isSucceed)
             $response = new Response("Member removed", StatusCode::OK);

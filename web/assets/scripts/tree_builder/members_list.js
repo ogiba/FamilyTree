@@ -179,10 +179,6 @@ function cancelEditing() {
 }
 
 function removeUser(id) {
-    // var result = confirm(message);
-    // if (result) {
-    //     sendRemoveUserRequest(id);
-    // }
     var removeUserModal = $('#removeUserModal');
 
 

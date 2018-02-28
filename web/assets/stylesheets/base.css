@@ -7,6 +7,9 @@ section {
   section.marginned {
     margin-top: 64px; }
 
+.modal {
+  z-index: 1500; }
+
 .nav-bar {
   position: absolute;
   bottom: 0;

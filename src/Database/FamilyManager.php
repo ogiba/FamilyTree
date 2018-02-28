@@ -487,6 +487,10 @@ class FamilyManager extends BaseDatabaseManager {
             exit;
         }
 
+        $this->removeMemberPartner($memberId);
+        $this->removeMembertParents($memberId);
+        $this->removeTreeNodeByPerson($memberId);
+
         $database = $this->createConnection();
         $stmt = $database->prepare("DELETE FROM family_members WHERE id = ?");
         $stmt->bind_param("i", $memberId);
@@ -494,10 +498,6 @@ class FamilyManager extends BaseDatabaseManager {
         $stmt->fetch();
         $isSuccess = $stmt->affected_rows > 0;
         $database->close();
-
-        $this->removeMemberPartner($memberId);
-        $this->removeMembertParents($memberId);
-        $this->removeTreeNodeByPerson($memberId);
 
         return $isSuccess;
     }
