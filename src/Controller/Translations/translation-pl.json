@@ -37,6 +37,8 @@
   "admin-tree-builder-title": "Drzewo rodziny",
   "admin-tree-builder-card-header": "Edytowanie drzewa",
   "admin-remove-user-dialog-body": "Czy na pewno chcesz usunąć użytkownika?",
+  "yes": "Tak",
+  "no": "Nie",
   "edit": "Edytuj",
   "save": "Zapisz",
   "preview": "Podgląd",

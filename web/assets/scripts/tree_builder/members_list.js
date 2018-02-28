@@ -178,11 +178,28 @@ function cancelEditing() {
     $("#rightContainer").html("");
 }
 
-function removeUser(id, message) {
-    var result = confirm(message);
-    if (result) {
+function removeUser(id) {
+    // var result = confirm(message);
+    // if (result) {
+    //     sendRemoveUserRequest(id);
+    // }
+    var removeUserModal = $('#removeUserModal');
+
+
+    removeUserModal.find("button.ok").off().on("click", function () {
+        $('#removeUserModal').modal("hide");
+
+        console.log("Clicked ok");
         sendRemoveUserRequest(id);
-    }
+    });
+
+    removeUserModal.find("button.cancel").off().on("click", function () {
+        $('#removeUserModal').modal("hide");
+
+        console.log("Clicked cancel");
+    });
+
+    removeUserModal.modal("toggle");
 }
 
 function sendRemoveUserRequest(id) {
