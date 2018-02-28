@@ -36,6 +36,7 @@
   "admin-member-list-title": "Member of family",
   "admin-tree-builder-title": "Tree of family",
   "admin-tree-builder-card-header": "Editing tree structure",
+  "admin-remove-user-dialog-body": "Are you sure you want to remove user?",
   "edit": "Edit",
   "save": "Save",
   "preview": "Preview",

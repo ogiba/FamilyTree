@@ -178,7 +178,14 @@ function cancelEditing() {
     $("#rightContainer").html("");
 }
 
-function removeUser(id) {
+function removeUser(id, message) {
+    var result = confirm(message);
+    if (result) {
+        sendRemoveUserRequest(id);
+    }
+}
+
+function sendRemoveUserRequest(id) {
     $.post(window.location.href + "/removeMember", {
         "memberId": id
     }, function (response) {
