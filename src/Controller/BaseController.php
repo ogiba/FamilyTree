@@ -34,35 +34,40 @@ abstract class BaseController {
             return "/web/assets/" . $path;
         }));
         $twig->addFunction(new Twig_SimpleFunction("trans", function ($key) {
-            $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-            $translatedString = $key;
-            switch ($lang) {
-                case "pl":
-                    //echo "PAGE EN";
-                    $jsonString = file_get_contents("Translations/translation-pl.json", true);
-                    if ($jsonString) {
-                        try {
-                            $translatedString = json_decode($jsonString, true)[$key];
-                        } catch (Exception $ex) {
-
-                        }
-                    }
-                    break;
-                default:
-                    //echo "PAGE EN - Setting Default";
-                    $jsonString = file_get_contents("/src/Translations/translation-" . $lang . ".json", true);
-                    if ($jsonString) {
-                        try {
-                            $translatedString = json_decode($jsonString, true)[$key];
-                        } catch (Exception $ex) {
-
-                        }
-                    }
-                    break;
-            }
-            return $translatedString;
+            return $this->translate($key);
         }));
         return $twig->render($viewName, $properties);
+    }
+
+    protected function translate($key)
+    {
+        $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+        $translatedString = $key;
+        switch ($lang) {
+            case "pl":
+                //echo "PAGE EN";
+                $jsonString = file_get_contents("Translations/translation-pl.json", true);
+                if ($jsonString) {
+                    try {
+                        $translatedString = json_decode($jsonString, true)[$key];
+                    } catch (Exception $ex) {
+
+                    }
+                }
+                break;
+            default:
+                //echo "PAGE EN - Setting Default";
+                $jsonString = file_get_contents("/src/Translations/translation-" . $lang . ".json", true);
+                if ($jsonString) {
+                    try {
+                        $translatedString = json_decode($jsonString, true)[$key];
+                    } catch (Exception $ex) {
+
+                    }
+                }
+                break;
+        }
+        return $translatedString;
     }
 
     protected function checkIfUserLogged()
