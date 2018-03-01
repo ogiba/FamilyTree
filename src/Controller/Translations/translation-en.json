@@ -37,6 +37,8 @@
   "admin-tree-builder-title": "Tree of family",
   "admin-tree-builder-card-header": "Editing tree structure",
   "admin-remove-user-dialog-body": "Are you sure you want to remove user?",
+  "admin-edit-member-max-file": "Cannot upload more than one image",
+  "admin-edit-member-upload-placeholder": "Upload image here to upload",
   "yes": "Yes",
   "no": "No",
   "edit": "Edit",

@@ -37,6 +37,8 @@
   "admin-tree-builder-title": "Drzewo rodziny",
   "admin-tree-builder-card-header": "Edytowanie drzewa",
   "admin-remove-user-dialog-body": "Czy na pewno chcesz usunąć użytkownika?",
+  "admin-edit-member-max-file": "Nie można dodać więcej niż jednego zdjęcia",
+  "admin-edit-member-upload-placeholder": "Upuść zdjęcie tutaj by je dodać",
   "yes": "Tak",
   "no": "Nie",
   "edit": "Edytuj",

@@ -71,7 +71,7 @@ function loadSelectedMemberToView(memberID) {
                 maxfilesexceeded: function (file) {
                     this.removeFile(file);
 
-                    var alertToShow = prepareAlert(AlertType.warning, "Cannot upload more than one image");
+                    var alertToShow = prepareAlert(AlertType.warning, $("#imageForm").data("max-file-msg"));
 
                     $("#alertContainer").append(alertToShow);
                 },

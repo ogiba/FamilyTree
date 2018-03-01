@@ -36,7 +36,7 @@ function initDropzone() {
         maxfilesexceeded: function (file) {
             this.removeFile(file);
 
-            var alertToShow = prepareAlert(AlertType.warning, "Cannot upload more than one image");
+            var alertToShow = prepareAlert(AlertType.warning, $("#imageForm").data("max-file-msg"));
 
             $("#alertContainer").append(alertToShow);
         },
@@ -204,7 +204,6 @@ function sendRemoveUserRequest(id) {
     }, function (response) {
         switch (response.statusCode) {
             case 200:
-                $("#rightContainer").html("");
                 reloadMembers();
                 break;
             case 422:
@@ -220,6 +219,7 @@ function reloadMembers() {
     //TODO: Need to implement reloading list of members
     $.get(window.location.href + "/getMembers", function (response) {
         $("#membersContainer").html(response.template);
+        $("#rightContainer").html("");
     });
 }
 
