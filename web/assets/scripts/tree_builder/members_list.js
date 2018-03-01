@@ -218,7 +218,9 @@ function sendRemoveUserRequest(id) {
 
 function reloadMembers() {
     //TODO: Need to implement reloading list of members
-    $("#membersContainer").html("");
+    $.get(window.location.href + "/getMembers", function (response) {
+        $("#membersContainer").html(response.template);
+    });
 }
 
 /**

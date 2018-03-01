@@ -43,6 +43,8 @@ class MemberListController extends BaseAdminController {
             case "getMembers":
                 if (isset($_GET["id"])) {
                     $this->loadSelectedMember($_GET["id"]);
+                } else {
+                    $this->loadMembers();
                 }
                 break;
             case "update":
@@ -78,7 +80,7 @@ class MemberListController extends BaseAdminController {
         $selectedFamily = $this->loadFamilyData($_SESSION["selectedFamily"]);
         $members = $this->manager->loadFamily($selectedFamily->id);
 
-        echo $this->render("/admin/trees/tree_builder_members_list.html.twig", [
+        echo $this->render("/admin/trees/tree_builder_members.html.twig", [
             "userLogged" => $this->userLogged,
             "family" => $selectedFamily,
             "familyMembers" => $members
@@ -134,6 +136,22 @@ class MemberListController extends BaseAdminController {
         }
 
         echo $this->sendJsonResponse($member);
+    }
+
+    private function loadMembers()
+    {
+        if (!isset($_SESSION["selectedFamily"])) {
+            return;
+        }
+
+        $familyId = $_SESSION["selectedFamily"];
+        $members = $this->manager->loadFamily($familyId);
+
+        $response = array("template" => $this->render("/admin/trees/tree_builder_members_list.html.twig", [
+            "familyMembers" => $members
+        ]));
+
+        echo $this->sendJsonResponse($response);
     }
 
     private function updateSelectedMember($id)
