@@ -39,6 +39,12 @@ abstract class BaseController {
         return $twig->render($viewName, $properties);
     }
 
+    /**
+     * Looks for translation for given key and return it value
+     *
+     * @param string $key
+     * @return string
+     */
     protected function translate($key)
     {
         $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);

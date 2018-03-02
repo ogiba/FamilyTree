@@ -137,13 +137,13 @@ function makeUpdateRequest(member) {
         var alertToShow = null;
         switch (response.statusCode) {
             case 200:
-                alertToShow = prepareAlert(AlertType.success, "Member updated");
+                alertToShow = prepareAlert(AlertType.success, response.message);
                 break;
             case 204:
-                alertToShow = prepareAlert(AlertType.info, "No changes to save");
+                alertToShow = prepareAlert(AlertType.info, response.message);
                 break;
             case 422:
-                alertToShow = prepareAlert(AlertType.warning, "Failed updating member");
+                alertToShow = prepareAlert(AlertType.warning, response.message);
                 break;
             default:
                 break;

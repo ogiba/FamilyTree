@@ -157,7 +157,7 @@ class MemberListController extends BaseAdminController {
     private function updateSelectedMember($id)
     {
         if (!isset($_POST["member"])) {
-            $response = new Response("Missing parameter member", StatusCode::UNPROCESSED_ENTITY);
+            $response = new Response($this->translate("admin-edit-member-failed-to-update"), StatusCode::UNPROCESSED_ENTITY);
             $this->sendJsonResponse($response);
             return;
         }
@@ -174,9 +174,9 @@ class MemberListController extends BaseAdminController {
 
         $response = null;
         if ($isUpdated) {
-            $response = new Response("Member updated", StatusCode::OK);
+            $response = new Response($this->translate("admin-edit-member-updated"), StatusCode::OK);
         } else {
-            $response = new Response("No changes", StatusCode::NO_CONTENT);
+            $response = new Response($this->translate("admin-edit-member-no-changes"), StatusCode::NO_CONTENT);
         }
 
         $this->sendJsonResponse($response);
