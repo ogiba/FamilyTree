@@ -202,16 +202,23 @@ function sendRemoveUserRequest(id) {
     $.post(window.location.href + "/removeMember", {
         "memberId": id
     }, function (response) {
+
+        var alert = null;
+
         switch (response.statusCode) {
             case 200:
+                alert = prepareAlert(AlertType.success, response.message);
                 reloadMembers();
                 break;
             case 422:
-                $("#alertContainer").append(prepareAlert(AlertType.warning, response.message));
+                alert = prepareAlert(AlertType.warning, response.message);
                 break;
             default:
                 break;
         }
+
+        if (alert)
+            $("#alertContainer").append(alert);
     })
 }
 

@@ -130,7 +130,7 @@ class MemberListController extends BaseAdminController {
         $member = $this->manager->getFamilyMemberDetails($id);
 
         if (is_null($member)) {
-            $response = new Response(StatusCode::NOT_FOUND, "Member not found");
+            $response = new Response(StatusCode::NOT_FOUND, $this->translate("admin-edit-member-not-found"));
             $this->sendJsonResponse($response);
             return;
         }
@@ -235,9 +235,9 @@ class MemberListController extends BaseAdminController {
 
         $response = null;
         if ($isSucceed)
-            $response = new Response("Uploaded image removed", StatusCode::OK);
+            $response = new Response($this->translate("admin-edit-member-uploaded-image-removed"), StatusCode::OK);
         else
-            $response = new Response("Cannot remove image", StatusCode::UNPROCESSED_ENTITY);
+            $response = new Response($this->translate("admin-edit-member-cannot-remove-img"), StatusCode::UNPROCESSED_ENTITY);
 
         $this->sendJsonResponse($response);
     }
@@ -253,9 +253,9 @@ class MemberListController extends BaseAdminController {
         $isSucceed = $this->manager->removeMember(intval($memberId));
 
         if ($isSucceed)
-            $response = new Response("Member removed", StatusCode::OK);
+            $response = new Response($this->translate("admin-edit-member-removed"), StatusCode::OK);
         else
-            $response = new Response("Cannot remove member", StatusCode::UNPROCESSED_ENTITY);
+            $response = new Response($this->translate("admin-edit-member-cannot-remove"), StatusCode::UNPROCESSED_ENTITY);
 
         $this->sendJsonResponse($response);
     }
