@@ -96,7 +96,10 @@
                                 <div class="col-md-6">
                                     <div>{{ trans("user-images") }}</div>
                                     <form id="imageForm" action="/admin/tree_builder/new_member/upload"
-                                          class="dropzone"></form>
+                                          class="dropzone">
+                                        <div class="dz-message" data-dz-message>
+                                            <span>{{ trans("admin-edit-member-upload-placeholder") }}</span></div>
+                                    </form>
                                 </div>
                             </div>
                             <div class="row">
