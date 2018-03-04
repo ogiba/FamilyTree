@@ -101,8 +101,11 @@
                     {% set images = selectedMember.image %}
                     <form id="imageForm" action="{{ imageAction }}"
                           class="dropzone {{ images|length > 0 ? 'dropzone-hide' : '' }}"
+                          data-cancel-upload="{{ trans("cancel") }}"
+                          data-remove-file="{{ trans("remove") }}"
                           data-max-file-msg="{{ trans("admin-edit-member-max-file") }}">
-                        <div class="dz-message" data-dz-message><span>{{ trans("admin-edit-member-upload-placeholder") }}</span></div>
+                        <div class="dz-message" data-dz-message>
+                            <span>{{ trans("admin-edit-member-upload-placeholder") }}</span></div>
                     </form>
                     {% if images is not null and images|length > 0 %}
                         <div class="uploaded-file-container">
@@ -110,7 +113,7 @@
                                 <div class="img-item">
                                     <img src="{{ "/" ~ imageModel.image }}" class="img-fluid" alt="Responsive image">
                                     <div>
-                                        <a onclick="removeImage({{ selectedMember.id }})">Remove image</a>
+                                        <a onclick="removeImage({{ selectedMember.id }})">{{ trans("removegi") }}</a>
                                     </div>
                                 </div>
                             {% endfor %}

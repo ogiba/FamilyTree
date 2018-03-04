@@ -65,30 +65,38 @@ function loadSelectedMemberToView(memberID) {
         $(".details-progress").on("transitionend", function () {
             $("#rightContainer").html(response.template);
 
-            $("#imageForm").dropzone({
-                maxFiles: 1,
-                addRemoveLinks: true,
-                maxfilesexceeded: function (file) {
-                    this.removeFile(file);
-
-                    var alertToShow = prepareAlert(AlertType.warning, $("#imageForm").data("max-file-msg"));
-
-                    $("#alertContainer").append(alertToShow);
-                },
-                removedfile: function (file) {
-                    var ref;
-                    if (file.previewElement) {
-                        if ((ref = file.previewElement) !== null) {
-                            ref.parentNode.removeChild(file.previewElement);
-                        }
-                    }
-
-                    removeTemporaryUploadedFile();
-                    return this._updateMaxFilesReachedClass();
-                }
-            });
+            initDropzone();
         }).css("opacity", "0");
     })
+}
+
+function initDropzone() {
+    var dropzoneElement = $("#imageForm.dropzone");
+
+    dropzoneElement.dropzone({
+        maxFiles: 1,
+        addRemoveLinks: true,
+        dictCancelUpload: dropzoneElement.data("cancel-upload"),
+        dictRemoveFile: dropzoneElement.data("remove-file"),
+        maxfilesexceeded: function (file) {
+            this.removeFile(file);
+
+            var alertToShow = prepareAlert(AlertType.warning, $("#imageForm").data("max-file-msg"));
+
+            $("#alertContainer").append(alertToShow);
+        },
+        removedfile: function (file) {
+            var ref;
+            if (file.previewElement) {
+                if ((ref = file.previewElement) !== null) {
+                    ref.parentNode.removeChild(file.previewElement);
+                }
+            }
+
+            removeTemporaryUploadedFile();
+            return this._updateMaxFilesReachedClass();
+        }
+    });
 }
 
 function removeTemporaryUploadedFile() {

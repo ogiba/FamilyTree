@@ -33,6 +33,8 @@ function initDropzone() {
     $("#imageForm").dropzone({
         maxFiles: 1,
         addRemoveLinks: true,
+        dictCancelUpload: $("#imageForm").data("cancel-upload"),
+        dictRemoveFile: $("#imageForm").data("remove-file"),
         maxfilesexceeded: function (file) {
             this.removeFile(file);
 
