@@ -1,10 +1,12 @@
 Dropzone.options.imageForm = {
     maxFiles: 1,
     addRemoveLinks: true,
+    dictCancelUpload: $("#imageForm").data("cancel-upload"),
+    dictRemoveFile: $("#imageForm").data("remove-file"),
     maxfilesexceeded: function (file) {
         this.removeFile(file);
 
-        var alertToShow = prepareAlert(AlertType.warning, "Cannot upload more than one image");
+        var alertToShow = prepareAlert(AlertType.warning, $("#imageForm").data("max-file-msg"));
 
         $("#alertContainer").append(alertToShow);
     },
@@ -89,7 +91,8 @@ function sendSaveRequest(member) {
         var alertToShow = null;
         switch (response.statusCode) {
             case 200:
-                window.location.href = "/admin/tree_builder";
+                // window.location.href = "/admin/tree_builder";
+                window.history.back();
                 break;
             case 422:
                 alertToShow = prepareAlert(AlertType.warning, response.message);
