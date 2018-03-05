@@ -490,6 +490,7 @@ class FamilyManager extends BaseDatabaseManager {
         $this->removeMemberPartner($memberId);
         $this->removeMembertParents($memberId);
         $this->removeTreeNodeByPerson($memberId);
+        $this->removeMemberImage($memberId);
 
         $database = $this->createConnection();
         $stmt = $database->prepare("DELETE FROM family_members WHERE id = ?");

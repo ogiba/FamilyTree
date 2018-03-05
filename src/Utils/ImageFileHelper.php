@@ -100,6 +100,9 @@ class ImageFileHelper {
      */
     public function removeFile($filePath)
     {
+        if (is_file($filePath)) {
+            chmod($filePath, 0777);
+        }
         unlink($filePath);
     }
 
