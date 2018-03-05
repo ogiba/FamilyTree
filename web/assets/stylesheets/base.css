@@ -90,6 +90,8 @@ footer {
     right: 0;
     bottom: 0;
     height: 10%; }
+    footer > div:last-of-type a {
+      color: whitesmoke; }
 
 .col-2 {
   display: inline-block;

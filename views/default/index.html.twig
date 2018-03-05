@@ -44,4 +44,11 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('scripts/index.js') }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-115060426-1');
+    </script>
 {% endblock %}
