@@ -53,6 +53,7 @@
   "save": "Save",
   "preview": "Preview",
   "cancel": "Cancel",
+  "close": "Close",
   "remove": "Remove",
   "modal-title-warning": "Warning",
   "sections-name": "Section name",
@@ -69,5 +70,6 @@
   "user-partner": "Partner",
   "user-images": "Images",
   "user-desc": "Optional information",
-  "modified-by": "by"
+  "modified-by": "by",
+  "member-details": "Member Details"
 }

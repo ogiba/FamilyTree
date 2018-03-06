@@ -13,7 +13,7 @@
         <div class="row">
             {% set maidenName = selectedMember.maidenName %}
             {% if maidenName is not null and maidenName is not empty %}
-                {{ include('tree/templates/modal_text_field.html.twig', {label: "Maiden name", value: maidenName}) }}
+                {{ include('tree/templates/modal_text_field.html.twig', {label: trans("user-maiden-name"), value: maidenName}) }}
             {% endif %}
 
             {% if memberPartner is null %}
@@ -23,30 +23,30 @@
             {% endif %}
             {% if partner is not null %}
                 {% set name = partner.firstName ~" "~ partner.lastName %}
-                {{ include('tree/templates/modal_text_field.html.twig', {label: "Partner", value: name}) }}
+                {{ include('tree/templates/modal_text_field.html.twig', {label: trans("user-partner"), value: name}) }}
             {% endif %}
 
             {% set birthDate = selectedMember.birthDate %}
             {% if birthDate is not null and birthDate is not empty %}
-                {{ include('tree/templates/modal_text_field.html.twig', {label: "Birth date", value: birthDate}) }}
+                {{ include('tree/templates/modal_text_field.html.twig', {label: trans("user-birth-date"), value: birthDate}) }}
             {% endif %}
 
             {% set deathDate = selectedMember.deathDate %}
             {% if deathDate is not null and deathDate is not empty %}
-                {{ include('tree/templates/modal_text_field.html.twig', {label: "Death date", value: deathDate}) }}
+                {{ include('tree/templates/modal_text_field.html.twig', {label: trans("user-death-date"), value: deathDate}) }}
             {% endif %}
 
 
             {% set firstParent = selectedMember.firstParent %}
             {% if firstParent is not null and firstParent is not empty %}
                 {% set firstParentName = firstParent.firstName ~" "~ firstParent.lastName %}
-                {{ include('tree/templates/modal_text_field.html.twig', {label: "First parent", value: firstParentName}) }}
+                {{ include('tree/templates/modal_text_field.html.twig', {label: trans("user-first-parent"), value: firstParentName}) }}
             {% endif %}
 
             {% set secondParent = selectedMember.secondParent %}
             {% if secondParent is not null and secondParent is not empty %}
                 {% set secondParentName = secondParent.firstName ~" "~ secondParent.lastName %}
-                {{ include('tree/templates/modal_text_field.html.twig', {label: "Second parent", value: secondParentName}) }}
+                {{ include('tree/templates/modal_text_field.html.twig', {label: trans("user-second-parent"), value: secondParentName}) }}
             {% endif %}
         </div>
     </div>
@@ -54,6 +54,6 @@
 {% set description = selectedMember.description %}
 {% if description is not null and description is not empty %}
     <div class="row">
-        {{ include('tree/templates/modal_text_field.html.twig', {label: "Description", value: description}) }}
+        {{ include('tree/templates/modal_text_field.html.twig', {label: trans("user-desc"), value: description}) }}
     </div>
 {% endif %}

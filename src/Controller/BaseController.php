@@ -61,9 +61,19 @@ abstract class BaseController {
                     }
                 }
                 break;
+            case "en":
+                $jsonString = file_get_contents("Translations/translation-" . $lang . ".json", true);
+                if ($jsonString) {
+                    try {
+                        $translatedString = json_decode($jsonString, true)[$key];
+                    } catch (Exception $ex) {
+
+                    }
+                }
+                break;
             default:
                 //echo "PAGE EN - Setting Default";
-                $jsonString = file_get_contents("/src/Translations/translation-" . $lang . ".json", true);
+                $jsonString = file_get_contents("Translations/translation-en.json", true);
                 if ($jsonString) {
                     try {
                         $translatedString = json_decode($jsonString, true)[$key];
