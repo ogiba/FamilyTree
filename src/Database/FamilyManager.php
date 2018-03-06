@@ -132,6 +132,13 @@ class FamilyManager extends BaseDatabaseManager {
         return $parentsResult;
     }
 
+    private function bindMemberData($stmt, $member)
+    {
+        $parents = $this->loadParents($stmt, $member->id);
+        $this->bindParentsToMember($member, $parents);
+        $member->image = $this->loadMemberImage($stmt, $member->id);
+    }
+
     /**
      * @param FamilyMember $member
      * @param ChildParentPair[] $parents
@@ -344,15 +351,11 @@ class FamilyManager extends BaseDatabaseManager {
 
             if ($stmt->fetch()) {
                 $partner = $this->arrayToObject($partnerData, FamilyMember::class);
-                $partner->image = $this->loadMemberImage($stmt, $partner->id);
+                $this->bindMemberData($stmt, $partner);
                 $familyMember->partner = $partner;
             }
 
-            $parents = $this->loadParents($stmt, $familyMember->id);
-            $this->bindParentsToMember($familyMember, $parents);
-
-            $images = $this->loadMemberImage($stmt, $familyMember->id);
-            $familyMember->image = $images;
+            $this->bindMemberData($stmt, $familyMember);
         }
 
         $stmt->close();
