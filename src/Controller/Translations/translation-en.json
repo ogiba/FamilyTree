@@ -47,6 +47,7 @@
   "admin-edit-member-cannot-remove": "Cannot remove member",
   "admin-edit-member-uploaded-image-removed": "Uploaded image removed",
   "admin-edit-member-cannot-remove-img": "Cannot remove image",
+  "admin-edit-family-head": "Set as family head",
   "yes": "Yes",
   "no": "No",
   "edit": "Edit",

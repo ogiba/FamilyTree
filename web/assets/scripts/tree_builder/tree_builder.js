@@ -190,10 +190,14 @@ function saveMemberChanges(memberId) {
             member.partner = newPartner;
         }
 
-        var baseNodeChecked = $("#familyHead").is(":checked");
+        var familyHead = $("#familyHead");
 
-        if (member.base === 0 && baseNodeChecked) {
-            member.base = baseNodeChecked ? 1 : 0;
+        if (familyHead !== undefined && familyHead.length > 0) {
+            var baseNodeChecked = familyHead.is(":checked");
+
+            if (member.base === 0 && baseNodeChecked) {
+                member.base = baseNodeChecked ? 1 : 0;
+            }
         }
 
         member.description = $("#memberDescriptionArea").val();

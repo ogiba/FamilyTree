@@ -415,7 +415,7 @@ class FamilyManager extends BaseDatabaseManager {
         }
 
         if ($familyMember->base == 1) {
-            $this->updateBaseNode($stmt, $familyMember->id, $familyMember->base);
+            $isSucceed = $this->updateBaseNode($stmt, $familyMember->id, $familyMember->base);
         }
 
         $stmt->close();

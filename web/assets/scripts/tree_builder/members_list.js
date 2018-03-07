@@ -120,6 +120,16 @@ function saveMemberChanges(memberId) {
             member.partner = newPartner;
         }
 
+        var familyHead = $("#familyHead");
+
+        if (familyHead !== undefined && familyHead.length > 0) {
+            var baseNodeChecked = familyHead.is(":checked");
+
+            if (member.base === 0 && baseNodeChecked) {
+                member.base = baseNodeChecked ? 1 : 0;
+            }
+        }
+
         member.description = $("#memberDescriptionArea").val();
 
         makeUpdateRequest(member);
@@ -139,6 +149,7 @@ function makeUpdateRequest(member) {
         var alertToShow = null;
         switch (response.statusCode) {
             case 200:
+                $("#rightContainer").html("");
                 alertToShow = prepareAlert(AlertType.success, response.message);
                 break;
             case 204:
