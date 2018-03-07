@@ -74,7 +74,8 @@ class FamilyManager extends BaseDatabaseManager {
                                                     fm.deathDate,
                                                     fm.image,
                                                     fm.description,
-                                                    fp.partner AS partner
+                                                    fp.partner AS partner,
+                                                    tn.baseNode AS base
                                               FROM tree_nodes tn 
                                               INNER JOIN family_members AS fm ON tn.person = fm.id
                                               INNER JOIN family_partners AS fp ON fm.id = fp.base
@@ -233,7 +234,8 @@ class FamilyManager extends BaseDatabaseManager {
                                                     fm.deathDate,
                                                     fm.image,
                                                     fm.description,
-                                                    fp.partner AS partner
+                                                    fp.partner AS partner,
+                                                    tn.baseNode AS base
                                               FROM tree_nodes tn 
                                               INNER JOIN family_members AS fm ON tn.person = fm.id
                                               INNER JOIN family_partners AS fp ON fm.id = fp.base
@@ -259,7 +261,7 @@ class FamilyManager extends BaseDatabaseManager {
 
         $baseNode = null;
         foreach ($result as $key => $value) {
-            if ($value->firstParent == null) {
+            if ($value->base) {
                 $value->partner = $this->findPartner($value->partner, $result);
                 $value->children = $this->recursiveChildrenFilter($value->id, $result);
                 $baseNode = $value;
@@ -328,9 +330,11 @@ class FamilyManager extends BaseDatabaseManager {
                                                     fm.deathDate,
                                                     fm.image,
                                                     fm.description,
-                                                    fp.partner AS partner
+                                                    fp.partner AS partner,
+                                                    tn.baseNode AS base
                                               FROM family_members fm
                                               INNER JOIN family_partners fp ON fm.id = fp.base
+                                              INNER JOIN tree_nodes tn ON fm.id = tn.person
                                               WHERE fm.id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
