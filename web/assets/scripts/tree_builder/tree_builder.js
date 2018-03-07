@@ -30,6 +30,9 @@ function recursiveMemberElements(members) {
 
     var list = $("<ul>");
 
+    if (members === null)
+        return $("<li>");
+
     if (members.children.length > 0) {
         for (var i = 0; i < members.children.length; i++) {
             var child = members.children[i];
@@ -185,6 +188,12 @@ function saveMemberChanges(memberId) {
 
         if (member.partner === null || newPartner !== member.partner.id) {
             member.partner = newPartner;
+        }
+
+        var baseNodeChecked = $("#familyHead").is(":checked");
+
+        if (member.base === 0 && baseNodeChecked) {
+            member.base = baseNodeChecked ? 1 : 0;
         }
 
         member.description = $("#memberDescriptionArea").val();

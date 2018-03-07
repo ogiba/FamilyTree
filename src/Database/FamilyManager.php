@@ -414,6 +414,10 @@ class FamilyManager extends BaseDatabaseManager {
             $isSucceed = !$isSucceed ? $stmt->affected_rows > 0 : $isSucceed;
         }
 
+        if ($familyMember->base == 1) {
+            $this->updateBaseNode($stmt, $familyMember->id, $familyMember->base);
+        }
+
         $stmt->close();
         $connection->close();
 
@@ -655,6 +659,25 @@ class FamilyManager extends BaseDatabaseManager {
         if (!is_null($parentToUpdate)) {
             $this->updateParentAtGivenId($stmt, $newParent, $parentToUpdate->id);
         }
+    }
+
+    /**
+     * @param \mysqli_stmt $stmt
+     * @param $memberId
+     * @param $value
+     *
+     * @return boolean
+     */
+    private function updateBaseNode($stmt, $memberId, $value)
+    {
+        $stmt->prepare("UPDATE tree_nodes tn1, tree_nodes tn2 
+                                SET tn1.baseNode = 0, tn2.baseNode = ?
+                                WHERE tn2.person = ?");
+        $stmt->bind_param("ii", $value, $memberId);
+        $stmt->execute();
+        $isSucceed = $stmt->affected_rows > 0;
+
+        return $isSucceed;
     }
 
     /**

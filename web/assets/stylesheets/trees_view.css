@@ -31,6 +31,10 @@ header {
       width: 100%; }
       .trees-page .container .card .card-body input:focus {
         outline-color: rgba(0, 0, 0, 0.1); }
+    .trees-page .container .card .card-body .form-check {
+      text-align: center; }
+      .trees-page .container .card .card-body .form-check input {
+        width: auto; }
     .trees-page .container .card .card-body .dropzone {
       border: none; }
     .trees-page .container .card .description {

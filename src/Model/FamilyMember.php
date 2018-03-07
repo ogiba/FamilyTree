@@ -26,6 +26,7 @@ class FamilyMember implements JsonSerializable {
     public $description;
     public $family;
     public $timeStamp;
+    public $base;
 
     /**
      * FamilyMember constructor.
@@ -56,7 +57,8 @@ class FamilyMember implements JsonSerializable {
             "image" => $this->image,
             "description" => $this->description,
             "family" => $this->family,
-            "timeStamp" => $this->timeStamp
+            "timeStamp" => $this->timeStamp,
+            "base" => $this->base
         ];
     }
 
