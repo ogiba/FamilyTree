@@ -17,6 +17,7 @@ class User implements JsonSerializable {
     public $firstName;
     public $lastName;
     public $image;
+    public $userType;
 
     function __construct($id, $nickName)
     {
@@ -32,7 +33,8 @@ class User implements JsonSerializable {
             "email" => $this->email,
             "firstName" => $this->firstName,
             "lastName" => $this->lastName,
-            "avatar" => $this->image
+            "avatar" => $this->image,
+            "userType" => $this->userType
         ];
     }
 }

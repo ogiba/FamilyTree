@@ -11,9 +11,9 @@ namespace Database;
 use Model\Config;
 use Utils\SerializeManager;
 
-abstract class BaseDatabaseManager
-{
-    protected function createConnection(){
+abstract class BaseDatabaseManager {
+    protected function createConnection()
+    {
         $jsonString = file_get_contents('config.json', true);
         $config = new Config();
         SerializeManager::deserializeJson($jsonString, $config);//json_decode($jsonString, true);
@@ -22,13 +22,18 @@ abstract class BaseDatabaseManager
         return $mySql;
     }
 
-    protected function &bindResult($stmt) {
+    /**
+     * @param \mysqli_stmt $stmt
+     * @return array|bool
+     */
+    protected function &bindResult($stmt)
+    {
         $variables = array();
         $data = array();
         $meta = $stmt->result_metadata();
         $d = false;
 
-        if($meta == null)
+        if ($meta == null)
             return $d;
 
         while ($field = $meta->fetch_field())
@@ -40,7 +45,8 @@ abstract class BaseDatabaseManager
     }
 
 
-    protected function arrayToObject(array $array, $className) {
+    protected function arrayToObject(array $array, $className)
+    {
         return unserialize(sprintf(
             'O:%d:"%s"%s',
             strlen($className),
