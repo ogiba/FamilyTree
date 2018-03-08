@@ -13,6 +13,9 @@ use Model\User;
 
 class UserManager extends BaseDatabaseManager {
 
+    /**
+     * @return User[] array
+     */
     public function retriveUsers()
     {
         $connection = $this->createConnection();
@@ -23,11 +26,29 @@ class UserManager extends BaseDatabaseManager {
         $result = array();
 
         while ($stmt->fetch()) {
-            $family = $this->arrayToObject($data, User::class);
-            $result[] = $family;
+            $user = $this->arrayToObject($data, User::class);
+            $result[] = $user;
         }
 
         $connection->close();
         return $result;
+    }
+
+    public function retriveUser($id)
+    {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
+        $data = $this->bindResult($stmt);
+        $user = null;
+
+        if ($stmt->fetch()) {
+            $user = $this->arrayToObject($data, User::class);
+        }
+
+        $connection->close();
+        return $user;
     }
 }

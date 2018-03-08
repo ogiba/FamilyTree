@@ -15,19 +15,15 @@ use Model\Response;
 use Utils\SerializeManager;
 use Utils\StatusCode;
 
-class LoginController extends BaseController
-{
+class LoginController extends BaseController {
     public function action($name, $action, $params)
     {
-        if($name == "login")
-        {
-            if(count($_POST) > 0)
+        if ($name == "login") {
+            if (count($_POST) > 0)
                 $this->loginAction($_POST);
             else
                 $this->indexAction();
-        }
-        else if($name == "logout")
-        {
+        } else if ($name == "logout") {
             $this->logoutAction();
         }
     }
@@ -63,7 +59,7 @@ class LoginController extends BaseController
         $userLogged = $manager->loginUser($username, $pw);
 
         if (is_null($userLogged)) {
-            $response = new Response("Login user failed", StatusCode::UNPROCESSED_ENTITY);
+            $response = new Response($this->translate("admin-login-failed"), StatusCode::UNPROCESSED_ENTITY);
             $jsonResponse = $serializer->serializeJson($response);
             echo $jsonResponse;
             header("HTTP/1.1 401 Unauthorized");

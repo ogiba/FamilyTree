@@ -8,20 +8,22 @@
 
 namespace Database;
 
-class LoginManager extends BaseDatabaseManager
-{
-    public function loginUser($userName, $password) {
-        $hashedPassword = hash ( "sha256" , $password ,false);
+class LoginManager extends BaseDatabaseManager {
+    public function loginUser($userName, $password)
+    {
+        $hashedPassword = hash("sha256", $password, false);
 
         $connection = $this->createConnection();
-        $stmt = $connection->prepare("SELECT * FROM users WHERE nickName = ?");
+        $stmt = $connection->prepare("SELECT * FROM users u
+                                              INNER JOIN user_privileges up ON u.id = up.user
+                                              WHERE u.nickName = ? AND up.id = 1");
         $stmt->bind_param("s", $userName);
         $stmt->execute();
 
         $userData = $this->bindResult($stmt);
 
-        if ($stmt->fetch()){
-            if($userData["password"] == $hashedPassword){
+        if ($stmt->fetch()) {
+            if ($userData["password"] == $hashedPassword) {
                 $connection->close();
                 $loginToken = $this->insertAttempt($userData["id"], $userData["nickName"]);
                 return $loginToken;
@@ -34,8 +36,9 @@ class LoginManager extends BaseDatabaseManager
     /**
      * @return bool
      */
-    public function logoutUser(){
-        if (is_null($_SESSION["token"]) || !isset($_SESSION["token"])){
+    public function logoutUser()
+    {
+        if (is_null($_SESSION["token"]) || !isset($_SESSION["token"])) {
             return false;
         }
         $currentToken = $_SESSION["token"];
@@ -49,7 +52,8 @@ class LoginManager extends BaseDatabaseManager
         return true;
     }
 
-    private function insertAttempt($id, $username) {
+    private function insertAttempt($id, $username)
+    {
         $token = md5(uniqid($username, true));
 
         $connection = $this->createConnection();
@@ -58,9 +62,9 @@ class LoginManager extends BaseDatabaseManager
         $stmt->bind_param("i", $id);
         $stmt->execute();
 
-        $data= $this->bindResult($stmt);
+        $data = $this->bindResult($stmt);
 
-        if($stmt->fetch()) {
+        if ($stmt->fetch()) {
             return $data["token"];
         } else {
             $stmt->reset();

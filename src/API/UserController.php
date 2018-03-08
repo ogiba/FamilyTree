@@ -36,6 +36,10 @@ class UserController extends BaseRestController {
                 $users = $this->manager->retriveUsers();
                 $this->sendJsonResponse($users);
                 break;
+            case "details":
+                $user = $this->manager->retriveUser($params[0]);
+                $this->sendJsonResponse($user);
+                break;
             default:
                 break;
         }

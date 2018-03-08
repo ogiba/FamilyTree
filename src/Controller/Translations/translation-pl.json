@@ -11,6 +11,7 @@
   "admin-login-name-hint": "Nazwa użytkownika",
   "admin-login-pw-hint": "Hasło",
   "admin-login-btn-label": "Zaloguj",
+  "admin-login-failed": "Logowanie nie powiodło się",
   "admin-posts": "Posty",
   "admin-tree-builder": "Budowa drzewa",
   "admin-sections": "Sekcje",
