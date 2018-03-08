@@ -2,6 +2,7 @@
 
 use API\PostController;
 use API\TestController;
+use API\UserController;
 use Controller\Admin\InformationManageController;
 use Controller\Admin\LoginController;
 use Controller\Admin\PanelController;
@@ -64,6 +65,9 @@ class Application {
                 },
                 "test" => function () {
                     return new TestController();
+                },
+                "user" => function () {
+                    return new UserController();
                 }
             ],
             "admin" => [

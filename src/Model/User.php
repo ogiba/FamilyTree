@@ -8,65 +8,31 @@
 namespace Model;
 
 
-class User {
-    private $id;
-    private $name;
-    private $image;
+use JsonSerializable;
 
-    function __construct($id, $name)
+class User implements JsonSerializable {
+    public $id;
+    public $nickName;
+    public $email;
+    public $firstName;
+    public $lastName;
+    public $image;
+
+    function __construct($id, $nickName)
     {
         $this->id = $id;
-        $this->name = $name;
+        $this->nickName = $nickName;
     }
 
-    /**
-     * @param mixed $image
-     */
-    public function setImage($image)
+    public function jsonSerialize()
     {
-        $this->image = $image;
+        return [
+            "id" => $this->id,
+            "nickName" => $this->nickName,
+            "email" => $this->email,
+            "firstName" => $this->firstName,
+            "lastName" => $this->lastName,
+            "avatar" => $this->image
+        ];
     }
-
-    /**
-     * @return mixed
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param mixed $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-
-
 }

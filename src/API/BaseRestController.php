@@ -9,11 +9,17 @@ namespace API;
 
 use Utils\SerializeManager;
 
-abstract class BaseRestController
-{
-    protected  $serializeManager;
+abstract class BaseRestController {
+    protected $serializeManager;
 
-    public function setupSerializer() {
+    public function setupSerializer()
+    {
         $this->serializeManager = new SerializeManager();
+    }
+
+    protected function sendJsonResponse($data)
+    {
+        header("Content-type: Application/json");
+        echo json_encode($data);
     }
 }
