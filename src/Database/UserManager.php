@@ -89,4 +89,36 @@ class UserManager extends BaseDatabaseManager {
         $connection->close();
         return $isSucceed;
     }
+
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function updateUser($user)
+    {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("UPDATE users 
+                                              SET email = ?,
+                                                  firstName = ?,
+                                                  lastName = ?,
+                                                  avatar = ?
+                                              WHERE id = ?");
+        $stmt->bind_param("ssss", $user->email, $user->firstName, $user->lastName, $user->image);
+        $isSucceed = $stmt->affected_rows > 0;
+
+        if ($isSucceed) {
+            $userId = $stmt->insert_id;
+
+            $stmt->prepare("UPDATE user_privileges
+                                    SET type = ?
+                                    WHERE user = ?");
+            $stmt->bind_param("ii", $userId, $user->userType);
+            $stmt->execute();
+
+            $isSucceed = $stmt->affected_rows > 0;
+        }
+
+        $connection->close();
+        return $isSucceed;
+    }
 }
