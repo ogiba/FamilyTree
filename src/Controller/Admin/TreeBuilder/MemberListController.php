@@ -259,10 +259,4 @@ class MemberListController extends BaseAdminController {
 
         $this->sendJsonResponse($response);
     }
-
-    private function sendJsonResponse($data)
-    {
-        header("Content-type: Application/json");
-        echo json_encode($data);
-    }
 }

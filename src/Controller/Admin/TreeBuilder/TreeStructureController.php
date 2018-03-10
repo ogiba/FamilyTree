@@ -262,14 +262,8 @@ class TreeStructureController extends BaseAdminController {
         if ($isSucceed)
             $response = new Response($this->translate("admin-edit-member-uploaded-image-removed"), StatusCode::OK);
         else
-            $response = new Response("admin-edit-member-cannot-remove-img", StatusCode::UNPROCESSED_ENTITY);
+            $response = new Response($this->translate("admin-edit-member-cannot-remove-img"), StatusCode::UNPROCESSED_ENTITY);
 
         $this->sendJsonResponse($response);
-    }
-
-    private function sendJsonResponse($data)
-    {
-        header("Content-type: Application/json");
-        echo json_encode($data);
     }
 }

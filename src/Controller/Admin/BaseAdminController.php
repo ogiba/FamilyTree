@@ -11,8 +11,7 @@ namespace Controller\Admin;
 
 use Controller\BaseController;
 
-abstract class BaseAdminController extends BaseController
-{
+abstract class BaseAdminController extends BaseController {
     protected $userLogged = false;
 
     public function action($name, $action, $params)
@@ -37,12 +36,19 @@ abstract class BaseAdminController extends BaseController
         ));
     }
 
-    function objectToObject($instance, $className) {
+    function objectToObject($instance, $className)
+    {
         return unserialize(sprintf(
             'O:%d:"%s"%s',
             strlen($className),
             $className,
             strstr(strstr(serialize($instance), '"'), ':')
         ));
+    }
+
+    protected function sendJsonResponse($data)
+    {
+        header("Content-type: Application/json");
+        echo json_encode($data);
     }
 }
