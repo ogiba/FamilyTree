@@ -103,7 +103,8 @@ class UserManager extends BaseDatabaseManager {
                                                   lastName = ?,
                                                   avatar = ?
                                               WHERE id = ?");
-        $stmt->bind_param("ssss", $user->email, $user->firstName, $user->lastName, $user->image);
+        $stmt->bind_param("ssssi", $user->email, $user->firstName, $user->lastName, $user->image, $user->id);
+        $stmt->execute();
         $isSucceed = $stmt->affected_rows > 0;
 
         if ($isSucceed) {
@@ -118,6 +119,38 @@ class UserManager extends BaseDatabaseManager {
             $isSucceed = $stmt->affected_rows > 0;
         }
 
+        $connection->close();
+        return $isSucceed;
+    }
+
+    public function removeUser($userId)
+    {
+        $isSucceed = $this->removeUserPrivileges($userId);
+
+        if ($isSucceed) {
+            $connection = $this->createConnection();
+            $stmt = $connection->prepare("DELETE FROM users WHERE id = ?");
+            $stmt->bind_param("i", $userId);
+            $stmt->execute();
+            $isSucceed = $stmt->affected_rows > 0;
+
+            $connection->close();
+        }
+        return $isSucceed;
+    }
+
+    /**
+     * @param integer $userId
+     * @return bool result of query
+     */
+    private function removeUserPrivileges($userId)
+    {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("DELETE FROM user_privileges WHERE user = ?");
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $stmt->fetch();
+        $isSucceed = $stmt->affected_rows > 0;
         $connection->close();
         return $isSucceed;
     }
