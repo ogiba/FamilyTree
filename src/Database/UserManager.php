@@ -108,15 +108,7 @@ class UserManager extends BaseDatabaseManager {
         $isSucceed = $stmt->affected_rows > 0;
 
         if ($isSucceed) {
-            $userId = $stmt->insert_id;
-
-            $stmt->prepare("UPDATE user_privileges
-                                    SET type = ?
-                                    WHERE user = ?");
-            $stmt->bind_param("ii", $userId, $user->userType);
-            $stmt->execute();
-
-            $isSucceed = $stmt->affected_rows > 0;
+            $isSucceed = $this->updateUserPrivileges($stmt, $user->userType);
         }
 
         $connection->close();
@@ -137,6 +129,25 @@ class UserManager extends BaseDatabaseManager {
             $connection->close();
         }
         return $isSucceed;
+    }
+
+    /**
+     * @param \mysqli_stmt $stmt
+     * @param integer $userType
+     *
+     * @return boolean
+     */
+    private function updateUserPrivileges($stmt, $userType)
+    {
+        $userId = $stmt->insert_id;
+
+        $stmt->prepare("UPDATE user_privileges
+                                    SET type = ?
+                                    WHERE user = ?");
+        $stmt->bind_param("ii", $userId, $userType);
+        $stmt->execute();
+
+        return $stmt->affected_rows > 0;
     }
 
     /**
