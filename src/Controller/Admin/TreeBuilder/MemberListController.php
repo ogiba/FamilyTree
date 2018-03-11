@@ -11,16 +11,21 @@ namespace Controller\Admin\TreeBuilder;
 
 use Controller\Admin\BaseAdminController;
 use Database\FamilyManager;
-use Model\FamilyMember;
 use Model\Response;
-use Utils\ImageFileHelper;
 use Utils\StatusCode;
 
 class MemberListController extends BaseAdminController {
     const userUpdateMemberImagesActions = "user_update_member_images";
 
+    /**
+     * @var FamilyManager
+     */
     private $manager;
-    private $imageFileHelper;
+
+    /**
+     * @var MemberEditController
+     */
+    private $memberEditController;
 
     /**
      * MemberListController constructor.
@@ -28,7 +33,10 @@ class MemberListController extends BaseAdminController {
     public function __construct()
     {
         $this->manager = new FamilyManager();
-        $this->imageFileHelper = new ImageFileHelper();
+        $this->memberEditController = new MemberEditController();
+        $this->memberEditController->setManager($this->manager);
+        $this->memberEditController->setRemovingEnabled(true);
+        $this->memberEditController->setImagesKey(self::userUpdateMemberImagesActions);
     }
 
 
@@ -49,21 +57,21 @@ class MemberListController extends BaseAdminController {
                 break;
             case "update":
                 if (isset($_GET["id"])) {
-                    $this->updateSelectedMember($_GET["id"]);
+                    $this->memberEditController->updateSelectedMember($_GET["id"]);
                 }
                 break;
             case "upload":
-                $this->uploadFiles();
+                $this->memberEditController->uploadFiles();
                 break;
             case "removeImage":
                 $memberId = $_POST["memberId"];
-                $this->removeUploadedFile($memberId);
+                $this->memberEditController->removeUploadedFile($memberId);
                 break;
             case "removeTempImage":
-                $this->removeTemporaryUploadedFile();
+                $this->memberEditController->removeTemporaryUploadedFile();
                 break;
             case "removeMember":
-                $this->removeMember();
+                $this->memberEditController->removeMember();
                 break;
             default:
                 $this->viewIndex();
@@ -152,111 +160,5 @@ class MemberListController extends BaseAdminController {
         ]));
 
         echo $this->sendJsonResponse($response);
-    }
-
-    private function updateSelectedMember($id)
-    {
-        if (!isset($_POST["member"])) {
-            $response = new Response($this->translate("admin-edit-member-failed-to-update"), StatusCode::UNPROCESSED_ENTITY);
-            $this->sendJsonResponse($response);
-            return;
-        }
-
-        $familyMember = $this->arrayToObject($_POST["member"], FamilyMember::class);
-
-        $isUpdated = $this->manager->updateFamilyMember($id, $familyMember);
-
-        $imagesChanged = $this->checkIfImagesChange($id);
-
-        if (!$isUpdated && $imagesChanged) {
-            $isUpdated = $imagesChanged;
-        }
-
-        $response = null;
-        if ($isUpdated) {
-            $response = new Response($this->translate("admin-edit-member-updated"), StatusCode::OK);
-        } else {
-            $response = new Response($this->translate("admin-edit-member-no-changes"), StatusCode::NO_CONTENT);
-        }
-
-        $this->sendJsonResponse($response);
-    }
-
-    private function checkIfImagesChange($id)
-    {
-        $filteredFiles = $this->imageFileHelper->checkAction($_SESSION[self::userUpdateMemberImagesActions],
-            "uploads", "member_image_");
-
-        $isSucceed = false;
-
-        if (count($filteredFiles->uploaded) > 0) {
-            $isSucceed = $this->manager->insertMemberImage($id, $filteredFiles->uploaded);
-        }
-
-        if (count($filteredFiles->removed) > 0) {
-            $isSucceed = $this->manager->removeMemberImage($id);
-
-            if ($isSucceed) {
-                $this->imageFileHelper->removeFiles($filteredFiles->removed);
-            }
-        }
-
-        $_SESSION[self::userUpdateMemberImagesActions] = [];
-        return $isSucceed;
-    }
-
-    private function uploadFiles()
-    {
-        $receivedAction = $this->imageFileHelper->uploadFiles($_FILES, "uploads/temp",
-            "member_image_", 90);
-
-        if (!is_null($receivedAction)) {
-            $_SESSION[self::userUpdateMemberImagesActions][] = $receivedAction;
-        }
-    }
-
-    private function removeUploadedFile($id)
-    {
-        $image = $this->manager->retrieveMemberImage($id);
-
-        if (!is_null($image)) {
-            $preparedAction = $this->imageFileHelper->prepareAction($image->image, "remove");
-
-            $_SESSION[self::userUpdateMemberImagesActions][] = $preparedAction;
-        }
-
-        $response = new Response("Removing image for: $id", StatusCode::OK);
-        $this->sendJsonResponse($response);
-    }
-
-    private function removeTemporaryUploadedFile()
-    {
-        $isSucceed = $this->imageFileHelper->removeTempFiles($_SESSION[self::userUpdateMemberImagesActions]);
-
-        $response = null;
-        if ($isSucceed)
-            $response = new Response($this->translate("admin-edit-member-uploaded-image-removed"), StatusCode::OK);
-        else
-            $response = new Response($this->translate("admin-edit-member-cannot-remove-img"), StatusCode::UNPROCESSED_ENTITY);
-
-        $this->sendJsonResponse($response);
-    }
-
-    private function removeMember()
-    {
-        if (!isset($_POST["memberId"])) {
-            exit();
-        }
-
-        $memberId = $_POST["memberId"];
-
-        $isSucceed = $this->manager->removeMember(intval($memberId));
-
-        if ($isSucceed)
-            $response = new Response($this->translate("admin-edit-member-removed"), StatusCode::OK);
-        else
-            $response = new Response($this->translate("admin-edit-member-cannot-remove"), StatusCode::UNPROCESSED_ENTITY);
-
-        $this->sendJsonResponse($response);
     }
 }

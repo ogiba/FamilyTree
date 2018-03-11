@@ -6,7 +6,7 @@
  * Time: 13:14
  */
 
-namespace Controller\Admin\TreeBuilder\Helper;
+namespace Controller\Admin\TreeBuilder;
 
 
 use Controller\Admin\BaseAdminController;
@@ -50,7 +50,7 @@ class MemberEditController extends BaseAdminController {
         $this->imagesKey = self::userEditMemberImages;
     }
 
-    private function updateSelectedMember($id)
+    public function updateSelectedMember($id)
     {
         if (!isset($_POST["member"])) {
             $response = new Response($this->translate("admin-edit-member-failed-to-update"), StatusCode::UNPROCESSED_ENTITY);
@@ -101,7 +101,7 @@ class MemberEditController extends BaseAdminController {
         return $isSucceed;
     }
 
-    private function uploadFiles()
+    public function uploadFiles()
     {
         $receivedAction = $this->imageFileHelper->uploadFiles($_FILES, "uploads/temp",
             "member_image_", 90);
@@ -111,7 +111,7 @@ class MemberEditController extends BaseAdminController {
         }
     }
 
-    private function removeUploadedFile($id)
+    public function removeUploadedFile($id)
     {
         $image = $this->manager->retrieveMemberImage($id);
 
@@ -125,7 +125,7 @@ class MemberEditController extends BaseAdminController {
         $this->sendJsonResponse($response);
     }
 
-    private function removeTemporaryUploadedFile()
+    public function removeTemporaryUploadedFile()
     {
         $isSucceed = $this->imageFileHelper->removeTempFiles($_SESSION[$this->imagesKey]);
 
@@ -138,7 +138,7 @@ class MemberEditController extends BaseAdminController {
         $this->sendJsonResponse($response);
     }
 
-    private function removeMember()
+    public function removeMember()
     {
         if (!isset($_POST["memberId"])) {
             exit();
@@ -188,5 +188,5 @@ class MemberEditController extends BaseAdminController {
         $this->imagesKey = $imagesKey;
     }
 
-    
+
 }
