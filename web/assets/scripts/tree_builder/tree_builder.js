@@ -7,9 +7,12 @@ function loadMembers() {
         $(".member-progress").on("transitionend", function () {
             $(".member-progress").css("display", "none");
         }).css("opacity", "0");
-        var members = new MemberList(response);
 
-        $("#membersContainer").append(members.generateList());
+        if (response.statusCode === 200) {
+            var members = new MemberList(response.content);
+
+            $("#membersContainer").append(members.generateList());
+        }
     });
 }
 

@@ -149,7 +149,8 @@ class TreeStructureController extends BaseAdminController {
     private function loadFamilyMembers()
     {
         if (!isset($_SESSION["selectedFamily"])) {
-            $this->sendJsonResponse("");
+            $response = new NewResponse("", StatusCode::UNPROCESSED_ENTITY);
+            $this->sendJsonNewResponse($response);
             return;
         }
 
@@ -157,7 +158,10 @@ class TreeStructureController extends BaseAdminController {
 
         $familyMembers = $this->manager->loadFamilyMembers($familyID);
 
-        $this->sendJsonResponse($familyMembers);
+        $response = new NewResponse("", StatusCode::OK);
+        $response->setContent($familyMembers);
+        
+        $this->sendJsonNewResponse($response);
     }
 
     private function loadSelectedMember($id)
