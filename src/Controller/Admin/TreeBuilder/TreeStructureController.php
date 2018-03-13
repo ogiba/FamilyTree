@@ -11,6 +11,7 @@ namespace Controller\Admin\TreeBuilder;
 use Controller\Admin\BaseAdminController;
 use Database\FamilyManager;
 use Model\FamilyMember;
+use Model\NewResponse;
 use Model\Response;
 use Utils\ImageFileHelper;
 use Utils\StatusCode;
@@ -164,12 +165,15 @@ class TreeStructureController extends BaseAdminController {
         $member = $this->manager->getFamilyMemberDetails($id);
 
         if (is_null($member)) {
-            $response = new Response(StatusCode::NOT_FOUND, $this->translate("admin-edit-member-not-found"));
-            $this->sendJsonResponse($response);
+            $response = new NewResponse($this->translate("admin-edit-member-not-found"), StatusCode::NOT_FOUND);
+            $this->sendJsonNewResponse($response);
             return;
         }
 
-        echo $this->sendJsonResponse($member);
+        $response = new NewResponse("", StatusCode::OK);
+        $response->setContent($member);
+
+        echo $this->sendJsonNewResponse($response);
     }
 
     private function editSelectedMember()
@@ -184,12 +188,16 @@ class TreeStructureController extends BaseAdminController {
         $members = $this->manager->loadFamily($familyId);
         $possiblePartners = $this->manager->loadPossiblePartners($familyId, intval($familyMember->id));
 
-        $response = array("template" => $this->render("/admin/trees/tree_builder_edit_member.html.twig", [
+        $responseContent = array("template" => $this->render("/admin/trees/tree_builder_edit_member.html.twig", [
             "selectedMember" => $familyMember,
             "members" => $members,
             "partners" => $possiblePartners,
             "imageAction" => "/admin/tree_builder/upload"
         ]));
-        $this->sendJsonResponse($response);
+
+        $response = new NewResponse("", StatusCode::OK);
+        $response->setContent($responseContent);
+
+        $this->sendJsonNewResponse($response);
     }
 }

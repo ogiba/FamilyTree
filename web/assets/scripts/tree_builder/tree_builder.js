@@ -66,7 +66,7 @@ function loadSelectedMemberToView(memberID) {
         "member": memberID
     }, function (response) {
         $(".details-progress").on("transitionend", function () {
-            $("#rightContainer").html(response.template);
+            $("#rightContainer").html(response.content.template);
 
             initDropzone();
         }).css("opacity", "0");
@@ -141,7 +141,13 @@ function convertDateToProperValue(dateString) {
 }
 
 function saveMemberChanges(memberId) {
-    $.get(window.location.href + "/getMembers?id=" + memberId, function (member) {
+    $.get(window.location.href + "/getMembers?id=" + memberId, function (response) {
+        if (response.statusCode !== 200) {
+            return;
+        }
+
+        var member = response.content;
+
         var firstName = $("#memberFirstNameInput").val();
 
         if (member.firstName.trim() !== firstName.trim()) {

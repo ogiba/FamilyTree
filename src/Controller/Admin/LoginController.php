@@ -8,7 +8,6 @@
 
 namespace Controller\Admin;
 
-
 use Controller\BaseController;
 use Database\LoginManager;
 use Model\NewResponse;

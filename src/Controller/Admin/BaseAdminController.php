@@ -10,6 +10,8 @@ namespace Controller\Admin;
 
 
 use Controller\BaseController;
+use Model\NewResponse;
+use Utils\StatusCode;
 
 abstract class BaseAdminController extends BaseController {
     protected $userLogged = false;
@@ -50,5 +52,15 @@ abstract class BaseAdminController extends BaseController {
     {
         header("Content-type: Application/json");
         echo json_encode($data);
+    }
+
+    /**
+     * @param NewResponse $response
+     */
+    protected function sendJsonNewResponse($response)
+    {
+        header("Content-type: Application/json");
+        header("HTTP/1.1 " . StatusCode::getMessageForCode($response->getStatusCode()));
+        echo json_encode($response);
     }
 }
