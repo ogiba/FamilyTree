@@ -11,7 +11,7 @@ namespace Controller\Admin;
 
 use Controller\BaseController;
 use Database\LoginManager;
-use Model\Response;
+use Model\NewResponse;
 use Utils\SerializeManager;
 use Utils\StatusCode;
 
@@ -36,19 +36,15 @@ class LoginController extends BaseController {
     public function loginAction($data)
     {
         $serializer = new SerializeManager();
-        if (!isset($data["username"])) {
-            $response = new Response("Required username", StatusCode::UNPROCESSED_ENTITY);
-            $jsonResponse = $serializer->serializeJson($response);
-            header("HTTP/1.1 422 Missed required parameter");
-            echo $jsonResponse;
+        if (!isset($data["username"]) || empty($data["username"])) {
+            $response = new NewResponse("Required username", StatusCode::UNPROCESSED_ENTITY);
+            $this->sendJsonResponse($response);
             exit;
         }
 
-        if (!isset($data["password"])) {
-            $response = new Response("Required password", StatusCode::UNPROCESSED_ENTITY);
-            $jsonResponse = $serializer->serializeJson($response);
-            header("HTTP/1.1 422 Missed required parameter");
-            echo $jsonResponse;
+        if (!isset($data["password"]) || empty($data["password"])) {
+            $response = new NewResponse("Required password", StatusCode::UNPROCESSED_ENTITY);
+            $this->sendJsonResponse($response);
             exit;
         }
 
@@ -59,10 +55,8 @@ class LoginController extends BaseController {
         $userLogged = $manager->loginUser($username, $pw);
 
         if (is_null($userLogged)) {
-            $response = new Response($this->translate("admin-login-failed"), StatusCode::UNPROCESSED_ENTITY);
-            $jsonResponse = $serializer->serializeJson($response);
-            echo $jsonResponse;
-            header("HTTP/1.1 401 Unauthorized");
+            $response = new NewResponse($this->translate("admin-login-failed"), StatusCode::UNATHORIZED);
+            $this->sendJsonResponse($response);
             exit;
         }
 
@@ -72,13 +66,8 @@ class LoginController extends BaseController {
         }
 
         $_SESSION["token"] = $userLogged;
-//        header("HTTP/1.1 200 OK");
 
         header("location: $previousLocation");
-//        $response = new Response("Login successful", 200);
-//        $serializer = new SerializeManager();
-//        $json = $serializer->serializeJson($response);
-//        echo $json;
         exit;
     }
 
@@ -89,11 +78,19 @@ class LoginController extends BaseController {
         $isLoggedOut = $manager->logoutUser();
 
         if ($isLoggedOut) {
-            $response = new Response("User logged out", StatusCode::OK);
-            header("HTTP/1.1 200 OK");
-            header("Content-Type: application/json");
-            echo $serializer->serializeJson($response);
+            $response = new NewResponse("User logged out", StatusCode::OK);
+            $this->sendJsonResponse($response);
             header("Location: /");
         }
+    }
+
+    /**
+     * @param NewResponse $response
+     */
+    private function sendJsonResponse($response)
+    {
+        header("HTTP/1.1 " . StatusCode::getMessageForCode($response->getStatusCode()));
+        header("Content-Type: application/json");
+        echo json_encode($response);
     }
 }

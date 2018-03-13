@@ -65,6 +65,7 @@ class StatusCode {
         415 => '415 Unsupported Media Type',
         416 => '416 Requested Range Not Satisfiable',
         417 => '417 Expectation Failed',
+        422 => '422 Unprocessed Entity',
         // [Server Error 5xx]
         500 => '500 Internal Server Error',
         501 => '501 Not Implemented',
