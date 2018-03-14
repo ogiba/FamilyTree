@@ -10,7 +10,6 @@ namespace Controller\Admin\TreeBuilder;
 
 use Controller\Admin\BaseAdminController;
 use Database\FamilyManager;
-use Model\FamilyMember;
 use Model\NewResponse;
 use Model\Response;
 use Utils\ImageFileHelper;
@@ -75,8 +74,8 @@ class TreeStructureController extends BaseAdminController {
             $this->memberEditController->removeTemporaryUploadedFile();
         } else {
             $statusCode = StatusCode::NOT_FOUND;
-            $response = new Response(StatusCode::getMessageForCode($statusCode), $statusCode);
-            $this->sendJsonResponse($response);
+            $response = new NewResponse(StatusCode::getMessageForCode($statusCode), $statusCode);
+            $this->sendJsonNewResponse($response);
         }
     }
 
@@ -114,18 +113,16 @@ class TreeStructureController extends BaseAdminController {
     private function saveFamilyToDB()
     {
         if (!isset($_POST["familyName"])) {
-            $response = new Response("Required family name", StatusCode::UNPROCESSED_ENTITY);
-
-            header("Content-type: Application/json");
-            echo json_encode($response);
+            $response = new NewResponse("Required family name", StatusCode::UNPROCESSED_ENTITY);
+            $this->sendJsonNewResponse($response);
             return;
         }
 
         $familyTreeName = $_POST["familyName"];
         $this->manager->addFamily($familyTreeName);
 
-        $response = new Response("Saving succeed", StatusCode::OK);
-        $this->sendJsonResponse($response);
+        $response = new NewResponse("Saving succeed", StatusCode::OK);
+        $this->sendJsonNewResponse($response);
     }
 
     /**
@@ -160,7 +157,7 @@ class TreeStructureController extends BaseAdminController {
 
         $response = new NewResponse("", StatusCode::OK);
         $response->setContent($familyMembers);
-        
+
         $this->sendJsonNewResponse($response);
     }
 
