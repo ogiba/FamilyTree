@@ -124,14 +124,19 @@ class MemberListController extends BaseAdminController {
         $members = $this->manager->loadFamily($familyId);
         $possiblePartners = $this->manager->loadPossiblePartners($familyId, intval($familyMember->id));
 
-        $response = array("template" => $this->render("/admin/trees/tree_builder_edit_member.html.twig", [
+        $responseContent = array("template" => $this->render("/admin/trees/tree_builder_edit_member.html.twig", [
             "selectedMember" => $familyMember,
             "members" => $members,
             "partners" => $possiblePartners,
             "removingEnabled" => true,
             "imageAction" => "/admin/tree_builder/members/upload"
         ]));
-        $this->sendJsonResponse($response);
+
+
+        $response = new NewResponse("", StatusCode::OK);
+        $response->setContent($responseContent);
+
+        $this->sendJsonNewResponse($response);
     }
 
     private function loadSelectedMember($id)
@@ -147,7 +152,7 @@ class MemberListController extends BaseAdminController {
         $response = new NewResponse("", StatusCode::OK);
         $response->setContent($member);
 
-        $this->sendJsonNewResponse($response);gi
+        $this->sendJsonNewResponse($response);
     }
 
     private function loadMembers()

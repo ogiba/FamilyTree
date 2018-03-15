@@ -7,9 +7,15 @@ function loadSelectedMemberToView(id) {
         "member": id
     }, function (response) {
         $(".details-progress").on("transitionend", function () {
-            $("#rightContainer").html(response.template);
+            switch (response.statusCode) {
+                case 200:
+                    $("#rightContainer").html(response.content.template);
 
-            initDropzone();
+                    initDropzone();
+                    break;
+                default:
+                    break;
+            }
         }).css("opacity", "0");
     })
 }
