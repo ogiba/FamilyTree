@@ -139,12 +139,15 @@ class MemberListController extends BaseAdminController {
         $member = $this->manager->getFamilyMemberDetails($id);
 
         if (is_null($member)) {
-            $response = new Response(StatusCode::NOT_FOUND, $this->translate("admin-edit-member-not-found"));
-            $this->sendJsonResponse($response);
+            $response = new NewResponse($this->translate("admin-edit-member-not-found"), StatusCode::NOT_FOUND);
+            $this->sendJsonNewResponse($response);
             return;
         }
 
-        echo $this->sendJsonResponse($member);
+        $response = new NewResponse("", StatusCode::OK);
+        $response->setContent($member);
+
+        $this->sendJsonNewResponse($response);gi
     }
 
     private function loadMembers()

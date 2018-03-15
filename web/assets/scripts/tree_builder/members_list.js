@@ -71,7 +71,13 @@ function removeTemporaryUploadedFile() {
 }
 
 function saveMemberChanges(memberId) {
-    $.get(window.location.href + "/getMembers?id=" + memberId, function (member) {
+    $.get(window.location.href + "/getMembers?id=" + memberId, function (response) {
+        if (response.statusCode !== 200) {
+            return;
+        }
+
+        var member = response.content;
+
         var firstName = $("#memberFirstNameInput").val();
 
         if (member.firstName.trim() !== firstName.trim()) {
