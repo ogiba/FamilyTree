@@ -149,7 +149,7 @@ function makeUpdateRequest(member) {
         var alertToShow = null;
         switch (response.statusCode) {
             case 200:
-                $("#rightContainer").html("");
+                reloadMembers();
                 alertToShow = prepareAlert(AlertType.success, response.message);
                 break;
             case 204:
@@ -238,7 +238,7 @@ function sendRemoveUserRequest(id) {
 function reloadMembers() {
     //TODO: Need to implement reloading list of members
     $.get(window.location.href + "/getMembers", function (response) {
-        $("#membersContainer").html(response.template);
+        $("#membersContainer").html(response.content.template);
         $("#rightContainer").html("");
     });
 }

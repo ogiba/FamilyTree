@@ -11,6 +11,7 @@ namespace Controller\Admin\TreeBuilder;
 
 use Controller\Admin\BaseAdminController;
 use Database\FamilyManager;
+use Model\NewResponse;
 use Model\Response;
 use Utils\StatusCode;
 
@@ -155,10 +156,13 @@ class MemberListController extends BaseAdminController {
         $familyId = $_SESSION["selectedFamily"];
         $members = $this->manager->loadFamily($familyId);
 
-        $response = array("template" => $this->render("/admin/trees/tree_builder_members_list.html.twig", [
+        $responseContent = array("template" => $this->render("/admin/trees/tree_builder_members_list.html.twig", [
             "familyMembers" => $members
         ]));
 
-        echo $this->sendJsonResponse($response);
+        $response = new NewResponse("", StatusCode::OK);
+        $response->setContent($responseContent);
+
+        $this->sendJsonNewResponse($response);
     }
 }
