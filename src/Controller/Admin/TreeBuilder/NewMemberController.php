@@ -11,6 +11,7 @@ namespace Controller\Admin\TreeBuilder;
 use Controller\Admin\BaseAdminController;
 use Database\FamilyManager;
 use Model\FamilyMember;
+use Model\NewResponse;
 use Model\Response;
 use Utils\ImageFileHelper;
 use Utils\StatusCode;
@@ -65,8 +66,8 @@ class NewMemberController extends BaseAdminController {
     public function addMemberToDB()
     {
         if (!isset($_POST["member"]) || !isset($_SESSION["selectedFamily"])) {
-            $response = new Response("Missing required parameter", StatusCode::UNPROCESSED_ENTITY);
-            $this->sendJsonResponse($response);
+            $response = new NewResponse("Missing required parameter", StatusCode::UNPROCESSED_ENTITY);
+            $this->sendJsonNewResponse($response);
             return;
         }
 
@@ -86,8 +87,8 @@ class NewMemberController extends BaseAdminController {
             $statusCode = StatusCode::INTERNAL_SERVER_ERROR;
         }
 
-        $response = new Response($message, $statusCode);
-        $this->sendJsonResponse($response);
+        $response = new NewResponse($message, $statusCode);
+        $this->sendJsonNewResponse($response);
     }
 
     private function checkIfImagesChange($id)
@@ -119,10 +120,10 @@ class NewMemberController extends BaseAdminController {
 
         $response = null;
         if ($isSucceed)
-            $response = new Response("Uploaded image removed", StatusCode::OK);
+            $response = new NewResponse("Uploaded image removed", StatusCode::OK);
         else
-            $response = new Response("Cannot remove image", StatusCode::UNPROCESSED_ENTITY);
+            $response = new NewResponse("Cannot remove image", StatusCode::UNPROCESSED_ENTITY);
 
-        $this->sendJsonResponse($response);
+        $this->sendJsonNewResponse($response);
     }
 }
