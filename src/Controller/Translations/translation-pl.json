@@ -31,6 +31,8 @@
   "admin-post-title-info": "Wpisz tytuł postu",
   "admin-post-content-info": "Wpisz zawartość postu",
   "admin-new-member-title": "Dodawanie nowego członka rodziny",
+  "admin-new-member-added": "Nowy użytkownik został dodany",
+  "admin-new-member-adding-failed": "Dodawanie nowego członka nie powiodło się",
   "admin-action-edit-tree-structure": "Edycja drzewa",
   "admin-action-view-all-members": "Lista członków rodziny",
   "admin-action-add-new-member": "Dodaj osobę",
@@ -73,5 +75,6 @@
   "user-images": "Zdjęcia",
   "user-desc": "Informacje dodatkowe",
   "modified-by": "przez",
-  "member-details": "Szczegóły osoby"
+  "member-details": "Szczegóły osoby",
+  "missing-param": "Brakuje wymaganego parametru"
 }

@@ -31,6 +31,8 @@
   "admin-post-title-info": "Insert title here",
   "admin-post-content-info": "Inser content here",
   "admin-new-member-title": "Adding new member",
+  "admin-new-member-added": "New member inserted",
+  "admin-new-member-adding-failed": "Adding new member failed",
   "admin-action-edit-tree-structure": "Edit tree structure",
   "admin-action-view-all-members": "View all members",
   "admin-action-add-new-member": "Add new member",
@@ -73,5 +75,6 @@
   "user-images": "Images",
   "user-desc": "Optional information",
   "modified-by": "by",
-  "member-details": "Member Details"
+  "member-details": "Member Details",
+  "missing-param": "Missing required parameter"
 }
