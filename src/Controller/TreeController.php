@@ -11,9 +11,11 @@ namespace Controller;
 
 use Database\FamilyManager;
 use Model\FamilyMember;
+use Model\NewResponse;
 use Model\TreeMemberResponse;
 use Model\TreeResponse;
 use Utils\ResponseHeaders;
+use Utils\StatusCode;
 
 class TreeController extends BaseController {
     const MODE_DEBUG = "debug";
@@ -50,16 +52,19 @@ class TreeController extends BaseController {
             $position = $request["position"];
         }
 
+        $response = null;
         if (isset($_POST["data"]) && isset($request["id"])) {
             $personData = $_POST["data"];
             $params = array("person" => $personData, "id" => $request["id"]);
-            $response = array("position" => $position, "item" => $this->render("tree/tree_node.html.twig", $params));
+            $responseContent = array("position" => $position, "item" => $this->render("tree/tree_node.html.twig", $params));
 
-            header(ResponseHeaders::CONTENT_TYPE_JSON);
-            echo json_encode($response);
+            $response = new NewResponse("", StatusCode::OK);
+            $response->setContent($responseContent);
         } else {
-            echo "";
+            $response = new NewResponse("", StatusCode::UNPROCESSED_ENTITY);
         }
+
+        $this->sendJsonNewResponse($response);
     }
 
     public function testLoadTree($request)

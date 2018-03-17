@@ -9,9 +9,12 @@
 namespace Controller;
 
 use Exception;
+use Model\NewResponse;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 use Twig_SimpleFunction;
+use Utils\ResponseHeaders;
+use Utils\StatusCode;
 
 abstract class BaseController {
     /**
@@ -94,5 +97,15 @@ abstract class BaseController {
         }
 
         return $userLogged;
+    }
+
+    /**
+     * @param NewResponse $response
+     */
+    protected function sendJsonNewResponse($response)
+    {
+        header(ResponseHeaders::CONTENT_TYPE_JSON);
+        header("HTTP/1.1 " . StatusCode::getMessageForCode($response->getStatusCode()));
+        echo json_encode($response);
     }
 }

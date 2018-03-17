@@ -202,8 +202,12 @@ function rebuildPersonItem(elem, parent) {
     var droppedPosition = new TablePosition(parent.parentElement.cellIndex, parent.parentElement.parentElement.rowIndex);
 
     //TODO - Add placeholder while data is loading
-    $.get("/tree/rebuild?data=" + text.data + "&id=" + elem.id + "&position=" + JSON.stringify(droppedPosition), function (data) {
-        elem.innerHTML = data.item;
+    $.get("/tree/rebuild?data=" + text.data + "&id=" + elem.id + "&position=" + JSON.stringify(droppedPosition), function (response) {
+        if (response.statusCode !== 200) {
+            return;
+        }
+
+        elem.innerHTML = response.content.item;
 
         var list = document.querySelector(".table");
         var draggableList = new DraggableList(list, elem);
@@ -222,24 +226,6 @@ function rebuildPersonItem(elem, parent) {
 
         parent.appendChild(elem);
     });
-
-    // var list = document.querySelector(".table");
-    // var draggableList = new DraggableList(list, elem);
-    //
-    // draggableList.onDraggingItemMouseEnter = function(item)
-    // {
-    //     addClass(item.element, "ghost-over");
-    // };
-    //
-    // draggableList.onDraggingItemMouseLeave = function(item)
-    // {
-    //     removeClass(item.element, "ghost-over");
-    // };
-    //
-    // draggableList.onItemConnected = function(item)
-    // {
-    //     addClass(item.element, "selected");
-    // };
 }
 
 /**
