@@ -11,7 +11,7 @@ namespace Controller\Admin\TreeBuilder;
 
 use Controller\Admin\BaseAdminController;
 use Database\FamilyManager;
-use Model\NewResponse;
+use Model\Response;
 use Utils\StatusCode;
 
 class MemberListController extends BaseAdminController {
@@ -132,10 +132,10 @@ class MemberListController extends BaseAdminController {
         ]));
 
 
-        $response = new NewResponse("", StatusCode::OK);
+        $response = new Response("", StatusCode::OK);
         $response->setContent($responseContent);
 
-        $this->sendJsonNewResponse($response);
+        $this->sendJsonResponse($response);
     }
 
     private function loadSelectedMember($id)
@@ -143,15 +143,15 @@ class MemberListController extends BaseAdminController {
         $member = $this->manager->getFamilyMemberDetails($id);
 
         if (is_null($member)) {
-            $response = new NewResponse($this->translate("admin-edit-member-not-found"), StatusCode::NOT_FOUND);
-            $this->sendJsonNewResponse($response);
+            $response = new Response($this->translate("admin-edit-member-not-found"), StatusCode::NOT_FOUND);
+            $this->sendJsonResponse($response);
             return;
         }
 
-        $response = new NewResponse("", StatusCode::OK);
+        $response = new Response("", StatusCode::OK);
         $response->setContent($member);
 
-        $this->sendJsonNewResponse($response);
+        $this->sendJsonResponse($response);
     }
 
     private function loadMembers()
@@ -167,9 +167,9 @@ class MemberListController extends BaseAdminController {
             "familyMembers" => $members
         ]));
 
-        $response = new NewResponse("", StatusCode::OK);
+        $response = new Response("", StatusCode::OK);
         $response->setContent($responseContent);
 
-        $this->sendJsonNewResponse($response);
+        $this->sendJsonResponse($response);
     }
 }

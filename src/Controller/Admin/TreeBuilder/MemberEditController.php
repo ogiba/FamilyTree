@@ -12,7 +12,7 @@ namespace Controller\Admin\TreeBuilder;
 use Controller\Admin\BaseAdminController;
 use Database\FamilyManager;
 use Model\FamilyMember;
-use Model\NewResponse;
+use Model\Response;
 use Utils\ImageFileHelper;
 use Utils\StatusCode;
 
@@ -53,8 +53,8 @@ class MemberEditController extends BaseAdminController {
     public function updateSelectedMember($id)
     {
         if (!isset($_POST["member"])) {
-            $response = new NewResponse($this->translate("admin-edit-member-failed-to-update"), StatusCode::UNPROCESSED_ENTITY);
-            $this->sendJsonNewResponse($response);
+            $response = new Response($this->translate("admin-edit-member-failed-to-update"), StatusCode::UNPROCESSED_ENTITY);
+            $this->sendJsonResponse($response);
             return;
         }
 
@@ -70,12 +70,12 @@ class MemberEditController extends BaseAdminController {
 
         $response = null;
         if ($isUpdated) {
-            $response = new NewResponse($this->translate("admin-edit-member-updated"), StatusCode::OK);
+            $response = new Response($this->translate("admin-edit-member-updated"), StatusCode::OK);
         } else {
-            $response = new NewResponse($this->translate("admin-edit-member-no-changes"), StatusCode::NO_CONTENT);
+            $response = new Response($this->translate("admin-edit-member-no-changes"), StatusCode::NO_CONTENT);
         }
 
-        $this->sendJsonNewResponse($response);
+        $this->sendJsonResponse($response);
     }
 
     private function checkIfImagesChange($id)
@@ -121,8 +121,8 @@ class MemberEditController extends BaseAdminController {
             $_SESSION[$this->imagesKey][] = $preparedAction;
         }
 
-        $response = new NewResponse("Removing image for: $id", StatusCode::OK);
-        $this->sendJsonNewResponse($response);
+        $response = new Response("Removing image for: $id", StatusCode::OK);
+        $this->sendJsonResponse($response);
     }
 
     public function removeTemporaryUploadedFile()
@@ -131,11 +131,11 @@ class MemberEditController extends BaseAdminController {
 
         $response = null;
         if ($isSucceed)
-            $response = new NewResponse($this->translate("admin-edit-member-uploaded-image-removed"), StatusCode::OK);
+            $response = new Response($this->translate("admin-edit-member-uploaded-image-removed"), StatusCode::OK);
         else
-            $response = new NewResponse($this->translate("admin-edit-member-cannot-remove-img"), StatusCode::UNPROCESSED_ENTITY);
+            $response = new Response($this->translate("admin-edit-member-cannot-remove-img"), StatusCode::UNPROCESSED_ENTITY);
 
-        $this->sendJsonNewResponse($response);
+        $this->sendJsonResponse($response);
     }
 
     public function removeMember()
@@ -149,11 +149,11 @@ class MemberEditController extends BaseAdminController {
         $isSucceed = $this->manager->removeMember(intval($memberId));
 
         if ($isSucceed)
-            $response = new NewResponse($this->translate("admin-edit-member-removed"), StatusCode::OK);
+            $response = new Response($this->translate("admin-edit-member-removed"), StatusCode::OK);
         else
-            $response = new NewResponse($this->translate("admin-edit-member-cannot-remove"), StatusCode::UNPROCESSED_ENTITY);
+            $response = new Response($this->translate("admin-edit-member-cannot-remove"), StatusCode::UNPROCESSED_ENTITY);
 
-        $this->sendJsonNewResponse($response);
+        $this->sendJsonResponse($response);
     }
 
     /**

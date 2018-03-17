@@ -10,7 +10,7 @@ namespace Controller\Admin;
 
 use Controller\BaseController;
 use Database\LoginManager;
-use Model\NewResponse;
+use Model\Response;
 use Utils\SerializeManager;
 use Utils\StatusCode;
 
@@ -36,14 +36,14 @@ class LoginController extends BaseController {
     {
         $serializer = new SerializeManager();
         if (!isset($data["username"]) || empty($data["username"])) {
-            $response = new NewResponse("Required username", StatusCode::UNPROCESSED_ENTITY);
-            $this->sendJsonNewResponse($response);
+            $response = new Response("Required username", StatusCode::UNPROCESSED_ENTITY);
+            $this->sendJsonResponse($response);
             exit;
         }
 
         if (!isset($data["password"]) || empty($data["password"])) {
-            $response = new NewResponse("Required password", StatusCode::UNPROCESSED_ENTITY);
-            $this->sendJsonNewResponse($response);
+            $response = new Response("Required password", StatusCode::UNPROCESSED_ENTITY);
+            $this->sendJsonResponse($response);
             exit;
         }
 
@@ -54,8 +54,8 @@ class LoginController extends BaseController {
         $userLogged = $manager->loginUser($username, $pw);
 
         if (is_null($userLogged)) {
-            $response = new NewResponse($this->translate("admin-login-failed"), StatusCode::UNATHORIZED);
-            $this->sendJsonNewResponse($response);
+            $response = new Response($this->translate("admin-login-failed"), StatusCode::UNATHORIZED);
+            $this->sendJsonResponse($response);
             exit;
         }
 
@@ -77,8 +77,8 @@ class LoginController extends BaseController {
         $isLoggedOut = $manager->logoutUser();
 
         if ($isLoggedOut) {
-            $response = new NewResponse("User logged out", StatusCode::OK);
-            $this->sendJsonNewResponse($response);
+            $response = new Response("User logged out", StatusCode::OK);
+            $this->sendJsonResponse($response);
             header("Location: /");
         }
     }

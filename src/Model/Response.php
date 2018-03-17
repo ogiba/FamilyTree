@@ -10,7 +10,7 @@ namespace Model;
 
 use JsonSerializable;
 
-class NewResponse implements JsonSerializable {
+class Response implements JsonSerializable {
 
     /**
      * @var string

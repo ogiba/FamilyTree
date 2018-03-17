@@ -11,7 +11,7 @@ namespace Controller;
 
 use Database\FamilyManager;
 use Model\FamilyMember;
-use Model\NewResponse;
+use Model\Response;
 use Model\TreeResponse;
 use Utils\ResponseHeaders;
 use Utils\StatusCode;
@@ -57,13 +57,13 @@ class TreeController extends BaseController {
             $params = array("person" => $personData, "id" => $request["id"]);
             $responseContent = array("position" => $position, "item" => $this->render("tree/tree_node.html.twig", $params));
 
-            $response = new NewResponse("", StatusCode::OK);
+            $response = new Response("", StatusCode::OK);
             $response->setContent($responseContent);
         } else {
-            $response = new NewResponse("", StatusCode::UNPROCESSED_ENTITY);
+            $response = new Response("", StatusCode::UNPROCESSED_ENTITY);
         }
 
-        $this->sendJsonNewResponse($response);
+        $this->sendJsonResponse($response);
     }
 
     public function testLoadTree($request)
@@ -78,8 +78,8 @@ class TreeController extends BaseController {
     private function loadTree($request)
     {
         if (!isset($request["family"])) {
-            $response = new NewResponse("", StatusCode::UNPROCESSED_ENTITY);
-            $this->sendJsonNewResponse($response);
+            $response = new Response("", StatusCode::UNPROCESSED_ENTITY);
+            $this->sendJsonResponse($response);
             return;
         }
 
@@ -91,9 +91,9 @@ class TreeController extends BaseController {
 
         $responseContent = new TreeResponse($result, $template, $pairTemplate);
 
-        $response = new NewResponse("", StatusCode::OK);
+        $response = new Response("", StatusCode::OK);
         $response->setContent($responseContent);
-        $this->sendJsonNewResponse($response);
+        $this->sendJsonResponse($response);
     }
 
     private function retriveMemberDetails($request)
