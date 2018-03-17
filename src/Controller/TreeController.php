@@ -12,7 +12,6 @@ namespace Controller;
 use Database\FamilyManager;
 use Model\FamilyMember;
 use Model\NewResponse;
-use Model\TreeMemberResponse;
 use Model\TreeResponse;
 use Utils\ResponseHeaders;
 use Utils\StatusCode;
@@ -36,7 +35,7 @@ class TreeController extends BaseController {
     public function indexAction($request)
     {
         $debugMode = false;
-        if (isset($request["mode"])) {
+        if (isset($request["mode"]) && $this->checkIfUserLogged()) {
             $debugMode = $request["mode"] == $this::MODE_DEBUG ? true : false;
         }
 
@@ -79,6 +78,8 @@ class TreeController extends BaseController {
     private function loadTree($request)
     {
         if (!isset($request["family"])) {
+            $response = new NewResponse("", StatusCode::UNPROCESSED_ENTITY);
+            $this->sendJsonNewResponse($response);
             return;
         }
 
@@ -88,9 +89,11 @@ class TreeController extends BaseController {
         $template = $this->readNodeTemplate("tree_node_member.html");
         $pairTemplate = $this->readNodeTemplate("tree_node_family.html");
 
-        $response = new TreeResponse($result, $template, $pairTemplate);
-        header(ResponseHeaders::CONTENT_TYPE_JSON);
-        echo json_encode($response);
+        $responseContent = new TreeResponse($result, $template, $pairTemplate);
+
+        $response = new NewResponse("", StatusCode::OK);
+        $response->setContent($responseContent);
+        $this->sendJsonNewResponse($response);
     }
 
     private function retriveMemberDetails($request)

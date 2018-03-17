@@ -16,12 +16,16 @@ function loadTree() {
         }).css("opacity", "0");
         console.log(response);
 
-        var basePosition = new TablePosition(1, 1);
-        var memberTemplate = $.templates(response.memberTemplate);
-        var pairTemplate = $.templates(response.pairTemplate);
+        if (response.statusCode === 200) {
+            var treeResponse = response.content;
 
-        if (response.family !== null) {
-            recursiveRebuilding(response.family, basePosition, memberTemplate, pairTemplate);
+            var basePosition = new TablePosition(1, 1);
+            var memberTemplate = $.templates(treeResponse.memberTemplate);
+            var pairTemplate = $.templates(treeResponse.pairTemplate);
+
+            if (treeResponse.family !== null) {
+                recursiveRebuilding(treeResponse.family, basePosition, memberTemplate, pairTemplate);
+            }
         }
     })
 }
