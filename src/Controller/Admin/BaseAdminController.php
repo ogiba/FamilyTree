@@ -45,10 +45,4 @@ abstract class BaseAdminController extends BaseController {
             strstr(strstr(serialize($instance), '"'), ':')
         ));
     }
-
-    protected function sendJsonResponse($data)
-    {
-        header("Content-type: Application/json");
-        echo json_encode($data);
-    }
 }

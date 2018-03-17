@@ -37,13 +37,13 @@ class LoginController extends BaseController {
         $serializer = new SerializeManager();
         if (!isset($data["username"]) || empty($data["username"])) {
             $response = new NewResponse("Required username", StatusCode::UNPROCESSED_ENTITY);
-            $this->sendJsonResponse($response);
+            $this->sendJsonNewResponse($response);
             exit;
         }
 
         if (!isset($data["password"]) || empty($data["password"])) {
             $response = new NewResponse("Required password", StatusCode::UNPROCESSED_ENTITY);
-            $this->sendJsonResponse($response);
+            $this->sendJsonNewResponse($response);
             exit;
         }
 
@@ -55,7 +55,7 @@ class LoginController extends BaseController {
 
         if (is_null($userLogged)) {
             $response = new NewResponse($this->translate("admin-login-failed"), StatusCode::UNATHORIZED);
-            $this->sendJsonResponse($response);
+            $this->sendJsonNewResponse($response);
             exit;
         }
 
@@ -78,18 +78,8 @@ class LoginController extends BaseController {
 
         if ($isLoggedOut) {
             $response = new NewResponse("User logged out", StatusCode::OK);
-            $this->sendJsonResponse($response);
+            $this->sendJsonNewResponse($response);
             header("Location: /");
         }
-    }
-
-    /**
-     * @param NewResponse $response
-     */
-    private function sendJsonResponse($response)
-    {
-        header("HTTP/1.1 " . StatusCode::getMessageForCode($response->getStatusCode()));
-        header("Content-Type: application/json");
-        echo json_encode($response);
     }
 }

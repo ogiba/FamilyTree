@@ -7,7 +7,9 @@
 
 namespace API;
 
+use Utils\ResponseHeaders;
 use Utils\SerializeManager;
+use Utils\StatusCode;
 
 abstract class BaseRestController {
     protected $serializeManager;
@@ -19,7 +21,14 @@ abstract class BaseRestController {
 
     protected function sendJsonResponse($data)
     {
-        header("Content-type: Application/json");
+        header(ResponseHeaders::CONTENT_TYPE_JSON);
         echo json_encode($data);
+    }
+
+    protected function sendJsonNewResponse($response)
+    {
+        header(ResponseHeaders::CONTENT_TYPE_JSON);
+        header("HTTP/1.1 " . StatusCode::getMessageForCode($response->getStatusCode()));
+        echo json_encode($response);
     }
 }
