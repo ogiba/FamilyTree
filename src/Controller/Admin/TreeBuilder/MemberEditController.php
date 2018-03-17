@@ -12,6 +12,7 @@ namespace Controller\Admin\TreeBuilder;
 use Controller\Admin\BaseAdminController;
 use Database\FamilyManager;
 use Model\FamilyMember;
+use Model\NewResponse;
 use Model\Response;
 use Utils\ImageFileHelper;
 use Utils\StatusCode;
@@ -149,11 +150,11 @@ class MemberEditController extends BaseAdminController {
         $isSucceed = $this->manager->removeMember(intval($memberId));
 
         if ($isSucceed)
-            $response = new Response($this->translate("admin-edit-member-removed"), StatusCode::OK);
+            $response = new NewResponse($this->translate("admin-edit-member-removed"), StatusCode::OK);
         else
-            $response = new Response($this->translate("admin-edit-member-cannot-remove"), StatusCode::UNPROCESSED_ENTITY);
-
-        $this->sendJsonResponse($response);
+            $response = new NewResponse($this->translate("admin-edit-member-cannot-remove"), StatusCode::UNPROCESSED_ENTITY);
+        
+        $this->sendJsonNewResponse($response);
     }
 
     /**
