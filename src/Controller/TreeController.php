@@ -77,14 +77,16 @@ class TreeController extends BaseController {
 
     private function loadTree($request)
     {
-        if (!isset($request["family"])) {
-            $response = new Response("", StatusCode::UNPROCESSED_ENTITY);
-            $this->sendJsonResponse($response);
-            return;
-        }
+//        if (!isset($request["family"])) {
+//            $response = new Response("", StatusCode::UNPROCESSED_ENTITY);
+//            $this->sendJsonResponse($response);
+//            return;
+//        }
 
         $familyManager = new FamilyManager();
-        $result = $familyManager->loadFamilyMembers($request["family"]);
+        //TODO: Change to better solution. Temporary fixing bug
+        $availableFamilies = $familyManager->loadFamilies();
+        $result = $familyManager->loadFamilyMembers($availableFamilies[0]->id);
 
         $template = $this->readNodeTemplate("tree_node_member.html");
         $pairTemplate = $this->readNodeTemplate("tree_node_family.html");

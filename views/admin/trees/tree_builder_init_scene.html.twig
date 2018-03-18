@@ -8,7 +8,7 @@
 
 {% block title %}
     {#{{ trans("admin-view-scene-title") }}#}
-    Tree Builder
+    {{ trans("admin-tree-builder") }}
 {% endblock %}
 
 {% block body %}
@@ -19,16 +19,17 @@
                     <div class="card">
                         <h4 class="card-header">
                             <div class="row">
-                                <div class="col-md-12">Insert name of Family tree</div>
+                                <div class="col-md-12">{{ trans("admin-new-tree-title") }}</div>
                             </div>
                         </h4>
                         <div class="card-body">
-                            <input id="familyNameInput" placeholder="Nazwa rodziny" type="text">
+                            <input id="familyNameInput" placeholder="{{ trans("admin-new-tree-name-input") }}"
+                                   type="text">
                         </div>
                         <div class="card-footer">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="btn btn-success" onclick="saveFamily()">Add</div>
+                                    <div class="btn btn-success" onclick="saveFamily()">{{ trans("add") }}</div>
                                 </div>
                             </div>
                         </div>

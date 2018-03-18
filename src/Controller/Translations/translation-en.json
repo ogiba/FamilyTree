@@ -30,6 +30,8 @@
   "admin-post-image-drop": "Drop files here to upload",
   "admin-post-title-info": "Insert title here",
   "admin-post-content-info": "Inser content here",
+  "admin-new-tree-title": "Insert name of Family tree",
+  "admin-new-tree-name-input": "Name of family",
   "admin-new-member-title": "Adding new member",
   "admin-new-member-added": "New member inserted",
   "admin-new-member-adding-failed": "Adding new member failed",
