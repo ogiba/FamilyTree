@@ -221,7 +221,7 @@ class FamilyManager extends BaseDatabaseManager {
      * Returns base node with children for given family ID
      *
      * @param $familyId
-     * @return FamilyMember[] array
+     * @return FamilyMember array
      */
     public function loadFamilyMembers($familyId)
     {
@@ -251,25 +251,7 @@ class FamilyManager extends BaseDatabaseManager {
             $result[] = $familyMember;
         }
 
-        foreach ($result as $key => $value) {
-            $parents = $this->loadParents($stmt, $value->id);
-            $this->bindParentsToMember($value, $parents);
-            $value->image = $this->loadMemberImage($stmt, $value->id);
-        }
-
-        $connection->close();
-
-        $baseNode = null;
-        foreach ($result as $key => $value) {
-            if ($value->base) {
-                $value->partner = $this->findPartner($value->partner, $result);
-                $value->children = $this->recursiveChildrenFilter($value->id, $result);
-                $baseNode = $value;
-                break;
-            }
-        }
-
-        return $baseNode;
+        return $this->prepareStructure($result, $stmt, $connection);
     }
 
     public function loadFamilyMembersForMember($familyId, $memberId)
@@ -305,7 +287,19 @@ class FamilyManager extends BaseDatabaseManager {
             $result[] = $familyMember;
         }
 
-        foreach ($result as $key => $value) {
+        return $this->prepareStructure($result, $stmt, $connection);
+    }
+
+    /**
+     * @param FamilyMember[] $members
+     * @param \mysqli_stmt $stmt
+     * @param \mysqli $connection
+     *
+     * @return FamilyMember
+     */
+    private function prepareStructure($members, $stmt, $connection)
+    {
+        foreach ($members as $key => $value) {
             $parents = $this->loadParents($stmt, $value->id);
             $this->bindParentsToMember($value, $parents);
             $value->image = $this->loadMemberImage($stmt, $value->id);
@@ -314,10 +308,10 @@ class FamilyManager extends BaseDatabaseManager {
         $connection->close();
 
         $baseNode = null;
-        foreach ($result as $key => $value) {
+        foreach ($members as $key => $value) {
             if ($value->base) {
-                $value->partner = $this->findPartner($value->partner, $result);
-                $value->children = $this->recursiveChildrenFilter($value->id, $result);
+                $value->partner = $this->findPartner($value->partner, $members);
+                $value->children = $this->recursiveChildrenFilter($value->id, $members);
                 $baseNode = $value;
                 break;
             }
