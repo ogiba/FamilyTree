@@ -7,6 +7,7 @@
 
 namespace API;
 
+use Model\Response;
 use Utils\ResponseHeaders;
 use Utils\SerializeManager;
 use Utils\StatusCode;
@@ -25,6 +26,9 @@ abstract class BaseRestController {
         echo json_encode($data);
     }
 
+    /**
+     * @param Response $response
+     */
     protected function sendJsonNewResponse($response)
     {
         header(ResponseHeaders::CONTENT_TYPE_JSON);

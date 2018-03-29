@@ -272,6 +272,61 @@ class FamilyManager extends BaseDatabaseManager {
         return $baseNode;
     }
 
+    public function loadFamilyMembersForMember($familyId, $memberId)
+    {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("SELECT fm.id,
+                                                    fm.firstName,
+                                                    fm.lastName,
+                                                    fm.maidenName,
+                                                    fm.birthDate,
+                                                    fm.deathDate,
+                                                    fm.image,
+                                                    fm.description,
+                                                    fp.partner AS partner,
+                                                    0 AS base
+                                              FROM tree_nodes tn 
+                                              INNER JOIN family_members AS fm ON tn.person = fm.id
+                                              INNER JOIN family_partners AS fp ON fm.id = fp.base
+                                              WHERE tn.family = ?");
+        $stmt->bind_param("i", $familyId);
+        $stmt->execute();
+
+        $data = $this->bindResult($stmt);
+        $result = array();
+
+        while ($stmt->fetch()) {
+            $familyMember = $this->arrayToObject($data, FamilyMember::class);
+
+            if ($familyMember->id == $memberId) {
+                $familyMember->base = true;
+            }
+
+            $result[] = $familyMember;
+        }
+
+        foreach ($result as $key => $value) {
+            $parents = $this->loadParents($stmt, $value->id);
+            $this->bindParentsToMember($value, $parents);
+            $value->image = $this->loadMemberImage($stmt, $value->id);
+        }
+
+        $connection->close();
+
+        $baseNode = null;
+        foreach ($result as $key => $value) {
+            if ($value->base) {
+                $value->partner = $this->findPartner($value->partner, $result);
+                $value->children = $this->recursiveChildrenFilter($value->id, $result);
+                $baseNode = $value;
+                break;
+            }
+        }
+
+        return $baseNode;
+    }
+
+
     private function recursiveChildrenFilter($parentId, $children)
     {
         $result = array();
