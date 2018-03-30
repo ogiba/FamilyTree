@@ -13,7 +13,10 @@ function showMember(id, isPair) {
 }
 
 function loadMeberDetails(id) {
-    $.get(window.location.href + "/getDetails?id=" + id, function (response) {
+    var url = window.location.href;
+    url = url.split("?")[0];
+
+    $.get(url + "/getDetails?id=" + id, function (response) {
         $(".modal-wrapper").html(response);
         $(".modal-progress").css("opacity", "0").on("transitionend", function () {
             $(".modal-progress").css("display", "none");

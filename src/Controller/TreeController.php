@@ -82,8 +82,9 @@ class TreeController extends BaseController {
         $availableFamilies = $familyManager->loadFamilies();
 
         $result = null;
-        if (isset($request["memberId"])) {
-            $result = $familyManager->loadFamilyMembersForMember($availableFamilies[0]->id, $request["memberId"]);
+        if (isset($request["m"])) {
+            $memberId = $request["m"];
+            $result = $familyManager->loadFamilyMembersForMember($availableFamilies[0]->id, $memberId);
         } else {
             $result = $familyManager->loadFamilyMembers($availableFamilies[0]->id);
         }

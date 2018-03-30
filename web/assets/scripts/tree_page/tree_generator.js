@@ -14,10 +14,10 @@ function loadTree() {
     var memberIdParam = url.searchParams.get("memberId");
     console.log(memberIdParam);
 
-    var requestUrl = "/tree/load_tree?family=1";
+    var requestUrl = "/tree/load_tree?f=1";
 
     if (memberIdParam !== null) {
-        requestUrl += "&memberId=" + memberIdParam;
+        requestUrl += "&m=" + memberIdParam;
     }
 
     $.get(requestUrl, function (response) {
