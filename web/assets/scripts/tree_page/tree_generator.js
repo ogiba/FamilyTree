@@ -11,7 +11,7 @@ $(document).ready(function () {
 
 function loadTree() {
     var url = new URL(window.location.href);
-    var memberIdParam = url.searchParams.get("memberId");
+    var memberIdParam = url.searchParams.get("m");
     console.log(memberIdParam);
 
     var requestUrl = "/tree/load_tree?f=1";

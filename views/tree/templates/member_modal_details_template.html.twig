@@ -7,7 +7,7 @@
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-12">
-                <div>{{ selectedMember.firstName }} {{ selectedMember.lastName }}</div>
+                <a href="/tree?m={{ selectedMember.id }}">{{ selectedMember.firstName }} {{ selectedMember.lastName }}</a>
             </div>
         </div>
         <div class="row">
@@ -40,13 +40,16 @@
             {% set firstParent = selectedMember.firstParent %}
             {% if firstParent is not null and firstParent is not empty %}
                 {% set firstParentName = firstParent.firstName ~" "~ firstParent.lastName %}
-                {{ include('tree/templates/modal_text_field.html.twig', {label: trans("user-first-parent"), value: firstParentName}) }}
+                {{ include('tree/templates/modal_action_field.html.twig', {label: trans("user-first-parent"),
+                    value: firstParentName, link: "/tree?m="~firstParent.id}) }}
             {% endif %}
 
             {% set secondParent = selectedMember.secondParent %}
             {% if secondParent is not null and secondParent is not empty %}
                 {% set secondParentName = secondParent.firstName ~" "~ secondParent.lastName %}
-                {{ include('tree/templates/modal_text_field.html.twig', {label: trans("user-second-parent"), value: secondParentName}) }}
+                {{ include('tree/templates/modal_action_field.html.twig', {label: trans("user-second-parent"),
+                    value: secondParentName, link: "/tree?m="~secondParent.id})
+                }}
             {% endif %}
         </div>
     </div>
