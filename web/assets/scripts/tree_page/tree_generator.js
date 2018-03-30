@@ -10,7 +10,17 @@ $(document).ready(function () {
 });
 
 function loadTree() {
-    $.get("/tree/load_tree?family=1", function (response) {
+    var url = new URL(window.location.href);
+    var memberIdParam = url.searchParams.get("memberId");
+    console.log(memberIdParam);
+
+    var requestUrl = "/tree/load_tree?family=1";
+
+    if (memberIdParam !== null) {
+        requestUrl += "&memberId=" + memberIdParam;
+    }
+
+    $.get(requestUrl, function (response) {
         $(".playground-progress").on("transitionend", function () {
             $(".playground-progress").css("display", "none");
         }).css("opacity", "0");
