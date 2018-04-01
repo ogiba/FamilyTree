@@ -13,6 +13,7 @@ use Controller\IndexController;
 use Controller\NotFoundController;
 use Controller\PostViewController;
 use Controller\TreeController;
+use Controller\TreeListController;
 
 /**
  * Created by PhpStorm.
@@ -118,6 +119,11 @@ class Application {
             "post" => function () {
                 return new PostViewController();
             },
+            "test" => [
+                "trees" => function () {
+                    return new TreeListController();
+                }
+            ],
             "not_found" => function () {
                 return new NotFoundController();
             }
