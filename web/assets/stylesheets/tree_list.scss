@@ -1,0 +1,63 @@
+$primaryColor: #174732;
+$nodeColor: #D2F8BF;
+$primaryDarkColor: #423322;
+$lineSize: 3px;
+
+header {
+    height: auto;
+    background: none;
+}
+
+.customized-nav {
+    position: fixed;
+    top: 0;
+    bottom: auto;
+    z-index: 100;
+
+    .navbar-brand {
+        opacity: 1;
+    }
+}
+
+.trees-section {
+    min-height: 100vh;
+
+    .container {
+        padding-top: 60px;
+
+        .family-item {
+            padding: 20%;
+
+            .thumbnail {
+                $ratioValue: 100%;
+
+                position: relative;
+                width: $ratioValue;
+                padding-top: $ratioValue;
+
+                $maxImageSize: 200px;
+                $edgesAlignment: 0;
+
+                & img {
+                    max-width: $maxImageSize;
+                    max-height: $maxImageSize;
+                    box-shadow: 0 0 4px;
+                    width: 100%;
+                    border-radius: 10px;
+                    background: white;
+                    position: absolute;
+                    top: $edgesAlignment;
+                    left: $edgesAlignment;
+                    bottom: $edgesAlignment;
+                    right: $edgesAlignment;
+                    text-align: center;
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+}
+
+.fill {
+    height: 100%;
+}

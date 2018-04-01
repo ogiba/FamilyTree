@@ -1,0 +1,39 @@
+header {
+  height: auto;
+  background: none; }
+
+.customized-nav {
+  position: fixed;
+  top: 0;
+  bottom: auto;
+  z-index: 100; }
+  .customized-nav .navbar-brand {
+    opacity: 1; }
+
+.trees-section {
+  min-height: 100vh; }
+  .trees-section .container {
+    padding-top: 60px; }
+    .trees-section .container .family-item {
+      padding: 20%; }
+      .trees-section .container .family-item .thumbnail {
+        position: relative;
+        width: 100%;
+        padding-top: 100%; }
+        .trees-section .container .family-item .thumbnail img {
+          max-width: 200px;
+          max-height: 200px;
+          box-shadow: 0 0 4px;
+          width: 100%;
+          border-radius: 10px;
+          background: white;
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          text-align: center;
+          font-size: 20px; }
+
+.fill {
+  height: 100%; }

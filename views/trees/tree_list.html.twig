@@ -2,6 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link href="{{ asset('stylesheets/tree_list.css') }}" type="text/css" rel="stylesheet"/>
 {% endblock %}
 
 {% block javascripts %}
@@ -19,7 +20,21 @@
 {% endblock %}
 
 {% block body %}
-
+    <section class="trees-section">
+        <div class="container">
+            <div class="row">
+                {% for i in 1..10 %}
+                    <div class="col-md-4">
+                        <div class="family-item">
+                            <div class="thumbnail">
+                                <img src="/web/assets/images/avatar-placeholder.png">
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 {% endblock %}
 
 {% block footer %}
