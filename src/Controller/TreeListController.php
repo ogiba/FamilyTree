@@ -9,7 +9,23 @@
 namespace Controller;
 
 
+use Database\FamilyManager;
+
 class TreeListController extends BaseController {
+
+    /**
+     * @var FamilyManager
+     */
+    private $manager;
+
+    /**
+     * TreeListController constructor.
+     */
+    public function __construct()
+    {
+        $this->manager = new FamilyManager();
+    }
+
 
     public function action($name, $action, $params)
     {
@@ -20,8 +36,15 @@ class TreeListController extends BaseController {
         }
     }
 
-    private function indexAction() {
-        $params = array("userLogged" => $this->checkIfUserLogged());
+    private function indexAction()
+    {
+        $params = array("userLogged" => $this->checkIfUserLogged(), "families" => $this->loadFamilies());
         echo $this->render("trees/tree_list.html.twig", $params);
+    }
+
+    private function loadFamilies()
+    {
+        $families = $this->manager->loadFamilies();
+        return $families;
     }
 }

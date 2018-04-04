@@ -16,6 +16,8 @@ header {
     padding-top: 60px; }
     .trees-section .container .family-item {
       padding: 20%; }
+      .trees-section .container .family-item a {
+        color: rgba(0, 0, 0, 0.5); }
       .trees-section .container .family-item div:first-child {
         position: relative; }
         .trees-section .container .family-item div:first-child .thumbnail {

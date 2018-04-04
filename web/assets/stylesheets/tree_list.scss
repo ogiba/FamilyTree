@@ -28,6 +28,10 @@ header {
         .family-item {
             padding: 20%;
 
+            a {
+                color: rgba(0, 0, 0, 0.5);
+            }
+
             div:first-child {
                 position: relative;
 
@@ -61,7 +65,7 @@ header {
                     bottom: 0;
                     right: 0;
                     left: 0;
-                    background: rgba(0,0,0,0.3);
+                    background: rgba(0, 0, 0, 0.3);
                     color: whitesmoke;
                     padding: 5px;
                     border-bottom-left-radius: 10px;

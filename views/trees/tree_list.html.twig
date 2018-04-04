@@ -26,14 +26,16 @@
                 {% for i in 1..10 %}
                     <div class="col-md-4">
                         <div class="family-item">
-                            <div>
-                            <div class="thumbnail">
-                                <img src="/web/assets/images/avatar-placeholder.png">
-                            </div>
-                            <div class="label">
-                                Test
-                            </div>
-                            </div>
+                            <a href="/tree">
+                                <div>
+                                    <div class="thumbnail">
+                                        <img src="/web/assets/images/avatar-placeholder.png">
+                                    </div>
+                                    <div class="label">
+                                        {{ families[0].familyName ~ ' ' ~i }}
+                                    </div>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 {% endfor %}
