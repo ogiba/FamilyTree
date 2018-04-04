@@ -42,8 +42,6 @@ header {
                     $edgesAlignment: 0;
 
                     & img {
-                        max-width: $maxImageSize;
-                        max-height: $maxImageSize;
                         box-shadow: 0 0 4px;
                         width: 100%;
                         border-radius: 10px;
