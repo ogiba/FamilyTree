@@ -25,18 +25,7 @@
             <div class="row">
                 {% for i in 1..10 %}
                     <div class="col-md-4">
-                        <div class="family-item">
-                            <a href="/tree">
-                                <div>
-                                    <div class="thumbnail">
-                                        <img src="/web/assets/images/avatar-placeholder.png">
-                                    </div>
-                                    <div class="label">
-                                        {{ families[0].familyName ~ ' ' ~i }}
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
+                        {% include 'trees/templates/tree_list_item.html.twig' with { "family" : families[0]} %}
                     </div>
                 {% endfor %}
             </div>
