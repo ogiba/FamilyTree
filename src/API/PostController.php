@@ -35,7 +35,6 @@ class PostController extends BaseRestController
         $this->postsManager = new PostsManager();
     }
 
-
     public function postListAction($request) {
         $pageSize = isset($request["pageSize"]) ? (int)$request["pageSize"] : 0;
         $pageNumber = isset($request["page"]) ?  (int)$request["page"] : 0;

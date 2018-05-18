@@ -10,9 +10,10 @@ namespace Controller\Admin;
 
 
 use Database\PostsManager;
+use Model\Response;
+use Utils\StatusCode;
 
-class PostController extends BaseAdminController
-{
+class PostController extends BaseAdminController {
     const userAddPostImagesActions = "user-add-post-images";
     private $manager;
 
@@ -28,12 +29,19 @@ class PostController extends BaseAdminController
     {
         parent::action($name, $action, $params);
 
-        if ($action == null) {
-            $this->viewPostBehavior();
-        } else if ($action == "edit") {
-            $this->editPostBehavior($params);
-        } else if ($action == "new") {
-            $this->newPostBehavior($params);
+        switch ($action) {
+            case null:
+                $this->viewPostBehavior();
+                break;
+            case "edit":
+                $this->editPostBehavior($params);
+                break;
+            case "new":
+                $this->newPostBehavior($params);
+                break;
+            case "remove":
+                $this->deleteEditedPost();
+                break;
         }
     }
 
@@ -110,26 +118,22 @@ class PostController extends BaseAdminController
 
     private function uploadFiles()
     {
-        if (!empty($_FILES))
-        {
+        if (!empty($_FILES)) {
             $tempFile = $_FILES['file']['tmp_name'];
             $storeFolder = 'uploads/temp';   //2
             $destFolder = $storeFolder . "/";
             $targetFile = $destFolder . uniqid("post_image_");
 
-            if(!file_exists($destFolder))
-                mkdir($destFolder,0x0777, true);
+            if (!file_exists($destFolder))
+                mkdir($destFolder, 0x0777, true);
 
-            if (move_uploaded_file($tempFile, $targetFile))
-            {
+            if (move_uploaded_file($tempFile, $targetFile)) {
                 $action = new \stdClass();
                 $action->action = "add";
                 $action->data = $targetFile;
 
                 $_SESSION[self::userAddPostImagesActions][] = $action;
-            }
-            else
-            {
+            } else {
                 echo "Error occurred\n";
             }
         }
@@ -179,25 +183,47 @@ class PostController extends BaseAdminController
         }
     }
 
+    private function deleteEditedPost()
+    {
+        if (!isset($_POST["id"]) || empty($_POST["id"])) {
+            exit;
+        }
+
+        $postId = $_POST["id"];
+
+        if (!is_numeric($postId)) {
+            $responseCode = StatusCode::BAD_REQUEST;
+            $response = new Response(StatusCode::getMessageForCode($responseCode), $responseCode);
+            $this->sendJsonResponse($response);
+            exit;
+        }
+        $postRemoved = $this->manager->removePost($postId);
+
+        if ($postRemoved) {
+            header("Location: /admin");
+        } else {
+            $response = new Response(StatusCode::getMessageForCode(StatusCode::UNPROCESSED_ENTITY),
+                StatusCode::UNPROCESSED_ENTITY);
+            $this->sendJsonResponse($response);
+        }
+        exit;
+    }
+
     private function saveUploadedFiles()
     {
         $uploadedFiles = [];
         $storeFolder = 'uploads';   //2
         $destFolder = $storeFolder . "/";
 
-        foreach($_SESSION[self::userAddPostImagesActions] as $action)
-        {
-            if($action->action != "add")
+        foreach ($_SESSION[self::userAddPostImagesActions] as $action) {
+            if ($action->action != "add")
                 continue;
 
             $targetFile = $destFolder . uniqid("post_image_");
 
-            if (rename($action->data, $targetFile))
-            {
+            if (rename($action->data, $targetFile)) {
                 $uploadedFiles[] = $targetFile;
-            }
-            else
-            {
+            } else {
                 echo "Error occurred\n";
             }
         }
