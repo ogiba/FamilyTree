@@ -16,7 +16,7 @@ class LoginManager extends BaseDatabaseManager {
         $connection = $this->createConnection();
         $stmt = $connection->prepare("SELECT * FROM users u
                                               INNER JOIN user_privileges up ON u.id = up.user
-                                              WHERE u.nickName = ? AND up.id = 1");
+                                              WHERE u.nickName = ? AND up.type = 1");
         $stmt->bind_param("s", $userName);
         $stmt->execute();
 

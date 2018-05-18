@@ -36,7 +36,6 @@
                 {{ include('tree/templates/modal_text_field.html.twig', {label: trans("user-death-date"), value: deathDate}) }}
             {% endif %}
 
-
             {% set firstParent = selectedMember.firstParent %}
             {% if firstParent is not null and firstParent is not empty %}
                 {% set firstParentName = firstParent.firstName ~" "~ firstParent.lastName %}
