@@ -52,6 +52,26 @@ class LoginManager extends BaseDatabaseManager {
         return true;
     }
 
+    public function checkUserPrivilegesByToken($token)
+    {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("SELECT * FROM user_privileges up 
+                                              INNER JOIN login_attempts la
+                                              WHERE la.token = ? 
+                                              AND up.user = la.user
+                                              AND up.type = 1 ");
+        $stmt->bind_param("s", $token);
+        $stmt->execute();
+
+        $data = $this->bindResult($stmt);
+
+        if ($stmt->fetch() && !is_null($data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private function insertAttempt($id, $username)
     {
         $token = md5(uniqid($username, true));

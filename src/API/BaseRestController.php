@@ -7,6 +7,7 @@
 
 namespace API;
 
+use Database\LoginManager;
 use Model\Response;
 use Utils\ResponseHeaders;
 use Utils\SerializeManager;
@@ -14,10 +15,15 @@ use Utils\StatusCode;
 
 abstract class BaseRestController {
     protected $serializeManager;
+    /**
+     * @var LoginManager
+     */
+    private $loginManager;
 
     public function setupSerializer()
     {
         $this->serializeManager = new SerializeManager();
+        $this->loginManager = new LoginManager();
     }
 
     /**
@@ -42,6 +48,11 @@ abstract class BaseRestController {
         header(ResponseHeaders::CONTENT_TYPE_JSON);
         header("HTTP/1.1 " . StatusCode::getMessageForCode($response->getStatusCode()));
         echo json_encode($response);
+    }
+
+    protected function checkIsAdmin($token)
+    {
+        return $this->loginManager->checkUserPrivilegesByToken($token);
     }
 
     abstract function action($name, $action, $params);

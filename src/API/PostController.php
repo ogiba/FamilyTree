@@ -99,7 +99,7 @@ class PostController extends BaseRestController {
         if (!isset($_GET["id"])) {
             $this->sendJsonResponse(null, StatusCode::BAD_REQUEST);
             exit;
-        } else if (is_null($token)) {
+        } else if (is_null($token) || !$this->checkIsAdmin($token)) {
             $this->sendJsonResponse(null, StatusCode::UNATHORIZED);
             exit;
         }
