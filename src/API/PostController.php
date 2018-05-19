@@ -64,7 +64,7 @@ class PostController extends BaseRestController {
         if (count($postsPage->getPosts()) > 0) {
             $this->sendJsonResponse($postsPage);
         } else {
-            $this->sendJsonResponse("", StatusCode::NOT_FOUND);
+            $this->sendJsonResponse(null, StatusCode::NOT_FOUND);
         }
     }
 
@@ -80,29 +80,47 @@ class PostController extends BaseRestController {
         $selectedPost = $this->postsManager->loadPost($id);
 
         if (!is_null($selectedPost)) {
-            $jsonString = $this->serializeManager->serializeJson($selectedPost);
-            header("Content-Type: application/json");
-            header("HTTP/1.1 200 OK");
-            echo $jsonString;
+            $this->sendJsonResponse($selectedPost);
         } else {
-            header("HTTP/1.1 404 Not found");
-            echo "";
+            $this->sendJsonResponse(null, StatusCode::NOT_FOUND);
         }
     }
 
     private function handleRemove()
     {
+        $requestHeaders = getallheaders();
+        if (!isset($requestHeaders["Authorization"])) {
+            $this->sendJsonResponse(null, StatusCode::UNATHORIZED);
+            exit;
+        }
+
+        $token = $this->getBearerToken($requestHeaders["Authorization"]);
+
         if (!isset($_GET["id"])) {
-            $this->sendJsonResponse("", StatusCode::BAD_REQUEST);
+            $this->sendJsonResponse(null, StatusCode::BAD_REQUEST);
+            exit;
+        } else if (is_null($token)) {
+            $this->sendJsonResponse(null, StatusCode::UNATHORIZED);
             exit;
         }
 
         $isRemoved = $this->postsManager->removePost($_GET["id"]);
 
         if ($isRemoved) {
-            $this->sendJsonResponse("", StatusCode::OK);
+            $this->sendJsonResponse(null, StatusCode::OK);
         } else {
             $this->sendJsonResponse(null, StatusCode::UNPROCESSED_ENTITY);
         }
+    }
+
+    private function getBearerToken($headers)
+    {
+        // HEADER: Get the access token from the header
+        if (!empty($headers)) {
+            if (preg_match('/Bearer\s(\S+)/', $headers, $matches)) {
+                return $matches[1];
+            }
+        }
+        return null;
     }
 }
