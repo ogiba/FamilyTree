@@ -96,7 +96,7 @@ class PostController extends BaseRestController {
 
         $token = $this->getBearerToken($requestHeaders["Authorization"]);
 
-        if (!isset($_GET["id"])) {
+        if (!isset($_POST["id"])) {
             $this->sendJsonResponse(null, StatusCode::BAD_REQUEST);
             exit;
         } else if (is_null($token) || !$this->checkIsAdmin($token)) {
@@ -104,7 +104,7 @@ class PostController extends BaseRestController {
             exit;
         }
 
-        $isRemoved = $this->postsManager->removePost($_GET["id"]);
+        $isRemoved = $this->postsManager->removePost($_POST["id"]);
 
         if ($isRemoved) {
             $this->sendJsonResponse(null, StatusCode::OK);

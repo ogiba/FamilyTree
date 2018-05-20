@@ -29,18 +29,23 @@ class PostController extends BaseAdminController {
     {
         parent::action($name, $action, $params);
 
-        switch ($action) {
+        if (count($params) == 0) {
+            $this->viewPostBehavior($action);
+            return;
+        }
+
+        switch ($params[0]) {
             case null:
-                $this->viewPostBehavior();
+                $this->viewPostBehavior($action);
                 break;
             case "edit":
-                $this->editPostBehavior($params);
+                $this->editPostBehavior($action, $params);
                 break;
             case "new":
                 $this->newPostBehavior($params);
                 break;
             case "remove":
-                $this->deleteEditedPost();
+                $this->deleteEditedPost($action);
                 break;
         }
     }
@@ -56,14 +61,14 @@ class PostController extends BaseAdminController {
         }
     }
 
-    private function viewPostBehavior()
+    private function viewPostBehavior($postId)
     {
-        if (!isset($_GET["id"]) || empty($_GET["id"])) {
-            header("location: /not_found");
-            exit;
-        }
+//        if (!isset($_GET["id"]) || empty($_GET["id"])) {
+//            header("location: /not_found");
+//            exit;
+//        }
 
-        $postId = $_GET["id"];
+//        $postId = $_GET["id"];
         $postToView = $this->manager->loadPost($postId);
 
         echo $this->render("/admin/post/post_view.html.twig", [
@@ -72,17 +77,17 @@ class PostController extends BaseAdminController {
         ]);
     }
 
-    private function editPostBehavior($pathArray)
+    private function editPostBehavior($postId, $pathArray)
     {
         if (count($pathArray) > 0 && $pathArray[0] == "update") {
             $this->updateEditedPost();
         } else {
-            if (!isset($_GET["id"]) || empty($_GET["id"])) {
-                header("location: /not_found");
-                exit;
-            }
+//            if (!isset($_GET["id"]) || empty($_GET["id"])) {
+//                header("location: /not_found");
+//                exit;
+//            }
 
-            $postId = $_GET["id"];
+//            $postId = $_GET["id"];
 
             $post = $this->manager->loadPost($postId);
 
@@ -183,13 +188,13 @@ class PostController extends BaseAdminController {
         }
     }
 
-    private function deleteEditedPost()
+    private function deleteEditedPost($postId)
     {
-        if (!isset($_POST["id"]) || empty($_POST["id"])) {
-            exit;
-        }
+//        if (!isset($_POST["id"]) || empty($_POST["id"])) {
+//            exit;
+//        }
 
-        $postId = $_POST["id"];
+//        $postId = $_POST["id"];
 
         if (!is_numeric($postId)) {
             $responseCode = StatusCode::BAD_REQUEST;
@@ -200,7 +205,10 @@ class PostController extends BaseAdminController {
         $postRemoved = $this->manager->removePost($postId);
 
         if ($postRemoved) {
-            header("Location: /admin");
+//            header("Location: /admin");
+            $response = new Response(StatusCode::getMessageForCode(StatusCode::OK),
+                StatusCode::OK);
+            $this->sendJsonResponse($response);
         } else {
             $response = new Response(StatusCode::getMessageForCode(StatusCode::UNPROCESSED_ENTITY),
                 StatusCode::UNPROCESSED_ENTITY);
