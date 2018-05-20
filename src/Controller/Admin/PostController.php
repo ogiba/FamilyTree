@@ -29,31 +29,32 @@ class PostController extends BaseAdminController {
     {
         parent::action($name, $action, $params);
 
-        if (count($params) == 0) {
-            $this->viewPostBehavior($action);
-            return;
-        }
+        if ($action == "new") {
+            $this->newPostBehavior($params);
+            exit;
+        } else if (is_numeric($action) && count($params) == 0) {
 
-        switch ($params[0]) {
-            case null:
-                $this->viewPostBehavior($action);
-                break;
-            case "edit":
-                $this->editPostBehavior($action, $params);
-                break;
-            case "new":
-                $this->newPostBehavior($params);
-                break;
-            case "remove":
-                $this->deleteEditedPost($action);
-                break;
+            $this->viewPostBehavior($action);
+            exit;
+        } else if (is_numeric($action) && count($params) > 0) {
+            switch ($params[0]) {
+                case null:
+                    $this->viewPostBehavior($action);
+                    break;
+                case "edit":
+                    $this->editPostBehavior($action, $params);
+                    break;
+                case "remove":
+                    $this->deleteEditedPost();
+                    break;
+            }
         }
     }
 
     protected function indexCustomAction($path)
     {
         if ($path == null) {
-            $this->viewPostBehavior();
+            $this->viewPostBehavior($path);
         } else if ($path[2] == "edit") {
             $this->editPostBehavior($path);
         } else if ($path[2] == "new") {
@@ -63,12 +64,6 @@ class PostController extends BaseAdminController {
 
     private function viewPostBehavior($postId)
     {
-//        if (!isset($_GET["id"]) || empty($_GET["id"])) {
-//            header("location: /not_found");
-//            exit;
-//        }
-
-//        $postId = $_GET["id"];
         $postToView = $this->manager->loadPost($postId);
 
         echo $this->render("/admin/post/post_view.html.twig", [
@@ -79,7 +74,7 @@ class PostController extends BaseAdminController {
 
     private function editPostBehavior($postId, $pathArray)
     {
-        if (count($pathArray) > 0 && $pathArray[0] == "update") {
+        if (count($pathArray) > 1 && $pathArray[1] == "update") {
             $this->updateEditedPost();
         } else {
 //            if (!isset($_GET["id"]) || empty($_GET["id"])) {
@@ -188,13 +183,13 @@ class PostController extends BaseAdminController {
         }
     }
 
-    private function deleteEditedPost($postId)
+    private function deleteEditedPost()
     {
-//        if (!isset($_POST["id"]) || empty($_POST["id"])) {
-//            exit;
-//        }
+        if (!isset($_POST["post"]) || empty($_POST["post"])) {
+            exit;
+        }
 
-//        $postId = $_POST["id"];
+        $postId = $_POST["post"];
 
         if (!is_numeric($postId)) {
             $responseCode = StatusCode::BAD_REQUEST;
