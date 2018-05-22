@@ -8,12 +8,12 @@ function savePost() {
         url: "new/save",
         type: 'POST',
         data: {
-            "title":  $("#postTitle").val(),
+            "title": $("#postTitle").val(),
             "content": $("#postContent").val(),
             "published": $("#postPublished")[0].checked
         },
-        success: function(data){
-
+        success: function (data) {
+            window.history.back()
         },
         error: function (error) {
             var resp = JSON.parse(error.responseText);
@@ -33,12 +33,12 @@ function updatePost(postValue) {
         url: "edit/update",
         type: 'POST',
         data: {
-            "id" : postValue,
-            "title":  $("#postTitle").val(),
+            "id": postValue,
+            "title": $("#postTitle").val(),
             "content": $("#postContent").val(),
             "published": $("#postPublished")[0].checked
         },
-        success: function(data){
+        success: function (data) {
             window.history.back();
         },
         error: function (error) {

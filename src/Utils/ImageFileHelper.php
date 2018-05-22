@@ -51,7 +51,7 @@ class ImageFileHelper {
         if (!$resource)
             return $isDone;
 
-        //close our file stream
+        //close file stream
         @fclose($streamHandle);
 
         //move the uploaded file with a lesser quality
