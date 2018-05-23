@@ -169,3 +169,9 @@ section.posts {
 
 section.info {
   background: cornflowerblue; }
+
+.cookies-alert {
+  position: fixed;
+  bottom: 6%;
+  margin-left: 10%;
+  margin-right: 10%; }

@@ -65,6 +65,7 @@
   "close": "Zamknij",
   "remove": "Usuń",
   "continue": "Kontynuuj",
+  "attention": "Ważne",
   "modal-title-warning": "Ostrzeżenie",
   "sections-name": "Nazwa sekcji",
   "section-title": "Tytuł",
@@ -82,5 +83,6 @@
   "user-desc": "Informacje dodatkowe",
   "modified-by": "przez",
   "member-details": "Szczegóły osoby",
-  "missing-param": "Brakuje wymaganego parametru"
+  "missing-param": "Brakuje wymaganego parametru",
+  "cookies-info": "Informujemy, że ta strona korzysta z plików cookies. Odwiedzając naszą stronę bez dokonania zmian ustawień swojej przeglądarki, wyrażasz zgodę na wykorzystanie przez nas plików cookies w celu ułatwienia korzystania z serwisu."
 }

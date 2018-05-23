@@ -64,6 +64,7 @@
   "close": "Close",
   "remove": "Remove",
   "continue": "Continue",
+  "attention": "Attention",
   "modal-title-warning": "Warning",
   "sections-name": "Section name",
   "section-title": "Title",
@@ -81,5 +82,6 @@
   "user-desc": "Optional information",
   "modified-by": "by",
   "member-details": "Member Details",
-  "missing-param": "Missing required parameter"
+  "missing-param": "Missing required parameter",
+  "cookies-info": "Test value of cookies info"
 }
