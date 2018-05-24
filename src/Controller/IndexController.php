@@ -35,7 +35,8 @@ class IndexController extends BaseController {
         echo $this->render("default/index.html.twig", array(
             "postsPage" => $postsPage,
             "aboutInfo" => $aboutInfo,
-            "userLogged" => $this->checkIfUserLogged()
+            "userLogged" => $this->checkIfUserLogged(),
+            "cookieInfoClosed" => isset($_COOKIE["cookieInfo"])
         ));
     }
 

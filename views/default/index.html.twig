@@ -34,17 +34,19 @@
             </div>
         </div>
     </section>
-    <div id="cookieInfo" class="alert alert-success cookies-alert" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        <div class="alert-heading">
-            <b>{{ trans("attention") }}!</b>
+    {% if not cookieInfoClosed %}
+        <div id="cookieInfo" class="alert alert-success cookies-alert" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="alert-heading">
+                <b>{{ trans("attention") }}!</b>
+            </div>
+            <p>
+                {{ trans("cookies-info") }}
+            </p>
         </div>
-        <p>
-            {{ trans("cookies-info") }}
-        </p>
-    </div>
+    {% endif %}
 {% endblock %}
 
 {% block stylesheets %}
