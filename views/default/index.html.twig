@@ -34,12 +34,16 @@
             </div>
         </div>
     </section>
-    <div class="alert alert-success cookies-alert" role="alert">
-        <h6 class="alert-heading">{{ trans("attention") }}!</h6>
-            <hr>
-            <p>
-               {{ trans("cookies-info") }}
-            </p>
+    <div id="cookieInfo" class="alert alert-success cookies-alert" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="alert-heading">
+            <b>{{ trans("attention") }}!</b>
+        </div>
+        <p>
+            {{ trans("cookies-info") }}
+        </p>
     </div>
 {% endblock %}
 
