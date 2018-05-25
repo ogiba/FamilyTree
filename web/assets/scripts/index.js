@@ -23,9 +23,13 @@ function setupScrollListener() {
 }
 
 function setupAlertListener() {
-    $("#cookieInfo").on("close.bs.alert", function () {
-        updateCookieInfo();
-    });
+    let cookieALert = $("#cookieInfo");
+
+    if (cookieALert.length) {
+        cookieALert.on("close.bs.alert", function () {
+            updateCookieInfo();
+        });
+    }
 }
 
 function selectPage(pageNumber) {
