@@ -13,7 +13,7 @@ use Database\PostsManager;
 use Model\Response;
 use Utils\StatusCode;
 
-class PostController extends BaseAdminController {
+class PostController extends BaseAdminViewController {
     const userAddPostImagesActions = "user-add-post-images";
     private $manager;
 

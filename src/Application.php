@@ -4,16 +4,17 @@ use API\PostController;
 use API\TestController;
 use API\UserController;
 use Controller\Admin\InformationManageController;
-use Controller\Admin\LoginController;
+use Controller\Admin\LoginViewController;
 use Controller\Admin\PanelController;
 use Controller\Admin\TreeBuilder\MemberListController;
 use Controller\Admin\TreeBuilder\NewMemberController;
 use Controller\Admin\TreeBuilder\TreeStructureController;
-use Controller\IndexController;
-use Controller\NotFoundController;
-use Controller\PostViewController;
-use Controller\TreeController;
-use Controller\TreeListController;
+use Controller\IndexViewController;
+use Controller\NotFoundViewController;
+use Controller\PostViewViewController;
+use Controller\TreeViewController;
+use Controller\TreeListViewController;
+use Utils\Base\BaseController;
 
 /**
  * Created by PhpStorm.
@@ -44,21 +45,22 @@ class Application {
             $params = array_slice($explodedPath, 2);
 
         call_user_func_array([$controller, "action"], [$name, $action, $params]);
+//        $controller->action($name, $action, $params);
     }
 
     /**
      * @param string[] $path
-     * @return \Controller\BaseController
+     * @return BaseController
      */
     private function route(array &$path)
     {
         // puste oznaczaja domyslny routing
         $routing = [
             "" => function () {
-                return new IndexController();
+                return new IndexViewController();
             },
             "tree" => function () {
-                return new TreeController();
+                return new TreeViewController();
             },
             "api" => [
                 "post" => function () {
@@ -110,22 +112,22 @@ class Application {
                     }
                 ],
                 "login" => function () {
-                    return new LoginController();
+                    return new LoginViewController();
                 },
                 "logout" => function () {
-                    return new LoginController();
+                    return new LoginViewController();
                 }
             ],
             "post" => function () {
-                return new PostViewController();
+                return new PostViewViewController();
             },
             "test" => [
                 "trees" => function () {
-                    return new TreeListController();
+                    return new TreeListViewController();
                 }
             ],
             "not_found" => function () {
-                return new NotFoundController();
+                return new NotFoundViewController();
             }
         ];
 
@@ -160,7 +162,7 @@ class Application {
                 }
             }
 
-            return new NotFoundController();
+            return new NotFoundViewController();
         }
 
         // domyslny routing
@@ -175,6 +177,6 @@ class Application {
             }
         }
 
-        return new NotFoundController();
+        return new NotFoundViewController();
     }
 }

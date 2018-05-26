@@ -16,7 +16,7 @@ use Model\TreeResponse;
 use Utils\ResponseHeaders;
 use Utils\StatusCode;
 
-class TreeController extends BaseController {
+class TreeViewController extends BaseViewController {
     const MODE_DEBUG = "debug";
 
     public function action($name, $action, $params)

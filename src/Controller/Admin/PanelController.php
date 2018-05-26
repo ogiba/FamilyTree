@@ -10,7 +10,7 @@ namespace Controller\Admin;
 
 use Database\PostsManager;
 
-class PanelController extends BaseAdminController
+class PanelController extends BaseAdminViewController
 {
     public function action($name, $action, $params)
     {

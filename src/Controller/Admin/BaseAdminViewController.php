@@ -9,9 +9,9 @@
 namespace Controller\Admin;
 
 
-use Controller\BaseController;
+use Controller\BaseViewController;
 
-abstract class BaseAdminController extends BaseController {
+abstract class BaseAdminViewController extends BaseViewController {
     protected $userLogged = false;
 
     public function action($name, $action, $params)

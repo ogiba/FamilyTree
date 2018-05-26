@@ -11,7 +11,7 @@ namespace Controller;
 
 use Database\FamilyManager;
 
-class TreeListController extends BaseController {
+class TreeListViewController extends BaseViewController {
 
     /**
      * @var FamilyManager

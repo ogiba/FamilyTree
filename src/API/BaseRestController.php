@@ -9,11 +9,12 @@ namespace API;
 
 use Database\LoginManager;
 use Model\Response;
+use Utils\Base\BaseController;
 use Utils\ResponseHeaders;
 use Utils\SerializeManager;
 use Utils\StatusCode;
 
-abstract class BaseRestController {
+abstract class BaseRestController extends BaseController {
     protected $serializeManager;
     /**
      * @var LoginManager
@@ -54,6 +55,4 @@ abstract class BaseRestController {
     {
         return $this->loginManager->checkUserPrivilegesByToken($token);
     }
-
-    abstract function action($name, $action, $params);
 }

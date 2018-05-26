@@ -8,13 +8,13 @@
 
 namespace Controller\Admin\TreeBuilder;
 
-use Controller\Admin\BaseAdminController;
+use Controller\Admin\BaseAdminViewController;
 use Database\FamilyManager;
 use Model\Response;
 use Utils\ImageFileHelper;
 use Utils\StatusCode;
 
-class TreeStructureController extends BaseAdminController {
+class TreeStructureController extends BaseAdminViewController {
 
     const userEditMemberImageActions = "user_edit_member_images";
 

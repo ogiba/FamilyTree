@@ -9,12 +9,12 @@
 namespace Controller\Admin\TreeBuilder;
 
 
-use Controller\Admin\BaseAdminController;
+use Controller\Admin\BaseAdminViewController;
 use Database\FamilyManager;
 use Model\Response;
 use Utils\StatusCode;
 
-class MemberListController extends BaseAdminController {
+class MemberListController extends BaseAdminViewController {
     const userUpdateMemberImagesActions = "user_update_member_images";
 
     /**

@@ -9,7 +9,7 @@
 namespace Controller;
 
 
-class NotFoundController extends BaseController
+class NotFoundViewController extends BaseViewController
 {
     public function action($name, $action, $params)
     {

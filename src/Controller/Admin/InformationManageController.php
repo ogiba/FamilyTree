@@ -11,7 +11,7 @@ namespace Controller\Admin;
 
 use Database\InformationManager;
 
-class InformationManageController extends BaseAdminController {
+class InformationManageController extends BaseAdminViewController {
     const userSectionImagesActions = "user-section-images-actions";
     private $manager;
 

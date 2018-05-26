@@ -11,7 +11,7 @@ namespace Controller;
 
 use Database\PostsManager;
 
-class PostViewController extends BaseController
+class PostViewViewController extends BaseViewController
 {
     private $manager;
 

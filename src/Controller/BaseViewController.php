@@ -13,17 +13,11 @@ use Model\Response;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 use Twig_SimpleFunction;
+use Utils\Base\BaseController;
 use Utils\ResponseHeaders;
 use Utils\StatusCode;
 
-abstract class BaseController {
-    /**
-     * @param string|null $name
-     * @param string|null $action
-     * @param array $params
-     */
-    public abstract function action($name, $action, $params);
-
+abstract class BaseViewController extends BaseController {
     /**
      * @param string $viewName
      * @param array $properties

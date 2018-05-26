@@ -8,14 +8,14 @@
 
 namespace Controller\Admin\TreeBuilder;
 
-use Controller\Admin\BaseAdminController;
+use Controller\Admin\BaseAdminViewController;
 use Database\FamilyManager;
 use Model\FamilyMember;
 use Model\Response;
 use Utils\ImageFileHelper;
 use Utils\StatusCode;
 
-class NewMemberController extends BaseAdminController {
+class NewMemberController extends BaseAdminViewController {
     private $manager;
     private $imageFileHelper;
 

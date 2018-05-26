@@ -8,13 +8,13 @@
 
 namespace Controller\Admin;
 
-use Controller\BaseController;
+use Controller\BaseViewController;
 use Database\LoginManager;
 use Model\Response;
 use Utils\SerializeManager;
 use Utils\StatusCode;
 
-class LoginController extends BaseController {
+class LoginViewController extends BaseViewController {
     public function action($name, $action, $params)
     {
         if ($name == "login") {

@@ -14,7 +14,7 @@ use Database\PostsManager;
 use Model\About;
 use Model\PostPage;
 
-class IndexController extends BaseController {
+class IndexViewController extends BaseViewController {
     const NUMBER_OF_ITEMS = 4;
     const STARTING_PAGE = 0;
 
