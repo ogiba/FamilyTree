@@ -1,6 +1,0 @@
-RewriteEngine off
-
-<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|inc|bak|json)$">
-Order Allow,Deny
-Deny from all
-</FilesMatch>
