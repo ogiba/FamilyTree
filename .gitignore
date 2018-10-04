@@ -19,9 +19,9 @@
 Cache
 
 # Parameters
-/app/config/parameters.yml
-/app/config/parameters.ini
-/src/Database/config.json
+/www/app/config/parameters.yml
+/www/app/config/parameters.ini
+/www/src/Database/config.json
 
 # Managed by Composer
 /app/bootstrap.php.cache
@@ -32,17 +32,17 @@ www/vendor/
 !bin/symfony_requirements
 
 # Assets and user uploads
-/web/bundles/
-/web/uploads/
-/uploads/*
+/www/web/bundles/
+/www/web/uploads/
+/www/uploads/*
 /www/data/trees/*.json
 
 # PHPUnit
-/app/phpunit.xml
-/phpunit.xml
+/www/app/phpunit.xml
+/www/phpunit.xml
 
 # Build data
-/build/
+/www/build/
 
 # Backup entities generated with doctrine:generate:entities command
 **/Entity/*~
