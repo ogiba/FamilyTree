@@ -9,8 +9,7 @@
         </thead>
         <tbody>
         {% for user in users %}
-            {{ user.nickName }}
-            {# {% include 'admin/section/section_list_row.html.twig' %} #}
+            {% include("admin/users/users_list_row.html.twig") %}
         {% endfor %}
         </tbody>
     </table>
