@@ -9,8 +9,19 @@
 namespace Controller\Admin\Users;
 
 use Controller\Admin\BaseAdminViewController;
+use Database\UserManager;
 
 class UsersListViewController extends BaseAdminViewController {
+
+    /**
+     * @var UserManager
+     */
+    private $manager;
+
+    public function __construct() {
+        $this->manager = new UserManager();
+    }
+
     public function action($name, $action, $params)
     {
         parent::action($name, $action, $params);
@@ -24,23 +35,16 @@ class UsersListViewController extends BaseAdminViewController {
 
     private function viewIndex()
     {
-        if (!isset($_SESSION["selectedFamily"])) {
-            return;
-        }
+        $users = $this->loadMembers();
 
         echo $this->render("/admin/users/users_view.html.twig", [
             "userLogged" => $this->userLogged,
-            // "family" => $selectedFamily,
-            // "familyMembers" => $members
+            "users" => $users
         ]);
+    }
 
-        // $selectedFamily = $this->loadFamilyData($_SESSION["selectedFamily"]);
-        // $members = $this->manager->loadFamily($selectedFamily->id);
-
-        // echo $this->render("/admin/trees/tree_builder_members.html.twig", [
-        //     "userLogged" => $this->userLogged,
-        //     "family" => $selectedFamily,
-        //     "familyMembers" => $members
-        // ]);
+    private function loadMembers()
+    {
+        return $this->manager->retriveUsers();
     }
 }
