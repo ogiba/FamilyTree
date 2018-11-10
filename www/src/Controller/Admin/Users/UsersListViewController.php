@@ -10,15 +10,18 @@ namespace Controller\Admin\Users;
 
 use Controller\Admin\BaseAdminViewController;
 use Database\UserManager;
+use Model\UserPage;
 
-class UsersListViewController extends BaseAdminViewController {
+class UsersListViewController extends BaseAdminViewController
+{
 
     /**
      * @var UserManager
      */
     private $manager;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->manager = new UserManager();
     }
 
@@ -26,8 +29,8 @@ class UsersListViewController extends BaseAdminViewController {
     {
         parent::action($name, $action, $params);
 
-        switch($action) {
-            default: 
+        switch ($action) {
+            default:
                 $this->viewIndex();
                 break;
         }
@@ -35,16 +38,31 @@ class UsersListViewController extends BaseAdminViewController {
 
     private function viewIndex()
     {
-        $users = $this->loadMembers();
+        $usersPage = $this->loadMembers();
 
         echo $this->render("/admin/users/users_view.html.twig", [
             "userLogged" => $this->userLogged,
-            "users" => $users
+            "usersPage" => $usersPage
         ]);
     }
 
     private function loadMembers()
     {
-        return $this->manager->retriveUsers();
+        $page = isset($_GET["page"]) ? $_GET["page"] : 0;
+        
+        $pageSize = isset($_GET["pageSize"]) ? $_GET["pageSize"] : 30;
+
+        $users = $this->manager->retriveUsers($page, $pageSize);
+        $totalNumberOfUsers = $this->manager->countUsers();
+
+        $totalNumberOfPages = ceil($totalNumberOfUsers / $pageSize);
+
+        $userPage = new UserPage();
+        $userPage->setUsers($users);
+        $userPage->setTotalItems($totalNumberOfUsers);
+        $userPage->setNumberOfPages($totalNumberOfPages);
+        $userPage->setCurrentPage($page + 1);
+
+        return $userPage;
     }
 }

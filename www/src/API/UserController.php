@@ -8,10 +8,11 @@
 
 namespace API;
 
-
 use Database\UserManager;
+use Model\UserPage;
 
-class UserController extends BaseRestController {
+class UserController extends BaseRestController
+{
 
     /**
      * @var UserManager
@@ -33,15 +34,26 @@ class UserController extends BaseRestController {
 
         switch ($action) {
             case "":
+                $pageSize = 5;
+
                 $users = $this->manager->retriveUsers();
-                $this->sendJsonResponse($users);
+                $totalNumberOfUsers = $this->manager->countUsers();
+        
+                $totalNumberOfPages = ceil($totalNumberOfUsers / $pageSize);
+        
+                $userPage = new UserPage();
+                $userPage->setUsers($users);
+                $userPage->setTotalItems($totalNumberOfUsers);
+                $userPage->setNumberOfPages($totalNumberOfPages);
+                $userPage->setCurrentPage($page + 1);
+
+                $this->sendJsonResponse($userPage);
                 break;
             case "details":
                 $user = $this->manager->retriveUser($params[0]);
                 $this->sendJsonResponse($user);
                 break;
             case "count":
-                $numberOfItems = $this->manager->countUsers();
                 $this->sendJsonResponse($numberOfItems);
                 break;
             default:
