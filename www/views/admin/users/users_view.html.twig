@@ -17,3 +17,9 @@
         </div>
     </section>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('scripts/admin/users_list.js') }}"></script>
+{% endblock %}
