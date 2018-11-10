@@ -47,6 +47,21 @@ class UserManager extends BaseDatabaseManager
         return $result;
     }
 
+    public function countUsers() {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("SELECT COUNT(*) FROM users");
+        $stmt->execute();
+
+        $countData = $this->bindResult($stmt);
+
+        $totalNumberOfItems = 0;
+        if ($stmt->fetch()) {
+            $totalNumberOfItems = $countData["COUNT(*)"];
+        }
+
+        return $totalNumberOfItems;
+    }
+
     public function retriveUser($id)
     {
         $connection = $this->createConnection();

@@ -40,6 +40,10 @@ class UserController extends BaseRestController {
                 $user = $this->manager->retriveUser($params[0]);
                 $this->sendJsonResponse($user);
                 break;
+            case "count":
+                $numberOfItems = $this->manager->countUsers();
+                $this->sendJsonResponse($numberOfItems);
+                break;
             default:
                 break;
         }
