@@ -8,10 +8,10 @@
 
 namespace Database;
 
-
 use Model\User;
 
-class UserManager extends BaseDatabaseManager {
+class UserManager extends BaseDatabaseManager
+{
 
     /**
      * @return User[] array
@@ -19,7 +19,15 @@ class UserManager extends BaseDatabaseManager {
     public function retriveUsers()
     {
         $connection = $this->createConnection();
-        $stmt = $connection->prepare("SELECT * FROM users");
+        $stmt = $connection->prepare("SELECT u.id,
+                                                u.nickName,
+                                                u.email,
+                                                u.firstName,
+                                                u.lastName,
+                                                u.avatar,
+                                                ut.name AS userType FROM users u
+                                        INNER JOIN user_privileges up ON u.id = up.user
+                                        INNER JOIN user_types ut ON up.type = ut.id");
         $stmt->execute();
 
         $data = $this->bindResult($stmt);
