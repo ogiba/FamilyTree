@@ -7,7 +7,6 @@
 
 namespace Model;
 
-
 use JsonSerializable;
 
 class User implements JsonSerializable {

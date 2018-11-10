@@ -2,5 +2,22 @@
  <tr>
     <th scope="row">{{ loop.index }}</th>
     <td>{{ user.nickName }}</td>
+    <td>{{ user.email }}</td>
+    <td>
+        {% set name = user.firstName ~ user.lastName %}
+        {% if name is not empty %}
+            {{ name }}
+        {% else %}
+            --------------
+        {% endif %}
+    </td>
+    <td>
+        {% set userType = user.userType %}
+        {% if userType is not null %}
+            {{ userType }}
+        {% else %}
+            --------------
+        {% endif %}
+    </td>
 </tr>
 {% endblock %}
