@@ -16,8 +16,10 @@ class UserManager extends BaseDatabaseManager
     /**
      * @return User[] array
      */
-    public function retriveUsers()
+    public function retriveUsers($page = 0, $pageSize = 5)
     {
+        $selectedPage = $page * $pageSize;
+
         $connection = $this->createConnection();
         $stmt = $connection->prepare("SELECT u.id,
                                                 u.nickName,
@@ -27,7 +29,10 @@ class UserManager extends BaseDatabaseManager
                                                 u.avatar,
                                                 ut.name AS userType FROM users u
                                         INNER JOIN user_privileges up ON u.id = up.user
-                                        INNER JOIN user_types ut ON up.type = ut.id");
+                                        INNER JOIN user_types ut ON up.type = ut.id
+                                        LIMIT ? 
+                                        OFFSET ?");
+        $stmt->bind_param("ii", $pageSize, $selectedPage);
         $stmt->execute();
 
         $data = $this->bindResult($stmt);
