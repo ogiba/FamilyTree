@@ -11,9 +11,36 @@
         </tr>
         </thead>
         <tbody>
+        {% set users = usersPage.users %}
         {% for user in users %}
             {% include("admin/users/users_list_row.html.twig") %}
         {% endfor %}
         </tbody>
+
+        {% if usersPage.numberOfPages > 1 %}
+        <div class="paging">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    {% set currentPage = usersPage.currentPage %}
+                    {% if currentPage > 1 %}
+                        <li class="page-item"><a class="page-link"
+                                                    onclick="alert({{ (currentPage -1) - 1 }})">Previous</a>
+                        </li>
+                    {% endif %}
+                    {% set pages = usersPage.numberOfPages %}
+                    {% for page in 1..pages %}
+                        <li class="page-item {% if currentPage == page %} active {% endif %}"><a
+                                    class="page-link"
+                                    onclick="alert({{ page -1 }})">{{ page }}</a></li>
+                    {% endfor %}
+                    {% if currentPage < usersPage.numberOfPages %}
+                        <li class="page-item"><a class="page-link"
+                            onclick="alert({{ (currentPage -1) + 1 }})">Next</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    {% endif %}
     </table>
 {% endblock %}
