@@ -94,12 +94,12 @@ class UserManager extends BaseDatabaseManager
      * @param User $user
      * @return boolean
      */
-    public function addNewUser($user)
+    public function addNewUser($user, $password)
     {
         $connection = $this->createConnection();
         $stmt = $connection->prepare("INSERT INTO users(nickName, email, password, firstName, lastName, avatar)
                                               VALUES (?,?,?,?,?,?)");
-        $stmt->bind_param("ssssss", $user->nickName, $user->email, $user->firstName, $user->lastName, $user->image);
+        $stmt->bind_param("ssssss", $user->nickName, $user->email, $password, $user->firstName, $user->lastName, $user->image);
         $stmt->execute();
 
         $isSucceed = $stmt->affected_rows > 0;

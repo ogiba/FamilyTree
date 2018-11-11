@@ -30,6 +30,9 @@ class UsersListViewController extends BaseAdminViewController
         parent::action($name, $action, $params);
 
         switch ($action) {
+            case "getUsers":
+                $this->usersPageAction();
+                break;
             default:
                 $this->viewIndex();
                 break;
@@ -38,7 +41,7 @@ class UsersListViewController extends BaseAdminViewController
 
     private function viewIndex()
     {
-        $usersPage = $this->loadMembers();
+        $usersPage = $this->loadUsers();
 
         echo $this->render("/admin/users/users_view.html.twig", [
             "userLogged" => $this->userLogged,
@@ -46,11 +49,20 @@ class UsersListViewController extends BaseAdminViewController
         ]);
     }
 
-    private function loadMembers()
+    public function usersPageAction()
+    {
+        $usersPage = $this->loadUsers();
+
+        echo $this->render("/admin/users/users_list.html.twig", array(
+            "usersPage" => $usersPage
+        ));
+    }
+
+    private function loadUsers()
     {
         $page = isset($_GET["page"]) ? $_GET["page"] : 0;
         
-        $pageSize = isset($_GET["pageSize"]) ? $_GET["pageSize"] : 30;
+        $pageSize = isset($_GET["pageSize"]) ? $_GET["pageSize"] : 1;
 
         $users = $this->manager->retriveUsers($page, $pageSize);
         $totalNumberOfUsers = $this->manager->countUsers();

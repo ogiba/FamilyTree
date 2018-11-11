@@ -4,8 +4,8 @@
     <td>{{ user.nickName }}</td>
     <td>{{ user.email }}</td>
     <td>
-        {% set name = user.firstName ~ user.lastName %}
-        {% if name is not empty %}
+        {% set name = user.firstName ~ " " ~ user.lastName %}
+        {% if name|trim is not empty %}
             {{ name }}
         {% else %}
             --------------

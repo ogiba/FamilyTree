@@ -113,9 +113,14 @@ class Application {
                     }
                 ],
                 "users" => [
-                    "" => function() {
-                        return new UsersListViewController();
-                    }
+                    "" => [
+                        "" => function() {
+                            return new UsersListViewController();
+                        },
+                        "actions" => [
+                            "getUsers"
+                        ]
+                    ]
                 ],
                 "login" => function () {
                     return new LoginViewController();
