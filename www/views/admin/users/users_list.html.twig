@@ -16,8 +16,9 @@
             {% include("admin/users/users_list_row.html.twig") %}
         {% endfor %}
         </tbody>
+    </table>
 
-        {% if usersPage.numberOfPages > 0 %}
+    {% if usersPage.numberOfPages > 1 %}
         <div class="paging">
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-end">
@@ -27,7 +28,7 @@
                                                     onclick="selectPage({{ (currentPage -1) - 1 }})">Previous</a>
                         </li>
                     {% endif %}
-                    {% set pages = 10 %}
+                    {% set pages = usersPage.numberOfPages %}
                     {% for page in 1..pages %}
                         <li class="page-item {% if currentPage == page %} active {% endif %}"><a
                                     class="page-link"
@@ -42,5 +43,4 @@
             </nav>
         </div>
     {% endif %}
-    </table>
 {% endblock %}
