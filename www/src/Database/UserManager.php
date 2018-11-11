@@ -16,7 +16,7 @@ class UserManager extends BaseDatabaseManager
     /**
      * @return User[] array
      */
-    public function retriveUsers($page = 0, $pageSize = 5)
+    public function retriveUsers($page = 0, $pageSize = 5, $sortingParam = "id", $order = "ASC")
     {
         $selectedPage = $page * $pageSize;
 
@@ -30,6 +30,7 @@ class UserManager extends BaseDatabaseManager
                                                 ut.name AS userType FROM users u
                                         INNER JOIN user_privileges up ON u.id = up.user
                                         INNER JOIN user_types ut ON up.type = ut.id
+                                        ORDER BY $sortingParam $order
                                         LIMIT ? 
                                         OFFSET ?");
         $stmt->bind_param("ii", $pageSize, $selectedPage);
@@ -47,7 +48,8 @@ class UserManager extends BaseDatabaseManager
         return $result;
     }
 
-    public function countUsers() {
+    public function countUsers()
+    {
         $connection = $this->createConnection();
         $stmt = $connection->prepare("SELECT COUNT(*) FROM users");
         $stmt->execute();
