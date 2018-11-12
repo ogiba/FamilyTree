@@ -41,30 +41,36 @@ class UsersListViewController extends BaseAdminViewController
 
     private function viewIndex()
     {
-        $usersPage = $this->loadUsers();
+        $orderByParam = isset($_GET["orderBy"]) ? $_GET[orderBy] : "asc";
+
+        $usersPage = $this->loadUsers($orderByParam);
 
         echo $this->render("/admin/users/users_view.html.twig", [
             "userLogged" => $this->userLogged,
-            "usersPage" => $usersPage
+            "usersPage" => $usersPage,
+            "orderBy" => $orderByParam
         ]);
     }
 
     public function usersPageAction()
     {
-        $usersPage = $this->loadUsers();
+        $orderByParam = isset($_GET["orderBy"]) ? $_GET[orderBy] : "asc";
+
+        $usersPage = $this->loadUsers($orderByParam);
 
         echo $this->render("/admin/users/users_list.html.twig", array(
-            "usersPage" => $usersPage
+            "usersPage" => $usersPage,
+            "orderBy" => $orderByParam
         ));
     }
 
-    private function loadUsers()
+    private function loadUsers($orderByParam = "asc")
     {
         $page = isset($_GET["page"]) ? $_GET["page"] : 0;
-        
         $pageSize = isset($_GET["pageSize"]) ? $_GET["pageSize"] : 1;
+        $sortParam = isset($_GET["sortBy"]) ? $_GET["sortBy"] : "id";
 
-        $users = $this->manager->retriveUsers($page, $pageSize);
+        $users = $this->manager->retriveUsers($page, $pageSize, $sortParam, $orderByParam);
         $totalNumberOfUsers = $this->manager->countUsers();
 
         $totalNumberOfPages = ceil($totalNumberOfUsers / $pageSize);

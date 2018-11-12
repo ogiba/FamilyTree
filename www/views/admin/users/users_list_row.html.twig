@@ -4,9 +4,17 @@
     <td>{{ user.nickName }}</td>
     <td>{{ user.email }}</td>
     <td>
-        {% set name = user.firstName ~ " " ~ user.lastName %}
-        {% if name|trim is not empty %}
-            {{ name }}
+        {% set firstName = user.firstName %}
+        {% if firstName|trim is not empty %}
+            {{ firstName }}
+        {% else %}
+            --------------
+        {% endif %}
+    </td>
+    <td>
+        {% set lastName = user.lastName %}
+        {% if lastName|trim is not empty %}
+            {{ lastName }}
         {% else %}
             --------------
         {% endif %}

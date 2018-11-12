@@ -8,10 +8,12 @@ window.onpopstate = function(event) {
 function selectPage(pageNumber, updateUrl = true) {
 	console.log(pageNumber);
 
-	if (updateUrl) {
-		let pageParam = new QueryParam("page", pageNumber);
+	let pageParam = new QueryParam("page", pageNumber);
 
-		updateUrlWithParams(pageParam);
+	let params = prepareSearchParams(pageParam);
+
+	if (updateUrl) {
+		updateUrlWithParams(params);
 	}
 
 	$.get(
@@ -19,7 +21,7 @@ function selectPage(pageNumber, updateUrl = true) {
 			"//" +
 			window.location.host +
 			window.location.pathname +
-			`/getUsers?page=${pageNumber}`,
+			`/getUsers?${params.toString()}`,
 		function(response) {
 			$("#usersContainer")
 				.html("")
@@ -28,40 +30,85 @@ function selectPage(pageNumber, updateUrl = true) {
 	);
 }
 
-function sortList(sortingParam) {
-	let sortParam = new QueryParam("sortBy", sortingParam);
+function sortList(item, sortingParam) {
+	let orderByValue =
+		$(item).data("order-by") == undefined || $(item).data("order-by") == "desc"
+			? "asc"
+			: "desc";
 
-	updateUrlWithParams(sortParam);
+	$(item).data("order-by", orderByValue);
+
+	let sortParam = new QueryParam("sortBy", sortingParam);
+	let orderParam = new QueryParam("orderBy", orderByValue);
+
+	let params = prepareSearchParams([sortParam, orderParam]);
+
+	updateUrlWithParams(params);
+
+	$.get(
+		window.location.protocol +
+			"//" +
+			window.location.host +
+			window.location.pathname +
+			`/getUsers?${params.toString()}`,
+		function(response) {
+			$("#usersContainer")
+				.html("")
+				.html(response);
+		}
+	);
 }
 
 function updateUrlWithParams(params) {
 	if (history.pushState) {
-		let searchParams = new URLSearchParams(window.location.search);
+		// let searchParams = new URLSearchParams(window.location.search);
 
-		if (Array.isArray(params)) {
-			params.array.forEach(element => {
-				if (searchParams.has(element.key)) {
-					searchParams.set(element.key, element.value);
-				} else {
-					searchParams.append(element.key, element.value);
-				}
-			});
-		} else {
-			if (searchParams.has(params.key)) {
-				searchParams.set(params.key, params.value);
-			} else {
-				searchParams.append(params.key, params.value);
-			}
-		}
+		// if (Array.isArray(params)) {
+		// 	params.array.forEach(element => {
+		// 		if (searchParams.has(element.key)) {
+		// 			searchParams.set(element.key, element.value);
+		// 		} else {
+		// 			searchParams.append(element.key, element.value);
+		// 		}
+		// 	});
+		// } else {
+		// 	if (searchParams.has(params.key)) {
+		// 		searchParams.set(params.key, params.value);
+		// 	} else {
+		// 		searchParams.append(params.key, params.value);
+		// 	}
+		// }
 
 		var newurl =
 			window.location.protocol +
 			"//" +
 			window.location.host +
 			window.location.pathname +
-			`?${searchParams.toString()}`;
+			`?${params.toString()}`;
 		window.history.pushState({ path: newurl }, "", newurl);
 	}
+}
+
+function prepareSearchParams(params) {
+	let searchParams = new URLSearchParams(window.location.search);
+
+	if (Array.isArray(params)) {
+		params.forEach(element => {
+			if (searchParams.has(element.key)) {
+				searchParams.set(element.key, element.value);
+			} else {
+				searchParams.append(element.key, element.value);
+			}
+		});
+	} else {
+		if (searchParams.has(params.key)) {
+			searchParams.set(params.key, params.value);
+		} else {
+			searchParams.append(params.key, params.value);
+		}
+	}
+
+	return searchParams;
 }
 
 class QueryParam {

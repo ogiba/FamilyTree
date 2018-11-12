@@ -4,9 +4,10 @@
         <tr>
             <th>#</th>
             {# <th>{{ trans("users-name") }}</th> #}
-            <th onclick='sortList("nickName")'>Login</th>
+            <th data-order-by="{{ orderBy }}" onclick='sortList(this, "nickName")'>Login</th>
             <th>Email</th>
-            <th>Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
             <th>Type</th>
         </tr>
         </thead>
