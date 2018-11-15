@@ -8,18 +8,32 @@
 
 namespace Database;
 
-
 use Model\User;
 
-class UserManager extends BaseDatabaseManager {
+class UserManager extends BaseDatabaseManager
+{
 
     /**
      * @return User[] array
      */
-    public function retriveUsers()
+    public function retriveUsers($page = 0, $pageSize = 5, $sortingParam = "id", $order = "ASC")
     {
+        $selectedPage = $page * $pageSize;
+
         $connection = $this->createConnection();
-        $stmt = $connection->prepare("SELECT * FROM users");
+        $stmt = $connection->prepare("SELECT u.id,
+                                                u.nickName,
+                                                u.email,
+                                                u.firstName,
+                                                u.lastName,
+                                                u.avatar,
+                                                ut.name AS userType FROM users u
+                                        INNER JOIN user_privileges up ON u.id = up.user
+                                        INNER JOIN user_types ut ON up.type = ut.id
+                                        ORDER BY $sortingParam $order
+                                        LIMIT ? 
+                                        OFFSET ?");
+        $stmt->bind_param("ii", $pageSize, $selectedPage);
         $stmt->execute();
 
         $data = $this->bindResult($stmt);
@@ -32,6 +46,22 @@ class UserManager extends BaseDatabaseManager {
 
         $connection->close();
         return $result;
+    }
+
+    public function countUsers()
+    {
+        $connection = $this->createConnection();
+        $stmt = $connection->prepare("SELECT COUNT(*) FROM users");
+        $stmt->execute();
+
+        $countData = $this->bindResult($stmt);
+
+        $totalNumberOfItems = 0;
+        if ($stmt->fetch()) {
+            $totalNumberOfItems = $countData["COUNT(*)"];
+        }
+
+        return $totalNumberOfItems;
     }
 
     public function retriveUser($id)
@@ -66,12 +96,12 @@ class UserManager extends BaseDatabaseManager {
      * @param User $user
      * @return boolean
      */
-    public function addNewUser($user)
+    public function addNewUser($user, $password)
     {
         $connection = $this->createConnection();
         $stmt = $connection->prepare("INSERT INTO users(nickName, email, password, firstName, lastName, avatar)
                                               VALUES (?,?,?,?,?,?)");
-        $stmt->bind_param("ssssss", $user->nickName, $user->email, $user->firstName, $user->lastName, $user->image);
+        $stmt->bind_param("ssssss", $user->nickName, $user->email, $password, $user->firstName, $user->lastName, $user->image);
         $stmt->execute();
 
         $isSucceed = $stmt->affected_rows > 0;

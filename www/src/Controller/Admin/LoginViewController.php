@@ -14,15 +14,17 @@ use Model\Response;
 use Utils\SerializeManager;
 use Utils\StatusCode;
 
-class LoginViewController extends BaseViewController {
+class LoginViewController extends BaseViewController
+{
     public function action($name, $action, $params)
     {
         if ($name == "login") {
-            if (count($_POST) > 0)
+            if (count($_POST) > 0) {
                 $this->loginAction($_POST);
-            else
+            } else {
                 $this->indexAction();
-        } else if ($name == "logout") {
+            }
+        } elseif ($name == "logout") {
             $this->logoutAction();
         }
     }
@@ -77,8 +79,6 @@ class LoginViewController extends BaseViewController {
         $isLoggedOut = $manager->logoutUser();
 
         if ($isLoggedOut) {
-            $response = new Response("User logged out", StatusCode::OK);
-            $this->sendJsonResponse($response);
             header("Location: /");
         }
     }

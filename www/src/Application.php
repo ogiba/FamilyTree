@@ -9,6 +9,7 @@ use Controller\Admin\PanelController;
 use Controller\Admin\TreeBuilder\MemberListController;
 use Controller\Admin\TreeBuilder\NewMemberController;
 use Controller\Admin\TreeBuilder\TreeStructureController;
+use Controller\Admin\Users\UsersListViewController;
 use Controller\IndexViewController;
 use Controller\NotFoundViewController;
 use Controller\PostViewViewController;
@@ -110,6 +111,16 @@ class Application {
                     "members" => function () {
                         return new MemberListController();
                     }
+                ],
+                "users" => [
+                    "" => [
+                        "" => function() {
+                            return new UsersListViewController();
+                        },
+                        "actions" => [
+                            "getUsers"
+                        ]
+                    ]
                 ],
                 "login" => function () {
                     return new LoginViewController();

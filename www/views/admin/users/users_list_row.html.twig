@@ -1,0 +1,32 @@
+{% block userListRow %}
+ <tr onclick="alert('Selected user: {{ user.id }}')">
+    {% set postion = loop.index + (usersPage.currentPage - 1) * pageSize %}
+    <th scope="row">{{ postion }}</th>
+    <td>{{ user.nickName }}</td>
+    <td>{{ user.email }}</td>
+    <td>
+        {% set firstName = user.firstName %}
+        {% if firstName|trim is not empty %}
+            {{ firstName }}
+        {% else %}
+            --------------
+        {% endif %}
+    </td>
+    <td>
+        {% set lastName = user.lastName %}
+        {% if lastName|trim is not empty %}
+            {{ lastName }}
+        {% else %}
+            --------------
+        {% endif %}
+    </td>
+    <td>
+        {% set userType = user.userType %}
+        {% if userType is not null %}
+            {{ userType }}
+        {% else %}
+            --------------
+        {% endif %}
+    </td>
+</tr>
+{% endblock %}
