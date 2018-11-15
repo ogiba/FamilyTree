@@ -1,6 +1,7 @@
 {% block userListRow %}
  <tr onclick="alert('Selected user: {{ user.id }}')">
-    <th scope="row">{{ loop.index }}</th>
+    {% set postion = loop.index + (usersPage.currentPage - 1) * pageSize %}
+    <th scope="row">{{ postion }}</th>
     <td>{{ user.nickName }}</td>
     <td>{{ user.email }}</td>
     <td>

@@ -43,8 +43,9 @@ class UsersListViewController extends BaseAdminViewController
     {
         $orderByParam = isset($_GET["orderBy"]) ? $_GET["orderBy"] : "asc";
         $sortParam = isset($_GET["sortBy"]) ? $_GET["sortBy"] : "id";
+        $pageSize = isset($_GET["pageSize"]) ? $_GET["pageSize"] : 1;
 
-        $usersPage = $this->loadUsers($orderByParam, $sortParam);
+        $usersPage = $this->loadUsers($orderByParam, $sortParam, $pageSize);
 
         echo $this->render("/admin/users/users_view.html.twig", [
             "userLogged" => $this->userLogged,
@@ -58,25 +59,29 @@ class UsersListViewController extends BaseAdminViewController
     {
         $orderByParam = isset($_GET["orderBy"]) ? $_GET["orderBy"] : "asc";
         $sortParam = isset($_GET["sortBy"]) ? $_GET["sortBy"] : "id";
+        $pageSize = isset($_GET["pageSize"]) ? $_GET["pageSize"] : 1;
 
-        $usersPage = $this->loadUsers($orderByParam, $sortParam);
+        $usersPage = $this->loadUsers($orderByParam, $sortParam, $pageSize);
 
         echo $this->render("/admin/users/users_list.html.twig", array(
             "usersPage" => $usersPage,
             "orderBy" => $orderByParam,
-            "sortBy" => $sortParam
+            "sortBy" => $sortParam,
+            "pageSize" => $pageSize
         ));
     }
 
-    private function loadUsers($orderByParam = "asc", $sortParam = "id")
-    {
+    private function loadUsers(
+        $orderByParam = "asc",
+        $sortParam = "id",
+        $limit = 10
+    ) {
         $page = isset($_GET["page"]) ? $_GET["page"] : 0;
-        $pageSize = isset($_GET["pageSize"]) ? $_GET["pageSize"] : 1;
 
-        $users = $this->manager->retriveUsers($page, $pageSize, $sortParam, $orderByParam);
+        $users = $this->manager->retriveUsers($page, $limit, $sortParam, $orderByParam);
         $totalNumberOfUsers = $this->manager->countUsers();
 
-        $totalNumberOfPages = ceil($totalNumberOfUsers / $pageSize);
+        $totalNumberOfPages = ceil($totalNumberOfUsers / $limit);
 
         $userPage = new UserPage();
         $userPage->setUsers($users);
