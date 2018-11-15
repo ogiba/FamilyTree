@@ -41,34 +41,37 @@ class UsersListViewController extends BaseAdminViewController
 
     private function viewIndex()
     {
-        $orderByParam = isset($_GET["orderBy"]) ? $_GET[orderBy] : "asc";
+        $orderByParam = isset($_GET["orderBy"]) ? $_GET["orderBy"] : "asc";
+        $sortParam = isset($_GET["sortBy"]) ? $_GET["sortBy"] : "id";
 
-        $usersPage = $this->loadUsers($orderByParam);
+        $usersPage = $this->loadUsers($orderByParam, $sortParam);
 
         echo $this->render("/admin/users/users_view.html.twig", [
             "userLogged" => $this->userLogged,
             "usersPage" => $usersPage,
-            "orderBy" => $orderByParam
+            "orderBy" => $orderByParam,
+            "sortBy" => $sortParam
         ]);
     }
 
     public function usersPageAction()
     {
-        $orderByParam = isset($_GET["orderBy"]) ? $_GET[orderBy] : "asc";
+        $orderByParam = isset($_GET["orderBy"]) ? $_GET["orderBy"] : "asc";
+        $sortParam = isset($_GET["sortBy"]) ? $_GET["sortBy"] : "id";
 
-        $usersPage = $this->loadUsers($orderByParam);
+        $usersPage = $this->loadUsers($orderByParam, $sortParam);
 
         echo $this->render("/admin/users/users_list.html.twig", array(
             "usersPage" => $usersPage,
-            "orderBy" => $orderByParam
+            "orderBy" => $orderByParam,
+            "sortBy" => $sortParam
         ));
     }
 
-    private function loadUsers($orderByParam = "asc")
+    private function loadUsers($orderByParam = "asc", $sortParam = "id")
     {
         $page = isset($_GET["page"]) ? $_GET["page"] : 0;
         $pageSize = isset($_GET["pageSize"]) ? $_GET["pageSize"] : 1;
-        $sortParam = isset($_GET["sortBy"]) ? $_GET["sortBy"] : "id";
 
         $users = $this->manager->retriveUsers($page, $pageSize, $sortParam, $orderByParam);
         $totalNumberOfUsers = $this->manager->countUsers();
