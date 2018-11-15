@@ -61,24 +61,6 @@ function sortList(item, sortingParam) {
 
 function updateUrlWithParams(params) {
 	if (history.pushState) {
-		// let searchParams = new URLSearchParams(window.location.search);
-
-		// if (Array.isArray(params)) {
-		// 	params.array.forEach(element => {
-		// 		if (searchParams.has(element.key)) {
-		// 			searchParams.set(element.key, element.value);
-		// 		} else {
-		// 			searchParams.append(element.key, element.value);
-		// 		}
-		// 	});
-		// } else {
-		// 	if (searchParams.has(params.key)) {
-		// 		searchParams.set(params.key, params.value);
-		// 	} else {
-		// 		searchParams.append(params.key, params.value);
-		// 	}
-		// }
-
 		var newurl =
 			window.location.protocol +
 			"//" +
