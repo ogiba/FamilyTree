@@ -14,7 +14,9 @@ use Model\UserPage;
 
 class UsersListViewController extends BaseAdminViewController
 {
-
+    const DEFAULT_PAGE_SIZE = 30;
+    const DEFAULT_SORT_PARAM = "id";
+    const DEFAULT_ORDER_DIR = "asc";
     /**
      * @var UserManager
      */
@@ -41,9 +43,9 @@ class UsersListViewController extends BaseAdminViewController
 
     private function viewIndex()
     {
-        $orderByParam = isset($_GET["orderBy"]) ? $_GET["orderBy"] : "asc";
-        $sortParam = isset($_GET["sortBy"]) ? $_GET["sortBy"] : "id";
-        $pageSize = isset($_GET["pageSize"]) ? $_GET["pageSize"] : 1;
+        $orderByParam = isset($_GET["orderBy"]) ? $_GET["orderBy"] : self::DEFAULT_ORDER_DIR;
+        $sortParam = isset($_GET["sortBy"]) ? $_GET["sortBy"] : self::DEFAULT_SORT_PARAM;
+        $pageSize = isset($_GET["pageSize"]) ? $_GET["pageSize"] : self::DEFAULT_PAGE_SIZE;
 
         $usersPage = $this->loadUsers($orderByParam, $sortParam, $pageSize);
 
@@ -57,9 +59,9 @@ class UsersListViewController extends BaseAdminViewController
 
     public function usersPageAction()
     {
-        $orderByParam = isset($_GET["orderBy"]) ? $_GET["orderBy"] : "asc";
-        $sortParam = isset($_GET["sortBy"]) ? $_GET["sortBy"] : "id";
-        $pageSize = isset($_GET["pageSize"]) ? $_GET["pageSize"] : 1;
+        $orderByParam = isset($_GET["orderBy"]) ? $_GET["orderBy"] : self::DEFAULT_ORDER_DIR;
+        $sortParam = isset($_GET["sortBy"]) ? $_GET["sortBy"] : self::DEFAULT_SORT_PARAM;
+        $pageSize = isset($_GET["pageSize"]) ? $_GET["pageSize"] : self::DEFAULT_PAGE_SIZE;
 
         $usersPage = $this->loadUsers($orderByParam, $sortParam, $pageSize);
 
@@ -72,11 +74,15 @@ class UsersListViewController extends BaseAdminViewController
     }
 
     private function loadUsers(
-        $orderByParam = "asc",
-        $sortParam = "id",
-        $limit = 10
+        $orderByParam = self::DEFAULT_ORDER_DIR,
+        $sortParam = self::DEFAULT_SORT_PARAM,
+        $limit = self::DEFAULT_PAGE_SIZE
     ) {
         $page = isset($_GET["page"]) ? $_GET["page"] : 0;
+
+        if ($limit <= 0) {
+            $limit = self::DEFAULT_PAGE_SIZE;
+        }
 
         $users = $this->manager->retriveUsers($page, $limit, $sortParam, $orderByParam);
         $totalNumberOfUsers = $this->manager->countUsers();
