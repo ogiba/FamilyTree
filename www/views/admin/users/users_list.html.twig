@@ -1,23 +1,69 @@
 {% block usersList %}
-    <table class="table table-striped table-hover">
-        <thead class="thead-default">
-        <tr>
-            <th>#</th>
-            {# <th>{{ trans("users-name") }}</th> #}
-            <th data-order-by="{{ orderBy }}" onclick='sortList(this, "nickName")'>Login</th>
-            <th data-order-by="{{ orderBy }}" onclick='sortList(this, "email")'>Email</th>
-            <th data-order-by="{{ orderBy }}" onclick='sortList(this, "firstName")'>First Name</th>
-            <th data-order-by="{{ orderBy }}" onclick='sortList(this, "lastName")'>Last Name</th>
-            <th>Type</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% set users = usersPage.users %}
-        {% for user in users %}
-            {{ include("admin/users/users_list_row.html.twig") }}
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="thead-default">
+            <tr>
+                <th>#</th>
+                {# <th>{{ trans("users-name") }}</th> #}
+                <th scope="col" data-order-by="{{ orderBy }}" onclick='sortList(this, "nickName")'>
+                    Login 
+                    {% if sortBy == "nickName" %}
+                    <i style="vertical-align: middle;" class="material-icons">
+                        {% if orderBy == "asc" %}
+                            expand_more
+                        {% else %}
+                            expand_less
+                        {% endif %}
+                    </i>
+                    {% endif %}
+                </th>
+                <th scope="col" data-order-by="{{ orderBy }}" onclick='sortList(this, "email")'>
+                    Email
+                    {% if sortBy == "email" %}
+                    <i style="vertical-align: middle;" class="material-icons">
+                        {% if orderBy == "asc" %}
+                            expand_more
+                        {% else %}
+                            expand_less
+                        {% endif %}
+                    </i>
+                    {% endif %}
+                </th>
+                <th scope="col" data-order-by="{{ orderBy }}" onclick='sortList(this, "firstName")'>
+                    First Name
+                    {% if sortBy == "firstName" %}
+                    <i style="vertical-align: middle;" class="material-icons">
+                        {% if orderBy == "asc" %}
+                            expand_more
+                        {% else %}
+                            expand_less
+                        {% endif %}
+                    </i>
+                    {% endif %}
+                </th>
+                <th scope="col" data-order-by="{{ orderBy }}" onclick='sortList(this, "lastName")'>
+                    Last Name
+                    {% if sortBy == "lastName" %}
+                    <i style="vertical-align: middle;" class="material-icons">
+                        {% if orderBy == "asc" %}
+                            expand_more
+                        {% else %}
+                            expand_less
+                        {% endif %}
+                    </i>
+                    {% endif %}
+                </th>
+                <th>Type</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set users = usersPage.users %}
+            {% for user in users %}
+                {{ include("admin/users/users_list_row.html.twig") }}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
     {% if usersPage.numberOfPages > 1 %}
         <div class="paging">
