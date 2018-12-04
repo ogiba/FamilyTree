@@ -23,7 +23,12 @@
     <td>
         {% set userType = user.userType %}
         {% if userType is not null %}
-            {{ userType }}
+            {% set userName = trans("admin-users-list-type-" ~ userType) %}
+            {% if userName is not empty %}
+                {{ userName }}
+            {% else %}
+                {{ userType }}
+            {% endif %}
         {% else %}
             --------------
         {% endif %}

@@ -30,7 +30,7 @@
                     {% endif %}
                 </th>
                 <th scope="col" data-order-by="{{ orderBy }}" onclick='sortList(this, "firstName")'>
-                    First Name
+                    {{ trans("admin-users-list-first-name") }}
                     {% if sortBy == "firstName" %}
                     <i style="vertical-align: middle;" class="material-icons">
                         {% if orderBy == "asc" %}
@@ -42,7 +42,7 @@
                     {% endif %}
                 </th>
                 <th scope="col" data-order-by="{{ orderBy }}" onclick='sortList(this, "lastName")'>
-                    Last Name
+                    {{ trans("admin-users-list-last-name") }}
                     {% if sortBy == "lastName" %}
                     <i style="vertical-align: middle;" class="material-icons">
                         {% if orderBy == "asc" %}
@@ -53,7 +53,9 @@
                     </i>
                     {% endif %}
                 </th>
-                <th>Type</th>
+                <th>
+                    {{ trans("admin-users-list-type") }}
+                </th>
             </tr>
             </thead>
             <tbody>
