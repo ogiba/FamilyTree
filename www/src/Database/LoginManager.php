@@ -8,7 +8,8 @@
 
 namespace Database;
 
-class LoginManager extends BaseDatabaseManager {
+class LoginManager extends BaseDatabaseManager
+{
     public function loginUser($userName, $password)
     {
         $hashedPassword = hash("sha256", $password, false);
@@ -16,8 +17,8 @@ class LoginManager extends BaseDatabaseManager {
         $connection = $this->createConnection();
         $stmt = $connection->prepare("SELECT * FROM users u
                                               INNER JOIN user_privileges up ON u.id = up.user
-                                              WHERE u.nickName = ? AND up.type = 1");
-        $stmt->bind_param("s", $userName);
+                                              WHERE (u.nickName = ? OR u.email = ?) AND up.type = 1");
+        $stmt->bind_param("ss", $userName, $userName);
         $stmt->execute();
 
         $userData = $this->bindResult($stmt);
