@@ -8,7 +8,7 @@
 	"post-edited": "Edytowano:",
 	"post-modified": "Zmodyfikowany przez:",
 	"admin-login-message": "Proszę zaloguj się",
-	"admin-login-name-hint": "Nazwa użytkownika",
+	"admin-login-name-hint": "Nazwa użytkownika lub adres email",
 	"admin-login-pw-hint": "Hasło",
 	"admin-login-btn-label": "Zaloguj",
 	"admin-login-failed": "Logowanie nie powiodło się",
