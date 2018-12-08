@@ -40,11 +40,7 @@
 		if (e.keyCode === 13) submit();
 	}
 
-	$("#submit").click(submit);
-	$("#usernameInput").keydown(loginOnEnter);
-	$("#passwordInput").keydown(loginOnEnter);
-
-	$("#usernameInput").on("input", function(e) {
+	function onInputChange(e) {
 		var re = new RegExp(".{1,}@{1}.{1,}\\.{1}.{2,}");
 
 		setTimeout(function() {
@@ -54,7 +50,6 @@
 
 			if (insertedValue.includes("@")) {
 				let isProperValue = re.test(insertedValue);
-				console.log(isProperValue);
 
 				if (!isProperValue && !loginInfoField.hasClass("shown")) {
 					loginInfoField.text($("#usernameInput").data("email-error-format"));
@@ -63,12 +58,15 @@
 					loginInfoField.removeClass("shown");
 				}
 			} else {
-				console.log("Not a email");
-
 				if (loginInfoField.hasClass("shown")) {
 					loginInfoField.removeClass("shown");
 				}
 			}
 		}, 500);
-	});
+	}
+
+	$("#submit").click(submit);
+	$("#usernameInput").keydown(loginOnEnter);
+	$("#passwordInput").keydown(loginOnEnter);
+	$("#usernameInput").on("input", onInputChange);
 })();
