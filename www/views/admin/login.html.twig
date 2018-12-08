@@ -40,7 +40,8 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <input id="usernameInput" class="form-control" placeholder="{{ trans("admin-login-name-hint") }}" type="text">
+                                <input id="usernameInput" class="form-control" placeholder="{{ trans("admin-login-name-hint") }}" type="text"
+                                    data-email-error-format="{{ trans("admin-login-email-format-error") }}">
                             </div>
                             <div class="col-md-12">
                                 <input id="passwordInput" class="form-control" placeholder="{{ trans("admin-login-pw-hint") }}" type="password">

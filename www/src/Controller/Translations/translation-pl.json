@@ -12,6 +12,7 @@
 	"admin-login-pw-hint": "Hasło",
 	"admin-login-btn-label": "Zaloguj",
 	"admin-login-failed": "Logowanie nie powiodło się",
+	"admin-login-email-format-error": "Nie poprawny format adresu email",
 	"admin-posts": "Posty",
 	"admin-tree-builder": "Budowa drzewa",
 	"admin-sections": "Sekcje",

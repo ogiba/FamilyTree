@@ -57,7 +57,7 @@
 				console.log(isProperValue);
 
 				if (!isProperValue && !loginInfoField.hasClass("shown")) {
-					loginInfoField.text("Email not properly formatted");
+					loginInfoField.text($("#usernameInput").data("email-error-format"));
 					loginInfoField.addClass("shown");
 				} else if (isProperValue && loginInfoField.hasClass("shown")) {
 					loginInfoField.removeClass("shown");
