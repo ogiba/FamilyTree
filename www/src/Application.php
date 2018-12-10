@@ -10,6 +10,7 @@ use Controller\Admin\TreeBuilder\MemberListController;
 use Controller\Admin\TreeBuilder\NewMemberController;
 use Controller\Admin\TreeBuilder\TreeStructureController;
 use Controller\Admin\Users\UsersListViewController;
+use Controller\Admin\Users\UserEditViewController;
 use Controller\IndexViewController;
 use Controller\NotFoundViewController;
 use Controller\PostViewViewController;
@@ -26,8 +27,8 @@ use Utils\Base\BaseController;
 
 session_start();
 
-class Application {
-
+class Application
+{
     public function run()
     {
         $path = "";
@@ -42,8 +43,9 @@ class Application {
         $action = isset($explodedPath[1]) ? $explodedPath[1] : null;
         $params = [];
 
-        if (count($explodedPath) > 2)
+        if (count($explodedPath) > 2) {
             $params = array_slice($explodedPath, 2);
+        }
 
         call_user_func_array([$controller, "action"], [$name, $action, $params]);
 //        $controller->action($name, $action, $params);
@@ -114,13 +116,16 @@ class Application {
                 ],
                 "users" => [
                     "" => [
-                        "" => function() {
+                        "" => function () {
                             return new UsersListViewController();
                         },
                         "actions" => [
                             "getUsers"
                         ]
-                    ]
+                    ],
+                    "edit" => function () {
+                        return new UserEditViewController();
+                    }
                 ],
                 "login" => function () {
                     return new LoginViewController();

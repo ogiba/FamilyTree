@@ -1,5 +1,5 @@
 {% block userListRow %}
- <tr onclick="alert('Selected user: {{ user.id }}')">
+ <tr>
     {% set postion = loop.index + (usersPage.currentPage - 1) * pageSize %}
     <th scope="row">{{ postion }}</th>
     <td>{{ user.nickName }}</td>
@@ -32,6 +32,11 @@
         {% else %}
             --------------
         {% endif %}
+    </td>
+    <td>
+        <Button class="btn btn-warning" onclick="window.location.href = '/admin/users/edit/{{ user.id }}'">
+            Edit
+        </Button>
     </td>
 </tr>
 {% endblock %}
