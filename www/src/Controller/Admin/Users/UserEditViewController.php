@@ -36,6 +36,9 @@ class UserEditViewController extends BaseAdminViewController
 
     private function viewIndex($id)
     {
-        echo "<div>Hello $id</div>";
+        echo $this->render("/admin/users/edit/user_edit.html.twig", [
+            "userLogged" => $this->userLogged,
+            "id" => $id
+        ]);
     }
 }
